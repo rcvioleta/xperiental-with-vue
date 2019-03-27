@@ -1,0 +1,245 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+            <div class="card card-tile card-xs bg-primary bg-gradient text-center">
+                <div class="card-body p-4">
+                    <!-- Accepts .invisible: Makes the items. Use this only when you want to have an animation called on it later -->
+                    <div class="tile-left">
+                        <i class="batch-icon batch-icon-user-alt batch-icon-xxl"></i>
+                    </div>
+                    <div class="tile-right">
+                        <div class="tile-number">21</div>
+                        <div class="tile-description">Enrolled Students</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+            <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
+                <div class="card-body p-4">
+                    <div class="tile-left">
+                        <i class="batch-icon batch-icon-tag-alt-2 batch-icon-xxl"></i>
+                    </div>
+                    <div class="tile-right">
+                        <div class="tile-number">4</div>
+                        <div class="tile-description">Total Instructors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+            <div class="card card-tile card-xs bg-primary bg-gradient text-center">
+                <div class="card-body p-4">
+                    <div class="tile-left">
+                        <i class="batch-icon batch-icon-list batch-icon-xxl"></i>
+                    </div>
+                    <div class="tile-right">
+                        <div class="tile-number">26</div>
+                        <div class="tile-description">All Unused Credits</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
+            <div class="card card-tile card-xs bg-secondary bg-gradient text-center">
+                <div class="card-body p-4">
+                    <div class="tile-left">
+                        <i class="batch-icon batch-icon-star batch-icon-xxl"></i>
+                    </div>
+                    <div class="tile-right">
+                        <div class="tile-number">5</div>
+                        <div class="tile-description">Total Subjects</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-8 mb-5">
+            <div class="card card-md">
+                <div class="card-header">
+                    Sales Overview
+                    <div class="header-btn-block">
+                        <span class="data-range dropdown">
+                            <a href="#" class="btn btn-primary dropdown-toggle waves-effect waves-light" id="navbar-dropdown-sales-overview-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
+                                <i class="batch-icon batch-icon-calendar"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-sales-overview-header-button">
+                                <a class="dropdown-item" href="today.html">Today</a>
+                                <a class="dropdown-item" href="week.html">This Week</a>
+                                <a class="dropdown-item" href="month.html">This Month</a>
+                                <a class="dropdown-item active" href="year.html">This Year</a>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-legend-1="Sales ($)" data-chart-legend-2="Orders"><canvas id="sales-overview" width="536" height="281" style="width: 536.016px; height: 281px; display: block;"></canvas></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-4 mb-5">
+            <div class="card card-md">
+                <div class="card-header">
+                    Traffic Sources
+                    <div class="header-btn-block">
+                        <span class="data-range dropdown">
+                            <a href="#" class="btn btn-primary dropdown-toggle waves-effect waves-light" id="navbar-dropdown-traffic-sources-header-button" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
+                                <i class="batch-icon batch-icon-calendar"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-traffic-sources-header-button">
+                                <a class="dropdown-item" href="today.html">Today</a>
+                                <a class="dropdown-item" href="week.html">This Week</a>
+                                <a class="dropdown-item" href="month.html">This Month</a>
+                                <a class="dropdown-item active" href="year.html">This Year</a>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <p class="text-left">Your top 5 traffic sources</p>
+                    <div class="card-chart" data-chart-color-1="#07a7e3" data-chart-color-2="#32dac3" data-chart-color-3="#4f5b60" data-chart-color-4="#FCCF31" data-chart-color-5="#f43a59" style="width: 204.188px; height: 204.188px;"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="display: block; overflow: hidden; border: 0px; margin: 0px; top: 0px; left: 0px; bottom: 0px; right: 0px; height: 100%; width: 100%; position: absolute; pointer-events: none; z-index: -1;"></iframe><canvas id="traffic-source" width="204.1875px" height="204.1875px" style="display: block;"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-5 col-xl-3 mb-5">
+            <div class="card card-md card-team-members">
+                <div class="card-header">
+                    Team Members
+                </div>
+                <div class="card-media-list mCustomScrollbar _mCS_1 mCS-autoHide"><div id="mCSB_1" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_inside" style="max-height: 305.004px;" tabindex="0"><div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Johanna Quinn
+                            </div>
+                            <div class="subtext">jquinn897</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-3.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Teal'c Jaffa
+                            </div>
+                            <div class="subtext">tealc</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-secondary float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-2.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Samantha Carter
+                            </div>
+                            <div class="subtext">samanthac</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-secondary has-message float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-4.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                General Landry
+                            </div>
+                            <div class="subtext">glandry</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-primary float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-6.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Jacklin O'neil
+                            </div>
+                            <div class="subtext">jakjak</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Johanna Quinn
+                            </div>
+                            <div class="subtext">jquinn897</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-3.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Teal'c Jaffa
+                            </div>
+                            <div class="subtext">tealc</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-secondary float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-2.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Samantha Carter
+                            </div>
+                            <div class="subtext">samanthac</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-secondary has-message float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-4.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                General Landry
+                            </div>
+                            <div class="subtext">glandry</div>
+                        </div>
+                    </div>
+
+                    <div class="media clickable" data-qp-link="profiles-member-profile.html">
+                        <div class="profile-picture bg-gradient bg-primary float-right d-flex mr-3">
+                            <img src="assets/img/profile-pic-6.jpg" width="44" height="44" class="mCS_img_loaded">
+                        </div>
+                        <div class="media-body">
+                            <div class="heading mt-1">
+                                Jacklin O'neil
+                            </div>
+                            <div class="subtext">jakjak</div>
+                        </div>
+                    </div>
+                </div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-dark mCSB_scrollTools_vertical mCSB_scrollTools_onDrag_expand" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 143px; max-height: 295px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <footer>
+                <!-- Powered by - <a href="http://base5builder.com/?click_source=quillpro_footer_link" target="_blank" style="font-weight:300;color:#ffffff;background:#1d1d1d;padding:0 3px;">Base<span style="color:#ffa733;font-weight:bold">5</span>Builder</a> -->
+            </footer>
+        </div>
+    </div>
+@endsection

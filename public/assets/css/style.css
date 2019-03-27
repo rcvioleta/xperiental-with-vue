@@ -1,0 +1,61 @@
+.sidebar.bg-dark .nav .nav-item .nav-link.nav-parent::after, .sidebar .nav .nav-item .nav-link.nav-parent::after {
+    font-family: "LineAwesome";
+    content: "\f112";
+    font-size: 01rem;
+    margin-top: 0.1rem;
+}
+
+.sidebar.bg-dark .nav .nav-item.open > .nav-link.nav-parent::after, .sidebar .nav .nav-item.open > .nav-link.nav-parent::after {
+    opacity: 1;
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(90deg);
+}
+.sidebar.bg-dark .nav .nav-header, .sidebar .nav .nav-header {
+    color: #919191;
+}
+table.table th, table th {
+    font-size: 1.1rem;
+    font-weight: 700 !important;
+}
+.table {
+    border: 1px solid #ebebeb;
+    box-shadow: 0 0 5px 0px #0000000f;
+    font-weight: 700 !important;
+}
+table.table td, table td {
+    font-weight: 500;
+}
+table.table-hover tbody tr:hover {
+    background-color: #27cdca;
+    color: white;
+}
+#datatable-1_length label select {
+    width: 60px;
+    display: inline-block;
+    padding: 0 10px;
+}
+#datatable-1_filter label {
+    text-align: right;
+}
+#datatable-1_filter label input {
+    width: 50%;
+    display: inline-block;
+}
+table.table-hover tbody tr:hover {
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+table.table td:last-child {
+    text-align: center;
+}
+table.table thead th:last-child {
+    width: 88px;
+    text-align: center;
+}
+table.table td, table.table th, table th {
+    text-align: center;
+}
+table.table td:nth-child(1), table.table th:nth-child(1) {
+    text-align: left;
+}
