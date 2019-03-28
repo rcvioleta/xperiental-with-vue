@@ -74,11 +74,6 @@ class SubjectController extends Controller
         return response('Subject was updated successfully!', 200);
     }
 
-    // public function updateSubjectStatus(Subject $subject)
-    // {
-    //     return $subject->name;
-    // }
-
     /**
      * Remove the specified resource from storage.
      *

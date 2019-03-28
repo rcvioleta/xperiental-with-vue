@@ -1917,6 +1917,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
  // class to perform CRUD for subjects
 
 
@@ -1924,16 +1930,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      subjects: []
+      subjects: [],
+      selectedSubject: "",
+      editingMode: false
     };
   },
   created: function created() {
     var _this = this;
 
     // fetch all subjects from database
-    _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].getSubjects(function (subjects) {
-      return _this.subjects = subjects;
-    }); // listen to events from AddSubject.vue and check if new subject is added
+    this.fetchSubjects(); // listen to events from AddSubject.vue and check if new subject is added
 
     _app_js__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$on("newSubjectAdded", function (result) {
       _this.subjects.data.push(result);
@@ -1942,17 +1948,24 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    updateStatus: function updateStatus(e, slug) {
+    updateStatus: function updateStatus(e, slug, subject) {
       var newStatus = e.target.value;
-      var selectedSlug = slug;
-      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(selectedSlug, newStatus);
+      var payload = {
+        name: subject,
+        slug: slug,
+        status: newStatus
+      };
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (result) {
+        console.log("[updateStatus] result", result);
+        swal("Success!", "Successfull updated subject", "success");
+      });
     },
     deleteSubject: function deleteSubject(slug) {
       var _this2 = this;
 
       swal({
-        title: "Are you sure you want to remove this subject?",
-        text: "Once deleted, you will not be able to retrieve this subject!",
+        title: "Continue removing this subject?",
+        text: "There's no going back!",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -1968,9 +1981,46 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    editSubject: function editSubject() {
-      var modal = document.getElementById("main-modal");
-      var backdrop = document.getElementById("backdrop");
+    editSubject: function editSubject(slug) {
+      console.log("EDIT SUBJECT", slug);
+      this.selectedSubject = this.subjects.data.find(function (subject) {
+        return subject.slug === slug;
+      });
+      this.editingMode = true;
+    },
+    update: function update(e) {
+      var _this3 = this;
+
+      var subjectName = e.target.subject_name.value;
+      var slug = e.target.subject_slug.value;
+      var status = e.target.new_status.value;
+      var payload = {
+        name: subjectName,
+        slug: slug,
+        status: status
+      };
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (result) {
+        _this3.editingMode = false;
+
+        _this3.fetchSubjects();
+
+        console.log("[updateStatus] result", result);
+        swal("Success!", "Successfull updated subject", "success");
+      });
+    },
+    fetchSubjects: function fetchSubjects() {
+      var _this4 = this;
+
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].getSubjects(function (subjects) {
+        return _this4.subjects = subjects;
+      });
+    }
+  },
+  computed: {
+    isActive: function isActive() {
+      return {
+        "in-use": this.editingMode
+      };
     }
   }
 });
@@ -6434,7 +6484,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n#main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 700;\r\n  display: none;\n}\n#backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 600;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n@media (min-width: 48em) {\n#main-modal {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 700;\r\n  display: none;\n}\n.backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 600;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use,\r\n.backdrop.in-use {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -37829,7 +37879,11 @@ var render = function() {
                             )
                           },
                           function($event) {
-                            return _vm.updateStatus($event, subject.slug)
+                            return _vm.updateStatus(
+                              $event,
+                              subject.slug,
+                              subject.name
+                            )
                           }
                         ]
                       }
@@ -37878,7 +37932,11 @@ var render = function() {
                       {
                         staticClass: "btn btn-warning",
                         attrs: { type: "button" },
-                        on: { click: _vm.editSubject }
+                        on: {
+                          click: function($event) {
+                            return _vm.editSubject(subject.slug)
+                          }
+                        }
                       },
                       [_vm._v("Edit")]
                     )
@@ -37892,9 +37950,97 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { attrs: { id: "backdrop" } }),
+    _c("div", { staticClass: "backdrop", class: _vm.isActive }),
     _vm._v(" "),
-    _vm._m(1)
+    _c("div", { staticClass: "main-modal", class: _vm.isActive }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [_vm._v("Edit")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.update($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  attrs: { type: "hidden", name: "subject_slug" },
+                  domProps: { value: _vm.selectedSubject.slug }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "subject" } }, [
+                  _vm._v("Subject Name")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    id: "subject",
+                    name: "subject_name",
+                    placeholder: "Subject Name"
+                  },
+                  domProps: { value: _vm.selectedSubject.name }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "status" } }, [_vm._v("Status")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "form-control",
+                    attrs: { name: "new_status", id: "status" }
+                  },
+                  [
+                    _c(
+                      "option",
+                      {
+                        domProps: { value: _vm.selectedSubject.status ? 1 : 0 }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.selectedSubject.status ? "Active" : "Inactive"
+                          )
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "option",
+                      {
+                        domProps: { value: _vm.selectedSubject.status ? 0 : 1 }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.selectedSubject.status ? "Inactive" : "Active"
+                          )
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                [_vm._v("Update Subject")]
+              )
+            ]
+          )
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -37909,59 +38055,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Status")]),
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "main-modal" } }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Edit")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("form", { attrs: { action: "" } }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "subject" } }, [
-                _vm._v("Subject Name")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  id: "subject",
-                  name: "subject_name",
-                  placeholder: "Subject Name"
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "status" } }, [_vm._v("Status")]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  staticClass: "form-control",
-                  attrs: { name: "status", id: "status" }
-                },
-                [
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "0" } }, [_vm._v("Inactive")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Update Subject")]
-            )
-          ])
-        ])
       ])
     ])
   }
@@ -50417,11 +50510,12 @@ function () {
     }
   }, {
     key: "update",
-    value: function update(slug, status) {
-      axios.put("/admin/subject/" + slug, {
-        status: status
+    value: function update(payload, callback) {
+      axios.put("/admin/subject/" + payload.slug, {
+        name: payload.name,
+        status: payload.status
       }).then(function (result) {
-        swal("Success!", "Successfull updated subject", "success");
+        callback(result);
       }).catch(function (err) {
         swal("Something went wrong", 'Unable to update subject', "error");
         console.log('[UPDATE ERROR]', err.response.data);
@@ -50469,8 +50563,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

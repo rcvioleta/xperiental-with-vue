@@ -16,7 +16,7 @@
               <select
                 name="status"
                 v-model="subject.status"
-                @change="updateStatus($event, subject.slug)"
+                @change="updateStatus($event, subject.slug, subject.name)"
               >
                 <option :value="subject.status ? 1 : 0">{{ subject.status ? 'Active' : 'Inactive' }}</option>
                 <option :value="subject.status ? 0 : 1">{{ subject.status ? 'Inactive' : 'Active' }}</option>
@@ -30,20 +30,21 @@
                 class="btn btn-danger"
                 @click="deleteSubject(subject.slug)"
               >Remove</button>
-              <button type="button" class="btn btn-warning" @click="editSubject">Edit</button>
+              <button type="button" class="btn btn-warning" @click="editSubject(subject.slug)">Edit</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div id="backdrop"></div>
-    <div id="main-modal">
+    <div class="backdrop" :class="isActive"></div>
+    <div class="main-modal" :class="isActive">
       <div class="card">
         <div class="card-header">Edit</div>
         <div class="card-body">
-          <form action>
+          <form @submit.prevent="update">
             <div class="form-group">
+              <input type="hidden" name="subject_slug" :value="selectedSubject.slug">
               <label for="subject">Subject Name</label>
               <input
                 type="text"
@@ -51,13 +52,18 @@
                 name="subject_name"
                 class="form-control"
                 placeholder="Subject Name"
+                :value="selectedSubject.name"
               >
             </div>
             <div class="form-group">
               <label for="status">Status</label>
-              <select name="status" id="status" class="form-control">
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
+              <select name="new_status" id="status" class="form-control">
+                <option
+                  :value="selectedSubject.status ? 1 : 0"
+                >{{ selectedSubject.status ? 'Active' : 'Inactive' }}</option>
+                <option
+                  :value="selectedSubject.status ? 0 : 1"
+                >{{ selectedSubject.status ? 'Inactive' : 'Active' }}</option>
               </select>
             </div>
             <button class="btn btn-primary" type="submit">Update Subject</button>
@@ -78,12 +84,14 @@ import { EventBus } from "../../app.js";
 export default {
   data() {
     return {
-      subjects: []
+      subjects: [],
+      selectedSubject: "",
+      editingMode: false
     };
   },
   created() {
     // fetch all subjects from database
-    Subject.getSubjects(subjects => (this.subjects = subjects));
+    this.fetchSubjects();
 
     // listen to events from AddSubject.vue and check if new subject is added
     EventBus.$on("newSubjectAdded", result => {
@@ -93,15 +101,22 @@ export default {
     });
   },
   methods: {
-    updateStatus(e, slug) {
+    updateStatus(e, slug, subject) {
       const newStatus = e.target.value;
-      const selectedSlug = slug;
-      Subject.update(selectedSlug, newStatus);
+      const payload = {
+        name: subject,
+        slug: slug,
+        status: newStatus
+      };
+      Subject.update(payload, result => {
+        console.log("[updateStatus] result", result);
+        swal("Success!", "Successfull updated subject", "success");
+      });
     },
     deleteSubject(slug) {
       swal({
-        title: `Are you sure you want to remove this subject?`,
-        text: "Once deleted, you will not be able to retrieve this subject!",
+        title: "Continue removing this subject?",
+        text: "There's no going back!",
         icon: "warning",
         buttons: true,
         dangerMode: true
@@ -117,16 +132,46 @@ export default {
         }
       });
     },
-    editSubject() {
-      const modal = document.getElementById("main-modal");
-      const backdrop = document.getElementById("backdrop");
+    editSubject(slug) {
+      console.log("EDIT SUBJECT", slug);
+      this.selectedSubject = this.subjects.data.find(
+        subject => subject.slug === slug
+      );
+      this.editingMode = true;
+    },
+    update(e) {
+      const subjectName = e.target.subject_name.value;
+      const slug = e.target.subject_slug.value;
+      const status = e.target.new_status.value;
+      const payload = {
+        name: subjectName,
+        slug: slug,
+        status: status
+      };
+
+      Subject.update(payload, result => {
+        this.editingMode = false;
+        this.fetchSubjects();
+        console.log("[updateStatus] result", result);
+        swal("Success!", "Successfull updated subject", "success");
+      });
+    },
+    fetchSubjects() {
+      Subject.getSubjects(subjects => (this.subjects = subjects));
+    }
+  },
+  computed: {
+    isActive() {
+      return {
+        "in-use": this.editingMode
+      };
     }
   }
 };
 </script>
 
 <style>
-#main-modal {
+.main-modal {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -136,7 +181,7 @@ export default {
   display: none;
 }
 
-#backdrop {
+.backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -147,8 +192,13 @@ export default {
   display: none;
 }
 
+.main-modal.in-use,
+.backdrop.in-use {
+  display: block;
+}
+
 @media (min-width: 48em) {
-  #main-modal {
+  .main-modal {
     width: 30%;
   }
 }
