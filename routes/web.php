@@ -17,6 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    Route::resource('/subject', 'SubjectController');
+    // Route::post('/subject/update', 'SubjectController@updateSubjectStatus');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/configurations', 'HomeController@configurations')->name('configurations');
 
@@ -24,4 +29,3 @@ Route::get('/configurations', 'HomeController@configurations')->name('configurat
 Route::get('/test', function () {
     return view('test');
 });
-
