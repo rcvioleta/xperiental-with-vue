@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   Route::resource('/education-background', 'EducationBackgroundController');
 
+  Route::resource('/student-level', 'StudentLevelController');
+
   /* routes that are responsible for routing */
   Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/configurations', 'HomeController@configurations')->name('configurations');

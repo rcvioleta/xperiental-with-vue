@@ -23,3 +23,5 @@ Route::resource('/emergency-contact', 'EmergencyContactController');
 
 Route::resource('/education-background', 'EducationBackgroundController');
 
+Route::resource('/student-level', 'StudentLevelController');
+

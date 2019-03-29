@@ -26,7 +26,7 @@ Vue.component('add-student-button', require('./components/student/AddStudentButt
 Vue.component('personal-information-form', require('./components/student/PersonalInformationForm.vue').default);
 Vue.component('emergency-contact-form', require('./components/student/EmergencyContactForm.vue').default);
 Vue.component('educational-background-form', require('./components/student/EducationalBackgroundForm.vue').default);
-
+Vue.component('student-level-crud', require('./components/studentLevel/StudentLevelCrud.vue').default);
 
 export const EventBus = new Vue();
 

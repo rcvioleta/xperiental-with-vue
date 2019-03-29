@@ -37,40 +37,13 @@
       </tbody>
     </table>
 
-    <div class="backdrop" :class="isActive"></div>
-    <div class="main-modal" :class="isActive">
-      <div class="card">
-        <div class="card-header">Edit</div>
-        <div class="card-body">
-          <form @submit.prevent="update">
-            <div class="form-group">
-              <input type="hidden" name="subject_slug" :value="selectedSubject.slug">
-              <label for="subject">Subject Name</label>
-              <input
-                type="text"
-                id="subject"
-                name="subject_name"
-                class="form-control"
-                placeholder="Subject Name"
-                :value="selectedSubject.name"
-              >
-            </div>
-            <div class="form-group">
-              <label for="status">Status</label>
-              <select name="new_status" id="status" class="form-control">
-                <option
-                  :value="selectedSubject.status ? 1 : 0"
-                >{{ selectedSubject.status ? 'Active' : 'Inactive' }}</option>
-                <option
-                  :value="selectedSubject.status ? 0 : 1"
-                >{{ selectedSubject.status ? 'Inactive' : 'Active' }}</option>
-              </select>
-            </div>
-            <button class="btn btn-primary" type="submit">Update Subject</button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <subject-modal
+      :active="isActive"
+      :name="selectedSubject.name"
+      :status="selectedSubject.status"
+      :slug="selectedSubject.slug"
+      :updateFunc="update"
+    ></subject-modal>
   </div>
 </template>
 
@@ -79,7 +52,10 @@ import axios from "axios";
 
 // class to perform CRUD for subjects
 import Subject from "../../helpers/Subject.js";
+import GlobalQuery from "../../helpers/GlobalQuery.js";
 import { EventBus } from "../../app.js";
+
+import Modal from "../ui/modal/Modal.vue";
 
 export default {
   data() {
@@ -89,6 +65,9 @@ export default {
       editingMode: false,
       subjectIndex: ""
     };
+  },
+  components: {
+    "subject-modal": Modal
   },
   created() {
     // fetch all subjects from database
@@ -168,9 +147,9 @@ export default {
     },
     update(e) {
       // console.log(this.subjects.data[this.subjectIndex]);
-      const subjectName = e.target.subject_name.value;
-      const slug = e.target.subject_slug.value;
-      const status = e.target.new_status.value;
+      const subjectName = e.target.name.value;
+      const slug = e.target.slug.value;
+      const status = e.target.status.value;
       const payload = { name: subjectName, slug: slug, status: status };
 
       Subject.update(payload, (err, update) => {
@@ -186,7 +165,7 @@ export default {
       });
     },
     fetchSubjects() {
-      Subject.getSubjects((err, subjects) => {
+      GlobalQuery.fetchAll("subject", (err, subjects) => {
         if (!err) this.subjects = subjects;
         else {
           console.log("[FETCH SUBJECTS ERROR]", err.response);
@@ -204,37 +183,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.main-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 80%;
-  transform: translate(-50%, -50%);
-  z-index: 700;
-  display: none;
-}
-
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 600;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-}
-
-.main-modal.in-use,
-.backdrop.in-use {
-  display: block;
-}
-
-@media (min-width: 48em) {
-  .main-modal {
-    width: 30%;
-  }
-}
-</style>

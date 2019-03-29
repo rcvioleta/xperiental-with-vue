@@ -162,7 +162,7 @@
               <div class="row">
                 <div class="p-0 col-lg-12 pb-5">
                   <div class="table-responsive">
-                    <table id="datatable-1" class="table table-datatable table-striped table-hover">
+                    {{-- <table id="datatable-1" class="table table-datatable table-striped table-hover">
                       <thead>
                         <tr>
                           <th>Name</th>
@@ -286,7 +286,8 @@
                           </td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> --}}
+                    <student-level-crud></student-level-crud>
                   </div>
                 </div>
               </div>
