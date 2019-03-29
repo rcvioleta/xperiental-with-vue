@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\StudentInformation;
 
 class StudentInformationController extends Controller
 {
@@ -33,7 +34,14 @@ class StudentInformationController extends Controller
      * @return \Illuminate\Http\Response
      */
   public function store(Request $request)
-  { }
+  {
+    $student = StudentInformation::create($request->all());
+    return response()->json([
+      'insertedId' => $student->id,
+      'message' => 'Successfully saved student information',
+      'status' => 200
+    ]);
+  }
 
   /**
      * Display the specified resource.

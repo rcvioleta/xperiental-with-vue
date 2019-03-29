@@ -19,7 +19,7 @@ class CreateEducationBackgroundsTable extends Migration
       $table->string('school_name');
       $table->string('current_level');
       $table->string('status');
-      $table->integer('phone_number');
+      $table->string('phone_number');
       $table->string('address');
       $table->timestamps();
     });

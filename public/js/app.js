@@ -1764,6 +1764,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
+/* harmony import */ var _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/Student.js */ "./resources/js/helpers/Student.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -1781,6 +1782,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1812,35 +1814,25 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       emptyFields: []
     };
   },
-  beforeUpdate: function beforeUpdate() {
+  created: function created() {
     var _this = this;
 
     // listen to data changes in student information form
     _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("personalInfoAdded", function (payloads) {
-      _this.formData.personalInfo.first_name = payloads.first_name;
-      _this.formData.personalInfo.middle_name = payloads.middle_name;
-      _this.formData.personalInfo.last_name = payloads.last_name;
-      _this.formData.personalInfo.gender = payloads.gender;
-      _this.formData.personalInfo.birth_date = payloads.birth_date;
-      _this.formData.personalInfo.phone_number = payloads.phone_number;
-      _this.formData.personalInfo.address = payloads.address;
+      _this.savePayloads(_this.formData.personalInfo, payloads);
+
       _this.emptyFields = [];
     }); // listen to data changes in emergency contact form
 
     _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("emergencyContactAdded", function (payloads) {
-      _this.formData.emergencyContact.full_name = payloads.full_name;
-      _this.formData.emergencyContact.phone_number = payloads.phone_number;
-      _this.formData.emergencyContact.relationship = payloads.relationship;
-      _this.formData.emergencyContact.address = payloads.address;
+      _this.savePayloads(_this.formData.emergencyContact, payloads);
+
       _this.emptyFields = [];
     }); // listen to data changes in educational background form
 
     _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("educationalBackgroundAdded", function (payloads) {
-      _this.formData.educationBackground.school_name = payloads.school_name;
-      _this.formData.educationBackground.current_level = payloads.current_level;
-      _this.formData.educationBackground.status = payloads.status;
-      _this.formData.educationBackground.phone_number = payloads.phone_number;
-      _this.formData.educationBackground.address = payloads.address;
+      _this.savePayloads(_this.formData.educationBackground, payloads);
+
       _this.emptyFields = [];
     });
   },
@@ -1848,18 +1840,51 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     saveStudentInfo: function saveStudentInfo() {
       var _this2 = this;
 
-      Object.keys(this.formData).map(function (formKey) {
-        return _toConsumableArray(Array(_this2.formData[formKey])).map(function (form) {
-          return Object.keys(form).map(function (field) {
-            if (!form[field]) {
-              _this2.emptyFields.push(field); // console.log("[EMPTY FIELDS]", field);
+      this.validateForm(this.formData);
 
-            }
+      if (this.emptyFields.length > 0) {
+        swal("Missing information!", 'Please fill in the forms before clicking "SAVE"', "error");
+      } else {
+        // save to database
+        _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].savePersonalInformation(this.formData.personalInfo, function (err, data) {
+          if (err) {
+            swal("Something went wrong", err, "error");
+          } else {
+            _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveEmergencyContact(_this2.formData.emergencyContact, data, function (err, data) {
+              if (err) {
+                swal("Something went wrong", err, "error");
+              } else {
+                _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveEducationBackground(_this2.formData.educationBackground, data, function (err, data) {
+                  if (err) {
+                    swal("Something went wrong", err, "error");
+                  } else {
+                    swal("Success!", "New Student added", "success");
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+
+      console.log("EMPTY FIELDS", this.emptyFields);
+      console.log("[Saving to database]", this.formData);
+    },
+    savePayloads: function savePayloads(formData, payloads) {
+      Object.keys(formData).map(function (key) {
+        formData[key] = payloads[key];
+      });
+    },
+    validateForm: function validateForm(formData) {
+      var _this3 = this;
+
+      Object.keys(formData).map(function (formKey) {
+        return _toConsumableArray(Array(formData[formKey])).map(function (form) {
+          return Object.keys(form).map(function (field) {
+            if (!form[field]) _this3.emptyFields.push(field);
           });
         });
       });
-      console.log("EMPTY FIELDS", this.emptyFields);
-      console.log("[Saving to database]", this.formData);
     }
   }
 });
@@ -38647,7 +38672,7 @@ var staticRenderFns = [
             type: "text",
             name: "middle_name",
             id: "validationCustom02",
-            placeholder: "Last name",
+            placeholder: "Middle Name",
             required: ""
           }
         }),
@@ -51878,6 +51903,92 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers/Student.js":
+/*!*****************************************!*\
+  !*** ./resources/js/helpers/Student.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Student =
+/*#__PURE__*/
+function () {
+  function Student() {
+    _classCallCheck(this, Student);
+  }
+
+  _createClass(Student, null, [{
+    key: "savePersonalInformation",
+    value: function savePersonalInformation(data, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('student', {
+        first_name: data.first_name,
+        middle_name: data.middle_name,
+        last_name: data.last_name,
+        gender: data.gender,
+        birth_date: data.birth_date,
+        phone_number: data.phone_number,
+        address: data.address
+      }).then(function (result) {
+        callback(null, result.data.insertedId);
+      }).catch(function (err) {
+        callback(err.response.data, null);
+        console.log('savePersonalInformation', err.response.data);
+      });
+    }
+  }, {
+    key: "saveEmergencyContact",
+    value: function saveEmergencyContact(data, studentId, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('emergency-contact', {
+        student_info_id: studentId,
+        full_name: data.full_name,
+        phone_number: data.phone_number,
+        relationship: data.relationship,
+        address: data.address
+      }).then(function (result) {
+        callback(null, result.data.insertedId);
+      }).catch(function (err) {
+        callback(err.response.data, null);
+        console.log('saveEmergencyContact', err.response.data);
+      });
+    }
+  }, {
+    key: "saveEducationBackground",
+    value: function saveEducationBackground(data, studentId, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('education-background', {
+        student_info_id: studentId,
+        school_name: data.school_name,
+        current_level: data.current_level,
+        status: data.status,
+        phone_number: data.phone_number,
+        address: data.address
+      }).then(function (result) {
+        callback(null, result);
+      }).catch(function (err) {
+        callback(err.response.data, null);
+        console.log('saveEducationalBackground', err.response.data);
+      });
+    }
+  }]);
+
+  return Student;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Student);
+
+/***/ }),
+
 /***/ "./resources/js/helpers/Subject.js":
 /*!*****************************************!*\
   !*** ./resources/js/helpers/Subject.js ***!
@@ -51984,8 +52095,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

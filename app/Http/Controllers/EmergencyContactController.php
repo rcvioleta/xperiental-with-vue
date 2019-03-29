@@ -35,7 +35,12 @@ class EmergencyContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $emergencyContact = EmergencyContact::create($request->all());
+        return response()->json([
+            'insertedId' => $emergencyContact->id,
+            'message' => 'Successfully saved emergency contact',
+            'status' => 200
+        ]);
     }
 
     /**

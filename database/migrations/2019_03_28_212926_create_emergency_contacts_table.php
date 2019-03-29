@@ -17,7 +17,7 @@ class CreateEmergencyContactsTable extends Migration
       $table->bigIncrements('id');
       $table->integer('student_info_id');
       $table->string('full_name');
-      $table->integer('phone_number');
+      $table->string('phone_number');
       $table->string('relationship');
       $table->string('address');
       $table->timestamps();
@@ -31,6 +31,6 @@ class CreateEmergencyContactsTable extends Migration
      */
   public function down()
   {
-    Schema::dropIfExists('');
+    Schema::dropIfExists('emergency_contacts');
   }
 }

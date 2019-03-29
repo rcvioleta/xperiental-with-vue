@@ -20,7 +20,7 @@
           name="middle_name"
           class="form-control"
           id="validationCustom02"
-          placeholder="Last name"
+          placeholder="Middle Name"
           required
         >
         <div class="valid-feedback">Looks good!</div>

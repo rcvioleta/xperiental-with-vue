@@ -35,7 +35,12 @@ class EducationBackgroundController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $educationBackground = EducationBackground::create($request->all());
+        return response()->json([
+            'insertedId' => $educationBackground->id,
+            'message' => 'Successfully saved education background',
+            'status' => 200
+        ]);
     }
 
     /**

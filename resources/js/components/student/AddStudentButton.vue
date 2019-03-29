@@ -9,6 +9,7 @@
 
 <script>
 import { EventBus } from "../../app.js";
+import Student from "../../helpers/Student.js";
 
 export default {
   data() {
@@ -40,52 +41,85 @@ export default {
       emptyFields: []
     };
   },
-  beforeUpdate() {
+  created() {
     // listen to data changes in student information form
     EventBus.$on("personalInfoAdded", payloads => {
-      this.formData.personalInfo.first_name = payloads.first_name;
-      this.formData.personalInfo.middle_name = payloads.middle_name;
-      this.formData.personalInfo.last_name = payloads.last_name;
-      this.formData.personalInfo.gender = payloads.gender;
-      this.formData.personalInfo.birth_date = payloads.birth_date;
-      this.formData.personalInfo.phone_number = payloads.phone_number;
-      this.formData.personalInfo.address = payloads.address;
+      this.savePayloads(this.formData.personalInfo, payloads);
       this.emptyFields = [];
     });
 
     // listen to data changes in emergency contact form
     EventBus.$on("emergencyContactAdded", payloads => {
-      this.formData.emergencyContact.full_name = payloads.full_name;
-      this.formData.emergencyContact.phone_number = payloads.phone_number;
-      this.formData.emergencyContact.relationship = payloads.relationship;
-      this.formData.emergencyContact.address = payloads.address;
+      this.savePayloads(this.formData.emergencyContact, payloads);
       this.emptyFields = [];
     });
 
     // listen to data changes in educational background form
     EventBus.$on("educationalBackgroundAdded", payloads => {
-      this.formData.educationBackground.school_name = payloads.school_name;
-      this.formData.educationBackground.current_level = payloads.current_level;
-      this.formData.educationBackground.status = payloads.status;
-      this.formData.educationBackground.phone_number = payloads.phone_number;
-      this.formData.educationBackground.address = payloads.address;
+      this.savePayloads(this.formData.educationBackground, payloads);
       this.emptyFields = [];
     });
   },
   methods: {
     saveStudentInfo() {
-      Object.keys(this.formData).map(formKey => {
-        return [...Array(this.formData[formKey])].map(form => {
-          return Object.keys(form).map(field => {
-            if (!form[field]) {
-              this.emptyFields.push(field);
-              // console.log("[EMPTY FIELDS]", field);
+      this.validateForm(this.formData);
+
+      if (this.emptyFields.length > 0) {
+        swal(
+          "Missing information!",
+          'Please fill in the forms before clicking "SAVE"',
+          "error"
+        );
+      } else {
+        // save to database
+        Student.savePersonalInformation(
+          this.formData.personalInfo,
+          (err, data) => {
+            if (err) {
+              swal("Something went wrong", err, "error");
+            } else {
+              Student.saveEmergencyContact(
+                this.formData.emergencyContact,
+                data,
+                (err, data) => {
+                  if (err) {
+                    swal("Something went wrong", err, "error");
+                  } else {
+                    Student.saveEducationBackground(
+                      this.formData.educationBackground,
+                      data,
+                      (err, data) => {
+                        if (err) {
+                          swal("Something went wrong", err, "error");
+                        } else {
+                          swal("Success!", "New Student added", "success");
+                        }
+                      }
+                    );
+                  }
+                }
+              );
             }
+          }
+        );
+      }
+
+      console.log("EMPTY FIELDS", this.emptyFields);
+      console.log("[Saving to database]", this.formData);
+    },
+    savePayloads(formData, payloads) {
+      Object.keys(formData).map(key => {
+        formData[key] = payloads[key];
+      });
+    },
+    validateForm(formData) {
+      Object.keys(formData).map(formKey => {
+        return [...Array(formData[formKey])].map(form => {
+          return Object.keys(form).map(field => {
+            if (!form[field]) this.emptyFields.push(field);
           });
         });
       });
-      console.log("EMPTY FIELDS", this.emptyFields);
-      console.log("[Saving to database]", this.formData);
     }
   }
 };

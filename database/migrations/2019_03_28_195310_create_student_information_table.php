@@ -19,8 +19,8 @@ class CreateStudentInformationTable extends Migration
       $table->string('middle_name');
       $table->string('last_name');
       $table->string('gender');
-      $table->date('birth_date');
-      $table->integer('phone_number');
+      $table->string('birth_date');
+      $table->string('phone_number');
       $table->string('address');
       $table->timestamps();
     });

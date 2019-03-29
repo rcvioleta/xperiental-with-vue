@@ -5,9 +5,6 @@
     <div class="col-md-6">
       <h1>Add Student</h1>
     </div>
-    {{-- <div class="col-md-6">
-      <button class="btn btn-primary pull-right" type="submit">Save <i class="ml-2 batch-icon batch-icon-stiffy"></i></button>
-    </div> --}}
     <add-student-button></add-student-button>
   </div>
   <div class="row mb-5">
