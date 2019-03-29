@@ -60,9 +60,14 @@ export default {
       const subject = target.subject_name.value;
       const status = target.status.value;
       const newSubject = new Subject(subject, status);
-      newSubject.save(result => {
-        console.log("[ADD SUBJECT RESULT]", result);
-        EventBus.$emit("newSubjectAdded", result);
+      newSubject.save((err, result) => {
+        if (!err) {
+          console.log("[ADD SUBJECT RESULT]", result);
+          EventBus.$emit("newSubjectAdded", result);
+        } else {
+          console.log("[SAVE SUBJECT ERROR]", err.message);
+          swal("Something went wrong", "Cannot save subject", "error");
+        }
       });
     }
   }

@@ -1838,33 +1838,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   methods: {
     saveStudentInfo: function saveStudentInfo() {
-      var _this2 = this;
-
       this.validateForm(this.formData);
 
       if (this.emptyFields.length > 0) {
         swal("Missing information!", 'Please fill in the forms before clicking "SAVE"', "error");
       } else {
-        // save to database
-        _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].savePersonalInformation(this.formData.personalInfo, function (err, data) {
-          if (err) {
-            swal("Something went wrong", err, "error");
-          } else {
-            _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveEmergencyContact(_this2.formData.emergencyContact, data, function (err, data) {
-              if (err) {
-                swal("Something went wrong", err, "error");
-              } else {
-                _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveEducationBackground(_this2.formData.educationBackground, data, function (err, data) {
-                  if (err) {
-                    swal("Something went wrong", err, "error");
-                  } else {
-                    swal("Success!", "New Student added", "success");
-                  }
-                });
-              }
-            });
-          }
-        });
+        var formData = {
+          personalInfo: this.formData.personalInfo,
+          emergencyContact: this.formData.emergencyContact,
+          educationBackground: this.formData.educationBackground
+        };
+        _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveStudentInfo(formData);
       }
 
       console.log("EMPTY FIELDS", this.emptyFields);
@@ -1876,12 +1860,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     validateForm: function validateForm(formData) {
-      var _this3 = this;
+      var _this2 = this;
 
       Object.keys(formData).map(function (formKey) {
         return _toConsumableArray(Array(formData[formKey])).map(function (form) {
           return Object.keys(form).map(function (field) {
-            if (!form[field]) _this3.emptyFields.push(field);
+            if (!form[field]) _this2.emptyFields.push(field);
           });
         });
       });
@@ -2390,9 +2374,14 @@ __webpack_require__.r(__webpack_exports__);
       var subject = target.subject_name.value;
       var status = target.status.value;
       var newSubject = new _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"](subject, status);
-      newSubject.save(function (result) {
-        console.log("[ADD SUBJECT RESULT]", result);
-        _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("newSubjectAdded", result);
+      newSubject.save(function (err, result) {
+        if (!err) {
+          console.log("[ADD SUBJECT RESULT]", result);
+          _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("newSubjectAdded", result);
+        } else {
+          console.log("[SAVE SUBJECT ERROR]", err.message);
+          swal("Something went wrong", "Cannot save subject", "error");
+        }
       });
     }
   }
@@ -2522,9 +2511,14 @@ __webpack_require__.r(__webpack_exports__);
         slug: slug,
         status: newStatus
       };
-      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (result) {
-        console.log("[updateStatus] result", result);
-        swal("Success!", "Successfull updated subject", "success");
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (err, result) {
+        if (!err) {
+          swal("Success!", "Successfull updated subject", "success");
+          console.log("[updateStatus] result", result);
+        } else {
+          swal("Something went wrong", "Unable to update subject", "error");
+          console.log("[UPDATE ERROR]", err.message);
+        }
       });
     },
     deleteSubject: function deleteSubject(slug) {
@@ -2538,14 +2532,21 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete(slug, function (removedSlug) {
-            _this2.subjects.data = _this2.subjects.data.filter(function (subject) {
-              return subject.slug !== removedSlug;
-            });
+          _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete(slug, function (err, removedSlug) {
+            if (!err) {
+              _this2.subjects.data = _this2.subjects.data.filter(function (subject) {
+                return subject.slug !== removedSlug;
+              });
+              swal("Subject was removed!", {
+                icon: "success"
+              });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal("Something went wrong", "Unable to delete subject. \n ".concat(err.message), "error");
+              console.log("[DELETE ERROR]", err.response);
+            }
           });
-        } else {
-          swal("Subject was kept");
-        }
+        } else swal("Subject was kept");
       });
     },
     editSubject: function editSubject(slug) {
@@ -2579,22 +2580,26 @@ __webpack_require__.r(__webpack_exports__);
         slug: slug,
         status: status
       };
-      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (update) {
-        /**
-         * update the frontend data with the data response from the server,
-         * instead of making another http request
-         */
-        _this3.subjects.data[_this3.subjectIndex] = update;
-        _this3.editingMode = false;
-        console.log("[updateStatus] result", update);
-        swal("Success!", "Successfull updated subject", "success");
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (err, update) {
+        if (!err) {
+          _this3.subjects.data[_this3.subjectIndex] = update;
+          _this3.editingMode = false;
+          console.log("[updateStatus] result", update);
+          swal("Success!", "Successfull updated subject", "success");
+        } else {
+          swal("Something went wrong", "Unable to update subject", "err");
+          console.log("[updateStatus] error", err.response);
+        }
       });
     },
     fetchSubjects: function fetchSubjects() {
       var _this4 = this;
 
-      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].getSubjects(function (subjects) {
-        return _this4.subjects = subjects;
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].getSubjects(function (err, subjects) {
+        if (!err) _this4.subjects = subjects;else {
+          console.log("[FETCH SUBJECTS ERROR]", err.response);
+          swal("Something went wrong", "Unable to fetch subjects", "error");
+        }
       });
     }
   },
@@ -51930,54 +51935,40 @@ function () {
   }
 
   _createClass(Student, null, [{
-    key: "savePersonalInformation",
-    value: function savePersonalInformation(data, callback) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('student', {
-        first_name: data.first_name,
-        middle_name: data.middle_name,
-        last_name: data.last_name,
-        gender: data.gender,
-        birth_date: data.birth_date,
-        phone_number: data.phone_number,
-        address: data.address
+    key: "saveStudentInfo",
+    value: function saveStudentInfo(formData) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("student", {
+        first_name: formData.personalInfo.first_name,
+        middle_name: formData.personalInfo.middle_name,
+        last_name: formData.personalInfo.last_name,
+        gender: formData.personalInfo.gender,
+        birth_date: formData.personalInfo.birth_date,
+        phone_number: formData.personalInfo.phone_number,
+        address: formData.personalInfo.address
       }).then(function (result) {
-        callback(null, result.data.insertedId);
-      }).catch(function (err) {
-        callback(err.response.data, null);
-        console.log('savePersonalInformation', err.response.data);
-      });
-    }
-  }, {
-    key: "saveEmergencyContact",
-    value: function saveEmergencyContact(data, studentId, callback) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('emergency-contact', {
-        student_info_id: studentId,
-        full_name: data.full_name,
-        phone_number: data.phone_number,
-        relationship: data.relationship,
-        address: data.address
+        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("emergency-contact", {
+          student_info_id: result.data.insertedId,
+          full_name: formData.emergencyContact.full_name,
+          phone_number: formData.emergencyContact.phone_number,
+          relationship: formData.emergencyContact.relationship,
+          address: formData.emergencyContact.address
+        });
       }).then(function (result) {
-        callback(null, result.data.insertedId);
+        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("education-background", {
+          student_info_id: result.data.insertedId,
+          school_name: formData.educationBackground.school_name,
+          current_level: formData.educationBackground.current_level,
+          status: formData.educationBackground.status,
+          phone_number: formData.educationBackground.phone_number,
+          address: formData.educationBackground.address
+        });
+      }).then(function (response) {
+        console.log('Student Saved', response);
+        swal('Success!', 'Successfully saved information', 'success');
       }).catch(function (err) {
-        callback(err.response.data, null);
-        console.log('saveEmergencyContact', err.response.data);
-      });
-    }
-  }, {
-    key: "saveEducationBackground",
-    value: function saveEducationBackground(data, studentId, callback) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('education-background', {
-        student_info_id: studentId,
-        school_name: data.school_name,
-        current_level: data.current_level,
-        status: data.status,
-        phone_number: data.phone_number,
-        address: data.address
-      }).then(function (result) {
-        callback(null, result);
-      }).catch(function (err) {
-        callback(err.response.data, null);
-        console.log('saveEducationalBackground', err.response.data);
+        if (err.response.status === 404) {
+          swal('Something went wrong!', 'Cannot connect to our server!', 'error');
+        }
       });
     }
   }]);
@@ -52022,20 +52013,18 @@ function () {
 
       axios.post('subject', this).then(function (result) {
         console.log('[SAVE RESULT]', _this);
-        callback(_this);
+        callback(null, _this);
       }).catch(function (err) {
-        console.log('[SAVE SUBJECT ERROR]', err.response.data);
-        swal("Something went wrong", 'Cannot save subject', "error");
+        return callback(err, null);
       });
     }
   }], [{
     key: "getSubjects",
     value: function getSubjects(callback) {
       axios.get("subject").then(function (response) {
-        callback(response.data);
+        return callback(null, response.data);
       }).catch(function (err) {
-        console.log('[FETCH SUBJECTS ERROR]', err.response.data);
-        swal("Something went wrong", 'Unable to fetch subjects', "error");
+        return callback(err, null);
       });
     }
   }, {
@@ -52046,26 +52035,18 @@ function () {
         slug: payload.name,
         status: payload.status
       }).then(function (result) {
-        // callback(payload);
-        callback(result.data.update);
+        return callback(null, result.data.update);
       }).catch(function (err) {
-        swal("Something went wrong", 'Unable to update subject', "error");
-        console.log('[UPDATE ERROR]', err.response.data);
+        return callback(err, null);
       });
     }
   }, {
     key: "delete",
     value: function _delete(slug, callback) {
       axios.delete("subject/" + slug).then(function (result) {
-        // use callback to capture response
-        callback(result.data.slug);
-        swal("Subject was removed!", {
-          icon: "success"
-        });
-        console.log('DELETE RESULT', result);
+        return callback(null, result.data.slug);
       }).catch(function (err) {
-        swal("Something went wrong", 'Unable to delete subject', "error");
-        console.log('[DELETE ERROR]', err.response.data);
+        return callback(err, null);
       });
     }
   }]);
@@ -52095,8 +52076,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

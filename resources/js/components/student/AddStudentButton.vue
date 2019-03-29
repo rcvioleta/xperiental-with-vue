@@ -63,7 +63,6 @@ export default {
   methods: {
     saveStudentInfo() {
       this.validateForm(this.formData);
-
       if (this.emptyFields.length > 0) {
         swal(
           "Missing information!",
@@ -71,39 +70,13 @@ export default {
           "error"
         );
       } else {
-        // save to database
-        Student.savePersonalInformation(
-          this.formData.personalInfo,
-          (err, data) => {
-            if (err) {
-              swal("Something went wrong", err, "error");
-            } else {
-              Student.saveEmergencyContact(
-                this.formData.emergencyContact,
-                data,
-                (err, data) => {
-                  if (err) {
-                    swal("Something went wrong", err, "error");
-                  } else {
-                    Student.saveEducationBackground(
-                      this.formData.educationBackground,
-                      data,
-                      (err, data) => {
-                        if (err) {
-                          swal("Something went wrong", err, "error");
-                        } else {
-                          swal("Success!", "New Student added", "success");
-                        }
-                      }
-                    );
-                  }
-                }
-              );
-            }
-          }
-        );
+        const formData = {
+          personalInfo: this.formData.personalInfo,
+          emergencyContact: this.formData.emergencyContact,
+          educationBackground: this.formData.educationBackground
+        };
+        Student.saveStudentInfo(formData);
       }
-
       console.log("EMPTY FIELDS", this.emptyFields);
       console.log("[Saving to database]", this.formData);
     },

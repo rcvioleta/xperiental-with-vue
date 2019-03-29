@@ -109,9 +109,14 @@ export default {
         slug: slug,
         status: newStatus
       };
-      Subject.update(payload, result => {
-        console.log("[updateStatus] result", result);
-        swal("Success!", "Successfull updated subject", "success");
+      Subject.update(payload, (err, result) => {
+        if (!err) {
+          swal("Success!", "Successfull updated subject", "success");
+          console.log("[updateStatus] result", result);
+        } else {
+          swal("Something went wrong", "Unable to update subject", "error");
+          console.log("[UPDATE ERROR]", err.message);
+        }
       });
     },
     deleteSubject(slug) {
@@ -123,14 +128,23 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          Subject.delete(slug, removedSlug => {
-            this.subjects.data = this.subjects.data.filter(
-              subject => subject.slug !== removedSlug
-            );
+          Subject.delete(slug, (err, removedSlug) => {
+            if (!err) {
+              this.subjects.data = this.subjects.data.filter(
+                subject => subject.slug !== removedSlug
+              );
+              swal("Subject was removed!", { icon: "success" });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal(
+                "Something went wrong",
+                `Unable to delete subject. \n ${err.message}`,
+                "error"
+              );
+              console.log("[DELETE ERROR]", err.response);
+            }
           });
-        } else {
-          swal("Subject was kept");
-        }
+        } else swal("Subject was kept");
       });
     },
     editSubject(slug) {
@@ -157,25 +171,28 @@ export default {
       const subjectName = e.target.subject_name.value;
       const slug = e.target.subject_slug.value;
       const status = e.target.new_status.value;
-      const payload = {
-        name: subjectName,
-        slug: slug,
-        status: status
-      };
+      const payload = { name: subjectName, slug: slug, status: status };
 
-      Subject.update(payload, update => {
-        /**
-         * update the frontend data with the data response from the server,
-         * instead of making another http request
-         */
-        this.subjects.data[this.subjectIndex] = update;
-        this.editingMode = false;
-        console.log("[updateStatus] result", update);
-        swal("Success!", "Successfull updated subject", "success");
+      Subject.update(payload, (err, update) => {
+        if (!err) {
+          this.subjects.data[this.subjectIndex] = update;
+          this.editingMode = false;
+          console.log("[updateStatus] result", update);
+          swal("Success!", "Successfull updated subject", "success");
+        } else {
+          swal("Something went wrong", "Unable to update subject", "err");
+          console.log("[updateStatus] error", err.response);
+        }
       });
     },
     fetchSubjects() {
-      Subject.getSubjects(subjects => (this.subjects = subjects));
+      Subject.getSubjects((err, subjects) => {
+        if (!err) this.subjects = subjects;
+        else {
+          console.log("[FETCH SUBJECTS ERROR]", err.response);
+          swal("Something went wrong", "Unable to fetch subjects", "error");
+        }
+      });
     }
   },
   computed: {
