@@ -1754,6 +1754,547 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/AddStudentButton.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/AddStudentButton.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      formData: {
+        personalInfo: {
+          first_name: "",
+          middle_name: "",
+          last_name: "",
+          gender: "",
+          birth_date: "",
+          phone_number: "",
+          address: ""
+        },
+        emergencyContact: {
+          full_name: "",
+          phone_number: "",
+          relationship: "",
+          address: ""
+        },
+        educationBackground: {
+          school_name: "",
+          current_level: "",
+          status: "",
+          phone_number: "",
+          address: ""
+        }
+      },
+      emptyFields: []
+    };
+  },
+  beforeUpdate: function beforeUpdate() {
+    var _this = this;
+
+    // listen to data changes in student information form
+    _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("personalInfoAdded", function (payloads) {
+      _this.formData.personalInfo.first_name = payloads.first_name;
+      _this.formData.personalInfo.middle_name = payloads.middle_name;
+      _this.formData.personalInfo.last_name = payloads.last_name;
+      _this.formData.personalInfo.gender = payloads.gender;
+      _this.formData.personalInfo.birth_date = payloads.birth_date;
+      _this.formData.personalInfo.phone_number = payloads.phone_number;
+      _this.formData.personalInfo.address = payloads.address;
+      _this.emptyFields = [];
+    }); // listen to data changes in emergency contact form
+
+    _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("emergencyContactAdded", function (payloads) {
+      _this.formData.emergencyContact.full_name = payloads.full_name;
+      _this.formData.emergencyContact.phone_number = payloads.phone_number;
+      _this.formData.emergencyContact.relationship = payloads.relationship;
+      _this.formData.emergencyContact.address = payloads.address;
+      _this.emptyFields = [];
+    }); // listen to data changes in educational background form
+
+    _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("educationalBackgroundAdded", function (payloads) {
+      _this.formData.educationBackground.school_name = payloads.school_name;
+      _this.formData.educationBackground.current_level = payloads.current_level;
+      _this.formData.educationBackground.status = payloads.status;
+      _this.formData.educationBackground.phone_number = payloads.phone_number;
+      _this.formData.educationBackground.address = payloads.address;
+      _this.emptyFields = [];
+    });
+  },
+  methods: {
+    saveStudentInfo: function saveStudentInfo() {
+      var _this2 = this;
+
+      Object.keys(this.formData).map(function (formKey) {
+        return _toConsumableArray(Array(_this2.formData[formKey])).map(function (form) {
+          return Object.keys(form).map(function (field) {
+            if (!form[field]) {
+              _this2.emptyFields.push(field); // console.log("[EMPTY FIELDS]", field);
+
+            }
+          });
+        });
+      });
+      console.log("EMPTY FIELDS", this.emptyFields);
+      console.log("[Saving to database]", this.formData);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      payloads: {
+        school_name: "",
+        current_level: "",
+        status: "",
+        phone_number: "",
+        address: ""
+      }
+    };
+  },
+  methods: {
+    recordEducationForm: function recordEducationForm(e) {
+      var source = e.srcElement;
+
+      switch (source.name) {
+        case "school_name":
+          this.payloads.school_name = source.value;
+          break;
+
+        case "current_level":
+          this.payloads.current_level = source.value;
+          break;
+
+        case "status":
+          this.payloads.status = source.value;
+          break;
+
+        case "phone_number":
+          this.payloads.phone_number = source.value;
+          break;
+
+        case "address":
+          this.payloads.address = source.value;
+          break;
+      }
+
+      _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("educationalBackgroundAdded", this.payloads);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EmergencyContactForm.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/EmergencyContactForm.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      payloads: {
+        full_name: "",
+        phone_number: "",
+        relationship: "",
+        address: ""
+      }
+    };
+  },
+  methods: {
+    recordEmergencyForm: function recordEmergencyForm(e) {
+      var source = e.srcElement;
+
+      switch (source.name) {
+        case "full_name":
+          this.payloads.full_name = source.value;
+          break;
+
+        case "phone_number":
+          this.payloads.phone_number = source.value;
+          break;
+
+        case "relationship":
+          this.payloads.relationship = source.value;
+          break;
+
+        case "address":
+          this.payloads.address = source.value;
+          break;
+      }
+
+      _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("emergencyContactAdded", this.payloads);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/PersonalInformationForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/PersonalInformationForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      payloads: {
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        gender: "",
+        birth_date: "",
+        phone_number: "",
+        address: ""
+      }
+    };
+  },
+  methods: {
+    recordPersonalInformation: function recordPersonalInformation(e) {
+      var source = e.srcElement;
+      console.log("triggered");
+
+      switch (source.name) {
+        case "first_name":
+          this.payloads.first_name = source.value;
+          break;
+
+        case "middle_name":
+          this.payloads.middle_name = source.value;
+          break;
+
+        case "last_name":
+          this.payloads.last_name = source.value;
+          break;
+
+        case "gender":
+          this.payloads.gender = source.value;
+          break;
+
+        case "birth_date":
+          this.payloads.birth_date = source.value;
+
+        case "phone_number":
+          this.payloads.phone_number = source.value;
+
+        case "address":
+          this.payloads.address = source.value;
+      }
+
+      _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("personalInfoAdded", this.payloads);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/subject/AddSubject.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/subject/AddSubject.vue?vue&type=script&lang=js& ***!
@@ -1932,7 +2473,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       subjects: [],
       selectedSubject: "",
-      editingMode: false
+      editingMode: false,
+      subjectIndex: ""
     };
   },
   created: function created() {
@@ -1983,14 +2525,27 @@ __webpack_require__.r(__webpack_exports__);
     },
     editSubject: function editSubject(slug) {
       console.log("EDIT SUBJECT", slug);
-      this.selectedSubject = this.subjects.data.find(function (subject) {
+      /**
+       * get the index of current subject to be edit
+       * it will be used to update the frontend data once update is successful
+       */
+
+      this.subjectIndex = this.subjects.data.findIndex(function (subject) {
         return subject.slug === slug;
       });
+      /**
+       * store selected object for edit, modal is binding to this data
+       * and responsible for displaying it
+       */
+
+      this.selectedSubject = this.subjects.data[this.subjectIndex]; // set editing mode to true to bring up the modal
+
       this.editingMode = true;
     },
     update: function update(e) {
       var _this3 = this;
 
+      // console.log(this.subjects.data[this.subjectIndex]);
       var subjectName = e.target.subject_name.value;
       var slug = e.target.subject_slug.value;
       var status = e.target.new_status.value;
@@ -1999,12 +2554,14 @@ __webpack_require__.r(__webpack_exports__);
         slug: slug,
         status: status
       };
-      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (result) {
+      _helpers_Subject_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(payload, function (update) {
+        /**
+         * update the frontend data with the data response from the server,
+         * instead of making another http request
+         */
+        _this3.subjects.data[_this3.subjectIndex] = update;
         _this3.editingMode = false;
-
-        _this3.fetchSubjects();
-
-        console.log("[updateStatus] result", result);
+        console.log("[updateStatus] result", update);
         swal("Success!", "Successfull updated subject", "success");
       });
     },
@@ -37699,6 +38256,588 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/AddStudentButton.vue?vue&type=template&id=704c4eeb&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/AddStudentButton.vue?vue&type=template&id=704c4eeb& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col-md-6" }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary pull-right",
+        attrs: { type: "submit" },
+        on: { click: _vm.saveStudentInfo }
+      },
+      [
+        _vm._v("\n    Save\n    "),
+        _c("i", { staticClass: "ml-2 batch-icon batch-icon-stiffy" })
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form", { on: { input: _vm.recordEducationForm } }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom01" } }, [
+          _vm._v("School Name")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "school_name",
+            id: "validationCustom01",
+            placeholder: "School name",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Current Level")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "select",
+            { staticClass: "form-control", attrs: { name: "current_level" } },
+            [
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select Level")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Grade 1" } }, [
+                _vm._v("Grade 1")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Grade 2" } }, [
+                _vm._v("Grade 2")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Grade 3" } }, [
+                _vm._v("Grade 3")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Grade 4" } }, [
+                _vm._v("Grade 4")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Grade 5" } }, [_vm._v("Grade 5")])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Student Status")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "select",
+            { staticClass: "form-control", attrs: { name: "status" } },
+            [
+              _c("option", { attrs: { value: "" } }, [_vm._v("Select Status")]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Ongoing" } }, [
+                _vm._v("Ongoing")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Graduated" } }, [
+                _vm._v("Graduated")
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom05" } }, [
+          _vm._v("Shool Telephone/Cellphone")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-group" }, [
+          _c("div", { staticClass: "input-group-prepend" }, [
+            _c(
+              "span",
+              {
+                staticClass: "input-group-text",
+                attrs: { id: "inputGroupPrepend-6" }
+              },
+              [_c("i", { staticClass: "batch-icon batch-icon-headphones" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "sp_celphones form-control",
+            attrs: {
+              type: "text",
+              name: "phone_number",
+              autocomplete: "off",
+              placeholder: "(63) 921-8621-999",
+              "aria-describedby": "inputGroupPrepend-6"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "invalid-feedback" }, [
+          _vm._v("Please provide a valid zip.")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-8 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("School Address")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "address",
+            id: "validationCustom02",
+            placeholder: "School Address",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EmergencyContactForm.vue?vue&type=template&id=9467ef1c&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/EmergencyContactForm.vue?vue&type=template&id=9467ef1c& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form", { on: { input: _vm.recordEmergencyForm } }, [_vm._m(0)])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom01" } }, [
+          _vm._v("Full Name")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "full_name",
+            id: "validationCustom01",
+            placeholder: "Full Name",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom05" } }, [
+          _vm._v("Telephone/Phone")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-group" }, [
+          _c("div", { staticClass: "input-group-prepend" }, [
+            _c(
+              "span",
+              {
+                staticClass: "input-group-text",
+                attrs: { id: "inputGroupPrepend-6" }
+              },
+              [_c("i", { staticClass: "batch-icon batch-icon-headphones" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "sp_celphones form-control",
+            attrs: {
+              type: "text",
+              name: "phone_number",
+              autocomplete: "off",
+              placeholder: "(63) 921-8621-999",
+              "aria-describedby": "inputGroupPrepend-6"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "invalid-feedback" }, [
+          _vm._v("Please provide a valid zip.")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Relation to Student")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "relationship",
+            id: "validationCustom02",
+            placeholder: "Relationship",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Home Address")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "address",
+            id: "validationCustom02",
+            placeholder: "Home Address",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/PersonalInformationForm.vue?vue&type=template&id=94a6ab7e&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/student/PersonalInformationForm.vue?vue&type=template&id=94a6ab7e& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form", { on: { input: _vm.recordPersonalInformation } }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom01" } }, [
+          _vm._v("First name")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "first_name",
+            id: "validationCustom01",
+            placeholder: "First name",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Middle name")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "middle_name",
+            id: "validationCustom02",
+            placeholder: "Last name",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Last name")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "last_name",
+            id: "validationCustom02",
+            placeholder: "Last name",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "col-md-2 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom03" } }, [
+          _vm._v("Gender")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "col-md-12 mt-2",
+            staticStyle: { "padding-left": "0" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "custom-control custom-radio form-check form-check-inline",
+                staticStyle: { width: "40%", float: "left" }
+              },
+              [
+                _c("input", {
+                  staticClass: "custom-control-input",
+                  attrs: {
+                    type: "radio",
+                    id: "customControlValidation2a",
+                    name: "gender",
+                    value: "male"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "customControlValidation2a" }
+                  },
+                  [_vm._v("Male")]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "custom-control custom-radio mb-3 form-check form-check-inline",
+                staticStyle: { width: "20%", float: "left" }
+              },
+              [
+                _c("input", {
+                  staticClass: "custom-control-input",
+                  attrs: {
+                    type: "radio",
+                    id: "customControlValidation3a",
+                    name: "gender",
+                    value: "female"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "custom-control-label",
+                    attrs: { for: "customControlValidation3a" }
+                  },
+                  [_vm._v("Female")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "invalid-feedback" }, [
+                  _vm._v("More example invalid feedback text")
+                ])
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom04" } }, [
+          _vm._v("Birthdate")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "fallback form-control",
+          attrs: {
+            type: "text",
+            name: "birth_date",
+            autocomplete: "off",
+            placeholder: "DD/MM/YYYY"
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "invalid-feedback" }, [
+          _vm._v("Please provide a valid state.")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom05" } }, [
+          _vm._v("Telephone/Phone")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-group" }, [
+          _c("div", { staticClass: "input-group-prepend" }, [
+            _c(
+              "span",
+              {
+                staticClass: "input-group-text",
+                attrs: { id: "inputGroupPrepend-6" }
+              },
+              [_c("i", { staticClass: "batch-icon batch-icon-headphones" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "sp_celphones form-control",
+            attrs: {
+              type: "text",
+              name: "phone_number",
+              autocomplete: "off",
+              placeholder: "(63) 921-8621-999",
+              "aria-describedby": "inputGroupPrepend-6"
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "invalid-feedback" }, [
+          _vm._v("Please provide a valid zip.")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6 mb-3" }, [
+        _c("label", { attrs: { for: "validationCustom02" } }, [
+          _vm._v("Home Address")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "address",
+            id: "validationCustom02",
+            placeholder: "Home Address",
+            required: ""
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/subject/AddSubject.vue?vue&type=template&id=c3706e8e&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/subject/AddSubject.vue?vue&type=template&id=c3706e8e& ***!
@@ -50232,6 +51371,10 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.component('subject-crud', __webpack_require__(/*! ./components/subject/SubjectCrud.vue */ "./resources/js/components/subject/SubjectCrud.vue").default);
 Vue.component('subject-form', __webpack_require__(/*! ./components/subject/AddSubject.vue */ "./resources/js/components/subject/AddSubject.vue").default);
+Vue.component('add-student-button', __webpack_require__(/*! ./components/student/AddStudentButton.vue */ "./resources/js/components/student/AddStudentButton.vue").default);
+Vue.component('personal-information-form', __webpack_require__(/*! ./components/student/PersonalInformationForm.vue */ "./resources/js/components/student/PersonalInformationForm.vue").default);
+Vue.component('emergency-contact-form', __webpack_require__(/*! ./components/student/EmergencyContactForm.vue */ "./resources/js/components/student/EmergencyContactForm.vue").default);
+Vue.component('educational-background-form', __webpack_require__(/*! ./components/student/EducationalBackgroundForm.vue */ "./resources/js/components/student/EducationalBackgroundForm.vue").default);
 var EventBus = new Vue();
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -50300,6 +51443,282 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/student/AddStudentButton.vue":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/student/AddStudentButton.vue ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AddStudentButton_vue_vue_type_template_id_704c4eeb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddStudentButton.vue?vue&type=template&id=704c4eeb& */ "./resources/js/components/student/AddStudentButton.vue?vue&type=template&id=704c4eeb&");
+/* harmony import */ var _AddStudentButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddStudentButton.vue?vue&type=script&lang=js& */ "./resources/js/components/student/AddStudentButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddStudentButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddStudentButton_vue_vue_type_template_id_704c4eeb___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddStudentButton_vue_vue_type_template_id_704c4eeb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/student/AddStudentButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/student/AddStudentButton.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/student/AddStudentButton.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStudentButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddStudentButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/AddStudentButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStudentButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/student/AddStudentButton.vue?vue&type=template&id=704c4eeb&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/student/AddStudentButton.vue?vue&type=template&id=704c4eeb& ***!
+  \*********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStudentButton_vue_vue_type_template_id_704c4eeb___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddStudentButton.vue?vue&type=template&id=704c4eeb& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/AddStudentButton.vue?vue&type=template&id=704c4eeb&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStudentButton_vue_vue_type_template_id_704c4eeb___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStudentButton_vue_vue_type_template_id_704c4eeb___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/student/EducationalBackgroundForm.vue":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/student/EducationalBackgroundForm.vue ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EducationalBackgroundForm_vue_vue_type_template_id_4572e8d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4& */ "./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4&");
+/* harmony import */ var _EducationalBackgroundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EducationalBackgroundForm.vue?vue&type=script&lang=js& */ "./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EducationalBackgroundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EducationalBackgroundForm_vue_vue_type_template_id_4572e8d4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EducationalBackgroundForm_vue_vue_type_template_id_4572e8d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/student/EducationalBackgroundForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EducationalBackgroundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EducationalBackgroundForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EducationalBackgroundForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4& ***!
+  \******************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EducationalBackgroundForm_vue_vue_type_template_id_4572e8d4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EducationalBackgroundForm.vue?vue&type=template&id=4572e8d4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EducationalBackgroundForm_vue_vue_type_template_id_4572e8d4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EducationalBackgroundForm_vue_vue_type_template_id_4572e8d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/student/EmergencyContactForm.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/student/EmergencyContactForm.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EmergencyContactForm_vue_vue_type_template_id_9467ef1c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EmergencyContactForm.vue?vue&type=template&id=9467ef1c& */ "./resources/js/components/student/EmergencyContactForm.vue?vue&type=template&id=9467ef1c&");
+/* harmony import */ var _EmergencyContactForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmergencyContactForm.vue?vue&type=script&lang=js& */ "./resources/js/components/student/EmergencyContactForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EmergencyContactForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EmergencyContactForm_vue_vue_type_template_id_9467ef1c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EmergencyContactForm_vue_vue_type_template_id_9467ef1c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/student/EmergencyContactForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/student/EmergencyContactForm.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/student/EmergencyContactForm.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContactForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EmergencyContactForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EmergencyContactForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContactForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/student/EmergencyContactForm.vue?vue&type=template&id=9467ef1c&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/student/EmergencyContactForm.vue?vue&type=template&id=9467ef1c& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContactForm_vue_vue_type_template_id_9467ef1c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EmergencyContactForm.vue?vue&type=template&id=9467ef1c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/EmergencyContactForm.vue?vue&type=template&id=9467ef1c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContactForm_vue_vue_type_template_id_9467ef1c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EmergencyContactForm_vue_vue_type_template_id_9467ef1c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/student/PersonalInformationForm.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/student/PersonalInformationForm.vue ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PersonalInformationForm_vue_vue_type_template_id_94a6ab7e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PersonalInformationForm.vue?vue&type=template&id=94a6ab7e& */ "./resources/js/components/student/PersonalInformationForm.vue?vue&type=template&id=94a6ab7e&");
+/* harmony import */ var _PersonalInformationForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PersonalInformationForm.vue?vue&type=script&lang=js& */ "./resources/js/components/student/PersonalInformationForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PersonalInformationForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PersonalInformationForm_vue_vue_type_template_id_94a6ab7e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PersonalInformationForm_vue_vue_type_template_id_94a6ab7e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/student/PersonalInformationForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/student/PersonalInformationForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/student/PersonalInformationForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalInformationForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./PersonalInformationForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/PersonalInformationForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalInformationForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/student/PersonalInformationForm.vue?vue&type=template&id=94a6ab7e&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/student/PersonalInformationForm.vue?vue&type=template&id=94a6ab7e& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalInformationForm_vue_vue_type_template_id_94a6ab7e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./PersonalInformationForm.vue?vue&type=template&id=94a6ab7e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/student/PersonalInformationForm.vue?vue&type=template&id=94a6ab7e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalInformationForm_vue_vue_type_template_id_94a6ab7e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PersonalInformationForm_vue_vue_type_template_id_94a6ab7e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -50490,7 +51909,7 @@ function () {
     value: function save(callback) {
       var _this = this;
 
-      axios.post('admin/subject', this).then(function (result) {
+      axios.post('subject', this).then(function (result) {
         console.log('[SAVE RESULT]', _this);
         callback(_this);
       }).catch(function (err) {
@@ -50501,7 +51920,7 @@ function () {
   }], [{
     key: "getSubjects",
     value: function getSubjects(callback) {
-      axios.get("admin/subject").then(function (response) {
+      axios.get("subject").then(function (response) {
         callback(response.data);
       }).catch(function (err) {
         console.log('[FETCH SUBJECTS ERROR]', err.response.data);
@@ -50511,11 +51930,13 @@ function () {
   }, {
     key: "update",
     value: function update(payload, callback) {
-      axios.put("/admin/subject/" + payload.slug, {
+      axios.put("subject/" + payload.slug, {
         name: payload.name,
+        slug: payload.name,
         status: payload.status
       }).then(function (result) {
-        callback(result);
+        // callback(payload);
+        callback(result.data.update);
       }).catch(function (err) {
         swal("Something went wrong", 'Unable to update subject', "error");
         console.log('[UPDATE ERROR]', err.response.data);
@@ -50524,7 +51945,7 @@ function () {
   }, {
     key: "delete",
     value: function _delete(slug, callback) {
-      axios.delete("admin/subject/" + slug).then(function (result) {
+      axios.delete("subject/" + slug).then(function (result) {
         // use callback to capture response
         callback(result.data.slug);
         swal("Subject was removed!", {
@@ -50563,8 +51984,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -86,7 +86,8 @@ export default {
     return {
       subjects: [],
       selectedSubject: "",
-      editingMode: false
+      editingMode: false,
+      subjectIndex: ""
     };
   },
   created() {
@@ -134,12 +135,25 @@ export default {
     },
     editSubject(slug) {
       console.log("EDIT SUBJECT", slug);
-      this.selectedSubject = this.subjects.data.find(
+      /**
+       * get the index of current subject to be edit
+       * it will be used to update the frontend data once update is successful
+       */
+      this.subjectIndex = this.subjects.data.findIndex(
         subject => subject.slug === slug
       );
+
+      /**
+       * store selected object for edit, modal is binding to this data
+       * and responsible for displaying it
+       */
+      this.selectedSubject = this.subjects.data[this.subjectIndex];
+
+      // set editing mode to true to bring up the modal
       this.editingMode = true;
     },
     update(e) {
+      // console.log(this.subjects.data[this.subjectIndex]);
       const subjectName = e.target.subject_name.value;
       const slug = e.target.subject_slug.value;
       const status = e.target.new_status.value;
@@ -149,10 +163,14 @@ export default {
         status: status
       };
 
-      Subject.update(payload, result => {
+      Subject.update(payload, update => {
+        /**
+         * update the frontend data with the data response from the server,
+         * instead of making another http request
+         */
+        this.subjects.data[this.subjectIndex] = update;
         this.editingMode = false;
-        this.fetchSubjects();
-        console.log("[updateStatus] result", result);
+        console.log("[updateStatus] result", update);
         swal("Success!", "Successfull updated subject", "success");
       });
     },

@@ -12,20 +12,19 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+  return view('welcome');
 });
 
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-    Route::resource('/subject', 'SubjectController');
-    // Route::post('/subject/update', 'SubjectController@updateSubjectStatus');
-});
+  Route::resource('/subject', 'SubjectController');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/configurations', 'HomeController@configurations')->name('configurations');
+  Route::resource('/student', 'StudentInformationController');
 
-
-Route::get('/test', function () {
-    return view('test');
+  /* routes that are responsible for routing */
+  Route::get('/home', 'HomeController@index')->name('home');
+  Route::get('/configurations', 'HomeController@configurations')->name('configurations');
+  Route::get('/add-student', 'HomeController@addStudent')->name('add-student');
+  Route::get('/students', 'HomeController@showStudentList')->name('student-list');
 });

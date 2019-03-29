@@ -2,7 +2,7 @@
     <ul class="nav nav-pills flex-column">
       <li class="logo-nav-item">
         <a class="navbar-brand" href="#">
-          <img src="assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro" class="mCS_img_loaded">
+          <img src="{{ asset('assets/img/logo-white.png') }}" width="145" height="32.3" alt="QuillPro" class="mCS_img_loaded">
         </a>
 
       </li>
@@ -12,7 +12,7 @@
           <li class="nav-item dropdown"> -->
             <a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
               <div class="mr-3 profile-picture bg-gradient bg-primary has-message float-left">
-                <img src="assets/img/profile-pic.jpg" width="44" height="44" class="mCS_img_loaded">
+                <img src="{{ asset('assets/img/profile-pic.jpg') }}" width="44" height="44" class="mCS_img_loaded">
               </div>
               <div class="profile-name">
                 Jane Doe
@@ -30,7 +30,7 @@
       </li>
       <hr>
       <li class="nav-item">
-        <a class="nav-link active" href="dashboard.html">
+        <a class="nav-link active" href="{{ route('home') }}">
           <i class="batch-icon batch-icon-browser-alt" style="font-weight: bold"></i>
           Dashboard <span class="sr-only">(current)</span>
         </a>
@@ -45,13 +45,13 @@
         </a>
         <ul class="nav nav-pills flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="student-list.html">
+            <a class="nav-link" href="{{ route('student-list') }}">
               <i class="batch-icon batch-icon-bullet"></i>
               Student List
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="student-add.html">
+            <a class="nav-link" href="{{ route('add-student') }}">
               <i class="batch-icon batch-icon-bullet"></i>
               Add Student
             </a>

@@ -71,7 +71,12 @@ class SubjectController extends Controller
     public function update(Request $request, Subject $subject)
     {
         $subject->update($request->all());
-        return response('Subject was updated successfully!', 200);
+        $update = ['id' => $subject->id, 'name' => $subject->name, 'slug' => $subject->slug, 'status' => $subject->status];
+        return response()->json([
+            'update' => $update,
+            'message' => 'Subject was updated successfully!',
+            'status' => 200
+        ]);
     }
 
     /**

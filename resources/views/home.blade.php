@@ -114,7 +114,7 @@
                 <div class="card-media-list mCustomScrollbar _mCS_1 mCS-autoHide"><div id="mCSB_1" class="mCustomScrollBox mCS-dark mCSB_vertical mCSB_inside" style="max-height: 305.004px;" tabindex="0"><div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -126,7 +126,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-3.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-3.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -138,7 +138,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-secondary float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-2.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-2.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -150,7 +150,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-secondary has-message float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-4.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-4.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -162,7 +162,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-primary float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-6.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-6.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -174,7 +174,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -186,7 +186,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-primary has-message float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-3.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-3.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -198,7 +198,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-secondary float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-2.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-2.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -210,7 +210,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-secondary has-message float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-4.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-4.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">
@@ -222,7 +222,7 @@
 
                     <div class="media clickable" data-qp-link="profiles-member-profile.html">
                         <div class="profile-picture bg-gradient bg-primary float-right d-flex mr-3">
-                            <img src="assets/img/profile-pic-6.jpg" width="44" height="44" class="mCS_img_loaded">
+                            <img src="{{ asset('assets/img/profile-pic-6.jpg') }}" width="44" height="44" class="mCS_img_loaded">
                         </div>
                         <div class="media-body">
                             <div class="heading mt-1">

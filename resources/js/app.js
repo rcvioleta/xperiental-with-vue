@@ -22,6 +22,10 @@ window.Vue = require('vue');
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('subject-crud', require('./components/subject/SubjectCrud.vue').default);
 Vue.component('subject-form', require('./components/subject/AddSubject.vue').default);
+Vue.component('add-student-button', require('./components/student/AddStudentButton.vue').default);
+Vue.component('personal-information-form', require('./components/student/PersonalInformationForm.vue').default);
+Vue.component('emergency-contact-form', require('./components/student/EmergencyContactForm.vue').default);
+Vue.component('educational-background-form', require('./components/student/EducationalBackgroundForm.vue').default);
 
 
 export const EventBus = new Vue();
