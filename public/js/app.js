@@ -2449,11 +2449,11 @@ __webpack_require__.r(__webpack_exports__);
     update: function update(e) {
       var _this3 = this;
 
-      var levelName = e.target.name.value;
+      var level_name = e.target.name.value;
       var slug = e.target.slug.value;
       var status = e.target.status.value;
       var payload = {
-        name: levelName,
+        name: level_name,
         slug: slug,
         status: status
       };
@@ -52634,7 +52634,7 @@ function () {
     key: "update",
     value: function update(payload, callback) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("student-level/" + payload.slug, {
-        level_name: payload.level_name,
+        level_name: payload.name,
         slug: payload.name,
         status: payload.status
       }).then(function (result) {

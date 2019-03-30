@@ -8,7 +8,7 @@ class StudentLevel {
     static update(payload, callback) {
         axios
             .put("student-level/" + payload.slug, {
-                level_name: payload.level_name,
+                level_name: payload.name,
                 slug: payload.name,
                 status: payload.status
             })
