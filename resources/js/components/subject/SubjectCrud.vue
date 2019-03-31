@@ -50,7 +50,6 @@
 <script>
 import axios from "axios";
 
-// class to perform CRUD for subjects
 import Subject from "../../helpers/Subject.js";
 import GlobalQuery from "../../helpers/GlobalQuery.js";
 import { EventBus } from "../../app.js";
@@ -70,14 +69,11 @@ export default {
     "subject-modal": Modal
   },
   created() {
-    // fetch all subjects from database
     this.fetchSubjects();
 
-    // listen to events from AddSubject.vue and check if new subject is added
     EventBus.$on("newSubjectAdded", result => {
       this.subjects.data.push(result);
       swal("Congrats!", "New subject added", "success");
-      // console.log("EVENT BUS [SUBJECT CRUD]", result);
     });
   },
   methods: {

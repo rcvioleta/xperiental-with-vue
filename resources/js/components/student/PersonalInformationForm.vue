@@ -137,7 +137,10 @@ export default {
   methods: {
     recordPersonalInformation(e) {
       const source = e.srcElement;
-      console.log("triggered");
+      console.log(
+        "%c Saving personal information",
+        "color: green; font-family: Monaco"
+      );
       switch (source.name) {
         case "first_name":
           this.payloads.first_name = source.value;

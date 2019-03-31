@@ -77,6 +77,10 @@ export default {
   methods: {
     recordEmergencyForm(e) {
       const source = e.srcElement;
+      console.log(
+        "%c Saving emergency contact",
+        "color: green; font-family: Monaco"
+      );
       switch (source.name) {
         case "full_name":
           this.payloads.full_name = source.value;

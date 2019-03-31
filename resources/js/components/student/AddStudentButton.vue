@@ -42,19 +42,16 @@ export default {
     };
   },
   created() {
-    // listen to data changes in student information form
     EventBus.$on("personalInfoAdded", payloads => {
       this.savePayloads(this.formData.personalInfo, payloads);
       this.emptyFields = [];
     });
 
-    // listen to data changes in emergency contact form
     EventBus.$on("emergencyContactAdded", payloads => {
       this.savePayloads(this.formData.emergencyContact, payloads);
       this.emptyFields = [];
     });
 
-    // listen to data changes in educational background form
     EventBus.$on("educationalBackgroundAdded", payloads => {
       this.savePayloads(this.formData.educationBackground, payloads);
       this.emptyFields = [];
@@ -75,17 +72,32 @@ export default {
           emergencyContact: this.formData.emergencyContact,
           educationBackground: this.formData.educationBackground
         };
-        Student.saveStudentInfo(formData);
+        Student.saveStudentInfo(formData, (err, response) => {
+          if (!err) {
+            console.log("Student Saved", response);
+            swal("Success!", "Successfully saved information", "success");
+          } else {
+            if (err.response.status === 404) {
+              swal(
+                "Something went wrong!",
+                "Cannot connect to our server!",
+                "error"
+              );
+            }
+          }
+        });
       }
-      console.log("EMPTY FIELDS", this.emptyFields);
-      console.log("[Saving to database]", this.formData);
+      console.log("%c Empty Fields", "color: red; font-family: Monaco");
+      console.table(this.emptyFields);
+
+      console.log("%c Saving to database", "color: green; font-family: Monaco");
+      console.log(this.formData);
     },
     savePayloads(formData, payloads) {
-      Object.keys(formData).map(key => {
-        formData[key] = payloads[key];
-      });
+      Object.keys(formData).map(key => (formData[key] = payloads[key]));
     },
     validateForm(formData) {
+      console.time("Validating form data takes");
       Object.keys(formData).map(formKey => {
         return [...Array(formData[formKey])].map(form => {
           return Object.keys(form).map(field => {
@@ -93,6 +105,7 @@ export default {
           });
         });
       });
+      console.timeEnd("Validating form data takes");
     }
   }
 };

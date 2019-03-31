@@ -1,45 +1,50 @@
 import axios from "axios";
 
 class Student {
-    static saveStudentInfo(formData) {
+    static saveStudentInfo(formData, callback) {
+        const {
+            first_name,
+            middle_name,
+            last_name,
+            gender,
+            birth_date,
+            phone_number,
+            address
+        } = formData.personalInfo;
+
         axios
             .post("student", {
-                first_name: formData.personalInfo.first_name,
-                middle_name: formData.personalInfo.middle_name,
-                last_name: formData.personalInfo.last_name,
-                gender: formData.personalInfo.gender,
-                birth_date: formData.personalInfo.birth_date,
-                phone_number: formData.personalInfo.phone_number,
-                address: formData.personalInfo.address
+                first_name: first_name,
+                middle_name: middle_name,
+                last_name: last_name,
+                gender: gender,
+                birth_date: birth_date,
+                phone_number: phone_number,
+                address: address
             })
             .then(result => {
+                const { full_name, phone_number, relationship, address } = formData.emergencyContact;
                 return axios.post("emergency-contact", {
                     student_info_id: result.data.insertedId,
-                    full_name: formData.emergencyContact.full_name,
-                    phone_number: formData.emergencyContact.phone_number,
-                    relationship: formData.emergencyContact.relationship,
-                    address: formData.emergencyContact.address
+                    full_name: full_name,
+                    phone_number: phone_number,
+                    relationship: relationship,
+                    address: address
                 });
             })
             .then(result => {
+                const { school_name, current_level, status, phone_number, address } = formData.educationBackground;
                 return axios.post("education-background", {
                     student_info_id: result.data.insertedId,
-                    school_name: formData.educationBackground.school_name,
-                    current_level: formData.educationBackground.current_level,
-                    status: formData.educationBackground.status,
-                    phone_number: formData.educationBackground.phone_number,
-                    address: formData.educationBackground.address
+                    school_name: school_name,
+                    current_level: current_level,
+                    status: status,
+                    phone_number: phone_number,
+                    address: address
                 });
             })
-            .then(response => {
-                console.log('Student Saved', response);
-                swal('Success!', 'Successfully saved information', 'success');
-            })
-            .catch(err => {
-                if (err.response.status === 404) {
-                    swal('Something went wrong!', 'Cannot connect to our server!', 'error');
-                }
-            });
+            .then(response => callback(null, response))
+            .catch(err => callback(err, null));
     }
 }
 

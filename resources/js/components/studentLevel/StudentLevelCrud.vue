@@ -72,7 +72,6 @@ export default {
     "level-modal": Modal
   },
   created() {
-    console.log("Created");
     GlobalQuery.fetchAll("student-level", (err, response) => {
       if (!err) {
         this.studentLevels = response;
@@ -148,21 +147,11 @@ export default {
     },
     editStudentLevel(slug) {
       console.log("EDIT SUBJECT", slug);
-      /**
-       * get the index of current subject to be edit
-       * it will be used to update the frontend data once update is successful
-       */
       this.levelIndex = this.studentLevels.data.findIndex(
         level => level.slug === slug
       );
 
-      /**
-       * store selected object for edit, modal is binding to this data
-       * and responsible for displaying it
-       */
       this.selectedLevel = this.studentLevels.data[this.levelIndex];
-
-      // set editing mode to true to bring up the modal
       this.editingMode = true;
     }
   },

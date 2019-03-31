@@ -9,14 +9,7 @@
             <div class="form-group">
               <input type="hidden" name="slug" :value="slug">
               <label for="subject">Student Level Name</label>
-              <input
-                type="text"
-                id="subject"
-                name="name"
-                class="form-control"
-                placeholder="Level Name"
-                :value="name"
-              >
+              <input type="text" id="subject" name="name" class="form-control" :value="name">
             </div>
             <div class="form-group">
               <label for="status">Status</label>

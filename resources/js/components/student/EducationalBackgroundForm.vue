@@ -93,6 +93,10 @@ export default {
   methods: {
     recordEducationForm(e) {
       const source = e.srcElement;
+      console.log(
+        "%c Saving education background",
+        "color: green; font-family: Monaco"
+      );
       switch (source.name) {
         case "school_name":
           this.payloads.school_name = source.value;

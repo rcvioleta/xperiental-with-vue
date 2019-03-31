@@ -1817,19 +1817,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   created: function created() {
     var _this = this;
 
-    // listen to data changes in student information form
     _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("personalInfoAdded", function (payloads) {
       _this.savePayloads(_this.formData.personalInfo, payloads);
 
       _this.emptyFields = [];
-    }); // listen to data changes in emergency contact form
-
+    });
     _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("emergencyContactAdded", function (payloads) {
       _this.savePayloads(_this.formData.emergencyContact, payloads);
 
       _this.emptyFields = [];
-    }); // listen to data changes in educational background form
-
+    });
     _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("educationalBackgroundAdded", function (payloads) {
       _this.savePayloads(_this.formData.educationBackground, payloads);
 
@@ -1848,20 +1845,32 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           emergencyContact: this.formData.emergencyContact,
           educationBackground: this.formData.educationBackground
         };
-        _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveStudentInfo(formData);
+        _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveStudentInfo(formData, function (err, response) {
+          if (!err) {
+            console.log("Student Saved", response);
+            swal("Success!", "Successfully saved information", "success");
+          } else {
+            if (err.response.status === 404) {
+              swal("Something went wrong!", "Cannot connect to our server!", "error");
+            }
+          }
+        });
       }
 
-      console.log("EMPTY FIELDS", this.emptyFields);
-      console.log("[Saving to database]", this.formData);
+      console.log("%c Empty Fields", "color: red; font-family: Monaco");
+      console.table(this.emptyFields);
+      console.log("%c Saving to database", "color: green; font-family: Monaco");
+      console.log(this.formData);
     },
     savePayloads: function savePayloads(formData, payloads) {
       Object.keys(formData).map(function (key) {
-        formData[key] = payloads[key];
+        return formData[key] = payloads[key];
       });
     },
     validateForm: function validateForm(formData) {
       var _this2 = this;
 
+      console.time("Validating form data takes");
       Object.keys(formData).map(function (formKey) {
         return _toConsumableArray(Array(formData[formKey])).map(function (form) {
           return Object.keys(form).map(function (field) {
@@ -1869,6 +1878,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           });
         });
       });
+      console.timeEnd("Validating form data takes");
     }
   }
 });
@@ -1978,6 +1988,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     recordEducationForm: function recordEducationForm(e) {
       var source = e.srcElement;
+      console.log("%c Saving education background", "color: green; font-family: Monaco");
 
       switch (source.name) {
         case "school_name":
@@ -2095,6 +2106,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     recordEmergencyForm: function recordEmergencyForm(e) {
       var source = e.srcElement;
+      console.log("%c Saving emergency contact", "color: green; font-family: Monaco");
 
       switch (source.name) {
         case "full_name":
@@ -2268,7 +2280,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     recordPersonalInformation: function recordPersonalInformation(e) {
       var source = e.srcElement;
-      console.log("triggered");
+      console.log("%c Saving personal information", "color: green; font-family: Monaco");
 
       switch (source.name) {
         case "first_name":
@@ -2390,7 +2402,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    console.log("Created");
     _helpers_GlobalQuery_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll("student-level", function (err, response) {
       if (!err) {
         _this.studentLevels = response;
@@ -2471,21 +2482,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     editStudentLevel: function editStudentLevel(slug) {
       console.log("EDIT SUBJECT", slug);
-      /**
-       * get the index of current subject to be edit
-       * it will be used to update the frontend data once update is successful
-       */
-
       this.levelIndex = this.studentLevels.data.findIndex(function (level) {
         return level.slug === slug;
       });
-      /**
-       * store selected object for edit, modal is binding to this data
-       * and responsible for displaying it
-       */
-
-      this.selectedLevel = this.studentLevels.data[this.levelIndex]; // set editing mode to true to bring up the modal
-
+      this.selectedLevel = this.studentLevels.data[this.levelIndex];
       this.editingMode = true;
     }
   },
@@ -2649,7 +2649,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
- // class to perform CRUD for subjects
 
 
 
@@ -2670,13 +2669,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    // fetch all subjects from database
-    this.fetchSubjects(); // listen to events from AddSubject.vue and check if new subject is added
-
+    this.fetchSubjects();
     _app_js__WEBPACK_IMPORTED_MODULE_3__["EventBus"].$on("newSubjectAdded", function (result) {
       _this.subjects.data.push(result);
 
-      swal("Congrats!", "New subject added", "success"); // console.log("EVENT BUS [SUBJECT CRUD]", result);
+      swal("Congrats!", "New subject added", "success");
     });
   },
   methods: {
@@ -2799,13 +2796,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -39629,12 +39619,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("input", {
                   staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "subject",
-                    name: "name",
-                    placeholder: "Level Name"
-                  },
+                  attrs: { type: "text", id: "subject", name: "name" },
                   domProps: { value: _vm.name }
                 })
               ]),
@@ -52560,39 +52545,55 @@ function () {
 
   _createClass(Student, null, [{
     key: "saveStudentInfo",
-    value: function saveStudentInfo(formData) {
+    value: function saveStudentInfo(formData, callback) {
+      var _formData$personalInf = formData.personalInfo,
+          first_name = _formData$personalInf.first_name,
+          middle_name = _formData$personalInf.middle_name,
+          last_name = _formData$personalInf.last_name,
+          gender = _formData$personalInf.gender,
+          birth_date = _formData$personalInf.birth_date,
+          phone_number = _formData$personalInf.phone_number,
+          address = _formData$personalInf.address;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("student", {
-        first_name: formData.personalInfo.first_name,
-        middle_name: formData.personalInfo.middle_name,
-        last_name: formData.personalInfo.last_name,
-        gender: formData.personalInfo.gender,
-        birth_date: formData.personalInfo.birth_date,
-        phone_number: formData.personalInfo.phone_number,
-        address: formData.personalInfo.address
+        first_name: first_name,
+        middle_name: middle_name,
+        last_name: last_name,
+        gender: gender,
+        birth_date: birth_date,
+        phone_number: phone_number,
+        address: address
       }).then(function (result) {
+        var _formData$emergencyCo = formData.emergencyContact,
+            full_name = _formData$emergencyCo.full_name,
+            phone_number = _formData$emergencyCo.phone_number,
+            relationship = _formData$emergencyCo.relationship,
+            address = _formData$emergencyCo.address;
         return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("emergency-contact", {
           student_info_id: result.data.insertedId,
-          full_name: formData.emergencyContact.full_name,
-          phone_number: formData.emergencyContact.phone_number,
-          relationship: formData.emergencyContact.relationship,
-          address: formData.emergencyContact.address
+          full_name: full_name,
+          phone_number: phone_number,
+          relationship: relationship,
+          address: address
         });
       }).then(function (result) {
+        var _formData$educationBa = formData.educationBackground,
+            school_name = _formData$educationBa.school_name,
+            current_level = _formData$educationBa.current_level,
+            status = _formData$educationBa.status,
+            phone_number = _formData$educationBa.phone_number,
+            address = _formData$educationBa.address;
         return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("education-background", {
           student_info_id: result.data.insertedId,
-          school_name: formData.educationBackground.school_name,
-          current_level: formData.educationBackground.current_level,
-          status: formData.educationBackground.status,
-          phone_number: formData.educationBackground.phone_number,
-          address: formData.educationBackground.address
+          school_name: school_name,
+          current_level: current_level,
+          status: status,
+          phone_number: phone_number,
+          address: address
         });
       }).then(function (response) {
-        console.log('Student Saved', response);
-        swal('Success!', 'Successfully saved information', 'success');
+        return callback(null, response);
       }).catch(function (err) {
-        if (err.response.status === 404) {
-          swal('Something went wrong!', 'Cannot connect to our server!', 'error');
-        }
+        return callback(err, null);
       });
     }
   }]);
@@ -52632,11 +52633,14 @@ function () {
 
   _createClass(StudentLevel, null, [{
     key: "update",
-    value: function update(payload, callback) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("student-level/" + payload.slug, {
-        level_name: payload.level_name,
-        slug: payload.name,
-        status: payload.status
+    value: function update(_ref, callback) {
+      var name = _ref.name,
+          slug = _ref.slug,
+          status = _ref.status;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("student-level/" + slug, {
+        level_name: name,
+        slug: name,
+        status: status
       }).then(function (result) {
         return callback(null, result.data.update);
       }).catch(function (err) {
@@ -52710,11 +52714,14 @@ function () {
     }
   }, {
     key: "update",
-    value: function update(payload, callback) {
-      axios.put("subject/" + payload.slug, {
-        name: payload.name,
-        slug: payload.name,
-        status: payload.status
+    value: function update(_ref, callback) {
+      var name = _ref.name,
+          slug = _ref.slug,
+          status = _ref.status;
+      axios.put("subject/" + slug, {
+        name: name,
+        slug: name,
+        status: status
       }).then(function (result) {
         return callback(null, result.data.update);
       }).catch(function (err) {
@@ -52757,8 +52764,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

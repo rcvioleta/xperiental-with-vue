@@ -5,12 +5,12 @@ class StudentLevel {
 
     }
 
-    static update(payload, callback) {
+    static update({ name, slug, status }, callback) {
         axios
-            .put("student-level/" + payload.slug, {
-                level_name: payload.level_name,
-                slug: payload.name,
-                status: payload.status
+            .put("student-level/" + slug, {
+                level_name: name,
+                slug: name,
+                status: status
             })
             .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));

@@ -21,12 +21,12 @@ class Subject {
             }).catch(err => callback(err, null));
     }
 
-    static update(payload, callback) {
+    static update({ name, slug, status }, callback) {
         axios
-            .put("subject/" + payload.slug, {
-                name: payload.name,
-                slug: payload.name,
-                status: payload.status
+            .put("subject/" + slug, {
+                name: name,
+                slug: name,
+                status: status
             })
             .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));
