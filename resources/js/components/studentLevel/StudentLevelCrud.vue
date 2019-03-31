@@ -128,10 +128,10 @@ export default {
       });
     },
     update(e) {
-      const levelName = e.target.name.value;
+      const level_name = e.target.name.value;
       const slug = e.target.slug.value;
       const status = e.target.status.value;
-      const payload = { name: levelName, slug: slug, status: status };
+      const payload = { name: level_name, slug: slug, status: status };
 
       StudentLevel.update(payload, (err, update) => {
         if (!err) {
