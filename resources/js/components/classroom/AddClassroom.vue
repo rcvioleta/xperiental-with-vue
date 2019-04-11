@@ -1,15 +1,15 @@
 <template>
-  <div class="card" id="subject-add">
+  <div class="card" id="classroom-add">
     <div class="card-header">
       <h4>
-        <strong>Add Subject</strong>
+        <strong>Add Classroom</strong>
       </h4>
     </div>
     <div class="card-body">
-      <form @submit.prevent="saveSubject">
+      <form @submit.prevent="saveClassroom">
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Subject Name</label>
+            <label for="validationCustom01">Classroom Name</label>
             <input
               type="text"
               name="name"
@@ -34,7 +34,7 @@
         <div class="row">
           <div class="col-md-12">
             <button class="btn btn-primary pull-right" type="submit">
-              Save Subject
+              Save Classroom
               <i class="ml-2 batch-icon batch-icon-stiffy"></i>
             </button>
           </div>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// axios was already imported by subject-crud component, import not required
 import { EventBus } from "../../app.js";
 
 import Model from "../../helpers/Model.js";
@@ -55,18 +54,18 @@ export default {
     return {};
   },
   methods: {
-    saveSubject(e) {
+    saveClassroom(e) {
       const target = e.target;
-      const subject = target.name.value;
+      const name = target.name.value;
       const status = target.status.value;
-      const newSubject = new Model(subject, status);
-      newSubject.save("subject", (err, result) => {
+      const newClassroom = new Model(name, status);
+      newClassroom.save("classroom", (err, result) => {
         if (!err) {
-          console.log("[ADD SUBJECT RESULT]", result);
-          EventBus.$emit("newSubjectAdded", result);
+          console.log("[ADD CLASSROOM RESULT]", result);
+          EventBus.$emit("newClassroomAdded", result);
         } else {
-          console.log("[SAVE SUBJECT ERROR]", err.response);
-          swal("Something went wrong", "Cannot save subject", "error");
+          console.log("[SAVE CLASSROOM ERROR]", err.message);
+          swal("Something went wrong", "Cannot save classroom", "error");
         }
       });
     }

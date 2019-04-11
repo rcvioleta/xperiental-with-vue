@@ -50,8 +50,7 @@
 <script>
 import axios from "axios";
 
-import Subject from "../../helpers/Subject.js";
-import GlobalQuery from "../../helpers/GlobalQuery.js";
+import Model from "../../helpers/Model.js";
 import { EventBus } from "../../app.js";
 
 import Modal from "../ui/modal/Modal.vue";
@@ -84,7 +83,7 @@ export default {
         slug: slug,
         status: newStatus
       };
-      Subject.update(payload, (err, result) => {
+      Model.update("subject/", payload, (err, result) => {
         if (!err) {
           swal("Success!", "Successfull updated subject", "success");
           console.log("[updateStatus] result", result);
@@ -103,7 +102,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          Subject.delete(slug, (err, removedSlug) => {
+          Model.delete("student/", slug, (err, removedSlug) => {
             if (!err) {
               this.subjects.data = this.subjects.data.filter(
                 subject => subject.slug !== removedSlug
@@ -124,31 +123,19 @@ export default {
     },
     editSubject(slug) {
       console.log("EDIT SUBJECT", slug);
-      /**
-       * get the index of current subject to be edit
-       * it will be used to update the frontend data once update is successful
-       */
       this.subjectIndex = this.subjects.data.findIndex(
         subject => subject.slug === slug
       );
-
-      /**
-       * store selected object for edit, modal is binding to this data
-       * and responsible for displaying it
-       */
       this.selectedSubject = this.subjects.data[this.subjectIndex];
-
-      // set editing mode to true to bring up the modal
       this.editingMode = true;
     },
     update(e) {
-      // console.log(this.subjects.data[this.subjectIndex]);
       const subjectName = e.target.name.value;
       const slug = e.target.slug.value;
       const status = e.target.status.value;
       const payload = { name: subjectName, slug: slug, status: status };
 
-      Subject.update(payload, (err, update) => {
+      Model.update("student/", payload, (err, update) => {
         if (!err) {
           this.subjects.data[this.subjectIndex] = update;
           this.editingMode = false;
@@ -161,7 +148,7 @@ export default {
       });
     },
     fetchSubjects() {
-      GlobalQuery.fetchAll("subject", (err, subjects) => {
+      Model.fetchAll("subject", (err, subjects) => {
         if (!err) this.subjects = subjects;
         else {
           console.log("[FETCH SUBJECTS ERROR]", err.response);

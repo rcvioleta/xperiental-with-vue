@@ -27,8 +27,14 @@ Vue.component('personal-information-form', require('./components/student/Persona
 Vue.component('emergency-contact-form', require('./components/student/EmergencyContactForm.vue').default);
 Vue.component('educational-background-form', require('./components/student/EducationalBackgroundForm.vue').default);
 Vue.component('student-level-crud', require('./components/studentLevel/StudentLevelCrud.vue').default);
+Vue.component('level-form', require('./components/studentLevel/AddStudentLevel.vue').default);
+Vue.component('classroom-crud', require('./components/classroom/ClassroomCrud.vue').default);
+Vue.component('classroom-form', require('./components/classroom/AddClassroom.vue').default);
 
 export const EventBus = new Vue();
+
+// import sweetalert globally so that swal can be across files
+import swal from 'sweetalert';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

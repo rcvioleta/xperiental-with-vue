@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\StudentLevel;
+use App\Classroom;
 use Illuminate\Http\Request;
-use App\Http\Resources\StudentLevelResource;
+use App\Http\Resources\ClassroomResource;
 
-class StudentLevelController extends Controller
+class ClassroomController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -15,8 +15,7 @@ class StudentLevelController extends Controller
    */
   public function index()
   {
-    $studentLevels = StudentLevel::all();
-    return StudentLevelResource::collection($studentLevels);
+    return ClassroomResource::collection(Classroom::all());
   }
 
   /**
@@ -37,17 +36,17 @@ class StudentLevelController extends Controller
    */
   public function store(Request $request)
   {
-    StudentLevel::create($request->all());
-    return response('Student Level saved!', 200);
+    Classroom::create($request->all());
+    return response('Classroom saved', 200);
   }
 
   /**
    * Display the specified resource.
    *
-   * @param  \App\StudentLevel  $studentLevel
+   * @param  \App\Classroom  $classroom
    * @return \Illuminate\Http\Response
    */
-  public function show(StudentLevel $studentLevel)
+  public function show(Classroom $classroom)
   {
     //
   }
@@ -55,10 +54,10 @@ class StudentLevelController extends Controller
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  \App\StudentLevel  $studentLevel
+   * @param  \App\Classroom  $classroom
    * @return \Illuminate\Http\Response
    */
-  public function edit(StudentLevel $studentLevel)
+  public function edit(Classroom $classroom)
   {
     //
   }
@@ -67,23 +66,23 @@ class StudentLevelController extends Controller
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\StudentLevel  $studentLevel
+   * @param  \App\Classroom  $classroom
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, StudentLevel $studentLevel)
+  public function update(Request $request, Classroom $classroom)
   {
-    $studentLevel->update($request->all());
+    $classroom->update($request->all());
 
     $update = [
-      'id' => $studentLevel->id,
-      'name' => $studentLevel->name,
-      'slug' => $studentLevel->slug,
-      'status' => $studentLevel->status
+      'id' => $classroom->id,
+      'name' => $classroom->name,
+      'slug' => $classroom->slug,
+      'status' => $classroom->status
     ];
 
     return response()->json([
       'update' => $update,
-      'message' => 'Student Level was updated successfully!',
+      'message' => 'Classroom was updated successfully!',
       'status' => 200
     ]);
   }
@@ -91,15 +90,15 @@ class StudentLevelController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \App\StudentLevel  $studentLevel
+   * @param  \App\Classroom  $classroom
    * @return \Illuminate\Http\Response
    */
-  public function destroy(StudentLevel $studentLevel)
+  public function destroy(Classroom $classroom)
   {
-    $studentLevel->delete();
+    $classroom->delete();
     return response()->json([
-      'slug' => $studentLevel->slug,
-      'message' => 'Student Level was deleted!',
+      'slug' => $classroom->slug,
+      'message' => 'Classroom was deleted!',
       'status' => 204
     ]);
   }

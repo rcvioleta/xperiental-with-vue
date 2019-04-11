@@ -10,13 +10,13 @@
       </thead>
       <tbody>
         <tr v-for="studentLevel in studentLevels.data" :key="studentLevel.slug">
-          <td>{{ studentLevel.level_name }}</td>
+          <td>{{ studentLevel.name }}</td>
           <td>
             <div class="btn-group">
               <select
                 name="status"
                 v-model="studentLevel.status"
-                @change="updateStatus($event, studentLevel.slug, studentLevel.level_name)"
+                @change="updateStatus($event, studentLevel.slug, studentLevel.name)"
               >
                 <option
                   :value="studentLevel.status ? 1 : 0"
@@ -46,7 +46,7 @@
     </table>
     <level-modal
       :active="isActive"
-      :name="selectedLevel.level_name"
+      :name="selectedLevel.name"
       :status="selectedLevel.status"
       :slug="selectedLevel.slug"
       :updateFunc="update"
@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import StudentLevel from "../../helpers/StudentLevel.js";
-import GlobalQuery from "../../helpers/GlobalQuery.js";
+import { EventBus } from "../../app.js";
+import Model from "../../helpers/Model.js";
 import Modal from "../ui/modal/Modal.vue";
 
 export default {
@@ -72,7 +72,7 @@ export default {
     "level-modal": Modal
   },
   created() {
-    GlobalQuery.fetchAll("student-level", (err, response) => {
+    Model.fetchAll("student-level", (err, response) => {
       if (!err) {
         this.studentLevels = response;
       } else {
@@ -80,16 +80,21 @@ export default {
         console.log("getStudentLevels Error:", err.response);
       }
     });
+
+    EventBus.$on("newLevelAdded", result => {
+      this.studentLevels.data.push(result);
+      swal("Congrats!", "New student level added", "success");
+    });
   },
   methods: {
     updateStatus(e, slug, levelName) {
       const newStatus = e.target.value;
       const payload = {
-        level_name: levelName,
+        name: levelName,
         slug: slug,
         status: newStatus
       };
-      StudentLevel.update(payload, (err, result) => {
+      Model.update("student-level/", payload, (err, result) => {
         if (!err) {
           swal("Success!", "Successfull updated Student Level", "success");
           console.log("[updateStatus] result", result);
@@ -108,7 +113,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          StudentLevel.delete(slug, (err, removedSlug) => {
+          Model.delete("student-level/", slug, (err, removedSlug) => {
             if (!err) {
               this.studentLevels.data = this.studentLevels.data.filter(
                 level => level.slug !== removedSlug
@@ -133,14 +138,14 @@ export default {
       const status = e.target.status.value;
       const payload = { name: level_name, slug: slug, status: status };
 
-      StudentLevel.update(payload, (err, update) => {
+      Model.update("student-level/", payload, (err, update) => {
         if (!err) {
           this.studentLevels.data[this.levelIndex] = update;
           this.editingMode = false;
           console.log("[update] result", update);
           swal("Success!", "Successfully updated level", "success");
         } else {
-          swal("Something went wrong", "Unable to update level", "err");
+          swal("Something went wrong", "Unable to update level", "error");
           console.log("[update] error", err.response);
         }
       });

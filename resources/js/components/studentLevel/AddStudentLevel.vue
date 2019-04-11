@@ -1,21 +1,21 @@
 <template>
-  <div class="card" id="subject-add">
+  <div class="card" id="level-add">
     <div class="card-header">
       <h4>
-        <strong>Add Subject</strong>
+        <strong>Add Level</strong>
       </h4>
     </div>
     <div class="card-body">
-      <form @submit.prevent="saveSubject">
+      <form @submit.prevent="saveStudentLevel">
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Subject Name</label>
+            <label for="validationCustom01">Level Name</label>
             <input
               type="text"
               name="name"
               class="form-control"
               id="validationCustom01"
-              placeholder="Subject"
+              placeholder="Level"
               required
             >
             <div class="valid-feedback">Looks good!</div>
@@ -34,7 +34,7 @@
         <div class="row">
           <div class="col-md-12">
             <button class="btn btn-primary pull-right" type="submit">
-              Save Subject
+              Save Level
               <i class="ml-2 batch-icon batch-icon-stiffy"></i>
             </button>
           </div>
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// axios was already imported by subject-crud component, import not required
 import { EventBus } from "../../app.js";
 
 import Model from "../../helpers/Model.js";
@@ -55,18 +54,18 @@ export default {
     return {};
   },
   methods: {
-    saveSubject(e) {
+    saveStudentLevel(e) {
       const target = e.target;
-      const subject = target.name.value;
+      const name = target.name.value;
       const status = target.status.value;
-      const newSubject = new Model(subject, status);
-      newSubject.save("subject", (err, result) => {
+      const newStudentLevel = new Model(name, status);
+      newStudentLevel.save("student-level", (err, result) => {
         if (!err) {
-          console.log("[ADD SUBJECT RESULT]", result);
-          EventBus.$emit("newSubjectAdded", result);
+          console.log("[ADD STUDENT LEVEL RESULT]", result);
+          EventBus.$emit("newLevelAdded", result);
         } else {
-          console.log("[SAVE SUBJECT ERROR]", err.response);
-          swal("Something went wrong", "Cannot save subject", "error");
+          console.log("[SAVE STUDENT LEVEL ERROR]", err.message);
+          swal("Something went wrong", "Cannot save student level", "error");
         }
       });
     }

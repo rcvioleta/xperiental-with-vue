@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   Route::resource('/student-level', 'StudentLevelController');
 
+  Route::resource('/classroom', 'ClassroomController');
+
   /* routes that are responsible for routing */
   Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/configurations', 'HomeController@configurations')->name('configurations');
