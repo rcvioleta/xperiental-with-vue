@@ -18,10 +18,13 @@
               <a class="nav-link" onclick="ClassroomAdd()" href="#tab-6-2" data-toggle="tab" role="tab" aria-controls="tab-6-2" aria-selected="false">Classrooms</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" onclick="LevelsAdd()" href="#tab-6-3" data-toggle="tab" role="tab" aria-controls="tab-6-3" aria-selected="false">Student Levels</a>
+              <a class="nav-link" onclick="LevelsAdd()" href="#tab-6-3" data-toggle="tab" role="tab" aria-controls="tab-6-3" aria-selected="false">Grade Level</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" onclick="SystemAdd()" href="#tab-6-4" data-toggle="tab" role="tab" aria-controls="tab-6-4" aria-selected="false">System Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" onclick="ClassRateAdd()" href="#tab-6-5" data-toggle="tab" role="tab" aria-controls="tab-6-5" aria-selected="false">Class Rate</a>
             </li>
           </ul>
         </div>
@@ -115,6 +118,15 @@
                 </div>
               </div>
             </div>
+            <div id="tab-6-5" class="row tab-pane fade show" role="tabpanel" aria-labelledby="tab-6-5">
+              <div class="row">
+                <div class="p-0 col-lg-12 pb-5">
+                  <div class="table-responsive">
+                    <class-rate-crud></class-rate-crud>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -124,6 +136,7 @@
       <subject-form></subject-form>
       <classroom-form></classroom-form>
       <level-form></level-form>
+      <class-rate-form></class-rate-form>
       <div class="card" id="system-add" style="display: none;">
         <div class="card-header">
           <h4><strong>Add System User</strong></h4>

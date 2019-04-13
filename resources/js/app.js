@@ -30,6 +30,8 @@ Vue.component('student-level-crud', require('./components/studentLevel/StudentLe
 Vue.component('level-form', require('./components/studentLevel/AddStudentLevel.vue').default);
 Vue.component('classroom-crud', require('./components/classroom/ClassroomCrud.vue').default);
 Vue.component('classroom-form', require('./components/classroom/AddClassroom.vue').default);
+Vue.component('class-rate-crud', require('./components/classRate/ClassRateCrud.vue').default);
+Vue.component('class-rate-form', require('./components/classRate/AddClassRate.vue').default);
 
 export const EventBus = new Vue();
 

@@ -156,26 +156,37 @@
 		function SubjectAdd() {
 			$('#subject-add').css('display','block');
 			$('#classroom-add').css('display','none');
-			$('#levels-add').css('display','none');
+			$('#level-add').css('display','none');
 			$('#system-add').css('display','none');
+			$('#class-rate-add').css('display','none');
 		}
 		function ClassroomAdd() {
 			$('#subject-add').css('display','none');
 			$('#classroom-add').css('display','block');
-			$('#levels-add').css('display','none');
+			$('#level-add').css('display','none');
 			$('#system-add').css('display','none');
+			$('#class-rate-add').css('display','none');
 		}
 		function LevelsAdd() {
 			$('#subject-add').css('display','none');
 			$('#classroom-add').css('display','none');
-			$('#levels-add').css('display','block');
+			$('#level-add').css('display','block');
 			$('#system-add').css('display','none');
+			$('#class-rate-add').css('display','none');
 		}
 		function SystemAdd() {
 			$('#subject-add').css('display','none');
 			$('#classroom-add').css('display','none');
-			$('#levels-add').css('display','none');
+			$('#level-add').css('display','none');
 			$('#system-add').css('display','block');
+			$('#class-rate-add').css('display','none');
+		}
+		function ClassRateAdd() {
+			$('#subject-add').css('display','none');
+			$('#classroom-add').css('display','none');
+			$('#level-add').css('display','none');
+			$('#system-add').css('display','none');
+			$('#class-rate-add').css('display','block');
 		}
 	</script>
     <!-- end template assets -->

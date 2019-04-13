@@ -13,7 +13,7 @@
           <td>{{ classroom.name }}</td>
           <td>
             <div class="btn-group">
-              <select
+              <select class="btn btn-primary btn-sm dropdown-toggle"
                 name="status"
                 v-model="classroom.status"
                 @change="updateStatus($event, classroom.slug, classroom.name)"
