@@ -13,7 +13,8 @@
           <td>{{ classroom.name }}</td>
           <td>
             <div class="btn-group">
-              <select class="btn btn-primary btn-sm dropdown-toggle"
+              <select
+                class="btn btn-primary btn-sm dropdown-toggle"
                 name="status"
                 v-model="classroom.status"
                 @change="updateStatus($event, classroom.slug, classroom.name)"
@@ -92,13 +93,9 @@ export default {
     "clasroom-modal": Modal
   },
   methods: {
-    updateStatus(e, slug, classroomName) {
-      const newStatus = e.target.value;
-      const payload = {
-        name: classroomName,
-        slug: slug,
-        status: newStatus
-      };
+    updateStatus(e, slug, name) {
+      const status = e.target.value;
+      const payload = { name, slug, status };
       Model.update("classroom/", payload, (err, result) => {
         if (!err) {
           swal("Success!", "Successfull updated Classroom", "success");
@@ -138,10 +135,10 @@ export default {
       });
     },
     update(e) {
-      const classroomName = e.target.name.value;
+      const name = e.target.name.value;
       const slug = e.target.slug.value;
       const status = e.target.status.value;
-      const payload = { name: classroomName, slug: slug, status: status };
+      const payload = { name, slug, status };
 
       Model.update("classroom/", payload, (err, update) => {
         if (!err) {

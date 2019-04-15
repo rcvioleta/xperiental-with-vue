@@ -30,6 +30,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   Route::resource('/classroom', 'ClassroomController');
 
+  Route::resource('/class-rate', 'ClassRateController');
+
   /* routes that are responsible for routing */
   Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/configurations', 'HomeController@configurations')->name('configurations');

@@ -6,7 +6,7 @@ class Model {
     constructor(name, status) {
         this.name = name;
         this.slug = name;
-        this.status = status
+        this.status = status;
     }
 
     save(url, callback) {

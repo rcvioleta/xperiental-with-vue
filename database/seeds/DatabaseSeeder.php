@@ -5,6 +5,7 @@ use App\User;
 use App\Subject;
 use App\StudentLevel;
 use App\Classroom;
+use App\ClassRate;
 
 class DatabaseSeeder extends Seeder
 {
@@ -41,6 +42,16 @@ class DatabaseSeeder extends Seeder
       Classroom::create([
         'name' => $classroom,
         'slug' => str_slug($classroom),
+        'status' => 1
+      ]);
+    }
+
+    $classRates = ['regular' => 400, 'special' => 800];
+    foreach ($classRates as $classRateKey => $classRateVal) {
+      ClassRate::create([
+        'name' => $classRateKey,
+        'slug' => str_slug(strval($classRateKey)),
+        'rate' => $classRateVal,
         'status' => 1
       ]);
     }

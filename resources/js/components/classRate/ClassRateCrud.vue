@@ -10,56 +10,165 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Regular</td>
-          <td>400</td>
+        <tr v-for="classRate in classRates.data" :key="classRate.slug">
+          <td>{{ classRate.name.charAt(0).toUpperCase() + classRate.name.slice(1) }}</td>
+          <td>{{ classRate.rate }}</td>
           <td>
             <div class="btn-group">
-              <select class="btn btn-primary btn-sm dropdown-toggle">
-                <option>Active</option>
-                <option>Inactive</option>
+              <select
+                class="btn btn-primary btn-sm dropdown-toggle"
+                v-model="classRate.status"
+                @change="updateStatus($event, classRate.slug, classRate.name, classRate.rate)"
+              >
+                <option
+                  :value="classRate.status ? 1 : 0"
+                >{{ classRate.status ? 'Active' : 'Inactive' }}</option>
+                <option
+                  :value="classRate.status ? 0 : 1"
+                >{{ classRate.status ? 'Inactive' : 'Active' }}</option>
               </select>
             </div>
           </td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <button type="button" class="btn btn-danger">Remove</button>
-              <button type="button" class="btn btn-warning">Edit</button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="deleteClassRate(classRate.slug)"
+              >Remove</button>
+              <button
+                type="button"
+                class="btn btn-warning"
+                @click="editClassroom(classRate.slug)"
+              >Edit</button>
             </div>
           </td>
         </tr>
-        <tr>
-          <td>Special</td>
-          <td>800</td>
-          <td>
-            <div class="btn-group">
-              <select class="btn btn-primary btn-sm dropdown-toggle">
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-            </div>
-          </td>
-          <td>
-            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <button type="button" class="btn btn-danger">Remove</button>
-              <button type="button" class="btn btn-warning">Edit</button>
-            </div>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-  
-</div>
+      </tbody>
+    </table>
+    <classrate-modal
+      :active="isActive"
+      :name="selectedClassRate.name"
+      :rate="selectedClassRate.rate"
+      :status="selectedClassRate.status"
+      :slug="selectedClassRate.slug"
+      :updateFunc="update"
+    ></classrate-modal>
+  </div>
 </template>
 
 <script>
-  import { EventBus } from "../../app.js";
-  import Model from "../../helpers/Model.js";
-  import Modal from "../ui/modal/Modal.vue";
+import { EventBus } from "../../app.js";
+import ClassRate from "../../helpers/ClassRate.js";
+import Modal from "../ui/modal/Modal.vue";
 
-  export default {
+export default {
+  data() {
+    return {
+      classRates: "",
+      selectedClassRate: "",
+      classRateIndex: "",
+      editingMode: false
+    };
+  },
+  components: {
+    "classrate-modal": Modal
+  },
+  created() {
+    ClassRate.fetchAll("class-rate", (err, data) => {
+      console.log(
+        "%c Fetched Data:",
+        "font-family: Monaco; color: yellow; font-weight: bold;"
+      );
+      console.log(data);
+      this.classRates = data;
+    });
 
-  };
+    EventBus.$on("newClassRateAdded", newClassRate => {
+      this.classRates.data.push(newClassRate);
+      swal("Congrats!", "New class rate added", "success");
+    });
+  },
+  methods: {
+    updateStatus(e, slug, name, rate) {
+      const status = e.target.value;
+      const payload = { name, slug, status, rate };
+      ClassRate.update("class-rate/", payload, (err, result) => {
+        if (!err) {
+          swal("Success!", "Successfull updated Class Rate", "success");
+          console.log("[updateStatus] result", result);
+        } else {
+          swal("Something went wrong", "Unable to update Class Rate", "error");
+          console.log("[UPDATE ERROR]", err.response);
+        }
+      });
+    },
+    deleteClassRate(slug) {
+      swal({
+        title: "Continue removing class rate?",
+        text: "There's no going back!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          ClassRate.delete("class-rate/", slug, (err, removedSlug) => {
+            if (!err) {
+              this.classRates.data = this.classRates.data.filter(
+                rate => rate.slug !== removedSlug
+              );
+              swal("Class Rate was removed!", { icon: "success" });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal(
+                "Something went wrong",
+                `Unable to delete Class Rate. \n ${err.message}`,
+                "error"
+              );
+              console.log("[DELETE ERROR]", err.response);
+            }
+          });
+        } else swal("Class Rate was kept");
+      });
+    },
+    editClassroom(slug) {
+      console.log("EDIT CLASS RATE", slug);
+      this.classRateIndex = this.classRates.data.findIndex(
+        rate => rate.slug === slug
+      );
+
+      this.selectedClassRate = this.classRates.data[this.classRateIndex];
+      this.editingMode = true;
+    },
+    update(e) {
+      const target = e.target;
+      const name = target.name.value;
+      const slug = target.slug.value;
+      const status = target.status.value;
+      const rate = target.rate.value;
+      const payload = { name, slug, status, rate };
+
+      ClassRate.update("class-rate/", payload, (err, update) => {
+        if (!err) {
+          this.classRates.data[this.classRateIndex] = update;
+          this.editingMode = false;
+          console.log("[update] result", update);
+          swal("Success!", "Successfully updated Class Rate", "success");
+        } else {
+          swal("Something went wrong", "Unable to update Class Rate", "error");
+          console.log("[update] error", err.response);
+        }
+      });
+    }
+  },
+  computed: {
+    isActive() {
+      return {
+        "in-use": this.editingMode
+      };
+    }
+  }
+};
 </script>
 <style>
 </style>

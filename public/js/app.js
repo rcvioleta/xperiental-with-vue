@@ -1764,7 +1764,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
-/* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
+/* harmony import */ var _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/ClassRate.js */ "./resources/js/helpers/ClassRate.js");
 //
 //
 //
@@ -1833,7 +1833,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     saveClassRate: function saveClassRate(e) {
-      alert("Yoh");
+      var target = e.target;
+      var name = target.name.value;
+      var rate = target.rate.value;
+      var status = target.status.value;
+      var newClassRate = new _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"](name, status, rate);
+      newClassRate.save("class-rate", function (err, result) {
+        if (!err) {
+          console.log("[SAVE CLASS RATE RESULT]", result);
+          _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("newClassRateAdded", result);
+        } else {
+          console.log("[SAVE CLASS RATE ERROR]", err.message);
+          swal("Something went wrong", "Cannot add new class rate", "error");
+        }
+      });
     }
   }
 });
@@ -1850,7 +1863,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
-/* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
+/* harmony import */ var _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/ClassRate.js */ "./resources/js/helpers/ClassRate.js");
 /* harmony import */ var _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/modal/Modal.vue */ "./resources/js/components/ui/modal/Modal.vue");
 //
 //
@@ -1906,10 +1919,130 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      classRates: "",
+      selectedClassRate: "",
+      classRateIndex: "",
+      editingMode: false
+    };
+  },
+  components: {
+    "classrate-modal": _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  created: function created() {
+    var _this = this;
+
+    _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll("class-rate", function (err, data) {
+      console.log("%c Fetched Data:", "font-family: Monaco; color: yellow; font-weight: bold;");
+      console.log(data);
+      _this.classRates = data;
+    });
+    _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("newClassRateAdded", function (newClassRate) {
+      _this.classRates.data.push(newClassRate);
+
+      swal("Congrats!", "New class rate added", "success");
+    });
+  },
+  methods: {
+    updateStatus: function updateStatus(e, slug, name, rate) {
+      var status = e.target.value;
+      var payload = {
+        name: name,
+        slug: slug,
+        status: status,
+        rate: rate
+      };
+      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("class-rate/", payload, function (err, result) {
+        if (!err) {
+          swal("Success!", "Successfull updated Class Rate", "success");
+          console.log("[updateStatus] result", result);
+        } else {
+          swal("Something went wrong", "Unable to update Class Rate", "error");
+          console.log("[UPDATE ERROR]", err.response);
+        }
+      });
+    },
+    deleteClassRate: function deleteClassRate(slug) {
+      var _this2 = this;
+
+      swal({
+        title: "Continue removing class rate?",
+        text: "There's no going back!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(function (willDelete) {
+        if (willDelete) {
+          _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("class-rate/", slug, function (err, removedSlug) {
+            if (!err) {
+              _this2.classRates.data = _this2.classRates.data.filter(function (rate) {
+                return rate.slug !== removedSlug;
+              });
+              swal("Class Rate was removed!", {
+                icon: "success"
+              });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal("Something went wrong", "Unable to delete Class Rate. \n ".concat(err.message), "error");
+              console.log("[DELETE ERROR]", err.response);
+            }
+          });
+        } else swal("Class Rate was kept");
+      });
+    },
+    editClassroom: function editClassroom(slug) {
+      console.log("EDIT CLASS RATE", slug);
+      this.classRateIndex = this.classRates.data.findIndex(function (rate) {
+        return rate.slug === slug;
+      });
+      this.selectedClassRate = this.classRates.data[this.classRateIndex];
+      this.editingMode = true;
+    },
+    update: function update(e) {
+      var _this3 = this;
+
+      var target = e.target;
+      var name = target.name.value;
+      var slug = target.slug.value;
+      var status = target.status.value;
+      var rate = target.rate.value;
+      var payload = {
+        name: name,
+        slug: slug,
+        status: status,
+        rate: rate
+      };
+      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("class-rate/", payload, function (err, update) {
+        if (!err) {
+          _this3.classRates.data[_this3.classRateIndex] = update;
+          _this3.editingMode = false;
+          console.log("[update] result", update);
+          swal("Success!", "Successfully updated Class Rate", "success");
+        } else {
+          swal("Something went wrong", "Unable to update Class Rate", "error");
+          console.log("[update] error", err.response);
+        }
+      });
+    }
+  },
+  computed: {
+    isActive: function isActive() {
+      return {
+        "in-use": this.editingMode
+      };
+    }
+  }
+});
 
 /***/ }),
 
@@ -2067,6 +2200,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2100,12 +2234,12 @@ __webpack_require__.r(__webpack_exports__);
     "clasroom-modal": _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
-    updateStatus: function updateStatus(e, slug, classroomName) {
-      var newStatus = e.target.value;
+    updateStatus: function updateStatus(e, slug, name) {
+      var status = e.target.value;
       var payload = {
-        name: classroomName,
+        name: name,
         slug: slug,
-        status: newStatus
+        status: status
       };
       _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].update("classroom/", payload, function (err, result) {
         if (!err) {
@@ -2148,11 +2282,11 @@ __webpack_require__.r(__webpack_exports__);
     update: function update(e) {
       var _this3 = this;
 
-      var classroomName = e.target.name.value;
+      var name = e.target.name.value;
       var slug = e.target.slug.value;
       var status = e.target.status.value;
       var payload = {
-        name: classroomName,
+        name: name,
         slug: slug,
         status: status
       };
@@ -3333,8 +3467,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["slug", "name", "status", "updateFunc", "active"]
+  props: ["slug", "name", "status", "updateFunc", "active", "rate"]
 });
 
 /***/ }),
@@ -39176,14 +39314,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "class-rate" } }, [
+  return _c(
+    "div",
+    { attrs: { id: "class-rate" } },
+    [
       _c(
         "table",
         {
@@ -39191,119 +39325,169 @@ var staticRenderFns = [
           attrs: { id: "datatable-1" }
         },
         [
-          _c("thead", [
-            _c("tr", [
-              _c("th", [_vm._v("Name")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Rate")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Status")]),
-              _vm._v(" "),
-              _c("th", [_vm._v("Action")])
-            ])
-          ]),
+          _vm._m(0),
           _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c("td", [_vm._v("Regular")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("400")]),
-              _vm._v(" "),
-              _c("td", [
-                _c("div", { staticClass: "btn-group" }, [
+          _c(
+            "tbody",
+            _vm._l(_vm.classRates.data, function(classRate) {
+              return _c("tr", { key: classRate.slug }, [
+                _c("td", [
+                  _vm._v(
+                    _vm._s(
+                      classRate.name.charAt(0).toUpperCase() +
+                        classRate.name.slice(1)
+                    )
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(classRate.rate))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c("div", { staticClass: "btn-group" }, [
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: classRate.status,
+                            expression: "classRate.status"
+                          }
+                        ],
+                        staticClass: "btn btn-primary btn-sm dropdown-toggle",
+                        on: {
+                          change: [
+                            function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                classRate,
+                                "status",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            },
+                            function($event) {
+                              return _vm.updateStatus(
+                                $event,
+                                classRate.slug,
+                                classRate.name,
+                                classRate.rate
+                              )
+                            }
+                          ]
+                        }
+                      },
+                      [
+                        _c(
+                          "option",
+                          { domProps: { value: classRate.status ? 1 : 0 } },
+                          [
+                            _vm._v(
+                              _vm._s(classRate.status ? "Active" : "Inactive")
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "option",
+                          { domProps: { value: classRate.status ? 0 : 1 } },
+                          [
+                            _vm._v(
+                              _vm._s(classRate.status ? "Inactive" : "Active")
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("td", [
                   _c(
-                    "select",
-                    { staticClass: "btn btn-primary btn-sm dropdown-toggle" },
+                    "div",
+                    {
+                      staticClass: "btn-group btn-group-sm",
+                      attrs: {
+                        role: "group",
+                        "aria-label": "Small button group"
+                      }
+                    },
                     [
-                      _c("option", [_vm._v("Active")]),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteClassRate(classRate.slug)
+                            }
+                          }
+                        },
+                        [_vm._v("Remove")]
+                      ),
                       _vm._v(" "),
-                      _c("option", [_vm._v("Inactive")])
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.editClassroom(classRate.slug)
+                            }
+                          }
+                        },
+                        [_vm._v("Edit")]
+                      )
                     ]
                   )
                 ])
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn-group btn-group-sm",
-                    attrs: { role: "group", "aria-label": "Small button group" }
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "button" }
-                      },
-                      [_vm._v("Remove")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning",
-                        attrs: { type: "button" }
-                      },
-                      [_vm._v("Edit")]
-                    )
-                  ]
-                )
               ])
-            ]),
-            _vm._v(" "),
-            _c("tr", [
-              _c("td", [_vm._v("Special")]),
-              _vm._v(" "),
-              _c("td", [_vm._v("800")]),
-              _vm._v(" "),
-              _c("td", [
-                _c("div", { staticClass: "btn-group" }, [
-                  _c(
-                    "select",
-                    { staticClass: "btn btn-primary btn-sm dropdown-toggle" },
-                    [
-                      _c("option", [_vm._v("Active")]),
-                      _vm._v(" "),
-                      _c("option", [_vm._v("Inactive")])
-                    ]
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "btn-group btn-group-sm",
-                    attrs: { role: "group", "aria-label": "Small button group" }
-                  },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-danger",
-                        attrs: { type: "button" }
-                      },
-                      [_vm._v("Remove")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-warning",
-                        attrs: { type: "button" }
-                      },
-                      [_vm._v("Edit")]
-                    )
-                  ]
-                )
-              ])
-            ])
-          ])
+            }),
+            0
+          )
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("classrate-modal", {
+        attrs: {
+          active: _vm.isActive,
+          name: _vm.selectedClassRate.name,
+          rate: _vm.selectedClassRate.rate,
+          status: _vm.selectedClassRate.status,
+          slug: _vm.selectedClassRate.slug,
+          updateFunc: _vm.update
+        }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Rate")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Action")])
+      ])
     ])
   }
 ]
@@ -40822,7 +41006,9 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "main-modal", class: _vm.active }, [
       _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Edit")]),
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("Edit: " + _vm._s(_vm.name))
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c(
@@ -40842,9 +41028,7 @@ var render = function() {
                   domProps: { value: _vm.slug }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "subject" } }, [
-                  _vm._v("Student Level Name")
-                ]),
+                _c("label", { attrs: { for: "subject" } }, [_vm._v("Name")]),
                 _vm._v(" "),
                 _c("input", {
                   staticClass: "form-control",
@@ -40852,6 +41036,18 @@ var render = function() {
                   domProps: { value: _vm.name }
                 })
               ]),
+              _vm._v(" "),
+              _vm.rate
+                ? _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "rate" } }, [_vm._v("Rate")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      staticClass: "form-control",
+                      attrs: { type: "number", id: "rate", name: "rate" },
+                      domProps: { value: _vm.rate }
+                    })
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "status" } }, [_vm._v("Status")]),
@@ -40877,7 +41073,7 @@ var render = function() {
               _c(
                 "button",
                 { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Update Level")]
+                [_vm._v("Update")]
               )
             ]
           )
@@ -54060,6 +54256,78 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers/ClassRate.js":
+/*!*******************************************!*\
+  !*** ./resources/js/helpers/ClassRate.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Model.js */ "./resources/js/helpers/Model.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var ClassRate =
+/*#__PURE__*/
+function (_Model) {
+  _inherits(ClassRate, _Model);
+
+  function ClassRate(name, status, rate) {
+    var _this;
+
+    _classCallCheck(this, ClassRate);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ClassRate).call(this, name, status));
+    _this.rate = rate;
+    return _this;
+  }
+
+  _createClass(ClassRate, null, [{
+    key: "update",
+    value: function update(url, _ref, callback) {
+      var name = _ref.name,
+          slug = _ref.slug,
+          rate = _ref.rate,
+          status = _ref.status;
+      axios.put(url + slug, {
+        name: name,
+        slug: name,
+        rate: rate,
+        status: status
+      }).then(function (result) {
+        return callback(null, result.data.update);
+      }).catch(function (err) {
+        return callback(err, null);
+      });
+    }
+  }]);
+
+  return ClassRate;
+}(_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (ClassRate);
+
+/***/ }),
+
 /***/ "./resources/js/helpers/Model.js":
 /*!***************************************!*\
   !*** ./resources/js/helpers/Model.js ***!
@@ -54251,8 +54519,8 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

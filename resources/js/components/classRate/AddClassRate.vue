@@ -61,7 +61,7 @@
 <script>
 import { EventBus } from "../../app.js";
 
-import Model from "../../helpers/Model.js";
+import ClassRate from "../../helpers/ClassRate.js";
 
 export default {
   data() {
@@ -69,7 +69,20 @@ export default {
   },
   methods: {
     saveClassRate(e) {
-      alert("Yoh");
+      const target = e.target;
+      const name = target.name.value;
+      const rate = target.rate.value;
+      const status = target.status.value;
+      const newClassRate = new ClassRate(name, status, rate);
+      newClassRate.save("class-rate", (err, result) => {
+        if (!err) {
+          console.log("[SAVE CLASS RATE RESULT]", result);
+          EventBus.$emit("newClassRateAdded", result);
+        } else {
+          console.log("[SAVE CLASS RATE ERROR]", err.message);
+          swal("Something went wrong", "Cannot add new class rate", "error");
+        }
+      });
     }
   }
 };
