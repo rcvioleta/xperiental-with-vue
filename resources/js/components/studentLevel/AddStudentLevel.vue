@@ -1,5 +1,5 @@
 <template>
-  <div class="card" id="level-add">
+  <div class="card" id="level-add" style="display: none;">
     <div class="card-header">
       <h4>
         <strong>Add Grade Level</strong>

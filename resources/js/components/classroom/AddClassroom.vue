@@ -1,5 +1,5 @@
 <template>
-  <div class="card" id="classroom-add">
+  <div class="card" id="classroom-add" style="display: none;">
     <div class="card-header">
       <h4>
         <strong>Add Classroom</strong>

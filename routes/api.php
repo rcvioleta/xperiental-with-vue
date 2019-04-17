@@ -17,11 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
 });
 
-Route::resource('/student', 'StudentInformationController');
-
-Route::resource('/emergency-contact', 'EmergencyContactController');
-
-Route::resource('/education-background', 'EducationBackgroundController');
-
-Route::resource('/student-level', 'StudentLevelController');
-
+Route::resource('/user', 'UserController');

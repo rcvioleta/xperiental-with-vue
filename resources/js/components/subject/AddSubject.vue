@@ -1,5 +1,5 @@
 <template>
-  <div class="card" id="subject-add">
+  <div class="card" id="subject-add" style="display: block;">
     <div class="card-header">
       <h4>
         <strong>Add Subject</strong>

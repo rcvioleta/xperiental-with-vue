@@ -62,58 +62,7 @@
               <div class="row">
                 <div class="p-0 col-lg-12 pb-5">
                   <div class="table-responsive">
-                    <table id="datatable-1" class="table table-datatable table-striped table-hover">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>John Doe</td>
-                          <td>admin@example.com</td>
-                          <td>
-                            <div class="btn-group">
-                              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Active
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Inactive</a>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                              <button type="button" class="btn btn-danger">Remove</button>
-                              <button type="button" class="btn btn-warning">Edit</button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Jomar Enrico</td>
-                          <td>jomxenri2@gmail.com</td>
-                          <td>
-                            <div class="btn-group">
-                              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Active
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Inactive</a>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                              <button type="button" class="btn btn-danger">Remove</button>
-                              <button type="button" class="btn btn-warning">Edit</button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <user-crud></user-crud>
                   </div>
                 </div>
               </div>
@@ -137,48 +86,7 @@
       <classroom-form></classroom-form>
       <level-form></level-form>
       <class-rate-form></class-rate-form>
-      <div class="card" id="system-add" style="display: none;">
-        <div class="card-header">
-          <h4><strong>Add System User</strong></h4>
-        </div>
-        <div class="card-body">
-          <form class="needs-validation" novalidate>
-            <div class="form-row">
-              <div class="col-md-12 mb-3">
-                <label for="validationCustom01">Profile Name</label>
-                <input type="text" class="form-control" id="validationCustom01" placeholder="Name" required>
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
-              </div>
-              <div class="col-md-12 mb-3">
-                <label for="validationCustom01">Email</label>
-                <input type="text" class="form-control" id="validationCustom01" placeholder="Email" value="" required>
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="validationCustom02">Status</label>
-                <div class="form-group">
-                  <select class="form-control">
-                    <option>Active</option>
-                    <option>Inactive</option>
-                  </select>
-                </div>
-                <div class="valid-feedback">
-                  Looks good!
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <button class="btn btn-primary pull-right" type="submit">Save User <i class="ml-2 batch-icon batch-icon-stiffy"></i></button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+      <user-form></user-form>
     </div>
   </div>
   <div class="row mb-5">

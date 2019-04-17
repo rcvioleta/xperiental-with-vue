@@ -1,5 +1,5 @@
 <template>
-  <div class="card" id="classs-rate-add">
+  <div class="card" id="class-rate-add" style="display: none;">
     <div class="card-header">
       <h4>
         <strong>Add Class Rate</strong>

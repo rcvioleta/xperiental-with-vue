@@ -32,6 +32,8 @@ Vue.component('classroom-crud', require('./components/classroom/ClassroomCrud.vu
 Vue.component('classroom-form', require('./components/classroom/AddClassroom.vue').default);
 Vue.component('class-rate-crud', require('./components/classRate/ClassRateCrud.vue').default);
 Vue.component('class-rate-form', require('./components/classRate/AddClassRate.vue').default);
+Vue.component('user-crud', require('./components/user/UserCrud.vue').default);
+Vue.component('user-form', require('./components/user/AddUser.vue').default);
 
 export const EventBus = new Vue();
 
