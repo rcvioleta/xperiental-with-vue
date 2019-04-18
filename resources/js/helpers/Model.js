@@ -16,6 +16,12 @@ class Model {
             .catch(err => callback(err, null));
     }
 
+    static updateStatus(url, callback) {
+        axios.get(url)
+            .then(update => callback(null, update.data))
+            .catch(err => callback(err, null));
+    }
+
     static update(url, {
         name,
         slug,

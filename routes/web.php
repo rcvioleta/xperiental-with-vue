@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::resource('/subject', 'SubjectController');
+  Route::get('/subject/active/{slug}', 'SubjectController@active');
+  Route::get('/subject/inactive/{slug}', 'SubjectController@inactive');
 
   Route::resource('/student', 'StudentInformationController');
 
@@ -33,6 +35,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::resource('/class-rate', 'ClassRateController');
 
   Route::resource('/user', 'UserController');
+  Route::get('/user/active/{slug}', 'UserController@active');
+  Route::get('/user/inactive/{slug}', 'UserController@inactive');
 
   /* routes that are responsible for routing */
   Route::get('/home', 'HomeController@index')->name('home');

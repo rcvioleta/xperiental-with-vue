@@ -18,3 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('/user', 'UserController');
+
+Route::get('/user/active/{slug}', 'UserController@active');
+
+Route::get('/user/inactive/{slug}', 'UserController@inactive');

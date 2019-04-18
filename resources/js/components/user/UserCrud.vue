@@ -19,6 +19,7 @@
                 class="btn btn-primary btn-sm dropdown-toggle"
                 name="status"
                 v-model="user.status"
+                @change="updateUserStatus($event, user.slug)"
               >
                 <option :value="user.status ? 1 : 0">{{ user.status ? 'Active' : 'Inactive' }}</option>
                 <option :value="user.status ? 0 : 1">{{ user.status ? 'Inactive' : 'Active' }}</option>
@@ -38,6 +39,8 @@
 </template>
 
 <script>
+import { EventBus } from "../../app.js";
+
 import User from "../../helpers/User.js";
 
 export default {
@@ -59,6 +62,34 @@ export default {
         );
       }
     });
+
+    EventBus.$on("newUserAdded", newUser => {
+      this.users.data.push(newUser);
+      swal("Congrats!", "New user added", "success");
+    });
+  },
+  methods: {
+    updateUserStatus(e, slug) {
+      const status = Number(e.target.value);
+      let uri = "";
+
+      if (status === 1) uri = `user/active/${slug}`;
+      else uri = `user/inactive/${slug}`;
+
+      User.updateStatus(uri, (err, result) => {
+        if (!err) {
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
+        } else {
+          console.log("error updating status", err.response.data);
+          swal(
+            "Sorry... Something went wrong :(",
+            "Unable to update user status",
+            "error"
+          );
+        }
+      });
+    }
   }
 };
 </script>

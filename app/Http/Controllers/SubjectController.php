@@ -50,6 +50,22 @@ class SubjectController extends Controller
         return new SubjectResource($subject);
     }
 
+    public function active($slug)
+    {
+        $subject = Subject::where('slug', '=', $slug)->first();
+        $subject->status = 1;
+        $subject->save();
+        return response('Updated status to active', 200);
+    }
+
+    public function inactive($slug)
+    {
+        $subject = Subject::where('slug', '=', $slug)->first();
+        $subject->status = 0;
+        $subject->save();
+        return response('Updated status to inactive', 200);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

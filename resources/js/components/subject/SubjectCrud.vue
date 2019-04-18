@@ -13,10 +13,11 @@
           <td>{{ subject.name }}</td>
           <td>
             <div class="btn-group">
-              <select class="btn btn-primary btn-sm dropdown-toggle" 
+              <select
+                class="btn btn-primary btn-sm dropdown-toggle"
                 name="status"
                 v-model="subject.status"
-                @change="updateStatus($event, subject.slug, subject.name)"
+                @change="updateStatus($event, subject.slug)"
               >
                 <option :value="subject.status ? 1 : 0">{{ subject.status ? 'Active' : 'Inactive' }}</option>
                 <option :value="subject.status ? 0 : 1">{{ subject.status ? 'Inactive' : 'Active' }}</option>
@@ -48,8 +49,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 import Model from "../../helpers/Model.js";
 import { EventBus } from "../../app.js";
 
@@ -76,20 +75,24 @@ export default {
     });
   },
   methods: {
-    updateStatus(e, slug, subject) {
-      const newStatus = e.target.value;
-      const payload = {
-        name: subject,
-        slug: slug,
-        status: newStatus
-      };
-      Model.update("subject/", payload, (err, result) => {
+    updateStatus(e, slug) {
+      const status = Number(e.target.value);
+      let uri = "";
+
+      if (status === 1) uri = `subject/active/${slug}`;
+      else uri = `subject/inactive/${slug}`;
+
+      Model.updateStatus(uri, (err, result) => {
         if (!err) {
-          swal("Success!", "Successfull updated subject", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
         } else {
-          swal("Something went wrong", "Unable to update subject", "error");
-          console.log("[UPDATE ERROR]", err.message);
+          console.log("error updating status", err.response.data);
+          swal(
+            "Sorry... Something went wrong :(",
+            "Unable to update subject status",
+            "error"
+          );
         }
       });
     },

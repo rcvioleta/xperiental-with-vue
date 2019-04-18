@@ -36,7 +36,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required | email | unique:users',
+            'password' => 'required | min: 8 | confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        User::create($request->all());
+        return response('New User created successfully', 200);
     }
 
     /**
@@ -48,6 +56,22 @@ class UserController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function active($slug)
+    {
+        $user = User::where('slug', '=', $slug)->first();
+        $user->status = 1;
+        $user->save();
+        return response('Updated status to active', 200);
+    }
+
+    public function inactive($slug)
+    {
+        $user = User::where('slug', '=', $slug)->first();
+        $user->status = 0;
+        $user->save();
+        return response('Updated status to inactive', 200);
     }
 
     /**
