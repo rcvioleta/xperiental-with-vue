@@ -17,7 +17,7 @@
                 class="btn btn-primary btn-sm dropdown-toggle"
                 name="status"
                 v-model="classroom.status"
-                @change="updateStatus($event, classroom.slug, classroom.name)"
+                @change="updateStatus($event, classroom.slug)"
               >
                 <option
                   :value="classroom.status ? 1 : 0"
@@ -93,16 +93,24 @@ export default {
     "clasroom-modal": Modal
   },
   methods: {
-    updateStatus(e, slug, name) {
-      const status = e.target.value;
-      const payload = { name, slug, status };
-      Model.update("classroom/", payload, (err, result) => {
+    updateStatus(e, slug) {
+      const status = Number(e.target.value);
+      let uri = "";
+
+      if (status === 1) uri = `classroom/active/${slug}`;
+      else uri = `classroom/inactive/${slug}`;
+
+      Model.updateStatus(uri, (err, result) => {
         if (!err) {
-          swal("Success!", "Successfull updated Classroom", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
         } else {
-          swal("Something went wrong", "Unable to update Classroom", "error");
-          console.log("[UPDATE ERROR]", err.response);
+          console.log("error updating status", err.response.data);
+          swal(
+            "Sorry... Something went wrong :(",
+            "Unable to update clasroom status",
+            "error"
+          );
         }
       });
     },

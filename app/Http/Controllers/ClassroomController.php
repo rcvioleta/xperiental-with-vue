@@ -51,6 +51,22 @@ class ClassroomController extends Controller
     //
   }
 
+  public function active($slug)
+  {
+    $classroom = Classroom::where('slug', '=', $slug)->first();
+    $classroom->status = 1;
+    $classroom->save();
+    return response('Updated status to active', 200);
+  }
+
+  public function inactive($slug)
+  {
+    $classroom = Classroom::where('slug', '=', $slug)->first();
+    $classroom->status = 0;
+    $classroom->save();
+    return response('Updated status to inactive', 200);
+  }
+
   /**
    * Show the form for editing the specified resource.
    *

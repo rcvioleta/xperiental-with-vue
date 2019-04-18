@@ -52,6 +52,22 @@ class StudentLevelController extends Controller
     //
   }
 
+  public function active($slug)
+  {
+    $studentLevel = StudentLevel::where('slug', '=', $slug)->first();
+    $studentLevel->status = 1;
+    $studentLevel->save();
+    return response('Updated status to active', 200);
+  }
+
+  public function inactive($slug)
+  {
+    $studentLevel = StudentLevel::where('slug', '=', $slug)->first();
+    $studentLevel->status = 0;
+    $studentLevel->save();
+    return response('Updated status to inactive', 200);
+  }
+
   /**
    * Show the form for editing the specified resource.
    *

@@ -18,7 +18,7 @@
               <select
                 class="btn btn-primary btn-sm dropdown-toggle"
                 v-model="classRate.status"
-                @change="updateStatus($event, classRate.slug, classRate.name, classRate.rate)"
+                @change="updateStatus($event, classRate.slug)"
               >
                 <option
                   :value="classRate.status ? 1 : 0"
@@ -90,16 +90,24 @@ export default {
     });
   },
   methods: {
-    updateStatus(e, slug, name, rate) {
-      const status = e.target.value;
-      const payload = { name, slug, status, rate };
-      ClassRate.update("class-rate/", payload, (err, result) => {
+    updateStatus(e, slug) {
+      const status = Number(e.target.value);
+      let uri = "";
+
+      if (status === 1) uri = `class-rate/active/${slug}`;
+      else uri = `class-rate/inactive/${slug}`;
+
+      ClassRate.updateStatus(uri, (err, result) => {
         if (!err) {
-          swal("Success!", "Successfull updated Class Rate", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
         } else {
-          swal("Something went wrong", "Unable to update Class Rate", "error");
-          console.log("[UPDATE ERROR]", err.response);
+          console.log("error updating status", err.response.data);
+          swal(
+            "Sorry... Something went wrong :(",
+            "Unable to update class rate status",
+            "error"
+          );
         }
       });
     },

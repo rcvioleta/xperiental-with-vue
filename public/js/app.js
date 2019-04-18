@@ -1954,21 +1954,17 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    updateStatus: function updateStatus(e, slug, name, rate) {
-      var status = e.target.value;
-      var payload = {
-        name: name,
-        slug: slug,
-        status: status,
-        rate: rate
-      };
-      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("class-rate/", payload, function (err, result) {
+    updateStatus: function updateStatus(e, slug) {
+      var status = Number(e.target.value);
+      var uri = "";
+      if (status === 1) uri = "class-rate/active/".concat(slug);else uri = "class-rate/inactive/".concat(slug);
+      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].updateStatus(uri, function (err, result) {
         if (!err) {
-          swal("Success!", "Successfull updated Class Rate", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
         } else {
-          swal("Something went wrong", "Unable to update Class Rate", "error");
-          console.log("[UPDATE ERROR]", err.response);
+          console.log("error updating status", err.response.data);
+          swal("Sorry... Something went wrong :(", "Unable to update class rate status", "error");
         }
       });
     },
@@ -2234,20 +2230,17 @@ __webpack_require__.r(__webpack_exports__);
     "clasroom-modal": _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   methods: {
-    updateStatus: function updateStatus(e, slug, name) {
-      var status = e.target.value;
-      var payload = {
-        name: name,
-        slug: slug,
-        status: status
-      };
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].update("classroom/", payload, function (err, result) {
+    updateStatus: function updateStatus(e, slug) {
+      var status = Number(e.target.value);
+      var uri = "";
+      if (status === 1) uri = "classroom/active/".concat(slug);else uri = "classroom/inactive/".concat(slug);
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].updateStatus(uri, function (err, result) {
         if (!err) {
-          sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Success!", "Successfull updated Classroom", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Congrats!", result, "success");
         } else {
-          sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Something went wrong", "Unable to update Classroom", "error");
-          console.log("[UPDATE ERROR]", err.response);
+          console.log("error updating status", err.response.data);
+          sweetalert__WEBPACK_IMPORTED_MODULE_0___default()("Sorry... Something went wrong :(", "Unable to update clasroom status", "error");
         }
       });
     },
@@ -3036,6 +3029,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -3069,20 +3063,17 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    updateStatus: function updateStatus(e, slug, levelName) {
-      var newStatus = e.target.value;
-      var payload = {
-        name: levelName,
-        slug: slug,
-        status: newStatus
-      };
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("student-level/", payload, function (err, result) {
+    updateStatus: function updateStatus(e, slug) {
+      var status = Number(e.target.value);
+      var uri = "";
+      if (status === 1) uri = "student-level/active/".concat(slug);else uri = "student-level/inactive/".concat(slug);
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].updateStatus(uri, function (err, result) {
         if (!err) {
-          swal("Success!", "Successfull updated Student Level", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
         } else {
-          swal("Something went wrong", "Unable to Student Level", "error");
-          console.log("[UPDATE ERROR]", err.response);
+          console.log("error updating status", err.response.data);
+          swal("Sorry... Something went wrong :(", "Unable to update student level status", "error");
         }
       });
     },
@@ -39616,12 +39607,7 @@ var render = function() {
                               )
                             },
                             function($event) {
-                              return _vm.updateStatus(
-                                $event,
-                                classRate.slug,
-                                classRate.name,
-                                classRate.rate
-                              )
+                              return _vm.updateStatus($event, classRate.slug)
                             }
                           ]
                         }
@@ -39929,11 +39915,7 @@ var render = function() {
                               )
                             },
                             function($event) {
-                              return _vm.updateStatus(
-                                $event,
-                                classroom.slug,
-                                classroom.name
-                              )
+                              return _vm.updateStatus($event, classroom.slug)
                             }
                           ]
                         }
@@ -40820,11 +40802,7 @@ var render = function() {
                               )
                             },
                             function($event) {
-                              return _vm.updateStatus(
-                                $event,
-                                studentLevel.slug,
-                                studentLevel.name
-                              )
+                              return _vm.updateStatus($event, studentLevel.slug)
                             }
                           ]
                         }

@@ -51,6 +51,23 @@ class ClassRateController extends Controller
     //
   }
 
+  public function active($slug)
+  {
+    $classRate = ClassRate::where('slug', '=', $slug)->first();
+    $classRate->status = 1;
+    $classRate->save();
+    return response('Updated status to active', 200);
+  }
+
+  public function inactive($slug)
+  {
+    $classRate = ClassRate::where('slug', '=', $slug)->first();
+    $classRate->status = 0;
+    $classRate->save();
+    return response('Updated status to inactive', 200);
+  }
+
+
   /**
    * Show the form for editing the specified resource.
    *

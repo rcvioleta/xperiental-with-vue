@@ -13,10 +13,11 @@
           <td>{{ studentLevel.name }}</td>
           <td>
             <div class="btn-group">
-              <select class="btn btn-primary btn-sm dropdown-toggle"
+              <select
+                class="btn btn-primary btn-sm dropdown-toggle"
                 name="status"
                 v-model="studentLevel.status"
-                @change="updateStatus($event, studentLevel.slug, studentLevel.name)"
+                @change="updateStatus($event, studentLevel.slug)"
               >
                 <option
                   :value="studentLevel.status ? 1 : 0"
@@ -87,20 +88,24 @@ export default {
     });
   },
   methods: {
-    updateStatus(e, slug, levelName) {
-      const newStatus = e.target.value;
-      const payload = {
-        name: levelName,
-        slug: slug,
-        status: newStatus
-      };
-      Model.update("student-level/", payload, (err, result) => {
+    updateStatus(e, slug) {
+      const status = Number(e.target.value);
+      let uri = "";
+
+      if (status === 1) uri = `student-level/active/${slug}`;
+      else uri = `student-level/inactive/${slug}`;
+
+      Model.updateStatus(uri, (err, result) => {
         if (!err) {
-          swal("Success!", "Successfull updated Student Level", "success");
-          console.log("[updateStatus] result", result);
+          console.log("update status", result);
+          swal("Congrats!", result, "success");
         } else {
-          swal("Something went wrong", "Unable to Student Level", "error");
-          console.log("[UPDATE ERROR]", err.response);
+          console.log("error updating status", err.response.data);
+          swal(
+            "Sorry... Something went wrong :(",
+            "Unable to update student level status",
+            "error"
+          );
         }
       });
     },
