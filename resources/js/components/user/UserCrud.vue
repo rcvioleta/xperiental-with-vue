@@ -41,8 +41,6 @@
       :email="selectedUser.email"
       :status="selectedUser.status"
       :slug="selectedUser.slug"
-      :password="selectedUser.password"
-      :password_confirmation="selectedUser.password_confirmation"
       :updateFunc="update"
     ></user-modal>
   </div>

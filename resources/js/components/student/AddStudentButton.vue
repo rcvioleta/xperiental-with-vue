@@ -29,13 +29,6 @@ export default {
           phone_number: "",
           relationship: "",
           address: ""
-        },
-        educationBackground: {
-          school_name: "",
-          current_level: "",
-          status: "",
-          phone_number: "",
-          address: ""
         }
       },
       emptyFields: []
@@ -51,11 +44,6 @@ export default {
       this.savePayloads(this.formData.emergencyContact, payloads);
       this.emptyFields = [];
     });
-
-    EventBus.$on("educationalBackgroundAdded", payloads => {
-      this.savePayloads(this.formData.educationBackground, payloads);
-      this.emptyFields = [];
-    });
   },
   methods: {
     saveStudentInfo() {
@@ -69,8 +57,7 @@ export default {
       } else {
         const formData = {
           personalInfo: this.formData.personalInfo,
-          emergencyContact: this.formData.emergencyContact,
-          educationBackground: this.formData.educationBackground
+          emergencyContact: this.formData.emergencyContact
         };
         Student.saveStudentInfo(formData, (err, response) => {
           if (!err) {

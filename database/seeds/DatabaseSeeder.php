@@ -6,6 +6,7 @@ use App\Subject;
 use App\StudentLevel;
 use App\Classroom;
 use App\ClassRate;
+use App\EducationBackground;
 
 class DatabaseSeeder extends Seeder
 {
@@ -53,6 +54,19 @@ class DatabaseSeeder extends Seeder
         'slug' => str_slug(strval($classRateKey)),
         'rate' => $classRateVal,
         'status' => 1
+      ]);
+    }
+
+    $edu_background = [
+      ['name' => 'Stella Maris Academy', 'attended' => '2008-2013', 'notes' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'],
+      ['name' => 'University of the Immaculate Conception', 'attended' => '2014-2017', 'notes' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.']
+    ];
+    foreach ($edu_background as $index => $row) {
+      EducationBackground::create([
+        'name' => $row['name'],
+        'slug' => str_slug($row['name']),
+        'year_attended' => $row['attended'],
+        'notes' => $row['notes']
       ]);
     }
   }

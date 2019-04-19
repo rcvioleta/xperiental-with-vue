@@ -77,14 +77,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .main-modal {
   position: fixed;
   top: 50%;
   left: 50%;
   width: 80%;
   transform: translate(-50%, -50%);
-  z-index: 700;
+  z-index: 200;
   display: none;
 }
 
@@ -94,7 +94,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 600;
+  z-index: 100;
   background: rgba(0, 0, 0, 0.7);
   display: none;
 }

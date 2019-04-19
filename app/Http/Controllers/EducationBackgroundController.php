@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EducationBackground;
 use Illuminate\Http\Request;
+use App\Http\Resources\EducationBackgroundResource;
 
 class EducationBackgroundController extends Controller
 {
@@ -14,7 +15,8 @@ class EducationBackgroundController extends Controller
      */
     public function index()
     {
-        //
+        $educationBackground = EducationBackground::all();
+        return EducationBackgroundResource::collection($educationBackground);
     }
 
     /**
@@ -35,10 +37,24 @@ class EducationBackgroundController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required | unique:education_backgrounds',
+            'year_attended' => 'required',
+            'notes' => 'required'
+        ]);
+
         $educationBackground = EducationBackground::create($request->all());
+
+        $update = [
+            'name' => $educationBackground->name,
+            'slug' => $educationBackground->slug,
+            'year_attended' => $educationBackground->year_attended,
+            'notes' => $educationBackground->notes
+        ];
+
         return response()->json([
-            'insertedId' => $educationBackground->id,
-            'message' => 'Successfully saved education background',
+            'update' => $update,
+            'message' => 'Successfully Saved Education Background',
             'status' => 200
         ]);
     }
@@ -74,7 +90,20 @@ class EducationBackgroundController extends Controller
      */
     public function update(Request $request, EducationBackground $educationBackground)
     {
-        //
+        $educationBackground->update($request->all());
+
+        $update = [
+            'name' => $educationBackground->name,
+            'slug' => $educationBackground->slug,
+            'year_attended' => $educationBackground->year_attended,
+            'notes' => $educationBackground->notes
+        ];
+
+        return response()->json([
+            'update' => $update,
+            'message' => 'Education Background was updated successfully!',
+            'status' => 200
+        ]);
     }
 
     /**
@@ -85,6 +114,11 @@ class EducationBackgroundController extends Controller
      */
     public function destroy(EducationBackground $educationBackground)
     {
-        //
+        $educationBackground->delete();
+        return response()->json([
+            'slug' => $educationBackground->slug,
+            'message' => 'Successfully removed Education Background',
+            'status' => 204
+        ]);
     }
 }

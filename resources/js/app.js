@@ -25,7 +25,7 @@ Vue.component('subject-form', require('./components/subject/AddSubject.vue').def
 Vue.component('add-student-button', require('./components/student/AddStudentButton.vue').default);
 Vue.component('personal-information-form', require('./components/student/PersonalInformationForm.vue').default);
 Vue.component('emergency-contact-form', require('./components/student/EmergencyContactForm.vue').default);
-Vue.component('educational-background-form', require('./components/student/EducationalBackgroundForm.vue').default);
+Vue.component('education-background-crud', require('./components/student/EducationalBackgroundForm.vue').default);
 Vue.component('student-level-crud', require('./components/studentLevel/StudentLevelCrud.vue').default);
 Vue.component('level-form', require('./components/studentLevel/AddStudentLevel.vue').default);
 Vue.component('classroom-crud', require('./components/classroom/ClassroomCrud.vue').default);

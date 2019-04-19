@@ -83,52 +83,7 @@
             </div>
             <div id="tab-6-2" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-2">
               <div class="col-lg-12 pb-5">
-                <h2 class="pull-left">School Attended</h2><button class="btn btn-primary pull-right">Add History <i class="batch-icon batch-icon-plus"></i></button>
-                <form class="pull-left needs-validation" novalidate>
-                  <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                      <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th>School Name</th>
-                            <th>Attended</th>
-                            <th>Notes</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Stella Maris Academy</td>
-                            <td>2008-2013</td>
-                            <td>
-                              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                            </td>
-                            <td>
-                              <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-                                <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>University of the Immaculate ConceptionStella Maris Academy</td>
-                            <td>2014-2017</td>
-                            <td>
-                              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                            </td>
-                            <td>
-                              <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-                                <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-                              </div>
-                            </td>
-                          </tr>
-                          
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </form>
+                <education-background-crud></education-background-crud>
               </div>
             </div>
             <div id="tab-6-3" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-3">

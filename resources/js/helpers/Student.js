@@ -32,17 +32,6 @@ class Student {
                     address: address
                 });
             })
-            .then(result => {
-                const { school_name, current_level, status, phone_number, address } = formData.educationBackground;
-                return axios.post("education-background", {
-                    student_info_id: result.data.insertedId,
-                    school_name: school_name,
-                    current_level: current_level,
-                    status: status,
-                    phone_number: phone_number,
-                    address: address
-                });
-            })
             .then(response => callback(null, response))
             .catch(err => callback(err, null));
     }

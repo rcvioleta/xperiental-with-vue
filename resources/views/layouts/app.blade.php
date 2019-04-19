@@ -31,6 +31,10 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
+	<link  rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.css') }}"/>
+	<link  rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.print.min.css') }}" media='print' />
+	<link  rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/scheduler.min.css') }}" rel='stylesheet' />
+
 	<style type="text/css">
 		.nav-tabs .nav-link.active {
 		    font-weight: bold;
@@ -147,7 +151,23 @@
 	<script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
+	
+	<!-- moment -->
+	<script src="{{ asset('assets/js/misc/moment.min.js') }}"></script>
+	
+	<!-- full calendar -->
+	<script src="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/fullcalendar/scheduler.min.js') }}"></script>
+	
+	<!-- Jquery UI -->
+	<script src="{{ asset('assets/js/jquery/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}"></script>
+	
+	<!-- Form Wizard -->
+	<script src="{{ asset('assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
+	
+	<!-- quillpro scripts -->
 	<script src="{{ asset('assets/js/scripts.js') }}"></script>
+
 	<script>
 		
 		function SubjectAdd() {
@@ -186,6 +206,6 @@
 			$('#class-rate-add').css('display','block');
 		}
 	</script>
-    <!-- end template assets -->
+	<!-- end template assets -->
 </body>
 </html>

@@ -1,124 +1,314 @@
 <template>
-  <form @input="recordEducationForm">
-    <div class="form-row">
-      <div class="col-md-4 mb-3">
-        <label for="validationCustom01">School Name</label>
-        <input
-          type="text"
-          name="school_name"
-          class="form-control"
-          id="validationCustom01"
-          placeholder="School name"
-          required
-        >
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="validationCustom02">Current Level</label>
-        <div class="form-group">
-          <select name="current_level" class="form-control">
-            <option value>Select Level</option>
-            <option value="Grade 1">Grade 1</option>
-            <option value="Grade 2">Grade 2</option>
-            <option value="Grade 3">Grade 3</option>
-            <option value="Grade 4">Grade 4</option>
-            <option value="Grade 5">Grade 5</option>
-          </select>
-        </div>
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="validationCustom02">Student Status</label>
-        <div class="form-group">
-          <select name="status" class="form-control">
-            <option value>Select Status</option>
-            <option value="Ongoing">Ongoing</option>
-            <option value="Graduated">Graduated</option>
-          </select>
-        </div>
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-4 mb-3">
-        <label for="validationCustom05">Shool Telephone/Cellphone</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupPrepend-6">
-              <i class="batch-icon batch-icon-headphones"></i>
-            </span>
+  <div id="education-background">
+    <h2 class="pull-left">School Attended</h2>
+    <button class="btn btn-primary pull-right" @click="showFormOnAdd">
+      Add History
+      <i class="batch-icon batch-icon-plus"></i>
+    </button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>School Name</th>
+          <th>Attended</th>
+          <th>Notes</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="eduBackground in eduBackgrounds.data" :key="eduBackground.id">
+          <td>{{ eduBackground.name }}</td>
+          <td>{{ eduBackground.year_attended }}</td>
+          <td>{{ eduBackground.notes }}</td>
+          <td>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="deleteEduBackground(eduBackground.slug)"
+              >
+                <i class="ml-2 batch-icon batch-icon-bin"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-warning"
+                @click="editEduBackground(eduBackground.slug)"
+              >
+                <i class="ml-2 batch-icon batch-icon-pencil"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <div id="add-education-background">
+      <div class="backdrop" :class="isActive" @click="closeForm"></div>
+      <div class="edu-background-form" :class="isActive">
+        <div class="card">
+          <div class="card-header">Add Educational Background</div>
+          <div class="card-body">
+            <form @submit.prevent="updateEduBackground">
+              <div class="form-group">
+                <label for="school-name">School Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  id="school-name"
+                  class="form-control"
+                  placeholder="School Name"
+                  v-model="newEduBackground.name"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="attended">Attended</label>
+                <input
+                  type="text"
+                  name="attended"
+                  id="attended"
+                  class="form-control"
+                  placeholder="e.g. 2010-2011"
+                  v-model="newEduBackground.year_attended"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea
+                  name="notes"
+                  id="notes"
+                  cols="30"
+                  rows="10"
+                  class="form-control"
+                  v-model="newEduBackground.notes"
+                ></textarea>
+              </div>
+
+              <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                  Save Educational Background
+                  <i class="ml-2 batch-icon batch-icon-stiffy"></i>
+                </button>
+              </div>
+            </form>
           </div>
-          <input
-            type="text"
-            name="phone_number"
-            class="sp_celphones form-control"
-            autocomplete="off"
-            placeholder="(63) 921-8621-999"
-            aria-describedby="inputGroupPrepend-6"
-          >
         </div>
-        <div class="invalid-feedback">Please provide a valid zip.</div>
       </div>
-      <div class="col-md-8 mb-3">
-        <label for="validationCustom02">School Address</label>
-        <input
-          type="text"
-          name="address"
-          class="form-control"
-          id="validationCustom02"
-          placeholder="School Address"
-          required
-        >
-        <div class="valid-feedback">Looks good!</div>
-      </div>
-    </div>
-  </form>
+    </div>-->
+
+    <edu-bg-form
+      :active="activateUponEditing"
+      :closeForm="closeForm"
+      :method="updateEduBackground"
+      :name="newEduBackground.name"
+      :year_attended="newEduBackground.year_attended"
+      :notes="newEduBackground.notes"
+      @schoolNameChanged="newEduBackground.name = $event"
+      @yearAttendedChanged="newEduBackground.year_attended = $event"
+      @notesChanged="newEduBackground.notes = $event"
+    />
+
+    <edu-bg-form
+      :active="activateUponAdding"
+      :closeForm="closeForm"
+      :method="saveEduBackground"
+      :name="newEduBackground.name"
+      :year_attended="newEduBackground.year_attended"
+      :notes="newEduBackground.notes"
+      @schoolNameChanged="newEduBackground.name = $event"
+      @yearAttendedChanged="newEduBackground.year_attended = $event"
+      @notesChanged="newEduBackground.notes = $event"
+    />
+  </div>
 </template>
 
 <script>
 import { EventBus } from "../../app.js";
+import Model from "../../helpers/Model.js";
+import EducationBackground from "../../helpers/EducationBackground.js";
+import EduBackgroundForm from "../forms/EduBackgroundForm.vue";
+
+const fetchAll = Model.fetchAll.bind(EducationBackground);
+const deleteEb = Model.delete.bind(EducationBackground);
 
 export default {
   data() {
     return {
-      payloads: {
-        school_name: "",
-        current_level: "",
-        status: "",
-        phone_number: "",
-        address: ""
-      }
+      eduBackgrounds: "",
+      newEduBackground: {
+        name: "",
+        slug: "",
+        year_attended: "",
+        notes: ""
+      },
+      eduBackgroundIndex: "",
+      editingMode: false,
+      addingMode: false,
+      errors: ""
     };
   },
-  methods: {
-    recordEducationForm(e) {
-      const source = e.srcElement;
-      console.log(
-        "%c Saving education background",
-        "color: green; font-family: Monaco"
-      );
-      switch (source.name) {
-        case "school_name":
-          this.payloads.school_name = source.value;
-          break;
-        case "current_level":
-          this.payloads.current_level = source.value;
-          break;
-        case "status":
-          this.payloads.status = source.value;
-          break;
-        case "phone_number":
-          this.payloads.phone_number = source.value;
-          break;
-        case "address":
-          this.payloads.address = source.value;
-          break;
+  components: {
+    "edu-bg-form": EduBackgroundForm
+  },
+  created() {
+    fetchAll("education-background", (err, data) => {
+      if (!err) {
+        this.eduBackgrounds = data;
+        console.log("fetched education background", data);
+      } else {
+        swal(
+          "Something went wrong!",
+          "Unable to fetch education backgrounds from database",
+          "error"
+        );
+        console.log("error found", err.response);
       }
-      EventBus.$emit("educationalBackgroundAdded", this.payloads);
+    });
+  },
+  methods: {
+    saveEduBackground() {
+      const { name, year_attended, notes } = this.newEduBackground;
+      const newEducationBg = new EducationBackground(
+        name,
+        year_attended,
+        notes
+      );
+      newEducationBg.saveEducation("education-background", (err, newData) => {
+        if (!err) {
+          this.eduBackgrounds.data.push(newData);
+          this.addingMode = true;
+          this.resetForm();
+          swal("Congrats!", "New Education Background added.", "success");
+          console.log(
+            "%c Successfully added new education background",
+            "font-weight: bold; font-family: Segoe UI Light; color: green"
+          );
+          console.log(newData);
+        } else {
+          this.errors = Object.keys(err.response.data.errors).map(key => {
+            return [...Array(err.response.data.errors[key])].map(errorArr => {
+              return Object.keys(errorArr).map(error => errorArr[error]);
+            });
+          });
+          swal(
+            "Something went wrong",
+            this.errors
+              .toString()
+              .split(",")
+              .join("\n"),
+            "error"
+          );
+          console.log(
+            "%c Cannot save education background",
+            "font-weight: bold; font-family: Segoe UI Light; color: red"
+          );
+          console.log(err.response);
+        }
+      });
+    },
+    editEduBackground(slug) {
+      this.editingMode = true;
+      const selectedEduBackground = this.eduBackgrounds.data.find(
+        edu => edu.slug === slug
+      );
+      this.newEduBackground = {
+        name: selectedEduBackground.name,
+        slug: selectedEduBackground.slug,
+        year_attended: selectedEduBackground.year_attended,
+        notes: selectedEduBackground.notes
+      };
+      this.eduBackgroundIndex = selectedEduBackground;
+    },
+    updateEduBackground(event) {
+      const target = event.target;
+      const name = this.newEduBackground.name;
+      const slug = this.newEduBackground.slug;
+      const year_attended = this.newEduBackground.year_attended;
+      const notes = this.newEduBackground.notes;
+      const payload = { name, slug, year_attended, notes };
+
+      EducationBackground.update(
+        "education-background/",
+        payload,
+        (err, update) => {
+          if (!err) {
+            this.eduBackgrounds.data[this.eduBackgroundIndex] = update;
+            this.editingMode = false;
+            this.resetForm();
+            console.log("[update] result", update);
+            swal(
+              "Success!",
+              "Successfully updated Education Background",
+              "success"
+            );
+          } else {
+            swal(
+              "Something went wrong",
+              "Unable to update Education Background",
+              "error"
+            );
+            console.log("[update] error", err.response);
+          }
+        }
+      );
+    },
+    deleteEduBackground(slug) {
+      swal({
+        title: "Continue removing this education background?",
+        text: "There's no going back!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          deleteEb("education-background/", slug, (err, removedSlug) => {
+            if (!err) {
+              this.eduBackgrounds.data = this.eduBackgrounds.data.filter(
+                eb => eb.slug !== removedSlug
+              );
+              swal("Education Background was removed!", { icon: "success" });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal(
+                "Something went wrong",
+                `Unable to delete Education Background. \n ${err.message}`,
+                "error"
+              );
+              console.log("[DELETE ERROR]", err.response);
+            }
+          });
+        } else swal("Education Background was kept");
+      });
+    },
+    showFormOnAdd() {
+      this.addingMode = true;
+      this.resetForm();
+    },
+    closeForm() {
+      this.editingMode = false;
+      this.addingMode = false;
+      this.resetForm();
+    },
+    resetForm() {
+      Object.keys(this.newEduBackground).map(key => {
+        this.newEduBackground[key] = "";
+      });
+    }
+  },
+  computed: {
+    activateUponEditing() {
+      return {
+        "in-use": this.editingMode
+      };
+    },
+    activateUponAdding() {
+      return {
+        "in-use": this.addingMode
+      };
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>
