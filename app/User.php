@@ -48,6 +48,11 @@ class User extends Authenticatable
         $this->attributes['slug'] = str_slug($value);
     }
 
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = str_slug($value);
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);

@@ -86,6 +86,10 @@ export default {
       this.studentLevels.data.push(result);
       swal("Congrats!", "New student level added", "success");
     });
+
+    EventBus.$on("closeModalEvent", () => {
+      this.editingMode = false;
+    });
   },
   methods: {
     updateStatus(e, slug) {

@@ -89,22 +89,40 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required | email',
+            'password' => 'required | min: 8 | confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        $user->update($request->all());
+        $update = ['name' => $user->name, 'slug' => $user->slug, 'email' => $user->email, 'status' => $user->status];
+        return response()->json([
+            'update' => $update,
+            'message' => 'User was updated successfully!',
+            'status' => 200
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json([
+            'slug' => $user->slug,
+            'message' => 'User was deleted successfully!',
+            'status' => 204
+        ]);
     }
 }

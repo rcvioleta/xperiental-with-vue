@@ -3,18 +3,52 @@
     <div class="backdrop" :class="active"></div>
     <div class="main-modal" :class="active">
       <div class="card">
-        <div class="card-header">Edit: {{ name }}</div>
+        <div class="card-header">
+          Edit: {{ name }}
+          <span
+            @click="closeModal"
+            style="float: right; color: red; font-weight: bold; cursor: pointer;"
+          >X</span>
+        </div>
         <div class="card-body">
           <form @submit.prevent="updateFunc">
+            <input type="hidden" name="slug" :value="slug">
             <div class="form-group">
-              <input type="hidden" name="slug" :value="slug">
-              <label for="subject">Name</label>
-              <input type="text" id="subject" name="name" class="form-control" :value="name">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" class="form-control" :value="name">
             </div>
+
+            <!-- for editing class rates -->
             <div class="form-group" v-if="rate">
               <label for="rate">Rate</label>
               <input type="number" id="rate" name="rate" class="form-control" :value="rate">
             </div>
+            <!-- end for editing class rates -->
+
+            <!-- for editing users -->
+            <template v-if="email">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" :value="email">
+              </div>
+
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label for="password_confirmation">Confirm Password</label>
+                <input
+                  type="password"
+                  id="password_confirmation"
+                  name="password_confirmation"
+                  class="form-control"
+                >
+              </div>
+            </template>
+            <!-- end for editing users -->
+
             <div class="form-group">
               <label for="status">Status</label>
               <select name="status" id="status" class="form-control">
@@ -31,8 +65,15 @@
 </template>
 
 <script>
+import { EventBus } from "../../../app.js";
+
 export default {
-  props: ["slug", "name", "status", "updateFunc", "active", "rate"]
+  props: ["slug", "name", "status", "updateFunc", "active", "rate", "email"],
+  methods: {
+    closeModal() {
+      EventBus.$emit("closeModalEvent");
+    }
+  }
 };
 </script>
 

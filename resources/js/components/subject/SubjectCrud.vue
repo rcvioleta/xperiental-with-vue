@@ -73,6 +73,10 @@ export default {
       this.subjects.data.push(result);
       swal("Congrats!", "New subject added", "success");
     });
+
+    EventBus.$on("closeModalEvent", () => {
+      this.editingMode = false;
+    });
   },
   methods: {
     updateStatus(e, slug) {
@@ -133,12 +137,13 @@ export default {
       this.editingMode = true;
     },
     update(e) {
-      const subjectName = e.target.name.value;
-      const slug = e.target.slug.value;
-      const status = e.target.status.value;
-      const payload = { name: subjectName, slug: slug, status: status };
+      const target = e.target;
+      const name = target.name.value;
+      const slug = target.slug.value;
+      const status = target.status.value;
+      const payload = { name, slug, status };
 
-      Model.update("student/", payload, (err, update) => {
+      Model.update("subject/", payload, (err, update) => {
         if (!err) {
           this.subjects.data[this.subjectIndex] = update;
           this.editingMode = false;

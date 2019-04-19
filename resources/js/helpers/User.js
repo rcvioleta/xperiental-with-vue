@@ -10,9 +10,9 @@ class User extends Model {
         this.password_confirmation = password_confirmation;
     }
 
-    static update(url, { name, slug, status, email, password }, callback) {
-        axios.put(url + slug, { name, slug, status, email, password })
-            .then(update => callback(null, update))
+    static update(url, { name, slug, status, email, password, password_confirmation }, callback) {
+        axios.put(url + slug, { name, slug: name, status, email, password, password_confirmation })
+            .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));
     }
 }

@@ -13,12 +13,7 @@ class ClassRate extends Model {
         status
     }, callback) {
         axios
-            .put(url + slug, {
-                name: name,
-                slug: name,
-                rate: rate,
-                status: status
-            })
+            .put(url + slug, { name, slug: name, rate, status })
             .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));
     }

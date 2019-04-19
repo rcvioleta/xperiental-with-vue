@@ -88,6 +88,10 @@ export default {
       this.classrooms.data.push(result);
       swal("Congrats!", "New classroom added", "success");
     });
+
+    EventBus.$on("closeModalEvent", () => {
+      this.editingMode = false;
+    });
   },
   components: {
     "clasroom-modal": Modal

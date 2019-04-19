@@ -88,6 +88,10 @@ export default {
       this.classRates.data.push(newClassRate);
       swal("Congrats!", "New class rate added", "success");
     });
+
+    EventBus.$on("closeModalEvent", () => {
+      this.editingMode = false;
+    });
   },
   methods: {
     updateStatus(e, slug) {

@@ -28,26 +28,43 @@
           </td>
           <td>
             <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-              <button type="button" class="btn btn-danger">Remove</button>
-              <button type="button" class="btn btn-warning">Edit</button>
+              <button type="button" class="btn btn-danger" @click="deleteUser(user.slug)">Remove</button>
+              <button type="button" class="btn btn-warning" @click="editUser(user.slug)">Edit</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <user-modal
+      :active="isActive"
+      :name="selectedUser.name"
+      :email="selectedUser.email"
+      :status="selectedUser.status"
+      :slug="selectedUser.slug"
+      :password="selectedUser.password"
+      :password_confirmation="selectedUser.password_confirmation"
+      :updateFunc="update"
+    ></user-modal>
   </div>
 </template>
 
 <script>
 import { EventBus } from "../../app.js";
-
 import User from "../../helpers/User.js";
+import Modal from "../ui/modal/Modal.vue";
 
 export default {
   data() {
     return {
-      users: ""
+      users: "",
+      selectedUser: "",
+      userIndex: "",
+      editingMode: false,
+      errors: ""
     };
+  },
+  components: {
+    "user-modal": Modal
   },
   created() {
     User.fetchAll("user", (err, data) => {
@@ -66,6 +83,10 @@ export default {
     EventBus.$on("newUserAdded", newUser => {
       this.users.data.push(newUser);
       swal("Congrats!", "New user added", "success");
+    });
+
+    EventBus.$on("closeModalEvent", () => {
+      this.editingMode = false;
     });
   },
   methods: {
@@ -89,6 +110,91 @@ export default {
           );
         }
       });
+    },
+    deleteUser(slug) {
+      swal({
+        title: "Continue removing user?",
+        text: "There's no going back!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          User.delete("user/", slug, (err, removedSlug) => {
+            if (!err) {
+              this.users.data = this.users.data.filter(
+                user => user.slug !== removedSlug
+              );
+              swal("User was removed!", { icon: "success" });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal(
+                "Something went wrong",
+                `Unable to delete User. \n ${err.message}`,
+                "error"
+              );
+              console.log("[DELETE ERROR]", err.response);
+            }
+          });
+        } else swal("User was kept");
+      });
+    },
+    editUser(slug) {
+      console.log("EDIT USER", slug);
+      this.userIndex = this.users.data.findIndex(user => user.slug === slug);
+
+      this.selectedUser = this.users.data[this.userIndex];
+      this.editingMode = true;
+    },
+    update(e) {
+      const target = e.target;
+      const name = target.name.value;
+      const slug = target.slug.value;
+      const status = target.status.value;
+      const email = target.email.value;
+      const password = target.password.value;
+      const password_confirmation = target.password_confirmation.value;
+      const payload = {
+        name,
+        slug,
+        status,
+        email,
+        password,
+        password_confirmation
+      };
+
+      User.update("user/", payload, (err, update) => {
+        if (!err) {
+          this.users.data[this.userIndex] = update;
+          this.editingMode = false;
+          this.userIndex = "";
+          this.selectedUser = "";
+          console.log("[update] result", update);
+          swal("Success!", "Successfully updated user information", "success");
+        } else {
+          console.log("[SAVE USER ERROR]", err.response.data);
+          this.errors = Object.keys(err.response.data.errors).map(key => {
+            return [...Array(err.response.data.errors[key])].map(errorArr => {
+              return Object.keys(errorArr).map(error => errorArr[error]);
+            });
+          });
+          swal(
+            "Something went wrong",
+            this.errors
+              .toString()
+              .split(",")
+              .join("\n"),
+            "error"
+          );
+        }
+      });
+    }
+  },
+  computed: {
+    isActive() {
+      return {
+        "in-use": this.editingMode
+      };
     }
   }
 };
