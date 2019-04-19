@@ -19,7 +19,10 @@
               <a class="nav-link" href="#tab-6-2" data-toggle="tab" role="tab" aria-controls="tab-6-2" aria-selected="false">Educational Background</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#tab-6-3" data-toggle="tab" role="tab" aria-controls="tab-6-3" aria-selected="false">Account Information</a>
+              <a class="nav-link" href="#tab-6-3" data-toggle="tab" role="tab" aria-controls="tab-6-3" aria-selected="false">Enrollment History</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#tab-6-4" data-toggle="tab" role="tab" aria-controls="tab-6-4" aria-selected="false">Class History</a>
             </li>
           </ul>
         </div>
@@ -80,12 +83,6 @@
             </div>
             <div id="tab-6-2" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-2">
               <div class="col-lg-12 pb-5">
-                <h2>Current School Information</h2>
-                <educational-background-form></educational-background-form>
-              </div>
-              <hr>
-              <br>
-              <div class="col-lg-12 pb-5">
                 <h2 class="pull-left">School Attended</h2><button class="btn btn-primary pull-right">Add History <i class="batch-icon batch-icon-plus"></i></button>
                 <form class="pull-left needs-validation" novalidate>
                   <div class="form-row">
@@ -136,169 +133,121 @@
             </div>
             <div id="tab-6-3" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-3">
               <div class="col-lg-12 pb-5">
-                <h2>Account Details</h2>
-                <form class="needs-validation" novalidate>
+                <h2 class="pull-left">Enrollment History</h2>
+                <form class="pull-left needs-validation" novalidate>
                   <div class="form-row">
-                    <div class="col-md-3 mb-3">
-                      <label for="validationCustom01">Started on</label>
-                      <input type="text" class="form-control" id="validationCustom01" placeholder="School name" value="01/20/2019" required>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                      <label for="validationCustom02">Student ID</label>
-                      <input type="text" class="form-control" id="validationCustom01" placeholder="School name" value="1001" required>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                      <label for="validationCustom02">Credits Used</label>
-                      <input type="text" class="form-control" id="validationCustom01" placeholder="School name" value="7" required>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                      <label for="validationCustom02">Available Credits</label>
-                      <input type="text" class="form-control" id="validationCustom01" placeholder="School name" value="3	" required>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                      <label for="validationCustom02">Status</label>
-                      <div class="form-group">
-                        <select class="form-control">
-                          <option>Active</option>
-                        </select>
-                      </div>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
+                    <div class="col-md-12 mb-3">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Enrollment Date</th>
+                            <th>Regular Credits</th>
+                            <th>Special Credits</th>
+                            <th>Amount Paid</th>
+                            <th>Amount Balance</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>04-02-2019</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>4,400</td>
+                            <td>0</td>
+                            <td>Fully Paid</td>
+                            <td>Lorem Ipsum is simply dummy text</td>
+                            <td>
+                              <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
+                                <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>03-02-2019</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>1,200</td>
+                            <td>3,200</td>
+                            <td>Partial Paid</td>
+                            <td>Lorem Ipsum is simply dummy text</td>
+                            <td>
+                              <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
+                                <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </form>
               </div>
-              <hr>
-              <br>
+            </div>
+            <div id="tab-6-4" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-4">
               <div class="col-lg-12 pb-5">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Class Taken</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Credits History</a>
-                  </li>
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <button class="btn btn-primary pull-right waves-effect waves-light" type="submit">Add New Class Record <i class="ml-2 batch-icon batch-icon-plus"></i></button>
-                    <form class="pull-left needs-validation" novalidate>
-                      <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Date Added</th>
-                                <th>Added By</th>
-                                <th>Class</th>
-                                <th>Credit Used</th>
-                                <th>Notes</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>12/15/2018</td>
-                                <td>Administrator</td>
-                                <td>Algebra</td>
-                                <td>2</td>
-                                <td>
-                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                </td>
-                                <td>
-                                  <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                    <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-                                    <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>12/15/2018</td>
-                                <td>Administrator</td>
-                                <td>Geometry</td>
-                                <td>2</td>
-                                <td>
-                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                </td>
-                                <td>
-                                  <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                    <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-                                    <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-                                  </div>
-                                </td>
-                              </tr>
-                              
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </form>
+                <h2 class="pull-left">Class Taken History</h2>
+                <form class="pull-left needs-validation" novalidate>
+                  <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Class Date</th>
+                            <th>Class Time</th>
+                            <th>Subject</th>
+                            <th>Classroom</th>
+                            <th>Class Type</th>
+                            <th># of Student</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>04-02-2019</td>
+                            <td>1:00 PM - 2:00 PM</td>
+                            <td>Math</td>
+                            <td>Room 1</td>
+                            <td>Regular</td>
+                            <td>1</td>
+                            <td>Attended</td>
+                            <td>Lorem Ipsum is simply dummy text</td>
+                            <td>
+                              <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
+                                <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>03-02-2019</td>
+                            <td>2:00 PM - 3:00 PM</td>
+                            <td>Math</td>
+                            <td>Room 1</td>
+                            <td>Special</td>
+                            <td>2</td>
+                            <td>Canceled</td>
+                            <td>Lorem Ipsum is simply dummy text</td>
+                            <td>
+                              <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                                <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
+                                <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+                          
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <button class="btn btn-primary pull-right waves-effect waves-light" type="submit">Add Student Credit Record <i class="ml-2 batch-icon batch-icon-plus"></i></button>
-                    <form class="pull-left needs-validation" novalidate>
-                      <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                          <table class="table table-striped">
-                            <thead>
-                              <tr>
-                                <th>Date Added</th>
-                                <th>Added By</th>
-                                <th>Credits Added</th>
-                                <th>Notes</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>12/15/2018</td>
-                                <td>Adminstrator</td>
-                                <td>4</td>
-                                <td>
-                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                </td>
-                                <td>
-                                  <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                    <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-                                    <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>01/10/2019</td>
-                                <td>Adminstrator</td>
-                                <td>3</td>
-                                <td>
-                                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                </td>
-                                <td>
-                                  <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                    <button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-                                    <button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-                                  </div>
-                                </td>
-                              </tr>
-                              
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>
