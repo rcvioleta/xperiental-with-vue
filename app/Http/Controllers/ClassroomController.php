@@ -36,8 +36,19 @@ class ClassroomController extends Controller
    */
   public function store(Request $request)
   {
-    Classroom::create($request->all());
-    return response('Classroom saved', 200);
+    $classroom = Classroom::create($request->all());
+
+    $update = [
+      'name' => $classroom->name,
+      'slug' => $classroom->slug,
+      'status' => $classroom->status
+    ];
+
+    return response()->json([
+      'update' => $update,
+      'message' => 'Classroom added successfully!',
+      'status' => 200
+    ]);
   }
 
   /**
@@ -90,7 +101,6 @@ class ClassroomController extends Controller
     $classroom->update($request->all());
 
     $update = [
-      'id' => $classroom->id,
       'name' => $classroom->name,
       'slug' => $classroom->slug,
       'status' => $classroom->status

@@ -142,12 +142,13 @@ export default {
       });
     },
     update(e) {
-      const level_name = e.target.name.value;
+      const name = e.target.name.value;
       const slug = e.target.slug.value;
       const status = e.target.status.value;
-      const payload = { name: level_name, slug: slug, status: status };
+      const uri = `student-level/${slug}`;
+      const payloads = { name, slug: name, status };
 
-      Model.update("student-level/", payload, (err, update) => {
+      Model.update(uri, payloads, (err, update) => {
         if (!err) {
           this.studentLevels.data[this.levelIndex] = update;
           this.editingMode = false;

@@ -35,8 +35,13 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        Subject::create($request->all());
-        return response('Subject saved', 200);
+        $subject = Subject::create($request->all());
+        $update = ['name' => $subject->name, 'slug' => $subject->slug, 'status' => $subject->status];
+        return response()->json([
+            'update' => $update,
+            'message' => 'Subject added successfully!',
+            'status' => 200
+        ]);
     }
 
     /**
@@ -55,7 +60,11 @@ class SubjectController extends Controller
         $subject = Subject::where('slug', '=', $slug)->first();
         $subject->status = 1;
         $subject->save();
-        return response('Updated status to active', 200);
+        return response()->json([
+            'updatedStatus' => $subject->status,
+            'message' => 'Updated status to active',
+            'status' => 200
+        ]);
     }
 
     public function inactive($slug)
@@ -63,7 +72,11 @@ class SubjectController extends Controller
         $subject = Subject::where('slug', '=', $slug)->first();
         $subject->status = 0;
         $subject->save();
-        return response('Updated status to inactive', 200);
+        return response()->json([
+            'updatedStatus' => $subject->status,
+            'message' => 'Updated status to active',
+            'status' => 200
+        ]);
     }
 
     /**
@@ -87,7 +100,7 @@ class SubjectController extends Controller
     public function update(Request $request, Subject $subject)
     {
         $subject->update($request->all());
-        $update = ['id' => $subject->id, 'name' => $subject->name, 'slug' => $subject->slug, 'status' => $subject->status];
+        $update = ['name' => $subject->name, 'slug' => $subject->slug, 'status' => $subject->status];
         return response()->json([
             'update' => $update,
             'message' => 'Subject was updated successfully!',

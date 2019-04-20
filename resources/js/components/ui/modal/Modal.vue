@@ -69,6 +69,9 @@ import { EventBus } from "../../../app.js";
 
 export default {
   props: ["slug", "name", "status", "updateFunc", "active", "rate", "email"],
+  data() {
+    return {};
+  },
   methods: {
     closeModal() {
       EventBus.$emit("closeModalEvent");

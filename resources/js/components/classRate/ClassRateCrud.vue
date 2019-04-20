@@ -158,9 +158,10 @@ export default {
       const slug = target.slug.value;
       const status = target.status.value;
       const rate = target.rate.value;
-      const payload = { name, slug, status, rate };
+      const uri = `class-rate/${slug}`;
+      const payloads = { name, slug: name, status, rate };
 
-      ClassRate.update("class-rate/", payload, (err, update) => {
+      ClassRate.update(uri, payloads, (err, update) => {
         if (!err) {
           this.classRates.data[this.classRateIndex] = update;
           this.editingMode = false;

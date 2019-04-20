@@ -40,62 +40,6 @@
         </tr>
       </tbody>
     </table>
-
-    <!-- <div id="add-education-background">
-      <div class="backdrop" :class="isActive" @click="closeForm"></div>
-      <div class="edu-background-form" :class="isActive">
-        <div class="card">
-          <div class="card-header">Add Educational Background</div>
-          <div class="card-body">
-            <form @submit.prevent="updateEduBackground">
-              <div class="form-group">
-                <label for="school-name">School Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  id="school-name"
-                  class="form-control"
-                  placeholder="School Name"
-                  v-model="newEduBackground.name"
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="attended">Attended</label>
-                <input
-                  type="text"
-                  name="attended"
-                  id="attended"
-                  class="form-control"
-                  placeholder="e.g. 2010-2011"
-                  v-model="newEduBackground.year_attended"
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="notes">Notes</label>
-                <textarea
-                  name="notes"
-                  id="notes"
-                  cols="30"
-                  rows="10"
-                  class="form-control"
-                  v-model="newEduBackground.notes"
-                ></textarea>
-              </div>
-
-              <div class="form-group mt-4">
-                <button type="submit" class="btn btn-primary">
-                  Save Educational Background
-                  <i class="ml-2 batch-icon batch-icon-stiffy"></i>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>-->
-
     <edu-bg-form
       :active="activateUponEditing"
       :closeForm="closeForm"
@@ -124,12 +68,8 @@
 
 <script>
 import { EventBus } from "../../app.js";
-import Model from "../../helpers/Model.js";
 import EducationBackground from "../../helpers/EducationBackground.js";
 import EduBackgroundForm from "../forms/EduBackgroundForm.vue";
-
-const fetchAll = Model.fetchAll.bind(EducationBackground);
-const deleteEb = Model.delete.bind(EducationBackground);
 
 export default {
   data() {
@@ -151,17 +91,25 @@ export default {
     "edu-bg-form": EduBackgroundForm
   },
   created() {
-    fetchAll("education-background", (err, data) => {
+    EducationBackground.fetchAll("education-background", (err, data) => {
       if (!err) {
         this.eduBackgrounds = data;
-        console.log("fetched education background", data);
+        console.log(
+          "%c Fetch result for Education Background",
+          "font-weight: bold; color: green; font-family: Segoe UI Light;"
+        );
+        console.log(data);
       } else {
         swal(
           "Something went wrong!",
           "Unable to fetch education backgrounds from database",
           "error"
         );
-        console.log("error found", err.response);
+        console.log(
+          "%c Error Found",
+          "font-weight: bold; color: red; font-family: Segoe UI Light;"
+        );
+        console.log(err.response);
       }
     });
   },
@@ -208,49 +156,47 @@ export default {
     },
     editEduBackground(slug) {
       this.editingMode = true;
-      const selectedEduBackground = this.eduBackgrounds.data.find(
+      this.eduBackgroundIndex = this.eduBackgrounds.data.findIndex(
         edu => edu.slug === slug
       );
+      const eb = this.eduBackgrounds.data[this.eduBackgroundIndex];
       this.newEduBackground = {
-        name: selectedEduBackground.name,
-        slug: selectedEduBackground.slug,
-        year_attended: selectedEduBackground.year_attended,
-        notes: selectedEduBackground.notes
+        name: eb.name,
+        slug: eb.slug,
+        year_attended: eb.year_attended,
+        notes: eb.notes
       };
-      this.eduBackgroundIndex = selectedEduBackground;
     },
     updateEduBackground(event) {
       const target = event.target;
-      const name = this.newEduBackground.name;
-      const slug = this.newEduBackground.slug;
-      const year_attended = this.newEduBackground.year_attended;
-      const notes = this.newEduBackground.notes;
-      const payload = { name, slug, year_attended, notes };
+      const newEb = this.newEduBackground;
+      const name = newEb.name;
+      const slug = newEb.slug;
+      const year_attended = newEb.year_attended;
+      const notes = newEb.notes;
+      const uri = `education-background/${slug}`;
+      const payloads = { name, slug: name, year_attended, notes };
 
-      EducationBackground.update(
-        "education-background/",
-        payload,
-        (err, update) => {
-          if (!err) {
-            this.eduBackgrounds.data[this.eduBackgroundIndex] = update;
-            this.editingMode = false;
-            this.resetForm();
-            console.log("[update] result", update);
-            swal(
-              "Success!",
-              "Successfully updated Education Background",
-              "success"
-            );
-          } else {
-            swal(
-              "Something went wrong",
-              "Unable to update Education Background",
-              "error"
-            );
-            console.log("[update] error", err.response);
-          }
+      EducationBackground.update(uri, payloads, (err, update) => {
+        if (!err) {
+          this.eduBackgrounds.data[this.eduBackgroundIndex] = update;
+          this.editingMode = false;
+          this.resetForm();
+          swal(
+            "Success!",
+            "Successfully updated Education Background",
+            "success"
+          );
+          console.log("[update] result", update);
+        } else {
+          swal(
+            "Something went wrong",
+            "Unable to update Education Background",
+            "error"
+          );
+          console.log("[update] error", err.response);
         }
-      );
+      });
     },
     deleteEduBackground(slug) {
       swal({
@@ -261,22 +207,26 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          deleteEb("education-background/", slug, (err, removedSlug) => {
-            if (!err) {
-              this.eduBackgrounds.data = this.eduBackgrounds.data.filter(
-                eb => eb.slug !== removedSlug
-              );
-              swal("Education Background was removed!", { icon: "success" });
-              console.log("DELETE RESULT", removedSlug);
-            } else {
-              swal(
-                "Something went wrong",
-                `Unable to delete Education Background. \n ${err.message}`,
-                "error"
-              );
-              console.log("[DELETE ERROR]", err.response);
+          EducationBackground.delete(
+            "education-background/",
+            slug,
+            (err, removedSlug) => {
+              if (!err) {
+                this.eduBackgrounds.data = this.eduBackgrounds.data.filter(
+                  eb => eb.slug !== removedSlug
+                );
+                swal("Education Background was removed!", { icon: "success" });
+                console.log("DELETE RESULT", removedSlug);
+              } else {
+                swal(
+                  "Something went wrong",
+                  `Unable to delete Education Background. \n ${err.message}`,
+                  "error"
+                );
+                console.log("[DELETE ERROR]", err.response);
+              }
             }
-          });
+          );
         } else swal("Education Background was kept");
       });
     },

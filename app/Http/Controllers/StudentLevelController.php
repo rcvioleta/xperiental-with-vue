@@ -37,8 +37,20 @@ class StudentLevelController extends Controller
    */
   public function store(Request $request)
   {
-    StudentLevel::create($request->all());
-    return response('Student Level saved!', 200);
+    $studentLevel = StudentLevel::create($request->all());
+
+    $update = [
+      'id' => $studentLevel->id,
+      'name' => $studentLevel->name,
+      'slug' => $studentLevel->slug,
+      'status' => $studentLevel->status
+    ];
+
+    return response()->json([
+      'update' => $update,
+      'message' => 'Student Level was updated successfully!',
+      'status' => 200
+    ]);
   }
 
   /**

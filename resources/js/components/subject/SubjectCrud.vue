@@ -86,12 +86,12 @@ export default {
       if (status === 1) uri = `subject/active/${slug}`;
       else uri = `subject/inactive/${slug}`;
 
-      Model.updateStatus(uri, (err, result) => {
+      Model.updateStatus(uri, (err, update) => {
         if (!err) {
-          console.log("update status", result);
-          swal("Congrats!", result, "success");
+          swal("Congrats!", update.message, "success");
+          console.log("update status", update);
         } else {
-          console.log("error updating status", err.response.data);
+          console.log("error updating status", err);
           swal(
             "Sorry... Something went wrong :(",
             "Unable to update subject status",
@@ -141,9 +141,10 @@ export default {
       const name = target.name.value;
       const slug = target.slug.value;
       const status = target.status.value;
-      const payload = { name, slug, status };
+      const uri = `subject/${slug}`;
+      const payloads = { name, slug: name, status };
 
-      Model.update("subject/", payload, (err, update) => {
+      Model.update(uri, payloads, (err, update) => {
         if (!err) {
           this.subjects.data[this.subjectIndex] = update;
           this.editingMode = false;

@@ -54,7 +54,7 @@ class EducationBackgroundController extends Controller
 
         return response()->json([
             'update' => $update,
-            'message' => 'Successfully Saved Education Background',
+            'message' => 'Successfully added Education Background',
             'status' => 200
         ]);
     }

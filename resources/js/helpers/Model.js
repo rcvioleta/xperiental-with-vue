@@ -12,7 +12,7 @@ class Model {
     save(url, callback) {
         axios
             .post(url, this)
-            .then(result => callback(null, this))
+            .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));
     }
 
@@ -22,17 +22,15 @@ class Model {
             .catch(err => callback(err, null));
     }
 
-    static update(url, {
-        name,
-        slug,
-        status
-    }, callback) {
+    static update(url, payloads, callback) {
         axios
-            .put(url + slug, { name, slug: name, status })
+            .put(url, { ...payloads })
             .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));
     }
 
+    // needs to be updated so that we do not have to pass slug when invoking the function
+    // proposed update static(url, callback)
     static delete(url, slug, callback) {
         axios
             .delete(url + slug)

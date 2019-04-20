@@ -17,8 +17,7 @@ class SubjectResource extends JsonResource
         return [
             'name' => $this->name,
             'slug' => $this->slug,
-            'status' => $this->status,
-            'created_at' => $this->created_at->diffForHumans()
+            'status' => $this->status
         ];
     }
 }

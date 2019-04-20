@@ -36,8 +36,20 @@ class ClassRateController extends Controller
    */
   public function store(Request $request)
   {
-    ClassRate::create($request->all());
-    return response('Class rate saved', 200);
+    $classRate = ClassRate::create($request->all());
+
+    $update = [
+      'name' => $classRate->name,
+      'slug' => $classRate->slug,
+      'rate' => $classRate->rate,
+      'status' => $classRate->status
+    ];
+
+    return response()->json([
+      'update' => $update,
+      'message' => 'Class Rate added successfully!',
+      'status' => 200
+    ]);
   }
 
   /**

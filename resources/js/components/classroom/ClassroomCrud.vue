@@ -150,9 +150,10 @@ export default {
       const name = e.target.name.value;
       const slug = e.target.slug.value;
       const status = e.target.status.value;
-      const payload = { name, slug, status };
+      const uri = `classroom/${slug}`;
+      const payloads = { name, slug: name, status };
 
-      Model.update("classroom/", payload, (err, update) => {
+      Model.update(uri, payloads, (err, update) => {
         if (!err) {
           this.classrooms.data[this.classroomIndex] = update;
           this.editingMode = false;

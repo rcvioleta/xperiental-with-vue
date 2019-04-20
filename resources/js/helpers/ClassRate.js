@@ -5,19 +5,6 @@ class ClassRate extends Model {
         super(name, status);
         this.rate = rate;
     }
-
-    static update(url, {
-        name,
-        slug,
-        rate,
-        status
-    }, callback) {
-        axios
-            .put(url + slug, { name, slug: name, rate, status })
-            .then(result => callback(null, result.data.update))
-            .catch(err => callback(err, null));
-    }
-
 }
 
 export default ClassRate

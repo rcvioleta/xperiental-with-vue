@@ -152,16 +152,17 @@ export default {
       const email = target.email.value;
       const password = target.password.value;
       const password_confirmation = target.password_confirmation.value;
-      const payload = {
+      const uri = `user/${slug}`;
+      const payloads = {
         name,
-        slug,
+        slug: name,
         status,
         email,
         password,
         password_confirmation
       };
 
-      User.update("user/", payload, (err, update) => {
+      User.update(uri, payloads, (err, update) => {
         if (!err) {
           this.users.data[this.userIndex] = update;
           this.editingMode = false;

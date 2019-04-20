@@ -43,8 +43,15 @@ class UserController extends Controller
             'password_confirmation' => 'required'
         ]);
 
-        User::create($request->all());
-        return response('New User created successfully', 200);
+        $user = User::create($request->all());
+
+        $update = ['name' => $user->name, 'slug' => $user->slug, 'email' => $user->email, 'status' => $user->status];
+
+        return response()->json([
+            'update' => $update,
+            'message' => 'User added successfully!',
+            'status' => 200
+        ]);
     }
 
     /**

@@ -47,8 +47,10 @@
 
             <div class="form-group mt-4">
               <button type="submit" class="btn btn-primary">
-                Save Educational Background
-                <i class="ml-2 batch-icon batch-icon-stiffy"></i>
+                {{ name ? 'Update' : 'Save' }} Educational Background
+                <i
+                  class="ml-2 batch-icon batch-icon-stiffy"
+                ></i>
               </button>
             </div>
           </form>

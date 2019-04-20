@@ -2015,13 +2015,14 @@ __webpack_require__.r(__webpack_exports__);
       var slug = target.slug.value;
       var status = target.status.value;
       var rate = target.rate.value;
-      var payload = {
+      var uri = "class-rate/".concat(slug);
+      var payloads = {
         name: name,
-        slug: slug,
+        slug: name,
         status: status,
         rate: rate
       };
-      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("class-rate/", payload, function (err, update) {
+      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.classRates.data[_this3.classRateIndex] = update;
           _this3.editingMode = false;
@@ -2284,12 +2285,13 @@ __webpack_require__.r(__webpack_exports__);
       var name = e.target.name.value;
       var slug = e.target.slug.value;
       var status = e.target.status.value;
-      var payload = {
+      var uri = "classroom/".concat(slug);
+      var payloads = {
         name: name,
-        slug: slug,
+        slug: name,
         status: status
       };
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].update("classroom/", payload, function (err, update) {
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.classrooms.data[_this3.classroomIndex] = update;
           _this3.editingMode = false;
@@ -2330,6 +2332,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2547,9 +2551,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
-/* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
-/* harmony import */ var _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/EducationBackground.js */ "./resources/js/helpers/EducationBackground.js");
-/* harmony import */ var _forms_EduBackgroundForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../forms/EduBackgroundForm.vue */ "./resources/js/components/forms/EduBackgroundForm.vue");
+/* harmony import */ var _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/EducationBackground.js */ "./resources/js/helpers/EducationBackground.js");
+/* harmony import */ var _forms_EduBackgroundForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../forms/EduBackgroundForm.vue */ "./resources/js/components/forms/EduBackgroundForm.vue");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -2626,68 +2629,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
-
-var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll.bind(_helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var deleteEb = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete.bind(_helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2705,18 +2649,20 @@ var deleteEb = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete.
     };
   },
   components: {
-    "edu-bg-form": _forms_EduBackgroundForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    "edu-bg-form": _forms_EduBackgroundForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   created: function created() {
     var _this = this;
 
-    fetchAll("education-background", function (err, data) {
+    _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll("education-background", function (err, data) {
       if (!err) {
         _this.eduBackgrounds = data;
-        console.log("fetched education background", data);
+        console.log("%c Fetch result for Education Background", "font-weight: bold; color: green; font-family: Segoe UI Light;");
+        console.log(data);
       } else {
         swal("Something went wrong!", "Unable to fetch education backgrounds from database", "error");
-        console.log("error found", err.response);
+        console.log("%c Error Found", "font-weight: bold; color: red; font-family: Segoe UI Light;");
+        console.log(err.response);
       }
     });
   },
@@ -2728,7 +2674,7 @@ var deleteEb = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete.
           name = _this$newEduBackgroun.name,
           year_attended = _this$newEduBackgroun.year_attended,
           notes = _this$newEduBackgroun.notes;
-      var newEducationBg = new _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_2__["default"](name, year_attended, notes);
+      var newEducationBg = new _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"](name, year_attended, notes);
       newEducationBg.saveEducation("education-background", function (err, newData) {
         if (!err) {
           _this2.eduBackgrounds.data.push(newData);
@@ -2756,40 +2702,42 @@ var deleteEb = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete.
     },
     editEduBackground: function editEduBackground(slug) {
       this.editingMode = true;
-      var selectedEduBackground = this.eduBackgrounds.data.find(function (edu) {
+      this.eduBackgroundIndex = this.eduBackgrounds.data.findIndex(function (edu) {
         return edu.slug === slug;
       });
+      var eb = this.eduBackgrounds.data[this.eduBackgroundIndex];
       this.newEduBackground = {
-        name: selectedEduBackground.name,
-        slug: selectedEduBackground.slug,
-        year_attended: selectedEduBackground.year_attended,
-        notes: selectedEduBackground.notes
+        name: eb.name,
+        slug: eb.slug,
+        year_attended: eb.year_attended,
+        notes: eb.notes
       };
-      this.eduBackgroundIndex = selectedEduBackground;
     },
     updateEduBackground: function updateEduBackground(event) {
       var _this3 = this;
 
       var target = event.target;
-      var name = this.newEduBackground.name;
-      var slug = this.newEduBackground.slug;
-      var year_attended = this.newEduBackground.year_attended;
-      var notes = this.newEduBackground.notes;
-      var payload = {
+      var newEb = this.newEduBackground;
+      var name = newEb.name;
+      var slug = newEb.slug;
+      var year_attended = newEb.year_attended;
+      var notes = newEb.notes;
+      var uri = "education-background/".concat(slug);
+      var payloads = {
         name: name,
-        slug: slug,
+        slug: name,
         year_attended: year_attended,
         notes: notes
       };
-      _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_2__["default"].update("education-background/", payload, function (err, update) {
+      _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.eduBackgrounds.data[_this3.eduBackgroundIndex] = update;
           _this3.editingMode = false;
 
           _this3.resetForm();
 
-          console.log("[update] result", update);
           swal("Success!", "Successfully updated Education Background", "success");
+          console.log("[update] result", update);
         } else {
           swal("Something went wrong", "Unable to update Education Background", "error");
           console.log("[update] error", err.response);
@@ -2807,7 +2755,7 @@ var deleteEb = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete.
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          deleteEb("education-background/", slug, function (err, removedSlug) {
+          _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("education-background/", slug, function (err, removedSlug) {
             if (!err) {
               _this4.eduBackgrounds.data = _this4.eduBackgrounds.data.filter(function (eb) {
                 return eb.slug !== removedSlug;
@@ -3388,15 +3336,16 @@ __webpack_require__.r(__webpack_exports__);
     update: function update(e) {
       var _this3 = this;
 
-      var level_name = e.target.name.value;
+      var name = e.target.name.value;
       var slug = e.target.slug.value;
       var status = e.target.status.value;
-      var payload = {
-        name: level_name,
-        slug: slug,
+      var uri = "student-level/".concat(slug);
+      var payloads = {
+        name: name,
+        slug: name,
         status: status
       };
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("student-level/", payload, function (err, update) {
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.studentLevels.data[_this3.levelIndex] = update;
           _this3.editingMode = false;
@@ -3608,12 +3557,12 @@ __webpack_require__.r(__webpack_exports__);
       var status = Number(e.target.value);
       var uri = "";
       if (status === 1) uri = "subject/active/".concat(slug);else uri = "subject/inactive/".concat(slug);
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].updateStatus(uri, function (err, result) {
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].updateStatus(uri, function (err, update) {
         if (!err) {
-          console.log("update status", result);
-          swal("Congrats!", result, "success");
+          swal("Congrats!", update.message, "success");
+          console.log("update status", update);
         } else {
-          console.log("error updating status", err.response.data);
+          console.log("error updating status", err);
           swal("Sorry... Something went wrong :(", "Unable to update subject status", "error");
         }
       });
@@ -3661,12 +3610,13 @@ __webpack_require__.r(__webpack_exports__);
       var name = target.name.value;
       var slug = target.slug.value;
       var status = target.status.value;
-      var payload = {
+      var uri = "subject/".concat(slug);
+      var payloads = {
         name: name,
-        slug: slug,
+        slug: name,
         status: status
       };
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].update("subject/", payload, function (err, update) {
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.subjects.data[_this3.subjectIndex] = update;
           _this3.editingMode = false;
@@ -3779,6 +3729,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["slug", "name", "status", "updateFunc", "active", "rate", "email"],
+  data: function data() {
+    return {};
+  },
   methods: {
     closeModal: function closeModal() {
       _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("closeModalEvent");
@@ -4094,15 +4047,16 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       var email = target.email.value;
       var password = target.password.value;
       var password_confirmation = target.password_confirmation.value;
-      var payload = {
+      var uri = "user/".concat(slug);
+      var payloads = {
         name: name,
-        slug: slug,
+        slug: name,
         status: status,
         email: email,
         password: password,
         password_confirmation: password_confirmation
       };
-      _helpers_User_js__WEBPACK_IMPORTED_MODULE_1__["default"].update("user/", payload, function (err, update) {
+      _helpers_User_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.users.data[_this3.userIndex] = update;
           _this3.editingMode = false;
@@ -40599,7 +40553,22 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm._m(0)
+              _c("div", { staticClass: "form-group mt-4" }, [
+                _c(
+                  "button",
+                  { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                  [
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(_vm.name ? "Update" : "Save") +
+                        " Educational Background\n              "
+                    ),
+                    _c("i", {
+                      staticClass: "ml-2 batch-icon batch-icon-stiffy"
+                    })
+                  ]
+                )
+              ])
             ]
           )
         ])
@@ -40607,23 +40576,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mt-4" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [
-          _vm._v("\n              Save Educational Background\n              "),
-          _c("i", { staticClass: "ml-2 batch-icon batch-icon-stiffy" })
-        ]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -55734,10 +55687,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
@@ -55765,26 +55714,6 @@ function (_Model) {
     return _this;
   }
 
-  _createClass(ClassRate, null, [{
-    key: "update",
-    value: function update(url, _ref, callback) {
-      var name = _ref.name,
-          slug = _ref.slug,
-          rate = _ref.rate,
-          status = _ref.status;
-      axios.put(url + slug, {
-        name: name,
-        slug: name,
-        rate: rate,
-        status: status
-      }).then(function (result) {
-        return callback(null, result.data.update);
-      }).catch(function (err) {
-        return callback(err, null);
-      });
-    }
-  }]);
-
   return ClassRate;
 }(_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -55801,59 +55730,40 @@ function (_Model) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Model.js */ "./resources/js/helpers/Model.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
 
 var EducationBackground =
 /*#__PURE__*/
-function () {
+function (_Model) {
+  _inherits(EducationBackground, _Model);
+
   function EducationBackground(name, year_attended, notes) {
+    var _this;
+
     _classCallCheck(this, EducationBackground);
 
-    this.name = name;
-    this.slug = name;
-    this.year_attended = year_attended;
-    this.notes = notes;
+    _this.name = name;
+    _this.slug = name;
+    _this.year_attended = year_attended;
+    _this.notes = notes;
+    return _possibleConstructorReturn(_this);
   }
 
-  _createClass(EducationBackground, [{
-    key: "saveEducation",
-    value: function saveEducation(url, callback) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, this).then(function (result) {
-        return callback(null, result.data.update);
-      }).catch(function (err) {
-        return callback(err, null);
-      });
-    }
-  }, {
-    key: "update",
-    value: function update(url, _ref, callback) {
-      var name = _ref.name,
-          slug = _ref.slug,
-          year_attended = _ref.year_attended,
-          notes = _ref.notes;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(url + slug, {
-        name: name,
-        slug: name,
-        year_attended: year_attended,
-        notes: notes
-      }).then(function (result) {
-        return callback(null, result.data.update);
-      }).catch(function (err) {
-        return callback(err, null);
-      });
-    }
-  }]);
-
   return EducationBackground;
-}();
+}(_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (EducationBackground);
 
@@ -55870,6 +55780,10 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -55893,10 +55807,8 @@ function () {
   _createClass(Model, [{
     key: "save",
     value: function save(url, callback) {
-      var _this = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, this).then(function (result) {
-        return callback(null, _this);
+        return callback(null, result.data.update);
       }).catch(function (err) {
         return callback(err, null);
       });
@@ -55912,20 +55824,15 @@ function () {
     }
   }, {
     key: "update",
-    value: function update(url, _ref, callback) {
-      var name = _ref.name,
-          slug = _ref.slug,
-          status = _ref.status;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(url + slug, {
-        name: name,
-        slug: name,
-        status: status
-      }).then(function (result) {
+    value: function update(url, payloads, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(url, _objectSpread({}, payloads)).then(function (result) {
         return callback(null, result.data.update);
       }).catch(function (err) {
         return callback(err, null);
       });
-    }
+    } // needs to be updated so that we do not have to pass slug when invoking the function
+    // proposed update static(url, callback)
+
   }, {
     key: "delete",
     value: function _delete(url, slug, callback) {
@@ -56036,15 +55943,9 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Model */ "./resources/js/helpers/Model.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -56055,7 +55956,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -56075,30 +55975,6 @@ function (_Model) {
     _this.password_confirmation = password_confirmation;
     return _this;
   }
-
-  _createClass(User, null, [{
-    key: "update",
-    value: function update(url, _ref, callback) {
-      var name = _ref.name,
-          slug = _ref.slug,
-          status = _ref.status,
-          email = _ref.email,
-          password = _ref.password,
-          password_confirmation = _ref.password_confirmation;
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put(url + slug, {
-        name: name,
-        slug: name,
-        status: status,
-        email: email,
-        password: password,
-        password_confirmation: password_confirmation
-      }).then(function (result) {
-        return callback(null, result.data.update);
-      }).catch(function (err) {
-        return callback(err, null);
-      });
-    }
-  }]);
 
   return User;
 }(_Model__WEBPACK_IMPORTED_MODULE_0__["default"]);
