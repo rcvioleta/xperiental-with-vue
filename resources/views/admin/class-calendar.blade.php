@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+@section('styling')
+  <link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/fonts/line-awesome/css/line-awesome.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.print.min.css') }}" media='print' />
+  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/scheduler.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-6">
@@ -419,4 +435,87 @@
             </footer>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+  <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}"></script>
+  <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
+  <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
+  <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
+  <script src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
+  <script src="{{ asset('assets/js/misc/moment.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/fullcalendar/scheduler.min.js') }}"></script>
+  <script src="{{ asset('assets/js/jquery/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/form-validator/jquery.form-validator.min.js') }}"></script>
+  <script src="{{ asset('assets/js/scripts.js') }}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      function qp_form_wizard(){
+        var thisForm = '#rootwizard-1';
+        if($(thisForm).length){
+          $('.pager li a, .pager li span').on('click', function(e){
+            e.preventDefault();
+          });
+          
+          $(thisForm).bootstrapWizard({onNext: function(tab, navigation, index) {
+            $('#wizard-back-btn').css({"display": "block"});
+            $('#btn-sched-save').css({"display": "block"});
+
+            // if(index == 1){
+            // 	$(".form-wizard-review-block").html("");
+            // 	$(".form-wizard-review-block").append("<p><strong>Student ID:</strong> " + $(".wizard-stage-1-username").val() + "</p>");
+            // 	$(".form-wizard-review-block").append("<p><strong>Student Name:</strong> " + $(".wizard-stage-1-username").val() + "</p>");
+            // 	$(".form-wizard-review-block").append("<p><strong>Available Credits:</strong> " + $(".wizard-stage-1-username").val() + "</p>");
+            // 	$(".form-wizard-review-block").append("<p><strong>Student Status:</strong> " + $(".wizard-stage-1-username").val() + "</p>");
+            // 	// $(".form-wizard-review-block").append("<p><strong>Email:</strong> " + $(".wizard-stage-1-email").val() + "</p>");
+            // 	// $(".form-wizard-review-block").append("<p><strong>password:</strong> *******</p>");
+            // 	// $(".form-wizard-review-block").append("<p><strong>Telephone:</strong> " + $(".wizard-stage-2-optional-1").val() + "</p>");
+            // 	// $(".form-wizard-review-block").append("<p><strong>Your Address:</strong> " + $(".wizard-stage-2-optional-2").val() + "</p>");
+            // 	// $(".form-wizard-review-block").append("<p><strong>Write something about yourself:</strong> " + $(".wizard-stage-2-optional-3").val() + "</p>");
+            // }
+            if(index <= 1){
+              $(thisForm + ' .tab-pane').eq(index).addClass('active');
+              $(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
+            }
+
+          }, onPrevious: function(tab, navigation, index) {
+            // Note: index is the previous frame not the current one
+            if(index !== -1){
+              $(thisForm + ' .tab-pane').eq(index).addClass('active');
+              $(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
+            }
+            $('#wizard-back-btn').css({"display": "none"});
+            $('#btn-sched-save').css({"display": "none"});
+          }, onTabShow: function(tab, navigation, index) {
+            // Update Progress Bar
+            var total = navigation.find('li').length;
+            var current = index + 1;
+            var completionPercentage = (current / total) * 100;
+
+            var progressBar = $(thisForm).closest('.card').find(".card-header .progress-bar");
+
+            progressBar.css({"width": completionPercentage + "%"}).attr("aria-valuenow", completionPercentage);
+          }, onTabClick: function(tab, navigation, index){
+            return false;
+          }});
+        }
+      }
+
+      qp_form_wizard();
+      $('#progress-div').css({"width": "50%"});
+      $('#wizard-back-btn').css({"display": "none"});
+      $('#btn-sched-save').css({"display": "none"});
+      
+    });
+  </script>
 @endsection

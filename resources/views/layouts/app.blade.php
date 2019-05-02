@@ -1,67 +1,41 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>Xperiental Learning Hub</title>
+  <!-- Styles -->
+  {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <title>Xperiental Learning Hub</title>
-
-    <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
-
-    <!-- Styles -->
-    {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-
-  <!-- start template assets -->
-	<!-- Fonts -->
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
-
-	<link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/fonts/line-awesome/css/line-awesome.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-
-	<link  rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.css') }}"/>
-	<link  rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.print.min.css') }}" media='print' />
-	<link  rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/scheduler.min.css') }}" rel='stylesheet' />
-
-	<style type="text/css">
+  @yield('styling')
+  <style type="text/css">
 		.nav-tabs .nav-link.active {
-		    font-weight: bold;
+      font-weight: bold;
 		}
 		.nav-tabs .nav-link {
-		    padding: 10px 16px;
-		    margin-right: 4px;
-		    background-color: #f5f5f5;
-		    border: 1px solid #e7e7e7;
+      padding: 10px 16px;
+      margin-right: 4px;
+      background-color: #f5f5f5;
+      border: 1px solid #e7e7e7;
 		}
 		.dropdown-menu {
-		    width: 200px;
+      width: 200px;
 		}
 		#sidebar .dropdown-toggle::after {
-		     float: right; 
-		    top: -30px;
-		    position: relative;
+      float: right; 
+      top: -30px;
+      position: relative;
 		}
 		#sidebar .nav-item.dropdown {
 			height: 70px;
 		}
 		#sidebar hr {
-		    border-top: 1px solid rgba(245, 245, 245, 0.3);
-		    width: 90%;
+      border-top: 1px solid rgba(245, 245, 245, 0.3);
+      width: 90%;
 		}
 	</style>
-    <!-- end template assets -->
 </head>
 <body>
 
@@ -138,40 +112,7 @@
 
   @yield('scripts')
 
-  <!-- start template assets -->
-	<script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
-	<script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
-	<script src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
-	<!-- Datatables -->
-	<script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
-	
-	<!-- moment -->
-	<script src="{{ asset('assets/js/misc/moment.min.js') }}"></script>
-	
-	<!-- full calendar -->
-	<script src="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/fullcalendar/scheduler.min.js') }}"></script>
-	
-	<!-- Jquery UI -->
-	<script src="{{ asset('assets/js/jquery/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}"></script>
-	
-	<!-- Form Wizard -->
-	<script src="{{ asset('assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-	
-	<!-- quillpro scripts -->
-	<script src="{{ asset('assets/js/scripts.js') }}"></script>
-
 	<script>
-		
 		function SubjectAdd() {
 			$('#subject-add').css('display','block');
 			$('#classroom-add').css('display','none');
