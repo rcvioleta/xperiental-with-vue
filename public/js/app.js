@@ -2553,6 +2553,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 /* harmony import */ var _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/EducationBackground.js */ "./resources/js/helpers/EducationBackground.js");
 /* harmony import */ var _forms_EduBackgroundForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../forms/EduBackgroundForm.vue */ "./resources/js/components/forms/EduBackgroundForm.vue");
+/* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -2632,6 +2633,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 
+
+var fetchAllEduBg = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAll.bind(_helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var update = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].update.bind(_helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var deleteEduBg = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].delete.bind(_helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2654,7 +2659,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   created: function created() {
     var _this = this;
 
-    _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll("education-background", function (err, data) {
+    fetchAllEduBg("education-background", function (err, data) {
       if (!err) {
         _this.eduBackgrounds = data;
         console.log("%c Fetch result for Education Background", "font-weight: bold; color: green; font-family: Segoe UI Light;");
@@ -2674,8 +2679,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           name = _this$newEduBackgroun.name,
           year_attended = _this$newEduBackgroun.year_attended,
           notes = _this$newEduBackgroun.notes;
-      var newEducationBg = new _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"](name, year_attended, notes);
-      newEducationBg.saveEducation("education-background", function (err, newData) {
+      var newEduBackground = new _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"](name, year_attended, notes);
+      newEduBackground.save("education-background", function (err, newData) {
         if (!err) {
           _this2.eduBackgrounds.data.push(newData);
 
@@ -2729,7 +2734,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         year_attended: year_attended,
         notes: notes
       };
-      _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
+      update(uri, payloads, function (err, update) {
         if (!err) {
           _this3.eduBackgrounds.data[_this3.eduBackgroundIndex] = update;
           _this3.editingMode = false;
@@ -2755,7 +2760,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("education-background/", slug, function (err, removedSlug) {
+          deleteEduBg("education-background/", slug, function (err, removedSlug) {
             if (!err) {
               _this4.eduBackgrounds.data = _this4.eduBackgrounds.data.filter(function (eb) {
                 return eb.slug !== removedSlug;
@@ -55730,40 +55735,41 @@ function (_Model) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Model.js */ "./resources/js/helpers/Model.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
 
 var EducationBackground =
 /*#__PURE__*/
-function (_Model) {
-  _inherits(EducationBackground, _Model);
-
+function () {
   function EducationBackground(name, year_attended, notes) {
-    var _this;
-
     _classCallCheck(this, EducationBackground);
 
-    _this.name = name;
-    _this.slug = name;
-    _this.year_attended = year_attended;
-    _this.notes = notes;
-    return _possibleConstructorReturn(_this);
+    this.name = name;
+    this.slug = name;
+    this.year_attended = year_attended;
+    this.notes = notes;
   }
 
+  _createClass(EducationBackground, [{
+    key: "save",
+    value: function save(url, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, this).then(function (result) {
+        return callback(null, result.data.update);
+      }).catch(function (err) {
+        return callback(err, null);
+      });
+    }
+  }]);
+
   return EducationBackground;
-}(_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
+}();
 
 /* harmony default export */ __webpack_exports__["default"] = (EducationBackground);
 
@@ -56001,8 +56007,8 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Rovio\Desktop\xperiental\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

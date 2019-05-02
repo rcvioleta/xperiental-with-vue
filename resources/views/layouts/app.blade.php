@@ -133,8 +133,10 @@
 
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+  <!-- Scripts -->
+  <script src="{{ asset('js/app.js') }}"></script>
+
+  @yield('scripts')
 
   <!-- start template assets -->
 	<script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}"></script>

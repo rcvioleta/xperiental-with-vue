@@ -70,6 +70,11 @@
 import { EventBus } from "../../app.js";
 import EducationBackground from "../../helpers/EducationBackground.js";
 import EduBackgroundForm from "../forms/EduBackgroundForm.vue";
+import Model from "../../helpers/Model.js";
+
+const fetchAllEduBg = Model.fetchAll.bind(EducationBackground);
+const update = Model.update.bind(EducationBackground);
+const deleteEduBg = Model.delete.bind(EducationBackground);
 
 export default {
   data() {
@@ -91,7 +96,7 @@ export default {
     "edu-bg-form": EduBackgroundForm
   },
   created() {
-    EducationBackground.fetchAll("education-background", (err, data) => {
+    fetchAllEduBg("education-background", (err, data) => {
       if (!err) {
         this.eduBackgrounds = data;
         console.log(
@@ -116,12 +121,12 @@ export default {
   methods: {
     saveEduBackground() {
       const { name, year_attended, notes } = this.newEduBackground;
-      const newEducationBg = new EducationBackground(
+      const newEduBackground = new EducationBackground(
         name,
         year_attended,
         notes
       );
-      newEducationBg.saveEducation("education-background", (err, newData) => {
+      newEduBackground.save("education-background", (err, newData) => {
         if (!err) {
           this.eduBackgrounds.data.push(newData);
           this.addingMode = true;
@@ -177,7 +182,7 @@ export default {
       const uri = `education-background/${slug}`;
       const payloads = { name, slug: name, year_attended, notes };
 
-      EducationBackground.update(uri, payloads, (err, update) => {
+      update(uri, payloads, (err, update) => {
         if (!err) {
           this.eduBackgrounds.data[this.eduBackgroundIndex] = update;
           this.editingMode = false;
@@ -207,26 +212,22 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          EducationBackground.delete(
-            "education-background/",
-            slug,
-            (err, removedSlug) => {
-              if (!err) {
-                this.eduBackgrounds.data = this.eduBackgrounds.data.filter(
-                  eb => eb.slug !== removedSlug
-                );
-                swal("Education Background was removed!", { icon: "success" });
-                console.log("DELETE RESULT", removedSlug);
-              } else {
-                swal(
-                  "Something went wrong",
-                  `Unable to delete Education Background. \n ${err.message}`,
-                  "error"
-                );
-                console.log("[DELETE ERROR]", err.response);
-              }
+          deleteEduBg("education-background/", slug, (err, removedSlug) => {
+            if (!err) {
+              this.eduBackgrounds.data = this.eduBackgrounds.data.filter(
+                eb => eb.slug !== removedSlug
+              );
+              swal("Education Background was removed!", { icon: "success" });
+              console.log("DELETE RESULT", removedSlug);
+            } else {
+              swal(
+                "Something went wrong",
+                `Unable to delete Education Background. \n ${err.message}`,
+                "error"
+              );
+              console.log("[DELETE ERROR]", err.response);
             }
-          );
+          });
         } else swal("Education Background was kept");
       });
     },
