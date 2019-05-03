@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>Xperiental Learning Hub</title>
+
   <!-- Styles -->
   {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
@@ -111,6 +114,11 @@
   <script src="{{ asset('js/app.js') }}"></script>
 
   @yield('scripts')
+
+  <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/scripts.js') }}" defer></script>
 
 	<script>
 		function SubjectAdd() {

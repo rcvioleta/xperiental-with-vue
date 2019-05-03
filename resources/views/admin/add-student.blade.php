@@ -243,8 +243,4 @@
   <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
   <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
   <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
-  <script src="{{ asset('assets/js/scripts.js') }}" defer></script>
 @endsection

@@ -438,26 +438,22 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
-  <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
-  <script src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
-  <script src="{{ asset('assets/js/misc/moment.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/fullcalendar/scheduler.min.js') }}"></script>
-  <script src="{{ asset('assets/js/jquery/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/form-validator/jquery.form-validator.min.js') }}"></script>
-  <script src="{{ asset('assets/js/scripts.js') }}"></script>
+  <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
+  <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/misc/moment.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/fullcalendar/scheduler.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/jquery/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/form-validator/jquery.form-validator.min.js') }}" defer></script>
   <script type="text/javascript">
     $(document).ready(function() {
       function qp_form_wizard(){

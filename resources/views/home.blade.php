@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@section('styling')
+  <link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/demo/css/ui-icons-batch-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
@@ -242,4 +253,17 @@
             </footer>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+  <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script> 
+  <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
+  <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
+  <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
+  <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
 @endsection
