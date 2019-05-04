@@ -24,16 +24,16 @@ class Model {
 
     static update(url, payloads, callback) {
         axios
-            .put(url, { ...payloads })
+            .put(url, {
+                ...payloads
+            })
             .then(result => callback(null, result.data.update))
             .catch(err => callback(err, null));
     }
 
-    // needs to be updated so that we do not have to pass slug when invoking the function
-    // proposed update static(url, callback)
-    static delete(url, slug, callback) {
+    static delete(url, callback) {
         axios
-            .delete(url + slug)
+            .delete(url)
             .then(result => callback(null, result.data.slug))
             .catch(err => callback(err, null));
     }

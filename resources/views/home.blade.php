@@ -256,14 +256,18 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script>
-  <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
-  <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script> 
-  <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
-  <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
-  <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
+{{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}"></script> --}}
+<script src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
+<script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
+<script src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jvmaps/jquery.vmap.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jvmaps/maps/jquery.vmap.usa.js') }}"></script>
+<script src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 @endsection

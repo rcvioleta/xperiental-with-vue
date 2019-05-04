@@ -1,35 +1,26 @@
 import axios from "axios";
 
 class Student {
-    static saveStudentInfo(formData, callback) {
-        const {
-            first_name,
-            middle_name,
-            last_name,
-            gender,
-            birth_date,
-            phone_number,
-            address
-        } = formData.personalInfo;
+    constructor(fname, mname, lname, gender, bday, pNumber, address) {
+        this.first_name = fname;
+        this.middle_name = mname;
+        this.last_name = lname;
+        this.gender = gender;
+        this.birth_date = bday;
+        this.phone_number = pNumber;
+        this.address = address;
+    }
 
+    saveStudentInfo({full_name, phone_number, relationship, address }, callback) {
         axios
-            .post("student", {
-                first_name: first_name,
-                middle_name: middle_name,
-                last_name: last_name,
-                gender: gender,
-                birth_date: birth_date,
-                phone_number: phone_number,
-                address: address
-            })
+            .post("student", this)
             .then(result => {
-                const { full_name, phone_number, relationship, address } = formData.emergencyContact;
                 return axios.post("emergency-contact", {
                     student_info_id: result.data.insertedId,
-                    full_name: full_name,
-                    phone_number: phone_number,
-                    relationship: relationship,
-                    address: address
+                    full_name,
+                    phone_number,
+                    relationship,
+                    address
                 });
             })
             .then(response => callback(null, response))

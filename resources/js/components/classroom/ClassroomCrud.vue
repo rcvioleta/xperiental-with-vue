@@ -127,7 +127,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          Model.delete("classroom/", slug, (err, removedSlug) => {
+          Model.delete(`classroom/${slug}`, (err, removedSlug) => {
             if (!err) {
               this.classrooms.data = this.classrooms.data.filter(
                 classroom => classroom.slug !== removedSlug

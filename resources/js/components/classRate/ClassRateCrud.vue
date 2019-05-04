@@ -124,7 +124,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          ClassRate.delete("class-rate/", slug, (err, removedSlug) => {
+          ClassRate.delete(`class-rate/${slug}`, (err, removedSlug) => {
             if (!err) {
               this.classRates.data = this.classRates.data.filter(
                 rate => rate.slug !== removedSlug

@@ -1982,7 +1982,7 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("class-rate/", slug, function (err, removedSlug) {
+          _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("class-rate/".concat(slug), function (err, removedSlug) {
             if (!err) {
               _this2.classRates.data = _this2.classRates.data.filter(function (rate) {
                 return rate.slug !== removedSlug;
@@ -2262,7 +2262,7 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].delete("classroom/", slug, function (err, removedSlug) {
+          _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].delete("classroom/".concat(slug), function (err, removedSlug) {
             if (!err) {
               _this2.classrooms.data = _this2.classrooms.data.filter(function (classroom) {
                 return classroom.slug !== removedSlug;
@@ -2391,32 +2391,176 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["active", "method", "closeForm", "name", "year_attended", "notes"],
+  methods: {
+    updateEduBackground: function updateEduBackground(event) {
+      switch (event.srcElement.name) {
+        case "name":
+          this.$emit("schoolNameChanged", event.target.value);
+          break;
+
+        case "attended":
+          this.$emit("yearAttendedChanged", event.target.value);
+          break;
+
+        case "notes":
+          this.$emit("notesChanged", event.target.value);
+          break;
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/forms/StudentForm.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["active", "method", "closeForm", "name", "year_attended", "notes"],
+  props: ["active", "method", "closeForm", "formData"],
   data: function data() {
     return {
-      newEduBackground: {
-        name: "",
-        year_attended: "",
-        notes: ""
+      formInputs: {
+        firstName: {
+          type: "text",
+          name: "first_name",
+          id: "first-name",
+          title: "First Name"
+        },
+        middleName: {
+          type: "text",
+          name: "middle_name",
+          id: "middle-name",
+          title: "Middle Name"
+        },
+        lastName: {
+          type: "text",
+          name: "last_name",
+          id: "last-name",
+          title: "Last Name"
+        },
+        birthDate: {
+          type: "text",
+          name: "birth_date",
+          id: "birth-date",
+          title: "Birth Date"
+        },
+        phoneNumber: {
+          type: "text",
+          name: "phone_number",
+          id: "phone-number",
+          title: "Telephone/Phone Number"
+        },
+        address: {
+          type: "text",
+          name: "address",
+          id: "address",
+          title: "Address"
+        }
       }
     };
   },
   methods: {
-    updateSchoolName: function updateSchoolName(event) {
-      this.newEduBackground.name = event.target.value;
-      this.$emit("schoolNameChanged", this.newEduBackground.name);
-    },
-    updateYearAttended: function updateYearAttended(event) {
-      this.newEduBackground.year_attended = event.target.value;
-      this.$emit("yearAttendedChanged", this.newEduBackground.year_attended);
-    },
-    updateNotes: function updateNotes(event) {
-      this.newEduBackground.notes = event.target.value;
-      this.$emit("notesChanged", this.newEduBackground.notes);
+    updateStudentInfo: function updateStudentInfo(event) {
+      console.log("@input triggered", event.srcElement.name);
+
+      switch (event.srcElement.name) {
+        case "first_name":
+          this.$emit("fnameChanged", event.target.value);
+          break;
+
+        case "middle_name":
+          this.$emit("mnameChanged", event.target.value);
+          break;
+
+        case "last_name":
+          this.$emit("lnameChanged", event.target.value);
+          break;
+
+        case "gender":
+          this.$emit("genderChanged", event.target.value);
+          break;
+
+        case "birth_date":
+          this.$emit("bdayChanged", event.target.value);
+          break;
+
+        case "phone_number":
+          this.$emit("pnumberChanged", event.target.value);
+          break;
+
+        case "address":
+          this.$emit("addressChanged", event.target.value);
+          break;
+      }
     }
   }
 });
@@ -2497,11 +2641,18 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       if (this.emptyFields.length > 0) {
         swal("Missing information!", 'Please fill in the forms before clicking "SAVE"', "error");
       } else {
-        var formData = {
-          personalInfo: this.formData.personalInfo,
-          emergencyContact: this.formData.emergencyContact
-        };
-        _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"].saveStudentInfo(formData, function (err, response) {
+        var _this$formData = this.formData,
+            personalInfo = _this$formData.personalInfo,
+            emergencyContact = _this$formData.emergencyContact;
+        var first_name = personalInfo.first_name,
+            middle_name = personalInfo.middle_name,
+            last_name = personalInfo.last_name,
+            gender = personalInfo.gender,
+            birth_date = personalInfo.birth_date,
+            phone_number = personalInfo.phone_number,
+            address = personalInfo.address;
+        var student = new _helpers_Student_js__WEBPACK_IMPORTED_MODULE_1__["default"](first_name, middle_name, last_name, gender, birth_date, phone_number, address);
+        student.saveStudentInfo(emergencyContact, function (err, response) {
           if (!err) {
             console.log("Student Saved", response);
             swal("Success!", "Successfully saved information", "success");
@@ -2554,6 +2705,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_EducationBackground_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/EducationBackground.js */ "./resources/js/helpers/EducationBackground.js");
 /* harmony import */ var _forms_EduBackgroundForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../forms/EduBackgroundForm.vue */ "./resources/js/components/forms/EduBackgroundForm.vue");
 /* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -2710,13 +2865,8 @@ var deleteEduBg = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].dele
       this.eduBackgroundIndex = this.eduBackgrounds.data.findIndex(function (edu) {
         return edu.slug === slug;
       });
-      var eb = this.eduBackgrounds.data[this.eduBackgroundIndex];
-      this.newEduBackground = {
-        name: eb.name,
-        slug: eb.slug,
-        year_attended: eb.year_attended,
-        notes: eb.notes
-      };
+      var eduBackground = this.eduBackgrounds.data[this.eduBackgroundIndex];
+      this.newEduBackground = _objectSpread({}, eduBackground);
     },
     updateEduBackground: function updateEduBackground(event) {
       var _this3 = this;
@@ -3116,8 +3266,30 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
+/* harmony import */ var _forms_StudentForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../forms/StudentForm.vue */ "./resources/js/components/forms/StudentForm.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3168,22 +3340,96 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+var fetchStudents = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].fetchAll.bind(null);
+var delStudent = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].delete.bind(null);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       students: "",
-      didFetching: false
+      selectedStudent: "",
+      studentIndex: "",
+      didFetching: false,
+      editingMode: false
     };
+  },
+  components: {
+    "student-form": _forms_StudentForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  beforeUpdate: function beforeUpdate() {
+    console.log("trying to update");
   },
   created: function created() {
     var _this = this;
 
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("student").then(function (response) {
-      _this.students = response.data;
-      _this.didFetching = true;
-    }).catch(function (err) {
-      return console.log(err);
+    fetchStudents("student", function (err, data) {
+      if (!err) {
+        _this.students = data;
+        _this.didFetching = true;
+        console.log("Fetch success!", data);
+      } else {
+        console.log("Error found while fetching...", err);
+      }
     });
+  },
+  methods: {
+    deleteStudent: function deleteStudent(id) {
+      var _this2 = this;
+
+      swal({
+        title: "Continue removing this student?",
+        text: "There's no going back!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(function (willDelete) {
+        if (willDelete) {
+          delStudent("student/".concat(id), function (err, removedId) {
+            if (!err) {
+              _this2.students.data = _this2.students.data.filter(function (student) {
+                return student.id !== id;
+              });
+              swal("Student was removed!", {
+                icon: "success"
+              });
+              console.log("DELETE RESULT", removedId);
+            } else {
+              swal("Something went wrong", "Unable to delete Student. \n ".concat(err.message), "error");
+              console.log("[DELETE ERROR]", err.response);
+            }
+          });
+        } else swal("Student information was kept");
+      });
+    },
+    editStudent: function editStudent(id) {
+      this.editingMode = true;
+      this.studentIndex = this.students.data.findIndex(function (student) {
+        return student.id === id;
+      });
+      var studentObj = this.students.data[this.studentIndex];
+      this.selectedStudent = _objectSpread({}, studentObj);
+    },
+    updateStudent: function updateStudent() {
+      console.log("Update Student Information", this.selectedStudent);
+    },
+    closeForm: function closeForm() {
+      this.editingMode = false;
+      this.resetForm();
+    },
+    resetForm: function resetForm() {
+      var _this3 = this;
+
+      Object.keys(this.selectedStudent).map(function (key) {
+        _this3.selectedStudent[key] = "";
+      });
+    }
+  },
+  computed: {
+    isActive: function isActive() {
+      return {
+        "in-use": this.editingMode
+      };
+    }
   }
 });
 
@@ -3285,6 +3531,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 /* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
 /* harmony import */ var _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/modal/Modal.vue */ "./resources/js/components/ui/modal/Modal.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3403,7 +3653,7 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("student-level/", slug, function (err, removedSlug) {
+          _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("student-level/".concat(slug), function (err, removedSlug) {
             if (!err) {
               _this2.studentLevels.data = _this2.studentLevels.data.filter(function (level) {
                 return level.slug !== removedSlug;
@@ -3449,7 +3699,8 @@ __webpack_require__.r(__webpack_exports__);
       this.levelIndex = this.studentLevels.data.findIndex(function (level) {
         return level.slug === slug;
       });
-      this.selectedLevel = this.studentLevels.data[this.levelIndex];
+      var levelObj = this.studentLevels.data[this.levelIndex];
+      this.selectedLevel = _objectSpread({}, levelObj);
       this.editingMode = true;
     }
   },
@@ -3561,6 +3812,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 /* harmony import */ var _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/modal/Modal.vue */ "./resources/js/components/ui/modal/Modal.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3665,7 +3920,7 @@ __webpack_require__.r(__webpack_exports__);
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].delete("student/", slug, function (err, removedSlug) {
+          _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].delete("subject/".concat(slug), function (err, removedSlug) {
             if (!err) {
               _this2.subjects.data = _this2.subjects.data.filter(function (subject) {
                 return subject.slug !== removedSlug;
@@ -3705,7 +3960,10 @@ __webpack_require__.r(__webpack_exports__);
       };
       _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].update(uri, payloads, function (err, update) {
         if (!err) {
-          _this3.subjects.data[_this3.subjectIndex] = update;
+          var updatedSubject = _objectSpread({}, _this3.subjects);
+
+          updatedSubject.data[_this3.subjectIndex] = update;
+          _this3.subjects = _objectSpread({}, updatedSubject);
           _this3.editingMode = false;
           console.log("[updateStatus] result", update);
           swal("Success!", "Successfull updated subject", "success");
@@ -3718,8 +3976,8 @@ __webpack_require__.r(__webpack_exports__);
     fetchSubjects: function fetchSubjects() {
       var _this4 = this;
 
-      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].fetchAll("subject", function (err, subjects) {
-        if (!err) _this4.subjects = subjects;else {
+      _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].fetchAll("subject", function (err, data) {
+        if (!err) _this4.subjects = data;else {
           console.log("[FETCH SUBJECTS ERROR]", err.response);
           swal("Something went wrong", "Unable to fetch subjects", "error");
         }
@@ -4099,7 +4357,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         dangerMode: true
       }).then(function (willDelete) {
         if (willDelete) {
-          _helpers_User_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("user/", slug, function (err, removedSlug) {
+          _helpers_User_js__WEBPACK_IMPORTED_MODULE_1__["default"].delete("user/".concat(slug), function (err, removedSlug) {
             if (!err) {
               _this2.users.data = _this2.users.data.filter(function (user) {
                 return user.slug !== removedSlug;
@@ -8634,6 +8892,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\r\n.backdrop.in-use[data-v-416d01ed] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\r\n.backdrop.in-use[data-v-5b9fc564] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -39283,6 +39560,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css&":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css& ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ui/modal/Modal.vue?vue&type=style&index=0&id=0e604e8a&scoped=true&lang=css&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ui/modal/Modal.vue?vue&type=style&index=0&id=0e604e8a&scoped=true&lang=css& ***!
@@ -40589,7 +40896,8 @@ var render = function() {
                 submit: function($event) {
                   $event.preventDefault()
                   return _vm.method($event)
-                }
+                },
+                input: _vm.updateEduBackground
               }
             },
             [
@@ -40606,8 +40914,7 @@ var render = function() {
                     id: "school-name",
                     placeholder: "School Name"
                   },
-                  domProps: { value: _vm.name },
-                  on: { input: _vm.updateSchoolName }
+                  domProps: { value: _vm.name }
                 })
               ]),
               _vm._v(" "),
@@ -40624,8 +40931,7 @@ var render = function() {
                     id: "attended",
                     placeholder: "e.g. 2010-2011"
                   },
-                  domProps: { value: _vm.year_attended },
-                  on: { input: _vm.updateYearAttended }
+                  domProps: { value: _vm.year_attended }
                 })
               ]),
               _vm._v(" "),
@@ -40635,8 +40941,7 @@ var render = function() {
                 _c("textarea", {
                   staticClass: "form-control",
                   attrs: { name: "notes", id: "notes", cols: "30", rows: "10" },
-                  domProps: { value: _vm.notes },
-                  on: { input: _vm.updateNotes }
+                  domProps: { value: _vm.notes }
                 })
               ]),
               _vm._v(" "),
@@ -40664,6 +40969,168 @@ var render = function() {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/forms/StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "add-education-background" } }, [
+    _c("div", {
+      staticClass: "backdrop",
+      class: _vm.active,
+      on: { click: _vm.closeForm }
+    }),
+    _vm._v(" "),
+    _c("div", { staticClass: "edu-background-form", class: _vm.active }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("Edit Student Information")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.method($event)
+                },
+                input: _vm.updateStudentInfo
+              }
+            },
+            [
+              _vm._l(_vm.formInputs, function(input, index) {
+                return _c("div", { key: index, staticClass: "form-group" }, [
+                  _c("label", { attrs: { for: input.id } }, [
+                    _vm._v(_vm._s(input.title))
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: {
+                      type: input.type,
+                      name: input.name,
+                      id: input.id,
+                      placeholder: input.title
+                    },
+                    domProps: { value: _vm.formData[input.name] }
+                  })
+                ])
+              }),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm._m(1)
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticStyle: { "padding-left": "0" } }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "custom-control custom-radio form-check form-check-inline",
+          staticStyle: { width: "40%", float: "left" }
+        },
+        [
+          _c("input", {
+            staticClass: "custom-control-input",
+            attrs: {
+              type: "radio",
+              id: "customControlValidation2a",
+              name: "gender",
+              value: "male"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "custom-control-label",
+              attrs: { for: "customControlValidation2a" }
+            },
+            [_vm._v("Male")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "custom-control custom-radio mb-3 form-check form-check-inline",
+          staticStyle: { width: "20%", float: "left" }
+        },
+        [
+          _c("input", {
+            staticClass: "custom-control-input",
+            attrs: {
+              type: "radio",
+              id: "customControlValidation3a",
+              name: "gender",
+              value: "female"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "custom-control-label",
+              attrs: { for: "customControlValidation3a" }
+            },
+            [_vm._v("Female")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "invalid-feedback" }, [
+            _vm._v("More example invalid feedback text")
+          ])
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mt-4" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [
+          _vm._v("\n              Update Student Information\n              "),
+          _c("i", { staticClass: "ml-2 batch-icon batch-icon-stiffy" })
+        ]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -41261,52 +41728,129 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "student-list" } }, [
-    _c(
-      "table",
-      {
-        staticClass: "table table-datatable table-striped table-hover",
-        attrs: { id: "datatable-1" }
-      },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          [
-            _vm.students
-              ? _vm._l(_vm.students.data, function(student) {
-                  return _c("tr", { key: student.id }, [
-                    _c("td", [
-                      _vm._v(
-                        _vm._s(student.last_name) +
-                          ", " +
-                          _vm._s(student.first_name) +
-                          " " +
-                          _vm._s(student.middle_name)
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(student.gender))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(student.birth_date))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(student.phone_number))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(student.address))]),
-                    _vm._v(" "),
-                    _vm._m(1, true)
-                  ])
-                })
-              : !_vm.students && _vm.didFetching
-              ? [_vm._m(2)]
-              : [_vm._m(3)]
-          ],
-          2
-        )
-      ]
-    )
-  ])
+  return _c(
+    "div",
+    { attrs: { id: "student-list" } },
+    [
+      _c(
+        "table",
+        {
+          staticClass: "table table-datatable table-striped table-hover",
+          attrs: { id: "datatable-1" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            [
+              _vm.students
+                ? _vm._l(_vm.students.data, function(student) {
+                    return _c("tr", { key: student.id }, [
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(student.last_name) +
+                            ", " +
+                            _vm._s(student.first_name) +
+                            " " +
+                            _vm._s(student.middle_name)
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(student.gender))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(student.birth_date))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(student.phone_number))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(student.address))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "btn-group btn-group-sm",
+                            attrs: {
+                              role: "group",
+                              "aria-label": "Small button group"
+                            }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-danger",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deleteStudent(student.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Remove")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-warning",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editStudent(student.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Edit")]
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  })
+                : !_vm.students && _vm.didFetching
+                ? [_vm._m(1)]
+                : [_vm._m(2)]
+            ],
+            2
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("student-form", {
+        attrs: {
+          active: _vm.isActive,
+          closeForm: _vm.closeForm,
+          method: _vm.updateStudent,
+          formData: _vm.selectedStudent
+        },
+        on: {
+          fnameChanged: function($event) {
+            _vm.selectedStudent.first_name = $event
+          },
+          mnameChanged: function($event) {
+            _vm.selectedStudent.middle_name = $event
+          },
+          lnameChanged: function($event) {
+            _vm.selectedStudent.last_name = $event
+          },
+          genderChanged: function($event) {
+            _vm.selectedStudent.gender = $event
+          },
+          bdayChanged: function($event) {
+            _vm.selectedStudent.birth_date = $event
+          },
+          pnumberChanged: function($event) {
+            _vm.selectedStudent.phone_number = $event
+          },
+          addressChanged: function($event) {
+            _vm.selectedStudent.address = $event
+          }
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -41327,33 +41871,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Action")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "div",
-        {
-          staticClass: "btn-group btn-group-sm",
-          attrs: { role: "group", "aria-label": "Small button group" }
-        },
-        [
-          _c(
-            "button",
-            { staticClass: "btn btn-danger", attrs: { type: "button" } },
-            [_vm._v("Remove")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            { staticClass: "btn btn-warning", attrs: { type: "button" } },
-            [_vm._v("Edit")]
-          )
-        ]
-      )
     ])
   },
   function() {
@@ -55139,6 +55656,93 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/forms/StudentForm.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/forms/StudentForm.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _StudentForm_vue_vue_type_template_id_5b9fc564_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true& */ "./resources/js/components/forms/StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true&");
+/* harmony import */ var _StudentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StudentForm.vue?vue&type=script&lang=js& */ "./resources/js/components/forms/StudentForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css& */ "./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _StudentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _StudentForm_vue_vue_type_template_id_5b9fc564_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _StudentForm_vue_vue_type_template_id_5b9fc564_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "5b9fc564",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/forms/StudentForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/forms/StudentForm.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/forms/StudentForm.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./StudentForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css& ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--6-2!../../../../node_modules/vue-loader/lib??vue-loader-options!./StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=style&index=0&id=5b9fc564&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_style_index_0_id_5b9fc564_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/components/forms/StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/components/forms/StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true& ***!
+  \**************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_template_id_5b9fc564_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forms/StudentForm.vue?vue&type=template&id=5b9fc564&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_template_id_5b9fc564_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentForm_vue_vue_type_template_id_5b9fc564_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/student/AddStudentButton.vue":
 /*!**************************************************************!*\
   !*** ./resources/js/components/student/AddStudentButton.vue ***!
@@ -56143,13 +56747,11 @@ function () {
       }).catch(function (err) {
         return callback(err, null);
       });
-    } // needs to be updated so that we do not have to pass slug when invoking the function
-    // proposed update static(url, callback)
-
+    }
   }, {
     key: "delete",
-    value: function _delete(url, slug, callback) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(url + slug).then(function (result) {
+    value: function _delete(url, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(url).then(function (result) {
         return callback(null, result.data.slug);
       }).catch(function (err) {
         return callback(err, null);
@@ -56195,35 +56797,26 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Student =
 /*#__PURE__*/
 function () {
-  function Student() {
+  function Student(fname, mname, lname, gender, bday, pNumber, address) {
     _classCallCheck(this, Student);
+
+    this.first_name = fname;
+    this.middle_name = mname;
+    this.last_name = lname;
+    this.gender = gender;
+    this.birth_date = bday;
+    this.phone_number = pNumber;
+    this.address = address;
   }
 
-  _createClass(Student, null, [{
+  _createClass(Student, [{
     key: "saveStudentInfo",
-    value: function saveStudentInfo(formData, callback) {
-      var _formData$personalInf = formData.personalInfo,
-          first_name = _formData$personalInf.first_name,
-          middle_name = _formData$personalInf.middle_name,
-          last_name = _formData$personalInf.last_name,
-          gender = _formData$personalInf.gender,
-          birth_date = _formData$personalInf.birth_date,
-          phone_number = _formData$personalInf.phone_number,
-          address = _formData$personalInf.address;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("student", {
-        first_name: first_name,
-        middle_name: middle_name,
-        last_name: last_name,
-        gender: gender,
-        birth_date: birth_date,
-        phone_number: phone_number,
-        address: address
-      }).then(function (result) {
-        var _formData$emergencyCo = formData.emergencyContact,
-            full_name = _formData$emergencyCo.full_name,
-            phone_number = _formData$emergencyCo.phone_number,
-            relationship = _formData$emergencyCo.relationship,
-            address = _formData$emergencyCo.address;
+    value: function saveStudentInfo(_ref, callback) {
+      var full_name = _ref.full_name,
+          phone_number = _ref.phone_number,
+          relationship = _ref.relationship,
+          address = _ref.address;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("student", this).then(function (result) {
         return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("emergency-contact", {
           student_info_id: result.data.insertedId,
           full_name: full_name,

@@ -118,7 +118,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          User.delete("user/", slug, (err, removedSlug) => {
+          User.delete(`user/${slug}`, (err, removedSlug) => {
             if (!err) {
               this.users.data = this.users.data.filter(
                 user => user.slug !== removedSlug

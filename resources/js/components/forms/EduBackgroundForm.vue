@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-header">{{ name ? 'Edit' : 'Add' }} Educational Background</div>
         <div class="card-body">
-          <form @submit.prevent="method">
+          <form @submit.prevent="method" @input="updateEduBackground">
             <div class="form-group">
               <label for="school-name">School Name</label>
               <input
@@ -15,7 +15,6 @@
                 class="form-control"
                 placeholder="School Name"
                 :value="name"
-                @input="updateSchoolName"
               >
             </div>
 
@@ -28,7 +27,6 @@
                 class="form-control"
                 placeholder="e.g. 2010-2011"
                 :value="year_attended"
-                @input="updateYearAttended"
               >
             </div>
 
@@ -41,7 +39,6 @@
                 rows="10"
                 class="form-control"
                 :value="notes"
-                @input="updateNotes"
               ></textarea>
             </div>
 
@@ -63,27 +60,19 @@
 <script>
 export default {
   props: ["active", "method", "closeForm", "name", "year_attended", "notes"],
-  data() {
-    return {
-      newEduBackground: {
-        name: "",
-        year_attended: "",
-        notes: ""
-      }
-    };
-  },
   methods: {
-    updateSchoolName(event) {
-      this.newEduBackground.name = event.target.value;
-      this.$emit("schoolNameChanged", this.newEduBackground.name);
-    },
-    updateYearAttended(event) {
-      this.newEduBackground.year_attended = event.target.value;
-      this.$emit("yearAttendedChanged", this.newEduBackground.year_attended);
-    },
-    updateNotes(event) {
-      this.newEduBackground.notes = event.target.value;
-      this.$emit("notesChanged", this.newEduBackground.notes);
+    updateEduBackground(event) {
+      switch (event.srcElement.name) {
+        case "name":
+          this.$emit("schoolNameChanged", event.target.value);
+          break;
+        case "attended":
+          this.$emit("yearAttendedChanged", event.target.value);
+          break;
+        case "notes":
+          this.$emit("notesChanged", event.target.value);
+          break;
+      }
     }
   }
 };

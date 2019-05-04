@@ -164,13 +164,8 @@ export default {
       this.eduBackgroundIndex = this.eduBackgrounds.data.findIndex(
         edu => edu.slug === slug
       );
-      const eb = this.eduBackgrounds.data[this.eduBackgroundIndex];
-      this.newEduBackground = {
-        name: eb.name,
-        slug: eb.slug,
-        year_attended: eb.year_attended,
-        notes: eb.notes
-      };
+      const eduBackground = this.eduBackgrounds.data[this.eduBackgroundIndex];
+      this.newEduBackground = { ...eduBackground };
     },
     updateEduBackground(event) {
       const target = event.target;

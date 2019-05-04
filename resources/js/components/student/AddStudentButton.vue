@@ -55,11 +55,10 @@ export default {
           "error"
         );
       } else {
-        const formData = {
-          personalInfo: this.formData.personalInfo,
-          emergencyContact: this.formData.emergencyContact
-        };
-        Student.saveStudentInfo(formData, (err, response) => {
+        const {personalInfo, emergencyContact} = this.formData;
+        const {first_name, middle_name, last_name, gender, birth_date, phone_number, address} = personalInfo;
+        const student = new Student(first_name, middle_name, last_name, gender, birth_date, phone_number, address);
+        student.saveStudentInfo(emergencyContact, (err, response) => {
           if (!err) {
             console.log("Student Saved", response);
             swal("Success!", "Successfully saved information", "success");

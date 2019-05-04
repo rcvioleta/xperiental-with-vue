@@ -122,7 +122,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          Model.delete("student-level/", slug, (err, removedSlug) => {
+          Model.delete(`student-level/${slug}`, (err, removedSlug) => {
             if (!err) {
               this.studentLevels.data = this.studentLevels.data.filter(
                 level => level.slug !== removedSlug
@@ -165,8 +165,8 @@ export default {
       this.levelIndex = this.studentLevels.data.findIndex(
         level => level.slug === slug
       );
-
-      this.selectedLevel = this.studentLevels.data[this.levelIndex];
+      const levelObj = this.studentLevels.data[this.levelIndex];
+      this.selectedLevel = { ...levelObj };
       this.editingMode = true;
     }
   },

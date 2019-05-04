@@ -82,11 +82,16 @@ class StudentInformationController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  int  $id
+   * @param  \App\StudentInformation  $student
    * @return \Illuminate\Http\Response
    */
-  public function destroy($id)
+  public function destroy(StudentInformation $student)
   {
-    //
+    $student->delete();
+    return response()->json([
+      'slug' => $student->id,
+      'message' => 'Student information was deleted!',
+      'status' => 204
+    ]);
   }
 }

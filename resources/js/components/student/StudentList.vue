@@ -21,8 +21,12 @@
             <td>{{ student.address }}</td>
             <td>
               <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                <button type="button" class="btn btn-danger">Remove</button>
-                <button type="button" class="btn btn-warning">Edit</button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  @click="deleteStudent(student.id)"
+                >Remove</button>
+                <button type="button" class="btn btn-warning" @click="editStudent(student.id)">Edit</button>
               </div>
             </td>
           </tr>
@@ -44,27 +48,113 @@
         </template>
       </tbody>
     </table>
+
+    <student-form
+      :active="isActive"
+      :closeForm="closeForm"
+      :method="updateStudent"
+      :formData="selectedStudent"
+      @fnameChanged="selectedStudent.first_name = $event"
+      @mnameChanged="selectedStudent.middle_name = $event"
+      @lnameChanged="selectedStudent.last_name = $event"
+      @genderChanged="selectedStudent.gender = $event"
+      @bdayChanged="selectedStudent.birth_date = $event"
+      @pnumberChanged="selectedStudent.phone_number = $event"
+      @addressChanged="selectedStudent.address = $event"
+    />
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import Model from "../../helpers/Model.js";
+import StudentForm from "../forms/StudentForm.vue";
+
+const fetchStudents = Model.fetchAll.bind(null);
+const delStudent = Model.delete.bind(null);
 
 export default {
   data() {
     return {
       students: "",
-      didFetching: false
+      selectedStudent: "",
+      studentIndex: "",
+      didFetching: false,
+      editingMode: false
     };
   },
+  components: {
+    "student-form": StudentForm
+  },
+  beforeUpdate() {
+    console.log("trying to update");
+  },
   created() {
-    axios
-      .get("student")
-      .then(response => {
-        this.students = response.data;
+    fetchStudents("student", (err, data) => {
+      if (!err) {
+        this.students = data;
         this.didFetching = true;
-      })
-      .catch(err => console.log(err));
+        console.log("Fetch success!", data);
+      } else {
+        console.log("Error found while fetching...", err);
+      }
+    });
+  },
+  methods: {
+    deleteStudent(id) {
+      swal({
+        title: "Continue removing this student?",
+        text: "There's no going back!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(willDelete => {
+        if (willDelete) {
+          delStudent(`student/${id}`, (err, removedId) => {
+            if (!err) {
+              this.students.data = this.students.data.filter(
+                student => student.id !== id
+              );
+              swal("Student was removed!", { icon: "success" });
+              console.log("DELETE RESULT", removedId);
+            } else {
+              swal(
+                "Something went wrong",
+                `Unable to delete Student. \n ${err.message}`,
+                "error"
+              );
+              console.log("[DELETE ERROR]", err.response);
+            }
+          });
+        } else swal("Student information was kept");
+      });
+    },
+    editStudent(id) {
+      this.editingMode = true;
+      this.studentIndex = this.students.data.findIndex(
+        student => student.id === id
+      );
+      const studentObj = this.students.data[this.studentIndex];
+      this.selectedStudent = { ...studentObj };
+    },
+    updateStudent() {
+      console.log("Update Student Information", this.selectedStudent);
+    },
+    closeForm() {
+      this.editingMode = false;
+      this.resetForm();
+    },
+    resetForm() {
+      Object.keys(this.selectedStudent).map(key => {
+        this.selectedStudent[key] = "";
+      });
+    }
+  },
+  computed: {
+    isActive() {
+      return {
+        "in-use": this.editingMode
+      };
+    }
   }
 };
 </script>

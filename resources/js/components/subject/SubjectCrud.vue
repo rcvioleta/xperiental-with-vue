@@ -109,7 +109,7 @@ export default {
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
-          Model.delete("student/", slug, (err, removedSlug) => {
+          Model.delete(`subject/${slug}`, (err, removedSlug) => {
             if (!err) {
               this.subjects.data = this.subjects.data.filter(
                 subject => subject.slug !== removedSlug
@@ -146,7 +146,9 @@ export default {
 
       Model.update(uri, payloads, (err, update) => {
         if (!err) {
-          this.subjects.data[this.subjectIndex] = update;
+          const updatedSubject = { ...this.subjects };
+          updatedSubject.data[this.subjectIndex] = update;
+          this.subjects = { ...updatedSubject };
           this.editingMode = false;
           console.log("[updateStatus] result", update);
           swal("Success!", "Successfull updated subject", "success");
@@ -157,8 +159,8 @@ export default {
       });
     },
     fetchSubjects() {
-      Model.fetchAll("subject", (err, subjects) => {
-        if (!err) this.subjects = subjects;
+      Model.fetchAll("subject", (err, data) => {
+        if (!err) this.subjects = data;
         else {
           console.log("[FETCH SUBJECTS ERROR]", err.response);
           swal("Something went wrong", "Unable to fetch subjects", "error");
