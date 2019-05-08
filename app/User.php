@@ -15,9 +15,10 @@ class User extends Authenticatable
    *
    * @var array
    */
-  protected $fillable = [
-    'name', 'email', 'password', 'status', 'slug'
-  ];
+  // protected $fillable = [
+  //   'name', 'email', 'password', 'status', 'slug'
+  // ];
+  protected $guarded = [];
 
   public function getRouteKeyName()
   {
@@ -50,11 +51,11 @@ class User extends Authenticatable
 
   public function setSlugAttribute($value)
   {
-    return $this->attributes['slug'] = str_slug($value);
+    $this->attributes['slug'] = str_slug($value);
   }
 
   public function setPasswordAttribute($value)
   {
-    return $this->attributes['password'] = bcrypt($value);
+    $this->attributes['password'] = bcrypt($value);
   }
 }

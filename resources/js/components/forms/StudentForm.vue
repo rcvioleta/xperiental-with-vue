@@ -6,6 +6,7 @@
         <div class="card-header">Edit Student Information</div>
         <div class="card-body">
           <form @submit.prevent="method" @input="updateStudentInfo">
+            <input type="hidden" name="id" :value="formData.id">
             <div class="form-group" v-for="(input, index) in formInputs" :key="index">
               <label :for="input.id">{{ input.title }}</label>
               <input
@@ -28,9 +29,11 @@
                   id="customControlValidation2a"
                   name="gender"
                   value="male"
+                  :checked="isMale"
                 >
                 <label class="custom-control-label" for="customControlValidation2a">Male</label>
               </div>
+
               <div
                 class="custom-control custom-radio mb-3 form-check form-check-inline"
                 style="width:20%;float:left;"
@@ -41,6 +44,7 @@
                   id="customControlValidation3a"
                   name="gender"
                   value="female"
+                  :checked="isFemale"
                 >
                 <label class="custom-control-label" for="customControlValidation3a">Female</label>
                 <div class="invalid-feedback">More example invalid feedback text</div>
@@ -130,6 +134,14 @@ export default {
           this.$emit("addressChanged", event.target.value);
           break;
       }
+    }
+  },
+  computed: {
+    isMale() {
+      return this.formData.gender === "male" ? "checked" : "";
+    },
+    isFemale() {
+      return this.formData.gender === "female" ? "checked" : "";
     }
   }
 };

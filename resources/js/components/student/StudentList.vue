@@ -71,6 +71,7 @@ import StudentForm from "../forms/StudentForm.vue";
 
 const fetchStudents = Model.fetchAll.bind(null);
 const delStudent = Model.delete.bind(null);
+const updateStudent = Model.update.bind(null);
 
 export default {
   data() {
@@ -85,15 +86,16 @@ export default {
   components: {
     "student-form": StudentForm
   },
-  beforeUpdate() {
-    console.log("trying to update");
-  },
   created() {
-    fetchStudents("student", (err, data) => {
+    fetchStudents("student", (err, response) => {
       if (!err) {
-        this.students = data;
-        this.didFetching = true;
-        console.log("Fetch success!", data);
+        if (response.data.length > 0) {
+          this.students = response;
+          this.didFetching = true;
+          console.log("Fetch success!", response);
+        } else {
+          this.didFetching = true;
+        }
       } else {
         console.log("Error found while fetching...", err);
       }
@@ -136,8 +138,50 @@ export default {
       const studentObj = this.students.data[this.studentIndex];
       this.selectedStudent = { ...studentObj };
     },
-    updateStudent() {
-      console.log("Update Student Information", this.selectedStudent);
+    updateStudent(event) {
+      const {
+        first_name,
+        middle_name,
+        last_name,
+        gender,
+        birth_date,
+        phone_number,
+        address
+      } = this.selectedStudent;
+      const payloads = {
+        first_name,
+        middle_name,
+        last_name,
+        gender,
+        birth_date,
+        phone_number,
+        address
+      };
+      updateStudent(
+        `student/${event.target.id.value}`,
+        payloads,
+        (err, update) => {
+          if (!err) {
+            const updatedStudent = { ...this.students };
+            updatedStudent.data[this.studentIndex] = update;
+            this.students = { ...updatedStudent };
+            this.editingMode = false;
+            console.log("[updateStatus] result", update);
+            swal(
+              "Success!",
+              "Successfully updated Student Information",
+              "success"
+            );
+          } else {
+            swal(
+              "Something went wrong",
+              "Unable to update Student Information",
+              "err"
+            );
+            console.log("[updateStatus] error", err.response);
+          }
+        }
+      );
     },
     closeForm() {
       this.editingMode = false;

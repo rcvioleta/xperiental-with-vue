@@ -71,12 +71,28 @@ class StudentInformationController extends Controller
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  int  $id
+   * @param  \App\StudentInformation  $student
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(Request $request, StudentInformation $student)
   {
-    //
+    $student->update($request->all());
+
+    $update = [
+      'first_name' => $student->first_name,
+      'middle_name' => $student->last_name,
+      'last_name' => $student->middle_name,
+      'gender' => $student->gender,
+      'birth_date' => $student->birth_date,
+      'phone_number' => $student->phone_number,
+      'address' => $student->address
+    ];
+
+    return response()->json([
+      'update' => $update,
+      'message' => 'Student Information was updated successfully!',
+      'status' => 200
+    ]);
   }
 
   /**
