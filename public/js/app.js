@@ -1939,6 +1939,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll.bind(null);
@@ -2003,6 +2025,9 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAl
       fetchAll("classroom", function (err, data) {
         if (!err) _this4.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
       });
+    },
+    appendStudent: function appendStudent(event) {
+      console.log("student id", event);
     },
     fetchAllFormData: function fetchAllFormData() {
       this.getAllClassRates();
@@ -9201,7 +9226,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\r\n.backdrop.in-use[data-v-416d01ed] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\n.backdrop.in-use[data-v-416d01ed] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -9220,7 +9245,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\r\n.backdrop.in-use[data-v-5b9fc564] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\n.backdrop.in-use[data-v-5b9fc564] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -9239,7 +9264,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\r\n.backdrop.in-use[data-v-0e604e8a] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\n.backdrop.in-use[data-v-0e604e8a] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -41182,12 +41207,18 @@ var render = function() {
                     _vm._v("-- Select Class Rate --")
                   ]),
                   _vm._v(" "),
-                  _c("option", { attrs: { value: "400" } }, [
-                    _vm._v("Regular")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "800" } }, [_vm._v("Special")])
-                ]
+                  _vm._l(_vm.class_rates.data, function(classRate) {
+                    return _c(
+                      "option",
+                      {
+                        key: classRate.slug,
+                        domProps: { value: classRate.id }
+                      },
+                      [_vm._v(_vm._s(classRate.name))]
+                    )
+                  })
+                ],
+                2
               )
             ])
           ])
@@ -41238,10 +41269,15 @@ var render = function() {
                     _vm._v("-- Select Subject --")
                   ]),
                   _vm._v(" "),
-                  _c("option", [_vm._v("Algebra")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("Calculus")])
-                ]
+                  _vm._l(_vm.subjects.data, function(subject) {
+                    return _c(
+                      "option",
+                      { key: subject.slug, domProps: { value: subject.id } },
+                      [_vm._v(_vm._s(subject.name))]
+                    )
+                  })
+                ],
+                2
               )
             ])
           ]),
@@ -41290,10 +41326,18 @@ var render = function() {
                     _vm._v("-- Select Classrooom --")
                   ]),
                   _vm._v(" "),
-                  _c("option", [_vm._v("Classroom 1")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("Classroom 2")])
-                ]
+                  _vm._l(_vm.classrooms.data, function(classroom) {
+                    return _c(
+                      "option",
+                      {
+                        key: classroom.slug,
+                        domProps: { value: classroom.id }
+                      },
+                      [_vm._v(_vm._s(classroom.name))]
+                    )
+                  })
+                ],
+                2
               )
             ])
           ]),
@@ -41342,9 +41386,9 @@ var render = function() {
                     _vm._v("-- Select Status --")
                   ]),
                   _vm._v(" "),
-                  _c("option", [_vm._v("Active")]),
+                  _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
                   _vm._v(" "),
-                  _c("option", [_vm._v("Cancelled")])
+                  _c("option", { attrs: { value: "0" } }, [_vm._v("Cancelled")])
                 ]
               )
             ])
@@ -41355,35 +41399,42 @@ var render = function() {
           _c("div", { staticClass: "col-md-12" }, [
             _c("h2", [_vm._v("Select Student")]),
             _vm._v(" "),
-            _c("select", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form_data.student,
-                  expression: "form_data.student"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { name: "student", id: "callbacks", multiple: "multiple" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.form_data,
-                    "student",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+            _c(
+              "select",
+              {
+                staticClass: "form-control",
+                attrs: {
+                  name: "student",
+                  id: "callbacks",
+                  multiple: "multiple"
+                },
+                on: { change: _vm.appendStudent }
+              },
+              [
+                _c("option", { attrs: { disabled: "", value: "" } }, [
+                  _vm._v("-- Select Student --")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.students.data, function(student) {
+                  return _c(
+                    "option",
+                    { key: student.slug, domProps: { value: student.id } },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          student.first_name +
+                            " " +
+                            student.middle_name +
+                            " " +
+                            student.last_name
+                        )
+                      )
+                    ]
                   )
-                }
-              }
-            })
+                })
+              ],
+              2
+            )
           ])
         ])
       ])
@@ -58179,8 +58230,8 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

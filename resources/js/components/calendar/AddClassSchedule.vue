@@ -109,8 +109,11 @@
             <div class="form-group">
               <select class="form-control" name="class_rate" v-model="form_data.class_rate">
                 <option disabled value>-- Select Class Rate --</option>
-                <option value="400">Regular</option>
-                <option value="800">Special</option>
+                <option
+                  v-for="classRate in class_rates.data"
+                  :key="classRate.slug"
+                  :value="classRate.id"
+                >{{ classRate.name }}</option>
               </select>
             </div>
           </div>
@@ -121,8 +124,11 @@
             <div class="form-group">
               <select class="form-control" name="subject" v-model="form_data.subject">
                 <option disabled value>-- Select Subject --</option>
-                <option>Algebra</option>
-                <option>Calculus</option>
+                <option
+                  v-for="subject in subjects.data"
+                  :key="subject.slug"
+                  :value="subject.id"
+                >{{ subject.name }}</option>
               </select>
             </div>
           </div>
@@ -131,8 +137,11 @@
             <div class="form-group">
               <select class="form-control" name="classroom" v-model="form_data.classroom">
                 <option disabled value>-- Select Classrooom --</option>
-                <option>Classroom 1</option>
-                <option>Classroom 2</option>
+                <option
+                  v-for="classroom in classrooms.data"
+                  :key="classroom.slug"
+                  :value="classroom.id"
+                >{{ classroom.name }}</option>
               </select>
             </div>
           </div>
@@ -141,8 +150,8 @@
             <div class="form-group">
               <select class="form-control" name="status" v-model="form_data.status">
                 <option disabled value>-- Select Status --</option>
-                <option>Active</option>
-                <option>Cancelled</option>
+                <option value="1">Active</option>
+                <option value="0">Cancelled</option>
               </select>
             </div>
           </div>
@@ -155,8 +164,21 @@
               name="student"
               id="callbacks"
               multiple="multiple"
-              v-model="form_data.student"
-            ></select>
+              @change="appendStudent"
+            >
+              <option disabled value>-- Select Student --</option>
+              <option
+                v-for="student in students.data"
+                :key="student.slug"
+                :value="student.id"
+              >{{ `${student.first_name} ${student.middle_name} ${student.last_name}` }}</option>
+            </select>
+            <!-- <select name="student" class="form-control" v-model="form_data.student">
+              <option
+                v-for="student in students.data"
+                :key="student.slug"
+              >{{ `${student.first_name} ${student.middle_name} ${student.last_name}` }}</option>
+            </select>-->
           </div>
         </div>
       </form>
@@ -241,6 +263,9 @@ export default {
         else
           console.log("Error while fetching Classrooms database", err.response);
       });
+    },
+    appendStudent(event) {
+      console.log("student id", event);
     },
     fetchAllFormData() {
       this.getAllClassRates();
