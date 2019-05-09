@@ -157,6 +157,6 @@
 			$('#class-rate-add').css('display','block');
 		}
 	</script>
-	<!-- end template assets -->
+  <!-- end template assets -->
 </body>
 </html>

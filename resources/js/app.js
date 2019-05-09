@@ -35,11 +35,9 @@ Vue.component('class-rate-form', require('./components/classRate/AddClassRate.vu
 Vue.component('user-crud', require('./components/user/UserCrud.vue').default);
 Vue.component('user-form', require('./components/user/AddUser.vue').default);
 Vue.component('student-list', require('./components/student/StudentList.vue').default);
+Vue.component('class-schedule-form', require('./components/calendar/AddClassSchedule.vue').default);
 
 export const EventBus = new Vue();
-
-// import sweetalert globally so that swal can be across files
-import swal from 'sweetalert';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

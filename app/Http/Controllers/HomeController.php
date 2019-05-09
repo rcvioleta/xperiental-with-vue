@@ -26,12 +26,6 @@ class HomeController extends Controller
     return view('home');
   }
 
-  public function classCalendar()
-  {
-    return view('admin.class-calendar');
-  }
-
-
   public function configurations()
   {
     return view('admin.configurations');

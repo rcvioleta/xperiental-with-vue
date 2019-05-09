@@ -61,7 +61,7 @@
         </ul>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('class-calendar') }}">
+        <a class="nav-link" href="{{ route('class-schedule') }}">
           <i class="batch-icon batch-icon-calendar"></i>
           Class Schedule
         </a>

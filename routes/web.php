@@ -44,8 +44,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   /* routes that are responsible for routing */
   Route::get('/home', 'HomeController@index')->name('home');
-  Route::get('/class-calendar', 'HomeController@classCalendar')->name('class-calendar');
   Route::get('/configurations', 'HomeController@configurations')->name('configurations');
   Route::get('/add-student', 'HomeController@addStudent')->name('add-student');
   Route::get('/students', 'HomeController@showStudentList')->name('student-list');
+
+  Route::get('/class-schedule', 'ClassScheduleController@index')->name('class-schedule');
+  Route::post('/class-schedule', 'ClassScheduleController@store')->name('store.class-schedule');
 });

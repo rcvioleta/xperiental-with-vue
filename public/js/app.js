@@ -1754,6 +1754,267 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll.bind(null);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      class_rates: "",
+      classrooms: "",
+      students: "",
+      subjects: "",
+      form_data: {
+        class_date: "",
+        start_time_hour: "",
+        start_time_minute: "",
+        start_time_period: "",
+        end_time_hour: "",
+        end_time_minute: "",
+        end_time_period: "",
+        class_rate: "",
+        subject: "",
+        student: [],
+        classroom: "",
+        status: ""
+      }
+    };
+  },
+  created: function created() {
+    this.fetchAllFormData();
+  },
+  methods: {
+    saveClassSchedule: function saveClassSchedule() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("class-schedule").then(function (response) {
+        return console.log("got response from server", response);
+      }).catch(function (err) {
+        return console.log("an errors has been found", err.response);
+      });
+    },
+    getAllStudents: function getAllStudents() {
+      var _this = this;
+
+      fetchAll("student", function (err, data) {
+        if (!err) _this.students = data;else console.log("Error while fetching Students database", err.response);
+      });
+    },
+    getAllSubjects: function getAllSubjects() {
+      var _this2 = this;
+
+      fetchAll("subject", function (err, data) {
+        if (!err) _this2.subjects = data;else console.log("Error while fetching Subjects database", err.response);
+      });
+    },
+    getAllClassRates: function getAllClassRates() {
+      var _this3 = this;
+
+      fetchAll("class-rate", function (err, data) {
+        if (!err) _this3.class_rates = data;else console.log("Error while fetching Class Rates database", err.response);
+      });
+    },
+    getAllClassrooms: function getAllClassrooms() {
+      var _this4 = this;
+
+      fetchAll("classroom", function (err, data) {
+        if (!err) _this4.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
+      });
+    },
+    fetchAllFormData: function fetchAllFormData() {
+      this.getAllClassRates();
+      this.getAllClassrooms();
+      this.getAllStudents();
+      this.getAllSubjects();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/classRate/AddClassRate.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/classRate/AddClassRate.vue?vue&type=script&lang=js& ***!
@@ -8940,7 +9201,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\n.backdrop.in-use[data-v-416d01ed] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\r\n.backdrop.in-use[data-v-416d01ed] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -8959,7 +9220,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\n.backdrop.in-use[data-v-5b9fc564] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\r\n.backdrop.in-use[data-v-5b9fc564] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -8978,7 +9239,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\n.backdrop.in-use[data-v-0e604e8a] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\r\n.backdrop.in-use[data-v-0e604e8a] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -40499,6 +40760,667 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "add-class-schedule" } }, [
+    _c("div", { staticClass: "container-fluid" }, [
+      _c("form", [
+        _c("div", { staticClass: "form-row pt-3" }, [
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("Class Date")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form_data.class_date,
+                  expression: "form_data.class_date"
+                }
+              ],
+              staticClass: "fallback form-control",
+              attrs: {
+                type: "date",
+                name: "class_date",
+                autocomplete: "off",
+                required: ""
+              },
+              domProps: { value: _vm.form_data.class_date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form_data, "class_date", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3 mb-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("Start Time")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.start_time_hour,
+                      expression: "form_data.start_time_hour"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  attrs: { name: "start_time_hour", id: "inputGroupSelect01" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "start_time_hour",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("HH")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "1" } }, [_vm._v("1")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "8" } }, [_vm._v("8")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "9" } }, [_vm._v("9")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "12" } }, [_vm._v("12")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.start_time_minute,
+                      expression: "form_data.start_time_minute"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  attrs: {
+                    name: "start_time_minute",
+                    id: "inputGroupSelect01"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "start_time_minute",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("Min")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "00" } }, [_vm._v("00")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "30" } }, [_vm._v("30")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.start_time_period,
+                      expression: "form_data.start_time_period"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  attrs: {
+                    name: "start_time_period",
+                    id: "inputGroupSelect01"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "start_time_period",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("AM/PM")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "AM" } }, [_vm._v("AM")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "PM" } }, [_vm._v("PM")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("End Time")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group mb-3" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.end_time_hour,
+                      expression: "form_data.end_time_hour"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  attrs: { name: "end_time_hour", id: "inputGroupSelect01" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "end_time_hour",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("HH")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "1" } }, [_vm._v("1")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "8" } }, [_vm._v("8")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "9" } }, [_vm._v("9")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "12" } }, [_vm._v("12")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.end_time_minute,
+                      expression: "form_data.end_time_minute"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  attrs: { name: "end_time_minute", id: "inputGroupSelect01" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "end_time_minute",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("Min")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "00" } }, [_vm._v("00")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "30" } }, [_vm._v("30")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.end_time_period,
+                      expression: "form_data.end_time_period"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  attrs: { name: "end_time_period", id: "inputGroupSelect01" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "end_time_period",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("AM/PM")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "AM" } }, [_vm._v("AM")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "PM" } }, [_vm._v("PM")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("Class Type")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.class_rate,
+                      expression: "form_data.class_rate"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "class_rate" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "class_rate",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("-- Select Class Rate --")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "400" } }, [
+                    _vm._v("Regular")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "800" } }, [_vm._v("Special")])
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row pt-3" }, [
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("Subject")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.subject,
+                      expression: "form_data.subject"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "subject" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "subject",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("-- Select Subject --")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Algebra")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Calculus")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("Classroom")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.classroom,
+                      expression: "form_data.classroom"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "classroom" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "classroom",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("-- Select Classrooom --")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Classroom 1")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Classroom 2")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-3" }, [
+            _c("label", { attrs: { for: "validationCustom02" } }, [
+              _vm._v("Status")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form_data.status,
+                      expression: "form_data.status"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { name: "status" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form_data,
+                        "status",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", value: "" } }, [
+                    _vm._v("-- Select Status --")
+                  ]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Active")]),
+                  _vm._v(" "),
+                  _c("option", [_vm._v("Cancelled")])
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row mt-5" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("h2", [_vm._v("Select Student")]),
+            _vm._v(" "),
+            _c("select", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form_data.student,
+                  expression: "form_data.student"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { name: "student", id: "callbacks", multiple: "multiple" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.form_data,
+                    "student",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            })
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal-footer mr-3" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Cancel")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button" },
+          on: { click: _vm.saveClassSchedule }
+        },
+        [
+          _vm._v("\n      Save Schedule\n      "),
+          _c("i", { staticClass: "ml-2 batch-icon batch-icon-stiffy" })
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/classRate/AddClassRate.vue?vue&type=template&id=a2f24b8e&":
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/classRate/AddClassRate.vue?vue&type=template&id=a2f24b8e& ***!
@@ -55457,8 +56379,6 @@ module.exports = function(module) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventBus", function() { return EventBus; });
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -55493,9 +56413,8 @@ Vue.component('class-rate-form', __webpack_require__(/*! ./components/classRate/
 Vue.component('user-crud', __webpack_require__(/*! ./components/user/UserCrud.vue */ "./resources/js/components/user/UserCrud.vue").default);
 Vue.component('user-form', __webpack_require__(/*! ./components/user/AddUser.vue */ "./resources/js/components/user/AddUser.vue").default);
 Vue.component('student-list', __webpack_require__(/*! ./components/student/StudentList.vue */ "./resources/js/components/student/StudentList.vue").default);
-var EventBus = new Vue(); // import sweetalert globally so that swal can be across files
-
-
+Vue.component('class-schedule-form', __webpack_require__(/*! ./components/calendar/AddClassSchedule.vue */ "./resources/js/components/calendar/AddClassSchedule.vue").default);
+var EventBus = new Vue();
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -55574,6 +56493,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/calendar/AddClassSchedule.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/calendar/AddClassSchedule.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=template&id=d6c256b8& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&");
+/* harmony import */ var _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=script&lang=js& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/calendar/AddClassSchedule.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddClassSchedule.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddClassSchedule.vue?vue&type=template&id=d6c256b8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -57191,8 +58179,8 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
