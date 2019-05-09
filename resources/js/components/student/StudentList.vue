@@ -71,7 +71,7 @@ import StudentForm from "../forms/StudentForm.vue";
 
 const fetchStudents = Model.fetchAll.bind(null);
 const delStudent = Model.delete.bind(null);
-const updateStudent = Model.update.bind(null);
+const updateStd = Model.update.bind(null);
 
 export default {
   data() {
@@ -157,31 +157,28 @@ export default {
         phone_number,
         address
       };
-      updateStudent(
-        `student/${event.target.id.value}`,
-        payloads,
-        (err, update) => {
-          if (!err) {
-            const updatedStudent = { ...this.students };
-            updatedStudent.data[this.studentIndex] = update;
-            this.students = { ...updatedStudent };
-            this.editingMode = false;
-            console.log("[updateStatus] result", update);
-            swal(
-              "Success!",
-              "Successfully updated Student Information",
-              "success"
-            );
-          } else {
-            swal(
-              "Something went wrong",
-              "Unable to update Student Information",
-              "err"
-            );
-            console.log("[updateStatus] error", err.response);
-          }
+      updateStd(`student/${event.target.id.value}`, payloads, (err, update) => {
+        if (!err) {
+          const updatedStudent = { ...this.students };
+          updatedStudent.data[this.studentIndex] = update;
+          this.students = { ...updatedStudent };
+          this.editingMode = false;
+          this.resetForm();
+          console.log("[updateStatus] result", update);
+          swal(
+            "Success!",
+            "Successfully updated Student Information",
+            "success"
+          );
+        } else {
+          swal(
+            "Something went wrong",
+            "Unable to update Student Information",
+            "err"
+          );
+          console.log("[updateStatus] error", err.response);
         }
-      );
+      });
     },
     closeForm() {
       this.editingMode = false;

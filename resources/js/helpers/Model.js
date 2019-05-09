@@ -23,6 +23,7 @@ class Model {
     }
 
     static update(url, payloads, callback) {
+        console.log('UPDATE URL', url)
         axios
             .put(url, {
                 ...payloads

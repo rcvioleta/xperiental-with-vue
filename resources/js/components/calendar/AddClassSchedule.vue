@@ -159,26 +159,21 @@
         <div class="form-row mt-5">
           <div class="col-md-12">
             <h2>Select Student</h2>
-            <select
-              class="form-control"
-              name="student"
-              id="callbacks"
-              multiple="multiple"
-              @change="appendStudent"
-            >
+            <select name="student" class="form-control" @change="selectStudent">
               <option disabled value>-- Select Student --</option>
               <option
                 v-for="student in students.data"
-                :key="student.slug"
                 :value="student.id"
+                :key="student.slug"
               >{{ `${student.first_name} ${student.middle_name} ${student.last_name}` }}</option>
             </select>
-            <!-- <select name="student" class="form-control" v-model="form_data.student">
-              <option
-                v-for="student in students.data"
-                :key="student.slug"
-              >{{ `${student.first_name} ${student.middle_name} ${student.last_name}` }}</option>
-            </select>-->
+            <strong>
+              Selected:
+              <span
+                v-for="selectedStd in selectedStudents"
+                :key="selectedStd.id"
+              >{{ `${selectedStd.first_name} ${selectedStd.last_name}, ` }}</span>
+            </strong>
           </div>
         </div>
       </form>
@@ -217,10 +212,11 @@ export default {
         end_time_period: "",
         class_rate: "",
         subject: "",
-        student: [],
+        students: [],
         classroom: "",
         status: ""
-      }
+      },
+      selectedStudents: []
     };
   },
   created() {
@@ -264,8 +260,14 @@ export default {
           console.log("Error while fetching Classrooms database", err.response);
       });
     },
-    appendStudent(event) {
-      console.log("student id", event);
+    selectStudent(event) {
+      console.log("student id", event.target.value);
+      this.form_data.students.push(event.target.value);
+      const newStd = this.students.data.find(student => {
+        return student.id === +event.target.value;
+      });
+      console.log("new student", newStd);
+      this.selectedStudents.push(newStd);
     },
     fetchAllFormData() {
       this.getAllClassRates();

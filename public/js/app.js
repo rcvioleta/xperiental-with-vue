@@ -1956,11 +1956,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAll.bind(null);
@@ -1981,10 +1976,11 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAl
         end_time_period: "",
         class_rate: "",
         subject: "",
-        student: [],
+        students: [],
         classroom: "",
         status: ""
-      }
+      },
+      selectedStudents: []
     };
   },
   created: function created() {
@@ -2026,8 +2022,14 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_1__["default"].fetchAl
         if (!err) _this4.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
       });
     },
-    appendStudent: function appendStudent(event) {
-      console.log("student id", event);
+    selectStudent: function selectStudent(event) {
+      console.log("student id", event.target.value);
+      this.form_data.students.push(event.target.value);
+      var newStd = this.students.data.find(function (student) {
+        return student.id === +event.target.value;
+      });
+      console.log("new student", newStd);
+      this.selectedStudents.push(newStd);
     },
     fetchAllFormData: function fetchAllFormData() {
       this.getAllClassRates();
@@ -3641,9 +3643,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var fetchStudents = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].fetchAll.bind(null);
 var delStudent = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].delete.bind(null);
-
-var _updateStudent = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].update.bind(null);
-
+var updateStd = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].update.bind(null);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3731,14 +3731,16 @@ var _updateStudent = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_0__["default"].u
         phone_number: phone_number,
         address: address
       };
-
-      _updateStudent("student/".concat(event.target.id.value), payloads, function (err, update) {
+      updateStd("student/".concat(event.target.id.value), payloads, function (err, update) {
         if (!err) {
           var updatedStudent = _objectSpread({}, _this3.students);
 
           updatedStudent.data[_this3.studentIndex] = update;
           _this3.students = _objectSpread({}, updatedStudent);
           _this3.editingMode = false;
+
+          _this3.resetForm();
+
           console.log("[updateStatus] result", update);
           swal("Success!", "Successfully updated Student Information", "success");
         } else {
@@ -41403,12 +41405,8 @@ var render = function() {
               "select",
               {
                 staticClass: "form-control",
-                attrs: {
-                  name: "student",
-                  id: "callbacks",
-                  multiple: "multiple"
-                },
-                on: { change: _vm.appendStudent }
+                attrs: { name: "student" },
+                on: { change: _vm.selectStudent }
               },
               [
                 _c("option", { attrs: { disabled: "", value: "" } }, [
@@ -41431,6 +41429,26 @@ var render = function() {
                       )
                     ]
                   )
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "strong",
+              [
+                _vm._v("\n            Selected:\n            "),
+                _vm._l(_vm.selectedStudents, function(selectedStd) {
+                  return _c("span", { key: selectedStd.id }, [
+                    _vm._v(
+                      _vm._s(
+                        selectedStd.first_name +
+                          " " +
+                          selectedStd.last_name +
+                          ", "
+                      )
+                    )
+                  ])
                 })
               ],
               2
@@ -58065,6 +58083,7 @@ function () {
   }, {
     key: "update",
     value: function update(url, payloads, callback) {
+      console.log('UPDATE URL', url);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(url, _objectSpread({}, payloads)).then(function (result) {
         return callback(null, result.data.update);
       }).catch(function (err) {
