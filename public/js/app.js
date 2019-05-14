@@ -1769,10 +1769,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
 /* harmony import */ var _helpers_ClassSchedule_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/ClassSchedule.js */ "./resources/js/helpers/ClassSchedule.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -1995,60 +1991,73 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_2__["default"].fetchAl
   },
   methods: {
     saveClassSchedule: function saveClassSchedule() {
-      var _this$form_data = this.form_data,
-          class_date = _this$form_data.class_date,
-          class_rate_id = _this$form_data.class_rate_id,
-          subject_id = _this$form_data.subject_id,
-          classroom_id = _this$form_data.classroom_id,
-          status = _this$form_data.status;
-      var start_time = "".concat(this.form_data.start_time_hour, ":").concat(this.form_data.start_time_minute, " ").concat(this.form_data.start_time_period);
-      var end_time = "".concat(this.form_data.end_time_hour, ":").concat(this.form_data.end_time_minute, " ").concat(this.form_data.end_time_period);
-      var student_information_id = [];
-      this.form_data.students.forEach(function (student) {
-        return student_information_id.push(student.id);
-      });
-      var payloads = {
-        class_date: class_date,
-        class_rate_id: class_rate_id,
-        start_time: start_time,
-        end_time: end_time,
-        subject_id: subject_id,
-        classroom_id: classroom_id,
-        student_information_id: student_information_id,
-        status: status
-      };
-      console.table("Schedules", payloads);
-      var newSchedule = new _helpers_ClassSchedule_js__WEBPACK_IMPORTED_MODULE_3__["default"](_objectSpread({}, payloads));
-      newSchedule.saveClassSchedule("class-schedule", function (err, response) {
-        console.log("RESPONSE", response);
-      });
-    },
-    getAllStudents: function getAllStudents() {
       var _this = this;
 
+      this.form_data.students.forEach(function (student) {
+        var _this$form_data = _this.form_data,
+            class_date = _this$form_data.class_date,
+            class_rate_id = _this$form_data.class_rate_id,
+            subject_id = _this$form_data.subject_id,
+            classroom_id = _this$form_data.classroom_id,
+            status = _this$form_data.status;
+        var start_time = "".concat(_this.form_data.start_time_hour, ":").concat(_this.form_data.start_time_minute, " ").concat(_this.form_data.start_time_period);
+        var end_time = "".concat(_this.form_data.end_time_hour, ":").concat(_this.form_data.end_time_minute, " ").concat(_this.form_data.end_time_period);
+        var student_information_id = student.id;
+        var payloads = {
+          student_information_id: student_information_id,
+          class_date: class_date,
+          start_time: start_time,
+          end_time: end_time,
+          class_rate_id: class_rate_id,
+          subject_id: subject_id,
+          classroom_id: classroom_id,
+          status: status
+        };
+        console.table("Schedules", payloads);
+
+        (function (_ref) {
+          var student_information_id = _ref.student_information_id,
+              class_date = _ref.class_date,
+              start_time = _ref.start_time,
+              end_time = _ref.end_time,
+              class_rate_id = _ref.class_rate_id,
+              subject_id = _ref.subject_id,
+              classroom_id = _ref.classroom_id,
+              status = _ref.status;
+          var newSchedule = new _helpers_ClassSchedule_js__WEBPACK_IMPORTED_MODULE_3__["default"](student_information_id, class_date, start_time, end_time, class_rate_id, subject_id, classroom_id, status);
+          newSchedule.saveClassSchedule("class-schedule", function (err, response) {
+            if (!err) console.log("RESPONSE", response);else console.log("Error adding new schedule", err.response.data);
+          });
+        })(payloads);
+      });
+      window.location.href = "/admin/class-schedule";
+    },
+    getAllStudents: function getAllStudents() {
+      var _this2 = this;
+
       fetchAll("student", function (err, data) {
-        if (!err) _this.students = data;else console.log("Error while fetching Students database", err.response);
+        if (!err) _this2.students = data;else console.log("Error while fetching Students database", err.response);
       });
     },
     getAllSubjects: function getAllSubjects() {
-      var _this2 = this;
+      var _this3 = this;
 
       fetchAll("subject", function (err, data) {
-        if (!err) _this2.subjects = data;else console.log("Error while fetching Subjects database", err.response);
+        if (!err) _this3.subjects = data;else console.log("Error while fetching Subjects database", err.response);
       });
     },
     getAllClassRates: function getAllClassRates() {
-      var _this3 = this;
+      var _this4 = this;
 
       fetchAll("class-rate", function (err, data) {
-        if (!err) _this3.class_rates = data;else console.log("Error while fetching Class Rates database", err.response);
+        if (!err) _this4.class_rates = data;else console.log("Error while fetching Class Rates database", err.response);
       });
     },
     getAllClassrooms: function getAllClassrooms() {
-      var _this4 = this;
+      var _this5 = this;
 
       fetchAll("classroom", function (err, data) {
-        if (!err) _this4.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
+        if (!err) _this5.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
       });
     },
     fetchAllFormData: function fetchAllFormData() {
@@ -56639,14 +56648,15 @@ if (token) {
 /*!***************************************************************!*\
   !*** ./resources/js/components/calendar/AddClassSchedule.vue ***!
   \***************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=template&id=d6c256b8& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&");
 /* harmony import */ var _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=script&lang=js& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -56678,7 +56688,7 @@ component.options.__file = "resources/js/components/calendar/AddClassSchedule.vu
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58072,11 +58082,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var ClassSchedule =
 /*#__PURE__*/
 function () {
-  function ClassSchedule(student_information_id, class_date_id, start_time, end_time, class_rate_id, subject_id, classroom_id, status) {
+  function ClassSchedule(student_information_id, class_date, start_time, end_time, class_rate_id, subject_id, classroom_id, status) {
     _classCallCheck(this, ClassSchedule);
 
     this.student_information_id = student_information_id;
-    this.class_date_id = class_date_id;
+    this.class_date = class_date;
     this.start_time = start_time;
     this.end_time = end_time;
     this.class_rate_id = class_rate_id;

@@ -6,6 +6,8 @@ use App\ClassSchedule;
 use Illuminate\Http\Request;
 use Calendar;
 use App\StudentInformation;
+use App\Http\Resources\ClassScheduleResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class ClassScheduleController extends Controller
 {
@@ -18,20 +20,25 @@ class ClassScheduleController extends Controller
   {
     $events = ClassSchedule::get();
     $eventList = [];
+    $currentSubject = '';
+    $currentStartTime = '';
+    $currentEndTime = '';
     foreach ($events as $key => $event) {
-      $eventList[] = Calendar::event(
-        $event->event_name,
-        true,
-        new \DateTime($event->start_date),
-        new \DateTime($event->end_date . '+1 day')
-      );
+      if ($event->subject->name != $currentSubject && $event->start_time != $currentStartTime && $event->end_time != $currentEndTime) {
+        $eventList[] = Calendar::event(
+          $event->subject->name . ' ' . $event->start_time . '-' . $event->end_time,
+          true,
+          new \DateTime($event->class_date),
+          new \DateTime($event->class_date . '+1 day')
+        );
+      }
+      $currentSubject = $event->subject->name;
+      $currentStartTime = $event->start_time;
+      $currentEndTime = $event->end_time;
     }
 
     $calendarDetails = Calendar::addEvents($eventList);
-
-    $students = StudentInformation::get();
-
-    return view('admin.class-calendar', ['calendarDetails' => $calendarDetails, 'students' => $students]);
+    return view('admin.class-calendar', ['calendarDetails' => $calendarDetails]);
   }
 
   /**
@@ -52,17 +59,11 @@ class ClassScheduleController extends Controller
    */
   public function store(Request $request)
   {
-    // $request->validate([
-    //   'class_date' => 'required',
-    //   'start_time' => 'required',
-    //   'end_time' => 'required',
-    //   'class_rate' => 'required',
-    //   'subject' => 'required',
-    //   'classroom' => 'required',
-    //   'status' => 'required'
-    // ]);
-
-    return response()->json(['requests' => $request->all()]);
+    // return response()->json(['requests' => $request->all()]);
+    $newSchedule = ClassSchedule::create($request->all());
+    return response([
+      'data' => new ClassScheduleResource($newSchedule)
+    ], Response::HTTP_CREATED);
   }
 
   /**

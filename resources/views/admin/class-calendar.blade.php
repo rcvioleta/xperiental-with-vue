@@ -79,7 +79,11 @@
       color: #FFFFFF;
     }
   </style>
-  <link rel="stylesheet" href="{{ asset('assets/multi-select.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/multi-select.css') }}">
+   --}}
+  <style>
+    .fc-title { color: #fff; }
+  </style>
 @endsection
 
 @section('content')

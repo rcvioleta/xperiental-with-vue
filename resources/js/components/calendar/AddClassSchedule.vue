@@ -224,38 +224,59 @@ export default {
   },
   methods: {
     saveClassSchedule() {
-      const {
-        class_date,
-        class_rate_id,
-        subject_id,
-        classroom_id,
-        status
-      } = this.form_data;
-      const start_time = `${this.form_data.start_time_hour}:${
-        this.form_data.start_time_minute
-      } ${this.form_data.start_time_period}`;
-      const end_time = `${this.form_data.end_time_hour}:${
-        this.form_data.end_time_minute
-      } ${this.form_data.end_time_period}`;
-      const student_information_id = [];
-      this.form_data.students.forEach(student =>
-        student_information_id.push(student.id)
-      );
-      const payloads = {
-        class_date,
-        class_rate_id,
-        start_time,
-        end_time,
-        subject_id,
-        classroom_id,
-        student_information_id,
-        status
-      };
-      console.table("Schedules", payloads);
-      const newSchedule = new ClassSchedule({ ...payloads });
-      newSchedule.saveClassSchedule("class-schedule", (err, response) => {
-        console.log("RESPONSE", response);
+      this.form_data.students.forEach(student => {
+        const {
+          class_date,
+          class_rate_id,
+          subject_id,
+          classroom_id,
+          status
+        } = this.form_data;
+        const start_time = `${this.form_data.start_time_hour}:${
+          this.form_data.start_time_minute
+        } ${this.form_data.start_time_period}`;
+        const end_time = `${this.form_data.end_time_hour}:${
+          this.form_data.end_time_minute
+        } ${this.form_data.end_time_period}`;
+        const student_information_id = student.id;
+        const payloads = {
+          student_information_id,
+          class_date,
+          start_time,
+          end_time,
+          class_rate_id,
+          subject_id,
+          classroom_id,
+          status
+        };
+        console.table("Schedules", payloads);
+        (function({
+          student_information_id,
+          class_date,
+          start_time,
+          end_time,
+          class_rate_id,
+          subject_id,
+          classroom_id,
+          status
+        }) {
+          const newSchedule = new ClassSchedule(
+            student_information_id,
+            class_date,
+            start_time,
+            end_time,
+            class_rate_id,
+            subject_id,
+            classroom_id,
+            status
+          );
+          newSchedule.saveClassSchedule("class-schedule", (err, response) => {
+            if (!err) console.log("RESPONSE", response);
+            else console.log("Error adding new schedule", err.response.data);
+          });
+        })(payloads);
       });
+      window.location.href = "/admin/class-schedule";
     },
     getAllStudents() {
       fetchAll("student", (err, data) => {

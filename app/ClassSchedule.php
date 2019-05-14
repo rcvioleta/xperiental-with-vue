@@ -9,8 +9,8 @@ class ClassSchedule extends Model
 {
   protected $guarded = [];
 
-  public function setStudentInformationIdAttribute($array)
+  public function subject()
   {
-    $this->attributes['student_information_id'] = serialize($array);
+    return $this->belongsTo(Subject::class);
   }
 }
