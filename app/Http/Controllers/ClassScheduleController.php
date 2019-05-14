@@ -52,15 +52,15 @@ class ClassScheduleController extends Controller
    */
   public function store(Request $request)
   {
-    $request->validate([
-      'class_date' => 'required',
-      'start_time' => 'required',
-      'end_time' => 'required',
-      'class_rate' => 'required',
-      'subject' => 'required',
-      'classroom' => 'required',
-      'status' => 'required'
-    ]);
+    // $request->validate([
+    //   'class_date' => 'required',
+    //   'start_time' => 'required',
+    //   'end_time' => 'required',
+    //   'class_rate' => 'required',
+    //   'subject' => 'required',
+    //   'classroom' => 'required',
+    //   'status' => 'required'
+    // ]);
 
     return response()->json(['requests' => $request->all()]);
   }

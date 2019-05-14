@@ -38,14 +38,8 @@ class ClassroomController extends Controller
   {
     $classroom = Classroom::create($request->all());
 
-    $update = [
-      'name' => $classroom->name,
-      'slug' => $classroom->slug,
-      'status' => $classroom->status
-    ];
-
     return response()->json([
-      'update' => $update,
+      'update' => new ClassroomResource($classroom),
       'message' => 'Classroom added successfully!',
       'status' => 200
     ]);
@@ -100,14 +94,8 @@ class ClassroomController extends Controller
   {
     $classroom->update($request->all());
 
-    $update = [
-      'name' => $classroom->name,
-      'slug' => $classroom->slug,
-      'status' => $classroom->status
-    ];
-
     return response()->json([
-      'update' => $update,
+      'update' => new ClassroomResource($classroom),
       'message' => 'Classroom was updated successfully!',
       'status' => 200
     ]);

@@ -38,15 +38,8 @@ class ClassRateController extends Controller
   {
     $classRate = ClassRate::create($request->all());
 
-    $update = [
-      'name' => $classRate->name,
-      'slug' => $classRate->slug,
-      'rate' => $classRate->rate,
-      'status' => $classRate->status
-    ];
-
     return response()->json([
-      'update' => $update,
+      'update' => new ClassRateResource($classRate),
       'message' => 'Class Rate added successfully!',
       'status' => 200
     ]);
@@ -102,15 +95,8 @@ class ClassRateController extends Controller
   {
     $classRate->update($request->all());
 
-    $update = [
-      'name' => $classRate->name,
-      'slug' => $classRate->slug,
-      'rate' => $classRate->rate,
-      'status' => $classRate->status
-    ];
-
     return response()->json([
-      'update' => $update,
+      'update' => new ClassRateResource($classRate),
       'message' => 'Class Rate was updated successfully!',
       'status' => 200
     ]);

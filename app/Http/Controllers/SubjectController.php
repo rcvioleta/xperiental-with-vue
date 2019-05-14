@@ -8,119 +8,118 @@ use App\Http\Resources\SubjectResource;
 
 class SubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $subjects = Subject::all();
-        return SubjectResource::collection($subjects);
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+    return SubjectResource::collection(Subject::all());
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    { }
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create()
+  { }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $subject = Subject::create($request->all());
-        $update = ['name' => $subject->name, 'slug' => $subject->slug, 'status' => $subject->status];
-        return response()->json([
-            'update' => $update,
-            'message' => 'Subject added successfully!',
-            'status' => 200
-        ]);
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(Request $request)
+  {
+    $subject = Subject::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Subject $subject)
-    {
-        return new SubjectResource($subject);
-    }
+    return response()->json([
+      'update' => new SubjectResource($subject),
+      'message' => 'Subject added successfully!',
+      'status' => 200
+    ]);
+  }
 
-    public function active($slug)
-    {
-        $subject = Subject::where('slug', '=', $slug)->first();
-        $subject->status = 1;
-        $subject->save();
-        return response()->json([
-            'updatedStatus' => $subject->status,
-            'message' => 'Updated status to active',
-            'status' => 200
-        ]);
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Subject  $subject
+   * @return \Illuminate\Http\Response
+   */
+  public function show(Subject $subject)
+  {
+    return new SubjectResource($subject);
+  }
 
-    public function inactive($slug)
-    {
-        $subject = Subject::where('slug', '=', $slug)->first();
-        $subject->status = 0;
-        $subject->save();
-        return response()->json([
-            'updatedStatus' => $subject->status,
-            'message' => 'Updated status to active',
-            'status' => 200
-        ]);
-    }
+  public function active($slug)
+  {
+    $subject = Subject::where('slug', '=', $slug)->first();
+    $subject->status = 1;
+    $subject->save();
+    return response()->json([
+      'updatedStatus' => $subject->status,
+      'message' => 'Updated status to active',
+      'status' => 200
+    ]);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Subject $subject)
-    {
-        //
-    }
+  public function inactive($slug)
+  {
+    $subject = Subject::where('slug', '=', $slug)->first();
+    $subject->status = 0;
+    $subject->save();
+    return response()->json([
+      'updatedStatus' => $subject->status,
+      'message' => 'Updated status to active',
+      'status' => 200
+    ]);
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Subject $subject)
-    {
-        $subject->update($request->all());
-        $update = ['name' => $subject->name, 'slug' => $subject->slug, 'status' => $subject->status];
-        return response()->json([
-            'update' => $update,
-            'message' => 'Subject was updated successfully!',
-            'status' => 200
-        ]);
-    }
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  \App\Subject  $subject
+   * @return \Illuminate\Http\Response
+   */
+  public function edit(Subject $subject)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Subject $subject)
-    {
-        $subject->delete();
-        return response()->json([
-            'slug' => $subject->slug,
-            'message' => 'Subject was deleted!',
-            'status' => 204
-        ]);
-    }
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @param  \App\Subject  $subject
+   * @return \Illuminate\Http\Response
+   */
+  public function update(Request $request, Subject $subject)
+  {
+    $subject->update($request->all());
+
+    return response()->json([
+      'update' => new SubjectResource($subject),
+      'message' => 'Subject was updated successfully!',
+      'status' => 200
+    ]);
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \App\Subject  $subject
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(Subject $subject)
+  {
+    $subject->delete();
+    return response()->json([
+      'slug' => $subject->slug,
+      'message' => 'Subject was deleted!',
+      'status' => 204
+    ]);
+  }
 }

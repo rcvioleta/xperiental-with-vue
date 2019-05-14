@@ -39,15 +39,8 @@ class StudentLevelController extends Controller
   {
     $studentLevel = StudentLevel::create($request->all());
 
-    $update = [
-      'id' => $studentLevel->id,
-      'name' => $studentLevel->name,
-      'slug' => $studentLevel->slug,
-      'status' => $studentLevel->status
-    ];
-
     return response()->json([
-      'update' => $update,
+      'update' => new StudentLevelResource($studentLevel),
       'message' => 'Student Level was updated successfully!',
       'status' => 200
     ]);
@@ -102,15 +95,8 @@ class StudentLevelController extends Controller
   {
     $studentLevel->update($request->all());
 
-    $update = [
-      'id' => $studentLevel->id,
-      'name' => $studentLevel->name,
-      'slug' => $studentLevel->slug,
-      'status' => $studentLevel->status
-    ];
-
     return response()->json([
-      'update' => $update,
+      'update' => new StudentLevelResource($studentLevel),
       'message' => 'Student Level was updated successfully!',
       'status' => 200
     ]);

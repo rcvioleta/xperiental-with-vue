@@ -107,7 +107,7 @@
           <div class="col-md-3">
             <label for="validationCustom02">Class Type</label>
             <div class="form-group">
-              <select class="form-control" name="class_rate" v-model="form_data.class_rate">
+              <select class="form-control" name="class_rate" v-model="form_data.class_rate_id">
                 <option disabled value>-- Select Class Rate --</option>
                 <option
                   v-for="classRate in class_rates.data"
@@ -122,7 +122,7 @@
           <div class="col-md-3">
             <label for="validationCustom02">Subject</label>
             <div class="form-group">
-              <select class="form-control" name="subject" v-model="form_data.subject">
+              <select class="form-control" name="subject" v-model="form_data.subject_id">
                 <option disabled value>-- Select Subject --</option>
                 <option
                   v-for="subject in subjects.data"
@@ -135,7 +135,7 @@
           <div class="col-md-3">
             <label for="validationCustom02">Classroom</label>
             <div class="form-group">
-              <select class="form-control" name="classroom" v-model="form_data.classroom">
+              <select class="form-control" name="classroom" v-model="form_data.classroom_id">
                 <option disabled value>-- Select Classrooom --</option>
                 <option
                   v-for="classroom in classrooms.data"
@@ -159,21 +159,17 @@
         <div class="form-row mt-5">
           <div class="col-md-12">
             <h2>Select Student</h2>
-            <select name="student" class="form-control" @change="selectStudent">
-              <option disabled value>-- Select Student --</option>
-              <option
-                v-for="student in students.data"
-                :value="student.id"
-                :key="student.slug"
-              >{{ `${student.first_name} ${student.middle_name} ${student.last_name}` }}</option>
-            </select>
-            <strong>
-              Selected:
-              <span
-                v-for="selectedStd in selectedStudents"
-                :key="selectedStd.id"
-              >{{ `${selectedStd.first_name} ${selectedStd.last_name}, ` }}</span>
-            </strong>
+            <template v-if="students.data">
+              <Multiselect
+                v-model="form_data.students"
+                :options="students.data"
+                :multiple="true"
+                :close-on-select="false"
+                label="full_name"
+                track-by="id"
+                placeholder="Select Students"
+              ></Multiselect>
+            </template>
           </div>
         </div>
       </form>
@@ -190,12 +186,17 @@
 
 <script>
 import axios from "axios";
+import Multiselect from "vue-multiselect";
 
 import Model from "../../helpers/Model.js";
+import ClassSchedule from "../../helpers/ClassSchedule.js";
 
 const fetchAll = Model.fetchAll.bind(null);
 
 export default {
+  components: {
+    Multiselect
+  },
   data() {
     return {
       class_rates: "",
@@ -210,13 +211,12 @@ export default {
         end_time_hour: "",
         end_time_minute: "",
         end_time_period: "",
-        class_rate: "",
-        subject: "",
+        class_rate_id: "",
+        subject_id: "",
         students: [],
-        classroom: "",
+        classroom_id: "",
         status: ""
-      },
-      selectedStudents: []
+      }
     };
   },
   created() {
@@ -224,10 +224,38 @@ export default {
   },
   methods: {
     saveClassSchedule() {
-      axios
-        .post("class-schedule")
-        .then(response => console.log("got response from server", response))
-        .catch(err => console.log("an errors has been found", err.response));
+      const {
+        class_date,
+        class_rate_id,
+        subject_id,
+        classroom_id,
+        status
+      } = this.form_data;
+      const start_time = `${this.form_data.start_time_hour}:${
+        this.form_data.start_time_minute
+      } ${this.form_data.start_time_period}`;
+      const end_time = `${this.form_data.end_time_hour}:${
+        this.form_data.end_time_minute
+      } ${this.form_data.end_time_period}`;
+      const student_information_id = [];
+      this.form_data.students.forEach(student =>
+        student_information_id.push(student.id)
+      );
+      const payloads = {
+        class_date,
+        class_rate_id,
+        start_time,
+        end_time,
+        subject_id,
+        classroom_id,
+        student_information_id,
+        status
+      };
+      console.table("Schedules", payloads);
+      const newSchedule = new ClassSchedule({ ...payloads });
+      newSchedule.saveClassSchedule("class-schedule", (err, response) => {
+        console.log("RESPONSE", response);
+      });
     },
     getAllStudents() {
       fetchAll("student", (err, data) => {
@@ -260,15 +288,6 @@ export default {
           console.log("Error while fetching Classrooms database", err.response);
       });
     },
-    selectStudent(event) {
-      console.log("student id", event.target.value);
-      this.form_data.students.push(event.target.value);
-      const newStd = this.students.data.find(student => {
-        return student.id === +event.target.value;
-      });
-      console.log("new student", newStd);
-      this.selectedStudents.push(newStd);
-    },
     fetchAllFormData() {
       this.getAllClassRates();
       this.getAllClassrooms();
@@ -279,5 +298,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
