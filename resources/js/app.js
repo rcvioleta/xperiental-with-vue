@@ -36,6 +36,7 @@ Vue.component('user-crud', require('./components/user/UserCrud.vue').default);
 Vue.component('user-form', require('./components/user/AddUser.vue').default);
 Vue.component('student-list', require('./components/student/StudentList.vue').default);
 Vue.component('class-schedule-form', require('./components/calendar/AddClassSchedule.vue').default);
+Vue.component('class-schedule', require('./components/calendar/ClassSchedule.vue').default);
 
 export const EventBus = new Vue();
 

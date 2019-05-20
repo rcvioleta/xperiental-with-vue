@@ -8,10 +8,8 @@
   <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.css') }}"/>
+  <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}"> 
   <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.print.min.css') }}" media='print' />
-  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/scheduler.min.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -79,8 +77,6 @@
       color: #FFFFFF;
     }
   </style>
-  {{-- <link rel="stylesheet" href="{{ asset('assets/multi-select.css') }}">
-   --}}
   <style>
     .fc-title { color: #fff; }
   </style>
@@ -126,7 +122,7 @@
                   <div class="calendar-container">
                       <div class="row">
                           <div class="col-lg-12">
-                              {!! $calendarDetails->calendar() !!}
+                              <class-schedule></class-schedule>
                           </div>
                       </div>
                   </div>
@@ -157,129 +153,9 @@
   <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
-  <script src="{{ asset('assets/js/misc/moment.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.min.js') }}" defer></script>
-  {{-- <script src="{{ asset('assets/plugins/fullcalendar/scheduler.min.js') }}" defer></script> --}}
+  <script src="{{ asset('assets/js/misc/moment.min.js') }}" defer></script> 
   <script src="{{ asset('assets/js/jquery/jquery-ui-1.11.0.custom/jquery-ui.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/form-validator/jquery.form-validator.min.js') }}" defer></script>
   <script src="{{ asset('assets/js/scripts.js') }}" defer></script>
-  <script src="{{ asset('assets/jquery.quicksearch.js') }}" defer></script>
-  <script src="{{ asset('assets/jquery.multi-select.js') }}" defer></script>
-  <script>
-    $(document).ready(function () {
-        // Important
-        $('#callbacks').multiSelect({
-            selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
-            selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
-            afterInit: function (ms) {
-                var that = this,
-                    $selectableSearch = that.$selectableUl.prev(),
-                    $selectionSearch = that.$selectionUl.prev(),
-                    selectableSearchString = '#' + that.$container.attr('id') +
-                    ' .ms-elem-selectable:not(.ms-selected)',
-                    selectionSearchString = '#' + that.$container.attr('id') +
-                    ' .ms-elem-selection.ms-selected';
-
-                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-                    .on('keydown', function (e) {
-                        if (e.which === 40) {
-                            that.$selectableUl.focus();
-                            return false;
-                        }
-                    });
-
-                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-                    .on('keydown', function (e) {
-                        if (e.which == 40) {
-                            that.$selectionUl.focus();
-                            return false;
-                        }
-                    });
-            },
-            afterSelect: function () {
-                this.qs1.cache();
-                this.qs2.cache();
-            },
-            afterDeselect: function () {
-                this.qs1.cache();
-                this.qs2.cache();
-            }
-        });
-        // End Important
-
-
-        function qp_form_wizard() {
-            var thisForm = '#rootwizard-1';
-
-
-            if ($(thisForm).length) {
-                // Prevent page from jumping when +
-                $('.pager li a, .pager li span').on('click', function (e) {
-                    e.preventDefault();
-                });
-
-                $(thisForm).bootstrapWizard({
-                    onNext: function (tab, navigation, index) {
-
-                        $('#wizard-back-btn').css({
-                            "display": "block"
-                        });
-                        $('#btn-sched-save').css({
-                            "display": "block"
-                        });
-
-                        if (index <= 1) {
-                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
-                            $(thisForm + ' .tab-pane').eq(index - 1).removeClass('active');
-                        }
-
-                    },
-                    onPrevious: function (tab, navigation, index) {
-                        // Note: index is the previous frame not the current one
-                        if (index !== -1) {
-                            $(thisForm + ' .tab-pane').eq(index).addClass('active');
-                            $(thisForm + ' .tab-pane').eq(index + 1).removeClass('active');
-                        }
-                        $('#wizard-back-btn').css({
-                            "display": "none"
-                        });
-                        $('#btn-sched-save').css({
-                            "display": "none"
-                        });
-                    },
-                    onTabShow: function (tab, navigation, index) {
-                        // Update Progress Bar
-                        var total = navigation.find('li').length;
-                        var current = index + 1;
-                        var completionPercentage = (current / total) * 100;
-
-                        var progressBar = $(thisForm).closest('.card').find(
-                            ".card-header .progress-bar");
-
-                        progressBar.css({
-                            "width": completionPercentage + "%"
-                        }).attr("aria-valuenow", completionPercentage);
-                    },
-                    onTabClick: function (tab, navigation, index) {
-                        return false;
-                    }
-                });
-            }
-        }
-
-        qp_form_wizard();
-        $('#progress-div').css({
-            "width": "50%"
-        });
-        $('#wizard-back-btn').css({
-            "display": "none"
-        });
-        $('#btn-sched-save').css({
-            "display": "none"
-        });
-
-    });
-  </script>
-  {!! $calendarDetails->script() !!}
 @endsection
