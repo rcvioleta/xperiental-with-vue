@@ -18,27 +18,7 @@ class ClassScheduleController extends Controller
    */
   public function index()
   {
-    $events = ClassSchedule::get();
-    $eventList = [];
-    $currentSubject = '';
-    $currentStartTime = '';
-    $currentEndTime = '';
-    foreach ($events as $key => $event) {
-      if ($event->subject->name != $currentSubject && $event->start_time != $currentStartTime && $event->end_time != $currentEndTime) {
-        $eventList[] = Calendar::event(
-          $event->subject->name . ' ' . $event->start_time . '-' . $event->end_time,
-          true,
-          new \DateTime($event->class_date),
-          new \DateTime($event->class_date . '+1 day')
-        );
-      }
-      $currentSubject = $event->subject->name;
-      $currentStartTime = $event->start_time;
-      $currentEndTime = $event->end_time;
-    }
-
-    $calendarDetails = Calendar::addEvents($eventList);
-    return view('admin.class-calendar', ['calendarDetails' => $calendarDetails]);
+    return view('admin.class-calendar');
   }
 
   /**
