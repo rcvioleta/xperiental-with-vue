@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 class ClassSchedule {
-  constructor(student_information_id, class_date, start_time, end_time, class_rate_id, subject_id, classroom_id, status) {
-    this.student_information_id = student_information_id;
+  constructor(students, class_date, start_time, end_time, class_rate_id, subject_id, classroom_id, status) {
+    this.students = students;
     this.class_date = class_date;
     this.start_time = start_time;
     this.end_time = end_time;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\ClassSchedule;
 use Illuminate\Http\Request;
-use Calendar;
 use App\StudentInformation;
 use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +17,7 @@ class ClassScheduleController extends Controller
    */
   public function index()
   {
-    return view('admin.class-calendar');
+    return ClassScheduleResource::collection(ClassSchedule::all());
   }
 
   /**

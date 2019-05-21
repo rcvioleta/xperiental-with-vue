@@ -40,4 +40,9 @@ class HomeController extends Controller
   {
     return view('admin.student-list');
   }
+
+  public function scheduleIndex()
+  {
+    return view('admin.class-calendar');
+  }
 }

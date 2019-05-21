@@ -16,9 +16,14 @@ class ClassScheduleResource extends JsonResource
   {
     return [
       'id' => $this->id,
-      'event_name' => $this->event_name,
-      'start_date' => $this->start_date,
-      'end_date' => $this->end_date
+      'students' => $this->students,
+      'class_date' => $this->class_date,
+      'start_time' => $this->start_time,
+      'end_time' => $this->end_time,
+      'class_rate_id' => $this->class_rate_id,
+      'subject_id' => $this->subject_id,
+      'classroom_id' => $this->classroom_id,
+      'status' => $this->status
     ];
   }
 }

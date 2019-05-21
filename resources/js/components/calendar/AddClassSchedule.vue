@@ -187,6 +187,7 @@
 <script>
 import axios from "axios";
 import Multiselect from "vue-multiselect";
+import swal from "sweetalert";
 
 import Model from "../../helpers/Model.js";
 import ClassSchedule from "../../helpers/ClassSchedule.js";
@@ -224,59 +225,58 @@ export default {
   },
   methods: {
     saveClassSchedule() {
-      this.form_data.students.forEach(student => {
-        const {
-          class_date,
-          class_rate_id,
-          subject_id,
-          classroom_id,
-          status
-        } = this.form_data;
-        const start_time = `${this.form_data.start_time_hour}:${
-          this.form_data.start_time_minute
-        } ${this.form_data.start_time_period}`;
-        const end_time = `${this.form_data.end_time_hour}:${
-          this.form_data.end_time_minute
-        } ${this.form_data.end_time_period}`;
-        const student_information_id = student.id;
-        const payloads = {
-          student_information_id,
-          class_date,
-          start_time,
-          end_time,
-          class_rate_id,
-          subject_id,
-          classroom_id,
-          status
-        };
-        console.table("Schedules", payloads);
-        (function({
-          student_information_id,
-          class_date,
-          start_time,
-          end_time,
-          class_rate_id,
-          subject_id,
-          classroom_id,
-          status
-        }) {
-          const newSchedule = new ClassSchedule(
-            student_information_id,
-            class_date,
-            start_time,
-            end_time,
-            class_rate_id,
-            subject_id,
-            classroom_id,
-            status
+      const {
+        class_date,
+        class_rate_id,
+        subject_id,
+        classroom_id,
+        status
+      } = this.form_data;
+      const start_time = `${this.form_data.start_time_hour}:${
+        this.form_data.start_time_minute
+      } ${this.form_data.start_time_period}`;
+      const end_time = `${this.form_data.end_time_hour}:${
+        this.form_data.end_time_minute
+      } ${this.form_data.end_time_period}`;
+      const students = this.form_data.students
+        .map(student => student.id)
+        .toString()
+        .split(", ")
+        .join(", ");
+      const payloads = {
+        students,
+        class_date,
+        start_time,
+        end_time,
+        class_rate_id,
+        subject_id,
+        classroom_id,
+        status
+      };
+      console.table("Schedules", payloads);
+      const newSchedule = new ClassSchedule(
+        students,
+        class_date,
+        start_time,
+        end_time,
+        class_rate_id,
+        subject_id,
+        classroom_id,
+        status
+      );
+      newSchedule.saveClassSchedule("schedule", (err, response) => {
+        if (!err) {
+          console.log("RESPONSE", response);
+          swal("Congratulations!", "New Schedule added", "success");
+        } else {
+          console.log("Error adding new schedule", err.response.data);
+          swal(
+            "Something went wrong :(",
+            "Unable to add new Schedule",
+            "error"
           );
-          newSchedule.saveClassSchedule("class-schedule", (err, response) => {
-            if (!err) console.log("RESPONSE", response);
-            else console.log("Error adding new schedule", err.response.data);
-          });
-        })(payloads);
+        }
       });
-      window.location.href = "/admin/class-schedule";
     },
     getAllStudents() {
       fetchAll("student", (err, data) => {

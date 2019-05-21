@@ -7,6 +7,7 @@ use App\StudentLevel;
 use App\Classroom;
 use App\ClassRate;
 use App\EducationBackground;
+use App\StudentInformation;
 
 class DatabaseSeeder extends Seeder
 {
@@ -69,5 +70,7 @@ class DatabaseSeeder extends Seeder
         'notes' => $row['notes']
       ]);
     }
+
+    factory(StudentInformation::class, 20)->create();
   }
 }
