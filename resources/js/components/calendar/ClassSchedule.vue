@@ -227,6 +227,7 @@ export default {
       subjects: "",
       students: "",
       newSchedule: "",
+      schedules: [],
       editMode: false
     };
   },
@@ -235,56 +236,105 @@ export default {
     Multiselect
   },
   created() {
-    this.fetchAllStudents();
-    this.fetchAllSubjects();
-    this.fetchAllSchedules();
+    this.initFetchingData();
   },
   methods: {
     editSchedule(arg) {
       console.log("Event ID#", arg.event.id);
       console.log("Event Name#", arg.event.title);
       this.editMode = true;
-      this.newSchedule = this.events.find(event => event.id === +arg.event.id);
+      const scheduleToUpdate = this.schedules.find(
+        schedule => schedule.id === +arg.event.id
+      );
+      const { students, start_time, end_time } = scheduleToUpdate;
+      const filteredStudents = [];
+
+      students.split(",").map(id => {
+        return this.students.data.map(student => {
+          if (student.id === +id) {
+            filteredStudents.push({ ...student });
+          }
+        });
+      });
+
+      this.newSchedule = {
+        ...scheduleToUpdate,
+        start_time_hour: start_time.split("")[0],
+        start_time_minute: start_time.split(":")[1].split(" ")[0],
+        start_time_period: start_time.split(":")[1].split(" ")[1],
+        end_time_hour: end_time.split("")[0],
+        end_time_minute: end_time.split(":")[1].split(" ")[0],
+        end_time_period: end_time.split(":")[1].split(" ")[1],
+        students: filteredStudents
+      };
     },
     updateSchedule() {
       alert("updating schedule...");
     },
     fetchAllStudents() {
       fetchAll("student", (err, data) => {
-        if (!err) this.students = data;
-        else console.log("Unable to fetch students", err);
+        if (!err) {
+          this.students = data;
+          console.log("[Done] Fetching students");
+        } else console.log("Unable to fetch students", err);
+      });
+    },
+    fetchAllClassrooms() {
+      fetchAll("classroom", (err, data) => {
+        if (!err) {
+          this.classrooms = data;
+          console.log("[Done] Fetching classrooms");
+        } else console.log("Unable to fetch classrooms", err);
+      });
+    },
+    fetchAllClassRates() {
+      fetchAll("class-rate", (err, data) => {
+        if (!err) {
+          this.class_rates = data;
+          console.log("[Done] Fetching class rates");
+        } else console.log("Unable to fetch class rates", err);
       });
     },
     fetchAllSubjects() {
       fetchAll("subject", (err, data) => {
-        if (!err) this.subjects = data;
-        else console.log("Unable to fetch subjects", err);
+        if (!err) {
+          this.subjects = data;
+          console.log("[Done] Fetching subjects");
+        } else console.log("Unable to fetch subjects", err);
       });
     },
     fetchAllSchedules() {
       fetchAll("schedule", (err, response) => {
-        if (!err && response.data.length === 0) {
-          console.log(
-            "Able to reach to server, but no schedule yet",
-            response.data
-          );
-        } else if (!err && response.data.length > 0) {
+        if (!err) {
           console.log("Fetched schedules", response.data);
-          this.events = response.data.map(schedule => {
-            const { name } = this.subjects.data.find(
-              subject => subject.id === +schedule.subject_id
-            );
-            return {
+          this.schedules = response.data;
+          const newEvents = [];
+          this.schedules.forEach(schedule => {
+            console.log("[schedule] subject id", schedule.subject_id);
+            const subj = this.subjects.data.find(subject => {
+              return subject.id === +schedule.subject_id;
+            });
+            newEvents.push({
               id: schedule.id,
-              title: `${name} ${schedule.start_time}-${schedule.end_time}`,
+              title: `${subj.name} ${schedule.start_time} ${schedule.end_time}`,
               start: schedule.class_date
-            };
+            });
           });
+          this.events = newEvents;
+          console.log("events", newEvents);
+          console.log("[Done] Fetching schedules");
         } else {
           console.log("Could not fetch schedules", err);
           swal("Something went wrong :(", "Unable to fetch schedules", "error");
         }
       });
+    },
+    initFetchingData() {
+      this.fetchAllStudents();
+      this.fetchAllClassRates();
+      this.fetchAllClassrooms();
+      this.fetchAllSubjects();
+      this.fetchAllSchedules();
     }
   },
   computed: {

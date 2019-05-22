@@ -15028,6 +15028,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_Model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/Model */ "./resources/js/helpers/Model.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_5__);
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -15253,6 +15257,7 @@ var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.b
       subjects: "",
       students: "",
       newSchedule: "",
+      schedules: [],
       editMode: false
     };
   },
@@ -15261,61 +15266,120 @@ var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.b
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_3___default.a
   },
   created: function created() {
-    this.fetchAllStudents();
-    this.fetchAllSubjects();
-    this.fetchAllSchedules();
+    this.initFetchingData();
   },
   methods: {
     editSchedule: function editSchedule(arg) {
+      var _this = this;
+
       console.log("Event ID#", arg.event.id);
       console.log("Event Name#", arg.event.title);
       this.editMode = true;
-      this.newSchedule = this.events.find(function (event) {
-        return event.id === +arg.event.id;
+      var scheduleToUpdate = this.schedules.find(function (schedule) {
+        return schedule.id === +arg.event.id;
+      });
+      var students = scheduleToUpdate.students,
+          start_time = scheduleToUpdate.start_time,
+          end_time = scheduleToUpdate.end_time;
+      var filteredStudents = [];
+      students.split(",").map(function (id) {
+        return _this.students.data.map(function (student) {
+          if (student.id === +id) {
+            filteredStudents.push(_objectSpread({}, student));
+          }
+        });
+      });
+      this.newSchedule = _objectSpread({}, scheduleToUpdate, {
+        start_time_hour: start_time.split("")[0],
+        start_time_minute: start_time.split(":")[1].split(" ")[0],
+        start_time_period: start_time.split(":")[1].split(" ")[1],
+        end_time_hour: end_time.split("")[0],
+        end_time_minute: end_time.split(":")[1].split(" ")[0],
+        end_time_period: end_time.split(":")[1].split(" ")[1],
+        students: filteredStudents
       });
     },
     updateSchedule: function updateSchedule() {
       alert("updating schedule...");
     },
     fetchAllStudents: function fetchAllStudents() {
-      var _this = this;
+      var _this2 = this;
 
       fetchAll("student", function (err, data) {
-        if (!err) _this.students = data;else console.log("Unable to fetch students", err);
+        if (!err) {
+          _this2.students = data;
+          console.log("[Done] Fetching students");
+        } else console.log("Unable to fetch students", err);
+      });
+    },
+    fetchAllClassrooms: function fetchAllClassrooms() {
+      var _this3 = this;
+
+      fetchAll("classroom", function (err, data) {
+        if (!err) {
+          _this3.classrooms = data;
+          console.log("[Done] Fetching classrooms");
+        } else console.log("Unable to fetch classrooms", err);
+      });
+    },
+    fetchAllClassRates: function fetchAllClassRates() {
+      var _this4 = this;
+
+      fetchAll("class-rate", function (err, data) {
+        if (!err) {
+          _this4.class_rates = data;
+          console.log("[Done] Fetching class rates");
+        } else console.log("Unable to fetch class rates", err);
       });
     },
     fetchAllSubjects: function fetchAllSubjects() {
-      var _this2 = this;
+      var _this5 = this;
 
       fetchAll("subject", function (err, data) {
-        if (!err) _this2.subjects = data;else console.log("Unable to fetch subjects", err);
+        if (!err) {
+          _this5.subjects = data;
+          console.log("[Done] Fetching subjects");
+        } else console.log("Unable to fetch subjects", err);
       });
     },
     fetchAllSchedules: function fetchAllSchedules() {
-      var _this3 = this;
+      var _this6 = this;
 
       fetchAll("schedule", function (err, response) {
-        if (!err && response.data.length === 0) {
-          console.log("Able to reach to server, but no schedule yet", response.data);
-        } else if (!err && response.data.length > 0) {
+        if (!err) {
           console.log("Fetched schedules", response.data);
-          _this3.events = response.data.map(function (schedule) {
-            var _this3$subjects$data$ = _this3.subjects.data.find(function (subject) {
-              return subject.id === +schedule.subject_id;
-            }),
-                name = _this3$subjects$data$.name;
+          _this6.schedules = response.data;
+          var newEvents = [];
 
-            return {
+          _this6.schedules.forEach(function (schedule) {
+            console.log("[schedule] subject id", schedule.subject_id);
+
+            var subj = _this6.subjects.data.find(function (subject) {
+              return subject.id === +schedule.subject_id;
+            });
+
+            newEvents.push({
               id: schedule.id,
-              title: "".concat(name, " ").concat(schedule.start_time, "-").concat(schedule.end_time),
+              title: "".concat(subj.name, " ").concat(schedule.start_time, " ").concat(schedule.end_time),
               start: schedule.class_date
-            };
+            });
           });
+
+          _this6.events = newEvents;
+          console.log("events", newEvents);
+          console.log("[Done] Fetching schedules");
         } else {
           console.log("Could not fetch schedules", err);
           sweetalert__WEBPACK_IMPORTED_MODULE_5___default()("Something went wrong :(", "Unable to fetch schedules", "error");
         }
       });
+    },
+    initFetchingData: function initFetchingData() {
+      this.fetchAllStudents();
+      this.fetchAllClassRates();
+      this.fetchAllClassrooms();
+      this.fetchAllSubjects();
+      this.fetchAllSchedules();
     }
   },
   computed: {
