@@ -4,7 +4,7 @@
       defaultView="dayGridMonth"
       :events="events"
       :plugins="calendarPlugins"
-      @eventClick="showOptions"
+      @eventClick="editSchedule"
     />
 
     <div id="modal">
@@ -199,6 +199,7 @@
                 </div>
               </div>
               <button class="btn btn-primary" type="submit">Update</button>
+              <button class="btn btn-danger" @click.prevent="deleteSchedule">Delete</button>
             </form>
           </div>
         </div>
@@ -244,13 +245,14 @@ export default {
     this.initFetchingData();
 
     EventBus.$on("newEventAdded", event => {
-      console.log("[Class Schedule] New event captured", event);
+      console.log("[Class Schedule] New event captured", event.data);
       const { id, class_date, subject, start_time, end_time } = event.data;
       this.events.push({
         id,
         start: class_date,
         title: `${subject} ${start_time}-${end_time}`
       });
+      this.schedules.push({ ...event.data });
     });
   },
   methods: {
@@ -343,49 +345,57 @@ export default {
           };
           this.events = updatedSchedule;
           this.closeModal();
+          swal("Success!", "Schedule was updated", "success");
         } else {
           console.log("update error", err.response.data);
+          swal("Something went wrong :(", "Unable to update schedule", "error");
         }
       });
     },
     deleteSchedule(arg) {
-      console.log("delete method", arg.event.id);
+      console.log("delete ID#:", this.newSchedule.id);
       ClassSchedule.deleteSchedule(
-        `/admin/schedule/${arg.event.id}`,
+        `/admin/schedule/${this.newSchedule.id}`,
         (err, removedId) => {
           if (!err) {
             console.log("removed ID", +removedId);
             this.events = this.events.filter(event => event.id !== +removedId);
+            this.editMode = false;
+            this.newSchedule = "";
+            swal("Success!", "Schedule was removed", "success");
           } else {
             console.log("error found during deletion process", err);
+            swal(
+              "Something went wrong :(",
+              "Unable to delete schedule",
+              "error"
+            );
           }
         }
       );
     },
     showOptions(arg) {
-      swal("Please let me know what action you'd like to do?", {
-        buttons: {
-          cancel: "Cancel",
-          edit: {
-            text: "Edit",
-            value: "edit"
-          },
-          delete: true
-        }
-      }).then(value => {
-        switch (value) {
-          case "delete":
-            this.deleteSchedule(arg);
-            break;
-
-          case "edit":
-            this.editSchedule(arg);
-            break;
-
-          default:
-            swal("No actions performed!");
-        }
-      });
+      // swal("Please let me know what action you'd like to do?", {
+      //   buttons: {
+      //     cancel: "Cancel",
+      //     edit: {
+      //       text: "Edit",
+      //       value: "edit"
+      //     },
+      //     delete: true
+      //   }
+      // }).then(value => {
+      //   switch (value) {
+      //     case "delete":
+      //       this.deleteSchedule(arg);
+      //       break;
+      //     case "edit":
+      //       this.editSchedule(arg);
+      //       break;
+      //     default:
+      //       swal("No actions performed!");
+      //   }
+      // });
     },
     fetchAllStudents() {
       fetchAll("student", (err, data) => {
@@ -501,7 +511,7 @@ export default {
 
 @media (min-width: 48em) {
   .main-modal {
-    width: 30%;
+    width: 50%;
   }
 }
 </style>

@@ -13,10 +13,11 @@
               v-model="form_data.class_date"
               required
             >
+            <div class="small text-danger">{{ errors.class_date }}</div>
           </div>
-          <div class="col-md-3 mb-3">
+          <div class="col-md-3">
             <label for="validationCustom02">Start Time</label>
-            <div class="input-group">
+            <div class="input-group mb-3">
               <select
                 class="custom-select"
                 name="start_time_hour"
@@ -39,7 +40,7 @@
               </select>
               <select
                 class="custom-select"
-                name="start_time_minute"
+                name="end_time_minute"
                 id="inputGroupSelect01"
                 v-model="form_data.start_time_minute"
               >
@@ -49,7 +50,7 @@
               </select>
               <select
                 class="custom-select"
-                name="start_time_period"
+                name="end_time_period"
                 id="inputGroupSelect01"
                 v-model="form_data.start_time_period"
               >
@@ -58,6 +59,7 @@
                 <option value="PM">PM</option>
               </select>
             </div>
+            <div class="small text-danger">{{ errors.start_time }}</div>
           </div>
           <div class="col-md-3">
             <label for="validationCustom02">End Time</label>
@@ -103,6 +105,7 @@
                 <option value="PM">PM</option>
               </select>
             </div>
+            <div class="small text-danger">{{ errors.end_time }}</div>
           </div>
           <div class="col-md-3">
             <label for="validationCustom02">Class Type</label>
@@ -116,6 +119,7 @@
                 >{{ classRate.name }}</option>
               </select>
             </div>
+            <div class="small text-danger">{{ errors.class_rate_id }}</div>
           </div>
         </div>
         <div class="form-row pt-3">
@@ -131,6 +135,7 @@
                 >{{ subject.name }}</option>
               </select>
             </div>
+            <div class="small text-danger">{{ errors.subject_id }}</div>
           </div>
           <div class="col-md-3">
             <label for="validationCustom02">Classroom</label>
@@ -144,6 +149,7 @@
                 >{{ classroom.name }}</option>
               </select>
             </div>
+            <div class="small text-danger">{{ errors.classroom_id }}</div>
           </div>
           <div class="col-md-3">
             <label for="validationCustom02">Status</label>
@@ -154,6 +160,7 @@
                 <option value="0">Cancelled</option>
               </select>
             </div>
+            <div class="small text-danger">{{ errors.status }}</div>
           </div>
         </div>
         <div class="form-row mt-5">
@@ -171,6 +178,7 @@
               ></Multiselect>
             </template>
           </div>
+          <div class="small text-danger">{{ errors.students }}</div>
         </div>
       </form>
     </div>
@@ -218,7 +226,8 @@ export default {
         students: [],
         classroom_id: "",
         status: ""
-      }
+      },
+      errors: {}
     };
   },
   created() {
@@ -231,14 +240,25 @@ export default {
         class_rate_id,
         subject_id,
         classroom_id,
-        status
+        status,
+        start_time_hour,
+        start_time_minute,
+        start_time_period,
+        end_time_hour,
+        end_time_minute,
+        end_time_period
       } = this.form_data;
-      const start_time = `${this.form_data.start_time_hour}:${
-        this.form_data.start_time_minute
-      } ${this.form_data.start_time_period}`;
-      const end_time = `${this.form_data.end_time_hour}:${
-        this.form_data.end_time_minute
-      } ${this.form_data.end_time_period}`;
+      let start_time = "";
+      let end_time = "";
+
+      if (start_time_hour && start_time_minute && start_time_period) {
+        start_time = `${start_time_hour}:${start_time_minute} ${start_time_period}`;
+      }
+
+      if (end_time_hour && end_time_minute && end_time_period) {
+        end_time = `${end_time_hour}:${end_time_minute} ${end_time_period}`;
+      }
+
       const students = this.form_data.students
         .map(student => student.id)
         .toString()
@@ -268,15 +288,29 @@ export default {
       newSchedule.saveClassSchedule("schedule", (err, response) => {
         if (!err) {
           console.log("RESPONSE", response);
-          swal("Congratulations!", "New Schedule added", "success");
           EventBus.$emit("newEventAdded", response.data);
+          swal("Congratulations!", "New Schedule added", "success");
+          this.form_data = Object.keys(this.form_data).reduce((object, key) => {
+            if (key === "students") object[key] = [];
+            else object[key] = "";
+            return object;
+          }, {});
         } else {
-          console.log("Error adding new schedule", err.response.data);
-          swal(
-            "Something went wrong :(",
-            "Unable to add new Schedule",
-            "error"
-          );
+          // swal(
+          //   "Something went wrong :(",
+          //   "Unable to add new Schedule",
+          //   "error"
+          // );
+          console.log("Error adding new schedule", err.response);
+          const errList = err.response.data.errors;
+          this.errors = Object.keys(errList).reduce((object, key) => {
+            object[key] = errList[key][0];
+            return object;
+          }, {});
+          // Object.keys(errList).map((key, index) => {
+          //   console.log("key", key);
+          //   console.log("index", index);
+          // });
         }
       });
     },

@@ -14901,6 +14901,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14931,7 +14939,8 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
         students: [],
         classroom_id: "",
         status: ""
-      }
+      },
+      errors: {}
     };
   },
   created: function created() {
@@ -14939,14 +14948,31 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
   },
   methods: {
     saveClassSchedule: function saveClassSchedule() {
+      var _this = this;
+
       var _this$form_data = this.form_data,
           class_date = _this$form_data.class_date,
           class_rate_id = _this$form_data.class_rate_id,
           subject_id = _this$form_data.subject_id,
           classroom_id = _this$form_data.classroom_id,
-          status = _this$form_data.status;
-      var start_time = "".concat(this.form_data.start_time_hour, ":").concat(this.form_data.start_time_minute, " ").concat(this.form_data.start_time_period);
-      var end_time = "".concat(this.form_data.end_time_hour, ":").concat(this.form_data.end_time_minute, " ").concat(this.form_data.end_time_period);
+          status = _this$form_data.status,
+          start_time_hour = _this$form_data.start_time_hour,
+          start_time_minute = _this$form_data.start_time_minute,
+          start_time_period = _this$form_data.start_time_period,
+          end_time_hour = _this$form_data.end_time_hour,
+          end_time_minute = _this$form_data.end_time_minute,
+          end_time_period = _this$form_data.end_time_period;
+      var start_time = "";
+      var end_time = "";
+
+      if (start_time_hour && start_time_minute && start_time_period) {
+        start_time = "".concat(start_time_hour, ":").concat(start_time_minute, " ").concat(start_time_period);
+      }
+
+      if (end_time_hour && end_time_minute && end_time_period) {
+        end_time = "".concat(end_time_hour, ":").concat(end_time_minute, " ").concat(end_time_period);
+      }
+
       var students = this.form_data.students.map(function (student) {
         return student.id;
       }).toString().split(", ").join(", ");
@@ -14965,40 +14991,56 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
       newSchedule.saveClassSchedule("schedule", function (err, response) {
         if (!err) {
           console.log("RESPONSE", response);
-          sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("Congratulations!", "New Schedule added", "success");
           _app__WEBPACK_IMPORTED_MODULE_5__["EventBus"].$emit("newEventAdded", response.data);
+          sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("Congratulations!", "New Schedule added", "success");
+          _this.form_data = Object.keys(_this.form_data).reduce(function (object, key) {
+            if (key === "students") object[key] = [];else object[key] = "";
+            return object;
+          }, {});
         } else {
-          console.log("Error adding new schedule", err.response.data);
-          sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("Something went wrong :(", "Unable to add new Schedule", "error");
+          // swal(
+          //   "Something went wrong :(",
+          //   "Unable to add new Schedule",
+          //   "error"
+          // );
+          console.log("Error adding new schedule", err.response);
+          var errList = err.response.data.errors;
+          _this.errors = Object.keys(errList).reduce(function (object, key) {
+            object[key] = errList[key][0];
+            return object;
+          }, {}); // Object.keys(errList).map((key, index) => {
+          //   console.log("key", key);
+          //   console.log("index", index);
+          // });
         }
       });
     },
     getAllStudents: function getAllStudents() {
-      var _this = this;
+      var _this2 = this;
 
       fetchAll("student", function (err, data) {
-        if (!err) _this.students = data;else console.log("Error while fetching Students database", err.response);
+        if (!err) _this2.students = data;else console.log("Error while fetching Students database", err.response);
       });
     },
     getAllSubjects: function getAllSubjects() {
-      var _this2 = this;
+      var _this3 = this;
 
       fetchAll("subject", function (err, data) {
-        if (!err) _this2.subjects = data;else console.log("Error while fetching Subjects database", err.response);
+        if (!err) _this3.subjects = data;else console.log("Error while fetching Subjects database", err.response);
       });
     },
     getAllClassRates: function getAllClassRates() {
-      var _this3 = this;
+      var _this4 = this;
 
       fetchAll("class-rate", function (err, data) {
-        if (!err) _this3.class_rates = data;else console.log("Error while fetching Class Rates database", err.response);
+        if (!err) _this4.class_rates = data;else console.log("Error while fetching Class Rates database", err.response);
       });
     },
     getAllClassrooms: function getAllClassrooms() {
-      var _this4 = this;
+      var _this5 = this;
 
       fetchAll("classroom", function (err, data) {
-        if (!err) _this4.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
+        if (!err) _this5.classrooms = data;else console.log("Error while fetching Classrooms database", err.response);
       });
     },
     fetchAllFormData: function fetchAllFormData() {
@@ -15254,6 +15296,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -15290,7 +15333,7 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
 
     this.initFetchingData();
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on("newEventAdded", function (event) {
-      console.log("[Class Schedule] New event captured", event);
+      console.log("[Class Schedule] New event captured", event.data);
       var _event$data = event.data,
           id = _event$data.id,
           class_date = _event$data.class_date,
@@ -15303,6 +15346,8 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
         start: class_date,
         title: "".concat(subject, " ").concat(start_time, "-").concat(end_time)
       });
+
+      _this.schedules.push(_objectSpread({}, event.data));
     });
   },
   methods: {
@@ -15392,102 +15437,102 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
           _this3.events = updatedSchedule;
 
           _this3.closeModal();
+
+          sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Success!", "Schedule was updated", "success");
         } else {
           console.log("update error", err.response.data);
+          sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Something went wrong :(", "Unable to update schedule", "error");
         }
       });
     },
     deleteSchedule: function deleteSchedule(arg) {
       var _this4 = this;
 
-      console.log("delete method", arg.event.id);
-      _helpers_ClassSchedule__WEBPACK_IMPORTED_MODULE_5__["default"].deleteSchedule("/admin/schedule/".concat(arg.event.id), function (err, removedId) {
+      console.log("delete ID#:", this.newSchedule.id);
+      _helpers_ClassSchedule__WEBPACK_IMPORTED_MODULE_5__["default"].deleteSchedule("/admin/schedule/".concat(this.newSchedule.id), function (err, removedId) {
         if (!err) {
           console.log("removed ID", +removedId);
           _this4.events = _this4.events.filter(function (event) {
             return event.id !== +removedId;
           });
+          _this4.editMode = false;
+          _this4.newSchedule = "";
+          sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Success!", "Schedule was removed", "success");
         } else {
           console.log("error found during deletion process", err);
+          sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Something went wrong :(", "Unable to delete schedule", "error");
         }
       });
     },
-    showOptions: function showOptions(arg) {
-      var _this5 = this;
-
-      sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Please let me know what action you'd like to do?", {
-        buttons: {
-          cancel: "Cancel",
-          edit: {
-            text: "Edit",
-            value: "edit"
-          },
-          delete: true
-        }
-      }).then(function (value) {
-        switch (value) {
-          case "delete":
-            _this5.deleteSchedule(arg);
-
-            break;
-
-          case "edit":
-            _this5.editSchedule(arg);
-
-            break;
-
-          default:
-            sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("No actions performed!");
-        }
-      });
+    showOptions: function showOptions(arg) {// swal("Please let me know what action you'd like to do?", {
+      //   buttons: {
+      //     cancel: "Cancel",
+      //     edit: {
+      //       text: "Edit",
+      //       value: "edit"
+      //     },
+      //     delete: true
+      //   }
+      // }).then(value => {
+      //   switch (value) {
+      //     case "delete":
+      //       this.deleteSchedule(arg);
+      //       break;
+      //     case "edit":
+      //       this.editSchedule(arg);
+      //       break;
+      //     default:
+      //       swal("No actions performed!");
+      //   }
+      // });
     },
     fetchAllStudents: function fetchAllStudents() {
-      var _this6 = this;
+      var _this5 = this;
 
       fetchAll("student", function (err, data) {
         if (!err) {
-          _this6.students = data;
+          _this5.students = data;
           console.log("[Done] Fetching students");
         } else console.log("Unable to fetch students", err);
       });
     },
     fetchAllClassrooms: function fetchAllClassrooms() {
-      var _this7 = this;
+      var _this6 = this;
 
       fetchAll("classroom", function (err, data) {
         if (!err) {
-          _this7.classrooms = data;
+          _this6.classrooms = data;
           console.log("[Done] Fetching classrooms");
         } else console.log("Unable to fetch classrooms", err);
       });
     },
     fetchAllClassRates: function fetchAllClassRates() {
-      var _this8 = this;
+      var _this7 = this;
 
       fetchAll("class-rate", function (err, data) {
         if (!err) {
-          _this8.class_rates = data;
+          _this7.class_rates = data;
           console.log("[Done] Fetching class rates");
         } else console.log("Unable to fetch class rates", err);
       });
     },
     fetchAllSubjects: function fetchAllSubjects() {
-      var _this9 = this;
+      var _this8 = this;
 
       fetchAll("subject", function (err, data) {
         if (!err) {
-          _this9.subjects = data;
+          _this8.subjects = data;
           console.log("[Done] Fetching subjects");
         } else console.log("Unable to fetch subjects", err);
       });
     },
     fetchAllSchedules: function fetchAllSchedules() {
-      var _this10 = this;
+      var _this9 = this;
 
       fetchAll("schedule", function (err, response) {
         if (!err) {
-          _this10.schedules = response.data;
-          _this10.events = response.data.map(function (event) {
+          _this9.schedules = response.data;
+          _this9.events = response.data.map(function (event) {
             return {
               id: event.id,
               title: "".concat(event.subject, " ").concat(event.start_time, " - ").concat(event.end_time),
@@ -22751,7 +22796,7 @@ exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-
 exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!@fullcalendar/daygrid/main.css */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@fullcalendar/daygrid/main.css"), "");
 
 // module
-exports.push([module.i, "\n.main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 900;\r\n  display: none;\n}\n.backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use,\r\n.backdrop.in-use {\r\n  display: block;\n}\n.danger-background {\r\n  background-color: #ff8080 !important;\n}\n.fc-right {\r\n  display: flex;\n}\n@media (min-width: 48em) {\n.main-modal {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 900;\r\n  display: none;\n}\n.backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use,\r\n.backdrop.in-use {\r\n  display: block;\n}\n.danger-background {\r\n  background-color: #ff8080 !important;\n}\n.fc-right {\r\n  display: flex;\n}\n@media (min-width: 48em) {\n.main-modal {\r\n    width: 50%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -54457,15 +54502,19 @@ var render = function() {
                   _vm.$set(_vm.form_data, "class_date", $event.target.value)
                 }
               }
-            })
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.class_date))
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-3 mb-3" }, [
+          _c("div", { staticClass: "col-md-3" }, [
             _c("label", { attrs: { for: "validationCustom02" } }, [
               _vm._v("Start Time")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
+            _c("div", { staticClass: "input-group mb-3" }, [
               _c(
                 "select",
                 {
@@ -54542,10 +54591,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "custom-select",
-                  attrs: {
-                    name: "start_time_minute",
-                    id: "inputGroupSelect01"
-                  },
+                  attrs: { name: "end_time_minute", id: "inputGroupSelect01" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -54589,10 +54635,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "custom-select",
-                  attrs: {
-                    name: "start_time_period",
-                    id: "inputGroupSelect01"
-                  },
+                  attrs: { name: "end_time_period", id: "inputGroupSelect01" },
                   on: {
                     change: function($event) {
                       var $$selectedVal = Array.prototype.filter
@@ -54623,6 +54666,10 @@ var render = function() {
                   _c("option", { attrs: { value: "PM" } }, [_vm._v("PM")])
                 ]
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.start_time))
             ])
           ]),
           _vm._v(" "),
@@ -54783,6 +54830,10 @@ var render = function() {
                   _c("option", { attrs: { value: "PM" } }, [_vm._v("PM")])
                 ]
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.end_time))
             ])
           ]),
           _vm._v(" "),
@@ -54843,6 +54894,10 @@ var render = function() {
                 ],
                 2
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.class_rate_id))
             ])
           ])
         ]),
@@ -54902,6 +54957,10 @@ var render = function() {
                 ],
                 2
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.subject_id))
             ])
           ]),
           _vm._v(" "),
@@ -54962,6 +55021,10 @@ var render = function() {
                 ],
                 2
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.classroom_id))
             ])
           ]),
           _vm._v(" "),
@@ -55014,6 +55077,10 @@ var render = function() {
                   _c("option", { attrs: { value: "0" } }, [_vm._v("Cancelled")])
                 ]
               )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "small text-danger" }, [
+              _vm._v(_vm._s(_vm.errors.status))
             ])
           ])
         ]),
@@ -55048,7 +55115,11 @@ var render = function() {
                 : _vm._e()
             ],
             2
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "small text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.students))
+          ])
         ])
       ])
     ]),
@@ -55110,7 +55181,7 @@ var render = function() {
           events: _vm.events,
           plugins: _vm.calendarPlugins
         },
-        on: { eventClick: _vm.showOptions }
+        on: { eventClick: _vm.editSchedule }
       }),
       _vm._v(" "),
       _c("div", { attrs: { id: "modal" } }, [
@@ -55890,6 +55961,20 @@ var render = function() {
                       attrs: { type: "submit" }
                     },
                     [_vm._v("Update")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteSchedule($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
                   )
                 ]
               )

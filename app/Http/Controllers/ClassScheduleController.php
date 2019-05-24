@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Collections\ClassScheduleCollection;
+use App\Http\Requests\ClassScheduleRequest;
 
 class ClassScheduleController extends Controller
 {
@@ -33,12 +34,11 @@ class ClassScheduleController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param  \Illuminate\Http\Request  $request
+   * @param  App\Http\Requests\ClassScheduleRequest  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(ClassScheduleRequest $request)
   {
-    // return response()->json(['requests' => $request->all()]);
     $newSchedule = ClassSchedule::create($request->all());
     return response()->json([
       'data' => new ClassScheduleResource($newSchedule)
