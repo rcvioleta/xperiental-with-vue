@@ -471,7 +471,7 @@ export default {
   left: 50%;
   width: 80%;
   transform: translate(-50%, -50%);
-  z-index: 200;
+  z-index: 900;
   display: none;
 }
 
@@ -493,6 +493,10 @@ export default {
 
 .danger-background {
   background-color: #ff8080 !important;
+}
+
+.fc-right {
+  display: flex;
 }
 
 @media (min-width: 48em) {
