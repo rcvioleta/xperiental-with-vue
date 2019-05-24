@@ -1540,243 +1540,243 @@ $(document).ready(function() {
 		}
 	}
 
-	function qp_calendar(){
+	// function qp_calendar(){
 
-		var calendarContainer = '#calendar';
+	// 	var calendarContainer = '#calendar';
 
-		if($(calendarContainer).length){
+	// 	if($(calendarContainer).length){
 
-			/* Update the preview text */
-			$('#input-new-event').on('keyup input', function(){
-				// console.log($('#input-new-event').val());
-				$('#preview-event-name').text($('#input-new-event').val());
-			});
+	// 		/* Update the preview text */
+	// 		$('#input-new-event').on('keyup input', function(){
+	// 			// console.log($('#input-new-event').val());
+	// 			$('#preview-event-name').text($('#input-new-event').val());
+	// 		});
 
-			/* Set Event Color In Dropdown List */
-			$(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-menu .legend-block-item .legend-block-color-box, .calendar-controls .available-events .fc-event .legend-block-item .legend-block-color-box").each(function(){
+	// 		/* Set Event Color In Dropdown List */
+	// 		$(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-menu .legend-block-item .legend-block-color-box, .calendar-controls .available-events .fc-event .legend-block-item .legend-block-color-box").each(function(){
 
-				// Set variables 
-				var eventColor = $(this).data("event-color");
-				var highlightColor = "highlight-color-" + eventColor;
-				var bgColor = "highlight-color-" + eventColor;
+	// 			// Set variables 
+	// 			var eventColor = $(this).data("event-color");
+	// 			var highlightColor = "highlight-color-" + eventColor;
+	// 			var bgColor = "highlight-color-" + eventColor;
 
-				// Set Dropdown Color
-				$(this).addClass(bgColor);
-			});
+	// 			// Set Dropdown Color
+	// 			$(this).addClass(bgColor);
+	// 		});
 
-			/* Create Event */
-			$("#add-available-event").on("click", function(){
-				// Set variables
-				var eventColorActive = $(this).siblings(".dropdown-menu").find(".legend-block-item.active .legend-block-color-box").data("event-color");
-				var eventName = $(this).parent().siblings("#input-new-event").val().trim();
-				$(this).parent().siblings("#input-new-event").val("");
+	// 		/* Create Event */
+	// 		$("#add-available-event").on("click", function(){
+	// 			// Set variables
+	// 			var eventColorActive = $(this).siblings(".dropdown-menu").find(".legend-block-item.active .legend-block-color-box").data("event-color");
+	// 			var eventName = $(this).parent().siblings("#input-new-event").val().trim();
+	// 			$(this).parent().siblings("#input-new-event").val("");
 
-				// Actual event creation
-				if(eventName != ""){
+	// 			// Actual event creation
+	// 			if(eventName != ""){
 
-					var newEventContent = "<div class='fc-event' style='opacity:0;'><div class='legend-block-item'><div class='legend-block-color'><div class='legend-block-color-box highlight-color-" + eventColorActive + "' data-event-color='" + eventColorActive + "'><i class='batch-icon batch-icon-droplet'></i></div></div><div class='legend-block-text'>" + eventName + "</div></div></div>";
+	// 				var newEventContent = "<div class='fc-event' style='opacity:0;'><div class='legend-block-item'><div class='legend-block-color'><div class='legend-block-color-box highlight-color-" + eventColorActive + "' data-event-color='" + eventColorActive + "'><i class='batch-icon batch-icon-droplet'></i></div></div><div class='legend-block-text'>" + eventName + "</div></div></div>";
 
 
-					$(this).closest(".calendar-controls").find(".available-events .event-list").prepend(newEventContent);
+	// 				$(this).closest(".calendar-controls").find(".available-events .event-list").prepend(newEventContent);
 
-					$(this).closest(".calendar-controls").find(".available-events .fc-event").first().delay(200).animate({"opacity":"1"}, 300);
+	// 				$(this).closest(".calendar-controls").find(".available-events .fc-event").first().delay(200).animate({"opacity":"1"}, 300);
 
-					$(this).closest(".card-body").find('.calendar-controls .fc-event').each(function(){
+	// 				$(this).closest(".card-body").find('.calendar-controls .fc-event').each(function(){
 
-						var thisEventColor = $(this).find(".legend-block-color-box").data("event-color");
+	// 					var thisEventColor = $(this).find(".legend-block-color-box").data("event-color");
 
-						// create an Event Object
-				        // it doesn't need to have a start or end
-				        var eventObject = {
-				            title: $.trim($(this).text()), // use the element's text as the event title
-							className: "highlight-color-" + thisEventColor, // use the element's text as the event title
-						};
+	// 					// create an Event Object
+	// 			        // it doesn't need to have a start or end
+	// 			        var eventObject = {
+	// 			            title: $.trim($(this).text()), // use the element's text as the event title
+	// 						className: "highlight-color-" + thisEventColor, // use the element's text as the event title
+	// 					};
 
-				        // store the Event Object in the DOM element so we can get to it later
-				        $(this).data('event', eventObject);
+	// 			        // store the Event Object in the DOM element so we can get to it later
+	// 			        $(this).data('event', eventObject);
 
-				        // make the event draggable using jQuery UI
-				        $(this).draggable({
-				        	zIndex: 999,
-				            revert: true, // will cause the event to go back to its
-				            revertDuration: 0 //  original position after the drag
-				        });
-				    });
+	// 			        // make the event draggable using jQuery UI
+	// 			        $(this).draggable({
+	// 			        	zIndex: 999,
+	// 			            revert: true, // will cause the event to go back to its
+	// 			            revertDuration: 0 //  original position after the drag
+	// 			        });
+	// 			    });
 
-					// Return text to default
-				    $('#preview-event-name').text('Your Event Name');
+	// 				// Return text to default
+	// 			    $('#preview-event-name').text('Your Event Name');
 
-				}else{
-					$("#input-new-event").focus();
-				}
-			});
+	// 			}else{
+	// 				$("#input-new-event").focus();
+	// 			}
+	// 		});
 
 			/* Call Functions getActiveColor() */
 			// Set Event Colors
-			getActiveColor();
+			// getActiveColor();
 
 			/* Set Active Icon Color */
 			/**
 			 * getActiveColor handles the selected colors
 			 */
-			 function getActiveColor(){
-			 	var eventColorActive = $(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-menu .legend-block-item.active .legend-block-color-box").data("event-color");
+			//  function getActiveColor(){
+			//  	var eventColorActive = $(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-menu .legend-block-item.active .legend-block-color-box").data("event-color");
 
-				// Set data-event-color. Then create the highlight class
-				var theButton = $(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-toggle");
-				var colorIndicator = $('.event-preview-item .legend-block-color-box');
-				// theButton.attr("data-event-color",eventColorActive);
-				theButton.addClass("highlight-color-" + eventColorActive);
-				colorIndicator.addClass("highlight-color-" + eventColorActive);
+			// 	// Set data-event-color. Then create the highlight class
+			// 	var theButton = $(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-toggle");
+			// 	var colorIndicator = $('.event-preview-item .legend-block-color-box');
+			// 	// theButton.attr("data-event-color",eventColorActive);
+			// 	theButton.addClass("highlight-color-" + eventColorActive);
+			// 	colorIndicator.addClass("highlight-color-" + eventColorActive);
 
-				// Change the active icon color on click
-				var listItem = $(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-menu .legend-block-item");
+			// 	// Change the active icon color on click
+			// 	var listItem = $(calendarContainer).closest(".card-body").find(".calendar-controls .create-event .dropdown-menu .legend-block-item");
 
-				listItem.on("click", function(){
+			// 	listItem.on("click", function(){
 
-					var newEventColor = $(this).find(".legend-block-color-box").data("event-color");
+			// 		var newEventColor = $(this).find(".legend-block-color-box").data("event-color");
 
-					var regex = new RegExp('\\b' + 'highlight-color-' + '.+?\\b', 'g');
-					theButton[0].className = theButton[0].className.replace(regex, '');
+			// 		var regex = new RegExp('\\b' + 'highlight-color-' + '.+?\\b', 'g');
+			// 		theButton[0].className = theButton[0].className.replace(regex, '');
 
-					theButton.addClass("highlight-color-" + newEventColor);
-					colorIndicator.removeAttr('class').addClass("legend-block-color-box highlight-color-" + newEventColor);
+			// 		theButton.addClass("highlight-color-" + newEventColor);
+			// 		colorIndicator.removeAttr('class').addClass("legend-block-color-box highlight-color-" + newEventColor);
 
-					// Remove active class from siblings then add to this item
-					$(this).siblings().removeClass("active");
-					$(this).addClass('active');
-					$("#input-new-event").focus();
-				});
-			}
+			// 		// Remove active class from siblings then add to this item
+			// 		$(this).siblings().removeClass("active");
+			// 		$(this).addClass('active');
+			// 		$("#input-new-event").focus();
+			// 	});
+			// }
 
 			/* Initialize the external events */
-			$(calendarContainer).closest(".card-body").find('.calendar-controls .fc-event').each(function() {
+			// $(calendarContainer).closest(".card-body").find('.calendar-controls .fc-event').each(function() {
 
-				var thisEventColor = $(this).find(".legend-block-color-box").data("event-color");
+			// 	var thisEventColor = $(this).find(".legend-block-color-box").data("event-color");
 
-				// store data so the calendar knows to render an event upon drop
-				$(this).data('event', {
-					title: $.trim($(this).text()), // use the element's text as the event title
-					className: "highlight-color-" + thisEventColor, // use the element's text as the event title
-					stick: true // maintain when user navigates (see docs on the renderEvent method)
-				});
+			// 	// store data so the calendar knows to render an event upon drop
+			// 	$(this).data('event', {
+			// 		title: $.trim($(this).text()), // use the element's text as the event title
+			// 		className: "highlight-color-" + thisEventColor, // use the element's text as the event title
+			// 		stick: true // maintain when user navigates (see docs on the renderEvent method)
+			// 	});
 
-				// make the event draggable using jQuery UI
-				$(this).draggable({
-					zIndex: 999,
-					revert: true,      // will cause the event to go back to its
-					revertDuration: 0  //  original position after the drag
-				});
+			// 	// make the event draggable using jQuery UI
+			// 	$(this).draggable({
+			// 		zIndex: 999,
+			// 		revert: true,      // will cause the event to go back to its
+			// 		revertDuration: 0  //  original position after the drag
+			// 	});
 
-			});
+			// });
 
 			/* Initialize the calendar */
-			$(calendarContainer).fullCalendar({
-				header: {
-					left: 'prev,next',
-					center: 'title',
-					right: 'timelineDay,listWeek,agendaWeek,month'
-				},
-				schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-				themeSystem: 'bootstrap3',
-				defaultDate: '2017-11-12',
-				editable: false,
-				droppable: false, // this allows things to be dropped onto the calendar
-				eventLimit: true, // allow "more" link when too many events
-				events: [
-				{
-					title: 'All Day Event',
-					start: '2017-11-01T11:30:00',
-					end: '2017-11-01T12:30:00',
-					resourceId: 'a',
-					className: "highlight-color-red"
-				},
-				{
-					title: 'Long Event',
-					start: '2017-11-07T13:30:00',
-					end: '2017-11-07T14:30:00',
-					resourceId: 'b',
-					className: "highlight-color-yellow"
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-11-09T17:00:00',
-					end: '2017-11-09T18:00:00',
-					resourceId: 'b',
-					color: "#ff0097"
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: '2017-11-16T16:00:00',
-					end: '2017-11-16T17:00:00',
-					resourceId: 'c',
-					className: "highlight-color-purple"
-				},
-				{
-					title: 'Conference',
-					start: '2017-11-11T10:30:00',
-					end: '2017-11-11T12:30:00',
-					resourceId: 'c',
-					className: "highlight-color-green"
-				},
-				{
-					title: 'Meeting',
-					start: '2017-11-12T14:30:00',
-					end: '2017-11-12T15:30:00',
-					resourceId: 'c',
-					className: "highlight-color-green"
-				},
-				{
-					title: 'Lunch',
-					start: '2017-11-12T19:30:00',
-					end: '2017-11-12T20:30:00',
-					resourceId: 'c',
-					color: "#6ec06e"
-				},
-				{
-					title: 'Meeting',
-					start: '2017-11-12T17:30:00',
-					end: '2017-11-12T18:30:00',
-					resourceId: 'c',
-					className: "highlight-color-red"
-				},
-				{
-					title: 'Happy Hour',
-					start: '2017-11-12T07:30:00',
-					end: '2017-11-12T08:30:00',
-					resourceId: 'd',
-					className: "highlight-color-red"
-				},
-				{
-					title: 'Dinner',
-					start: '2017-11-12T08:30:00',
-					end: '2017-11-12T09:30:00',
-					resourceId: 'd',
-					className: "highlight-color-blue"
-				}
-				],
-				resourceGroupField: 'building',
-		      resources: [
-		        { id: 'a', building: 'Algebra', title: 'Classroom 1' },
-		        { id: 'b', building: 'Algebra', title: 'Classroom 2', eventColor: 'green' },
-		        { id: 'c', building: 'Algebra', title: 'Classroom 3', eventColor: 'orange' },
-		        { id: 'd', building: 'Algebra', title: 'Classroom 4' },
-		        { id: 'e', building: 'Geometry', title: 'Classroom 1' },
-		        { id: 'f', building: 'Geometry', title: 'Classroom 2', eventColor: 'red' },
-		        { id: 'g', building: 'Geometry', title: 'Classroom 3' },
-		      ],
-				drop: function() {
-					$(this).remove();
-				},
-				eventAfterAllRender: function() {
-					$(calendarContainer).find('.glyphicon.glyphicon-chevron-right').removeAttr('class').addClass('batch-icon batch-icon-arrow-right');
-					$(calendarContainer).find('.glyphicon.glyphicon-chevron-left').removeAttr('class').addClass('batch-icon batch-icon-arrow-left');
-				}
-			});
-		}
-	}
+	// 		$(calendarContainer).fullCalendar({
+	// 			header: {
+	// 				left: 'prev,next',
+	// 				center: 'title',
+	// 				right: 'timelineDay,listWeek,agendaWeek,month'
+	// 			},
+	// 			schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+	// 			themeSystem: 'bootstrap3',
+	// 			defaultDate: '2017-11-12',
+	// 			editable: false,
+	// 			droppable: false, // this allows things to be dropped onto the calendar
+	// 			eventLimit: true, // allow "more" link when too many events
+	// 			events: [
+	// 			{
+	// 				title: 'All Day Event',
+	// 				start: '2017-11-01T11:30:00',
+	// 				end: '2017-11-01T12:30:00',
+	// 				resourceId: 'a',
+	// 				className: "highlight-color-red"
+	// 			},
+	// 			{
+	// 				title: 'Long Event',
+	// 				start: '2017-11-07T13:30:00',
+	// 				end: '2017-11-07T14:30:00',
+	// 				resourceId: 'b',
+	// 				className: "highlight-color-yellow"
+	// 			},
+	// 			{
+	// 				id: 999,
+	// 				title: 'Repeating Event',
+	// 				start: '2017-11-09T17:00:00',
+	// 				end: '2017-11-09T18:00:00',
+	// 				resourceId: 'b',
+	// 				color: "#ff0097"
+	// 			},
+	// 			{
+	// 				id: 999,
+	// 				title: 'Repeating Event',
+	// 				start: '2017-11-16T16:00:00',
+	// 				end: '2017-11-16T17:00:00',
+	// 				resourceId: 'c',
+	// 				className: "highlight-color-purple"
+	// 			},
+	// 			{
+	// 				title: 'Conference',
+	// 				start: '2017-11-11T10:30:00',
+	// 				end: '2017-11-11T12:30:00',
+	// 				resourceId: 'c',
+	// 				className: "highlight-color-green"
+	// 			},
+	// 			{
+	// 				title: 'Meeting',
+	// 				start: '2017-11-12T14:30:00',
+	// 				end: '2017-11-12T15:30:00',
+	// 				resourceId: 'c',
+	// 				className: "highlight-color-green"
+	// 			},
+	// 			{
+	// 				title: 'Lunch',
+	// 				start: '2017-11-12T19:30:00',
+	// 				end: '2017-11-12T20:30:00',
+	// 				resourceId: 'c',
+	// 				color: "#6ec06e"
+	// 			},
+	// 			{
+	// 				title: 'Meeting',
+	// 				start: '2017-11-12T17:30:00',
+	// 				end: '2017-11-12T18:30:00',
+	// 				resourceId: 'c',
+	// 				className: "highlight-color-red"
+	// 			},
+	// 			{
+	// 				title: 'Happy Hour',
+	// 				start: '2017-11-12T07:30:00',
+	// 				end: '2017-11-12T08:30:00',
+	// 				resourceId: 'd',
+	// 				className: "highlight-color-red"
+	// 			},
+	// 			{
+	// 				title: 'Dinner',
+	// 				start: '2017-11-12T08:30:00',
+	// 				end: '2017-11-12T09:30:00',
+	// 				resourceId: 'd',
+	// 				className: "highlight-color-blue"
+	// 			}
+	// 			],
+	// 			resourceGroupField: 'building',
+	// 	      resources: [
+	// 	        { id: 'a', building: 'Algebra', title: 'Classroom 1' },
+	// 	        { id: 'b', building: 'Algebra', title: 'Classroom 2', eventColor: 'green' },
+	// 	        { id: 'c', building: 'Algebra', title: 'Classroom 3', eventColor: 'orange' },
+	// 	        { id: 'd', building: 'Algebra', title: 'Classroom 4' },
+	// 	        { id: 'e', building: 'Geometry', title: 'Classroom 1' },
+	// 	        { id: 'f', building: 'Geometry', title: 'Classroom 2', eventColor: 'red' },
+	// 	        { id: 'g', building: 'Geometry', title: 'Classroom 3' },
+	// 	      ],
+	// 			drop: function() {
+	// 				$(this).remove();
+	// 			},
+	// 			eventAfterAllRender: function() {
+	// 				$(calendarContainer).find('.glyphicon.glyphicon-chevron-right').removeAttr('class').addClass('batch-icon batch-icon-arrow-right');
+	// 				$(calendarContainer).find('.glyphicon.glyphicon-chevron-left').removeAttr('class').addClass('batch-icon batch-icon-arrow-left');
+	// 			}
+	// 		});
+	// 	}
+	// }
 
 	function qp_mailbox_list(){
 
@@ -2593,7 +2593,7 @@ $(document).ready(function() {
 
 	qp_timeline();
 
-	qp_calendar();
+	// qp_calendar();
 
 	qp_task_manager();
 

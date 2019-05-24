@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\ClassSchedule;
 use Illuminate\Http\Request;
-use App\StudentInformation;
 use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\Collections\ClassScheduleCollection;
 
 class ClassScheduleController extends Controller
 {
@@ -40,9 +40,9 @@ class ClassScheduleController extends Controller
   {
     // return response()->json(['requests' => $request->all()]);
     $newSchedule = ClassSchedule::create($request->all());
-    return response([
+    return response()->json([
       'data' => new ClassScheduleResource($newSchedule)
-    ], Response::HTTP_CREATED);
+    ]);
   }
 
   /**
@@ -69,22 +69,40 @@ class ClassScheduleController extends Controller
    * Update the specified resource in storage.
    *
    * @param  \Illuminate\Http\Request  $request
-   * @param  \App\ClassSchedule  $classSchedule
+   * @param  int $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, ClassSchedule $classSchedule)
+  public function update(Request $request, $id)
   {
-    //
+    $request['subject_id'] = $request->subject;
+    unset($request['subject']);
+    $classSchedule = ClassSchedule::find($id);
+    $classSchedule->update($request->all());
+    $classSchedule['subject'] = $classSchedule['subject_id'];
+    unset($classSchedule['subject_id']);
+
+    // return response($classSchedule);
+
+    return response()->json([
+      'update' => new ClassScheduleCollection($classSchedule),
+      'message' => 'Successfully updated class schedule',
+      'status' => Response::HTTP_ACCEPTED
+    ]);
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \App\ClassSchedule  $classSchedule
+   * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function destroy(ClassSchedule $classSchedule)
+  public function destroy($id)
   {
-    //
+    ClassSchedule::destroy($id);
+    return response()->json([
+      'removedId' => $id,
+      'message' => 'Class Schedule was removed successfully',
+      'status' => Response::HTTP_NO_CONTENT
+    ]);
   }
 }

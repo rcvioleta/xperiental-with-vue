@@ -18,6 +18,13 @@ class ClassSchedule {
       .then(response => callback(null, response))
       .catch(err => callback(err, null)); 
   }
+
+  static deleteSchedule(uri, callback) {
+    axios
+    .delete(uri)
+    .then(response => callback(null, response.data.removedId))
+    .catch(err => callback(err, null));
+  }
 }
 
 export default ClassSchedule;

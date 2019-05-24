@@ -17,5 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
 });
 
-Route::get('/class-schedule', 'ClassScheduleController@index')->name('class-schedule');
-Route::post('/class-schedule', 'ClassScheduleController@store')->name('store.class-schedule');
+Route::resource('/schedule', 'ClassScheduleController');

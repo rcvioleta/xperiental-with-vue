@@ -17,4 +17,9 @@ class Classroom extends Model
   {
     $this->attributes['slug'] = str_slug($slug);
   }
+
+  public function class_schedules()
+  {
+    return $this->hasMany(ClassSchedule::class);
+  }
 }

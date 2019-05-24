@@ -191,6 +191,7 @@ import swal from "sweetalert";
 
 import Model from "../../helpers/Model.js";
 import ClassSchedule from "../../helpers/ClassSchedule.js";
+import { EventBus } from "../../app";
 
 const fetchAll = Model.fetchAll.bind(null);
 
@@ -268,6 +269,7 @@ export default {
         if (!err) {
           console.log("RESPONSE", response);
           swal("Congratulations!", "New Schedule added", "success");
+          EventBus.$emit("newEventAdded", response.data);
         } else {
           console.log("Error adding new schedule", err.response.data);
           swal(

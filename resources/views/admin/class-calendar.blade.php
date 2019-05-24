@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}"> 
-  <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/lib/fullcalendar.print.min.css') }}" media='print' />
   <link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">

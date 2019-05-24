@@ -4,17 +4,18 @@
       defaultView="dayGridMonth"
       :events="events"
       :plugins="calendarPlugins"
-      @eventClick="editSchedule"
+      @eventClick="showOptions"
     />
 
     <div id="modal">
-      <div class="backdrop" :class="activated"></div>
+      <div class="backdrop" :class="activated" @click="closeModal"></div>
       <div class="main-modal" :class="activated">
         <div class="card">
           <div class="card-header">
             EDIT SCHEDULE
             <span
               style="float: right; color: red; font-weight: bold; cursor: pointer;"
+              @click="closeModal"
             >X</span>
           </div>
           <div class="card-body">
@@ -143,7 +144,7 @@
                 <div class="col-md-3">
                   <label for="validationCustom02">Subject</label>
                   <div class="form-group">
-                    <select class="form-control" name="subject" v-model="newSchedule.subject_id">
+                    <select class="form-control" name="subject" v-model="newSchedule.subject">
                       <option disabled value>-- Select Subject --</option>
                       <option
                         v-for="subject in subjects.data"
@@ -211,11 +212,14 @@ import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Multiselect from "vue-multiselect";
-
-import Model from "../../helpers/Model";
 import swal from "sweetalert";
 
+import ClassSchedule from "../../helpers/ClassSchedule";
+import Model from "../../helpers/Model";
+import { EventBus } from "../../app";
+
 const fetchAll = Model.fetchAll.bind(null);
+const updateSchedule = Model.update.bind(null);
 
 export default {
   data() {
@@ -228,6 +232,7 @@ export default {
       students: "",
       newSchedule: "",
       schedules: [],
+      index: "",
       editMode: false
     };
   },
@@ -237,16 +242,41 @@ export default {
   },
   created() {
     this.initFetchingData();
+
+    EventBus.$on("newEventAdded", event => {
+      console.log("[Class Schedule] New event captured", event);
+      const { id, class_date, subject, start_time, end_time } = event.data;
+      this.events.push({
+        id,
+        start: class_date,
+        title: `${subject} ${start_time}-${end_time}`
+      });
+    });
   },
   methods: {
     editSchedule(arg) {
       console.log("Event ID#", arg.event.id);
       console.log("Event Name#", arg.event.title);
+      const eventId = +arg.event.id;
+      this.index = this.events.findIndex(event => event.id === eventId);
       this.editMode = true;
-      const scheduleToUpdate = this.schedules.find(
-        schedule => schedule.id === +arg.event.id
+      const schedule = this.schedules.find(schedule => schedule.id === eventId);
+
+      const { students, subject, start_time, end_time } = schedule;
+      let filteredSubject = undefined;
+
+      this.subjects.data.map(subj =>
+        subj.name === subject ? (filteredSubject = subj.id) : null
       );
-      const { students, start_time, end_time } = scheduleToUpdate;
+
+      const scheduleToUpdate = {
+        ...schedule,
+        subject: filteredSubject
+      };
+
+      delete scheduleToUpdate.start_time;
+      delete scheduleToUpdate.end_time;
+
       const filteredStudents = [];
 
       students.split(",").map(id => {
@@ -267,9 +297,95 @@ export default {
         end_time_period: end_time.split(":")[1].split(" ")[1],
         students: filteredStudents
       };
+
+      console.log("Schedule to update", this.newSchedule);
     },
     updateSchedule() {
-      alert("updating schedule...");
+      const excludedProps = [
+        "start_time_hour",
+        "start_time_minute",
+        "start_time_period",
+        "end_time_hour",
+        "end_time_minute",
+        "end_time_period"
+      ];
+
+      const newSchedule = Object.keys(this.newSchedule).reduce(
+        (object, key) => {
+          if (!excludedProps.includes(key)) {
+            if (key === "students") {
+              object[key] = this.newSchedule[key]
+                .map(student => student.id)
+                .toString()
+                .split(", ")
+                .join(", ");
+            } else {
+              object[key] = this.newSchedule[key];
+            }
+          }
+          return object;
+        },
+        {}
+      );
+
+      const uri = `/admin/schedule/${newSchedule.id}`;
+      console.log("new schedules", newSchedule);
+
+      updateSchedule(uri, newSchedule, (err, update) => {
+        if (!err) {
+          console.log("success update", update);
+          const updatedSchedule = [...this.events];
+          const { start_time, end_time, subject, id, class_date } = update;
+          updatedSchedule[this.index] = {
+            id,
+            title: `${subject} ${start_time}-${end_time}`,
+            start: class_date
+          };
+          this.events = updatedSchedule;
+          this.closeModal();
+        } else {
+          console.log("update error", err.response.data);
+        }
+      });
+    },
+    deleteSchedule(arg) {
+      console.log("delete method", arg.event.id);
+      ClassSchedule.deleteSchedule(
+        `/admin/schedule/${arg.event.id}`,
+        (err, removedId) => {
+          if (!err) {
+            console.log("removed ID", +removedId);
+            this.events = this.events.filter(event => event.id !== +removedId);
+          } else {
+            console.log("error found during deletion process", err);
+          }
+        }
+      );
+    },
+    showOptions(arg) {
+      swal("Please let me know what action you'd like to do?", {
+        buttons: {
+          cancel: "Cancel",
+          edit: {
+            text: "Edit",
+            value: "edit"
+          },
+          delete: true
+        }
+      }).then(value => {
+        switch (value) {
+          case "delete":
+            this.deleteSchedule(arg);
+            break;
+
+          case "edit":
+            this.editSchedule(arg);
+            break;
+
+          default:
+            swal("No actions performed!");
+        }
+      });
     },
     fetchAllStudents() {
       fetchAll("student", (err, data) => {
@@ -306,23 +422,16 @@ export default {
     fetchAllSchedules() {
       fetchAll("schedule", (err, response) => {
         if (!err) {
-          console.log("Fetched schedules", response.data);
           this.schedules = response.data;
-          const newEvents = [];
-          this.schedules.forEach(schedule => {
-            console.log("[schedule] subject id", schedule.subject_id);
-            const subj = this.subjects.data.find(subject => {
-              return subject.id === +schedule.subject_id;
-            });
-            newEvents.push({
-              id: schedule.id,
-              title: `${subj.name} ${schedule.start_time} ${schedule.end_time}`,
-              start: schedule.class_date
-            });
+          this.events = response.data.map(event => {
+            return {
+              id: event.id,
+              title: `${event.subject} ${event.start_time} - ${event.end_time}`,
+              start: event.class_date
+            };
           });
-          this.events = newEvents;
-          console.log("events", newEvents);
           console.log("[Done] Fetching schedules");
+          console.log("Fetched schedules", response.data);
         } else {
           console.log("Could not fetch schedules", err);
           swal("Something went wrong :(", "Unable to fetch schedules", "error");
@@ -335,6 +444,11 @@ export default {
       this.fetchAllClassrooms();
       this.fetchAllSubjects();
       this.fetchAllSchedules();
+    },
+    closeModal() {
+      this.editMode = false;
+      this.newSchedule = "";
+      this.index = "";
     }
   },
   computed: {
@@ -375,6 +489,10 @@ export default {
 .main-modal.in-use,
 .backdrop.in-use {
   display: block;
+}
+
+.danger-background {
+  background-color: #ff8080 !important;
 }
 
 @media (min-width: 48em) {

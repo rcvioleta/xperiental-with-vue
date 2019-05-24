@@ -14714,6 +14714,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../helpers/Model.js */ "./resources/js/helpers/Model.js");
 /* harmony import */ var _helpers_ClassSchedule_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/ClassSchedule.js */ "./resources/js/helpers/ClassSchedule.js");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -14900,6 +14901,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -14964,6 +14966,7 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
         if (!err) {
           console.log("RESPONSE", response);
           sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("Congratulations!", "New Schedule added", "success");
+          _app__WEBPACK_IMPORTED_MODULE_5__["EventBus"].$emit("newEventAdded", response.data);
         } else {
           console.log("Error adding new schedule", err.response.data);
           sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("Something went wrong :(", "Unable to add new Schedule", "error");
@@ -15025,9 +15028,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_fullcalendar_interaction__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _helpers_Model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../helpers/Model */ "./resources/js/helpers/Model.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _helpers_ClassSchedule__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../helpers/ClassSchedule */ "./resources/js/helpers/ClassSchedule.js");
+/* harmony import */ var _helpers_Model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../helpers/Model */ "./resources/js/helpers/Model.js");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -15240,13 +15253,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
 
 
 
-var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.bind(null);
+
+
+var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].fetchAll.bind(null);
+
+var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].update.bind(null);
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -15258,6 +15277,7 @@ var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.b
       students: "",
       newSchedule: "",
       schedules: [],
+      index: "",
       editMode: false
     };
   },
@@ -15266,24 +15286,57 @@ var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.b
     Multiselect: vue_multiselect__WEBPACK_IMPORTED_MODULE_3___default.a
   },
   created: function created() {
+    var _this = this;
+
     this.initFetchingData();
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on("newEventAdded", function (event) {
+      console.log("[Class Schedule] New event captured", event);
+      var _event$data = event.data,
+          id = _event$data.id,
+          class_date = _event$data.class_date,
+          subject = _event$data.subject,
+          start_time = _event$data.start_time,
+          end_time = _event$data.end_time;
+
+      _this.events.push({
+        id: id,
+        start: class_date,
+        title: "".concat(subject, " ").concat(start_time, "-").concat(end_time)
+      });
+    });
   },
   methods: {
     editSchedule: function editSchedule(arg) {
-      var _this = this;
+      var _this2 = this;
 
       console.log("Event ID#", arg.event.id);
       console.log("Event Name#", arg.event.title);
-      this.editMode = true;
-      var scheduleToUpdate = this.schedules.find(function (schedule) {
-        return schedule.id === +arg.event.id;
+      var eventId = +arg.event.id;
+      this.index = this.events.findIndex(function (event) {
+        return event.id === eventId;
       });
-      var students = scheduleToUpdate.students,
-          start_time = scheduleToUpdate.start_time,
-          end_time = scheduleToUpdate.end_time;
+      this.editMode = true;
+      var schedule = this.schedules.find(function (schedule) {
+        return schedule.id === eventId;
+      });
+      var students = schedule.students,
+          subject = schedule.subject,
+          start_time = schedule.start_time,
+          end_time = schedule.end_time;
+      var filteredSubject = undefined;
+      this.subjects.data.map(function (subj) {
+        return subj.name === subject ? filteredSubject = subj.id : null;
+      });
+
+      var scheduleToUpdate = _objectSpread({}, schedule, {
+        subject: filteredSubject
+      });
+
+      delete scheduleToUpdate.start_time;
+      delete scheduleToUpdate.end_time;
       var filteredStudents = [];
       students.split(",").map(function (id) {
-        return _this.students.data.map(function (student) {
+        return _this2.students.data.map(function (student) {
           if (student.id === +id) {
             filteredStudents.push(_objectSpread({}, student));
           }
@@ -15298,79 +15351,154 @@ var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.b
         end_time_period: end_time.split(":")[1].split(" ")[1],
         students: filteredStudents
       });
+      console.log("Schedule to update", this.newSchedule);
     },
     updateSchedule: function updateSchedule() {
-      alert("updating schedule...");
+      var _this3 = this;
+
+      var excludedProps = ["start_time_hour", "start_time_minute", "start_time_period", "end_time_hour", "end_time_minute", "end_time_period"];
+      var newSchedule = Object.keys(this.newSchedule).reduce(function (object, key) {
+        if (!excludedProps.includes(key)) {
+          if (key === "students") {
+            object[key] = _this3.newSchedule[key].map(function (student) {
+              return student.id;
+            }).toString().split(", ").join(", ");
+          } else {
+            object[key] = _this3.newSchedule[key];
+          }
+        }
+
+        return object;
+      }, {});
+      var uri = "/admin/schedule/".concat(newSchedule.id);
+      console.log("new schedules", newSchedule);
+
+      _updateSchedule(uri, newSchedule, function (err, update) {
+        if (!err) {
+          console.log("success update", update);
+
+          var updatedSchedule = _toConsumableArray(_this3.events);
+
+          var start_time = update.start_time,
+              end_time = update.end_time,
+              subject = update.subject,
+              id = update.id,
+              class_date = update.class_date;
+          updatedSchedule[_this3.index] = {
+            id: id,
+            title: "".concat(subject, " ").concat(start_time, "-").concat(end_time),
+            start: class_date
+          };
+          _this3.events = updatedSchedule;
+
+          _this3.closeModal();
+        } else {
+          console.log("update error", err.response.data);
+        }
+      });
+    },
+    deleteSchedule: function deleteSchedule(arg) {
+      var _this4 = this;
+
+      console.log("delete method", arg.event.id);
+      _helpers_ClassSchedule__WEBPACK_IMPORTED_MODULE_5__["default"].deleteSchedule("/admin/schedule/".concat(arg.event.id), function (err, removedId) {
+        if (!err) {
+          console.log("removed ID", +removedId);
+          _this4.events = _this4.events.filter(function (event) {
+            return event.id !== +removedId;
+          });
+        } else {
+          console.log("error found during deletion process", err);
+        }
+      });
+    },
+    showOptions: function showOptions(arg) {
+      var _this5 = this;
+
+      sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Please let me know what action you'd like to do?", {
+        buttons: {
+          cancel: "Cancel",
+          edit: {
+            text: "Edit",
+            value: "edit"
+          },
+          delete: true
+        }
+      }).then(function (value) {
+        switch (value) {
+          case "delete":
+            _this5.deleteSchedule(arg);
+
+            break;
+
+          case "edit":
+            _this5.editSchedule(arg);
+
+            break;
+
+          default:
+            sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("No actions performed!");
+        }
+      });
     },
     fetchAllStudents: function fetchAllStudents() {
-      var _this2 = this;
+      var _this6 = this;
 
       fetchAll("student", function (err, data) {
         if (!err) {
-          _this2.students = data;
+          _this6.students = data;
           console.log("[Done] Fetching students");
         } else console.log("Unable to fetch students", err);
       });
     },
     fetchAllClassrooms: function fetchAllClassrooms() {
-      var _this3 = this;
+      var _this7 = this;
 
       fetchAll("classroom", function (err, data) {
         if (!err) {
-          _this3.classrooms = data;
+          _this7.classrooms = data;
           console.log("[Done] Fetching classrooms");
         } else console.log("Unable to fetch classrooms", err);
       });
     },
     fetchAllClassRates: function fetchAllClassRates() {
-      var _this4 = this;
+      var _this8 = this;
 
       fetchAll("class-rate", function (err, data) {
         if (!err) {
-          _this4.class_rates = data;
+          _this8.class_rates = data;
           console.log("[Done] Fetching class rates");
         } else console.log("Unable to fetch class rates", err);
       });
     },
     fetchAllSubjects: function fetchAllSubjects() {
-      var _this5 = this;
+      var _this9 = this;
 
       fetchAll("subject", function (err, data) {
         if (!err) {
-          _this5.subjects = data;
+          _this9.subjects = data;
           console.log("[Done] Fetching subjects");
         } else console.log("Unable to fetch subjects", err);
       });
     },
     fetchAllSchedules: function fetchAllSchedules() {
-      var _this6 = this;
+      var _this10 = this;
 
       fetchAll("schedule", function (err, response) {
         if (!err) {
-          console.log("Fetched schedules", response.data);
-          _this6.schedules = response.data;
-          var newEvents = [];
-
-          _this6.schedules.forEach(function (schedule) {
-            console.log("[schedule] subject id", schedule.subject_id);
-
-            var subj = _this6.subjects.data.find(function (subject) {
-              return subject.id === +schedule.subject_id;
-            });
-
-            newEvents.push({
-              id: schedule.id,
-              title: "".concat(subj.name, " ").concat(schedule.start_time, " ").concat(schedule.end_time),
-              start: schedule.class_date
-            });
+          _this10.schedules = response.data;
+          _this10.events = response.data.map(function (event) {
+            return {
+              id: event.id,
+              title: "".concat(event.subject, " ").concat(event.start_time, " - ").concat(event.end_time),
+              start: event.class_date
+            };
           });
-
-          _this6.events = newEvents;
-          console.log("events", newEvents);
           console.log("[Done] Fetching schedules");
+          console.log("Fetched schedules", response.data);
         } else {
           console.log("Could not fetch schedules", err);
-          sweetalert__WEBPACK_IMPORTED_MODULE_5___default()("Something went wrong :(", "Unable to fetch schedules", "error");
+          sweetalert__WEBPACK_IMPORTED_MODULE_4___default()("Something went wrong :(", "Unable to fetch schedules", "error");
         }
       });
     },
@@ -15380,6 +15508,11 @@ var fetchAll = _helpers_Model__WEBPACK_IMPORTED_MODULE_4__["default"].fetchAll.b
       this.fetchAllClassrooms();
       this.fetchAllSubjects();
       this.fetchAllSchedules();
+    },
+    closeModal: function closeModal() {
+      this.editMode = false;
+      this.newSchedule = "";
+      this.index = "";
     }
   },
   computed: {
@@ -22618,7 +22751,7 @@ exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-
 exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!@fullcalendar/daygrid/main.css */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@fullcalendar/daygrid/main.css"), "");
 
 // module
-exports.push([module.i, "\n.main-modal {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use,\n.backdrop.in-use {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use,\r\n.backdrop.in-use {\r\n  display: block;\n}\n.danger-background {\r\n  background-color: #ff8080 !important;\n}\n@media (min-width: 48em) {\n.main-modal {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -22637,7 +22770,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\n.backdrop.in-use[data-v-416d01ed] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\r\n.backdrop.in-use[data-v-416d01ed] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -22656,7 +22789,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\n.backdrop.in-use[data-v-5b9fc564] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\r\n.backdrop.in-use[data-v-5b9fc564] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -22675,7 +22808,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\n.backdrop.in-use[data-v-0e604e8a] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\r\n.backdrop.in-use[data-v-0e604e8a] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -54977,15 +55110,34 @@ var render = function() {
           events: _vm.events,
           plugins: _vm.calendarPlugins
         },
-        on: { eventClick: _vm.editSchedule }
+        on: { eventClick: _vm.showOptions }
       }),
       _vm._v(" "),
       _c("div", { attrs: { id: "modal" } }, [
-        _c("div", { staticClass: "backdrop", class: _vm.activated }),
+        _c("div", {
+          staticClass: "backdrop",
+          class: _vm.activated,
+          on: { click: _vm.closeModal }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "main-modal", class: _vm.activated }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("\n          EDIT SCHEDULE\n          "),
+              _c(
+                "span",
+                {
+                  staticStyle: {
+                    float: "right",
+                    color: "red",
+                    "font-weight": "bold",
+                    cursor: "pointer"
+                  },
+                  on: { click: _vm.closeModal }
+                },
+                [_vm._v("X")]
+              )
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c(
@@ -55528,8 +55680,8 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.newSchedule.subject_id,
-                                expression: "newSchedule.subject_id"
+                                value: _vm.newSchedule.subject,
+                                expression: "newSchedule.subject"
                               }
                             ],
                             staticClass: "form-control",
@@ -55546,7 +55698,7 @@ var render = function() {
                                   })
                                 _vm.$set(
                                   _vm.newSchedule,
-                                  "subject_id",
+                                  "subject",
                                   $event.target.multiple
                                     ? $$selectedVal
                                     : $$selectedVal[0]
@@ -55749,28 +55901,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _vm._v("\n          EDIT SCHEDULE\n          "),
-      _c(
-        "span",
-        {
-          staticStyle: {
-            float: "right",
-            color: "red",
-            "font-weight": "bold",
-            cursor: "pointer"
-          }
-        },
-        [_vm._v("X")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -72426,6 +72557,15 @@ function () {
         return callback(err, null);
       });
     }
+  }], [{
+    key: "deleteSchedule",
+    value: function deleteSchedule(uri, callback) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(uri).then(function (response) {
+        return callback(null, response.data.removedId);
+      }).catch(function (err) {
+        return callback(err, null);
+      });
+    }
   }]);
 
   return ClassSchedule;
@@ -72706,8 +72846,8 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\14761\Desktop\Projects\xperiental-with-vue\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

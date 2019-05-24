@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use function Opis\Closure\serialize;
 
 class ClassSchedule extends Model
 {
@@ -12,5 +11,10 @@ class ClassSchedule extends Model
   public function subject()
   {
     return $this->belongsTo(Subject::class);
+  }
+
+  public function classroom()
+  {
+    return $this->belongsTo(Classroom::class);
   }
 }
