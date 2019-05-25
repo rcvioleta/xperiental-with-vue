@@ -14909,6 +14909,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14993,10 +15032,8 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
           console.log("RESPONSE", response);
           _app__WEBPACK_IMPORTED_MODULE_5__["EventBus"].$emit("newEventAdded", response.data);
           sweetalert__WEBPACK_IMPORTED_MODULE_2___default()("Congratulations!", "New Schedule added", "success");
-          _this.form_data = Object.keys(_this.form_data).reduce(function (object, key) {
-            if (key === "students") object[key] = [];else object[key] = "";
-            return object;
-          }, {});
+
+          _this.clearForm();
         } else {
           // swal(
           //   "Something went wrong :(",
@@ -15008,10 +15045,7 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
           _this.errors = Object.keys(errList).reduce(function (object, key) {
             object[key] = errList[key][0];
             return object;
-          }, {}); // Object.keys(errList).map((key, index) => {
-          //   console.log("key", key);
-          //   console.log("index", index);
-          // });
+          }, {});
         }
       });
     },
@@ -15048,6 +15082,13 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
       this.getAllClassrooms();
       this.getAllStudents();
       this.getAllSubjects();
+    },
+    clearForm: function clearForm() {
+      this.errors = "";
+      this.form_data = Object.keys(this.form_data).reduce(function (object, key) {
+        if (key === "students") object[key] = [];else object[key] = "";
+        return object;
+      }, {});
     }
   }
 });
@@ -54469,687 +54510,885 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "add-class-schedule" } }, [
-    _c("div", { staticClass: "container-fluid" }, [
-      _c("form", [
-        _c("div", { staticClass: "form-row pt-3" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("Class Date")
-            ]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form_data.class_date,
-                  expression: "form_data.class_date"
-                }
-              ],
-              staticClass: "fallback form-control",
-              attrs: {
-                type: "date",
-                name: "class_date",
-                autocomplete: "off",
-                required: ""
-              },
-              domProps: { value: _vm.form_data.class_date },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.form_data, "class_date", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.class_date))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("Start Time")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group mb-3" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.start_time_hour,
-                      expression: "form_data.start_time_hour"
-                    }
-                  ],
-                  staticClass: "custom-select",
-                  attrs: { name: "start_time_hour", id: "inputGroupSelect01" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "start_time_hour",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("HH")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("1")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "8" } }, [_vm._v("8")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "9" } }, [_vm._v("9")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "12" } }, [_vm._v("12")])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.start_time_minute,
-                      expression: "form_data.start_time_minute"
-                    }
-                  ],
-                  staticClass: "custom-select",
-                  attrs: { name: "end_time_minute", id: "inputGroupSelect01" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "start_time_minute",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("Min")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "00" } }, [_vm._v("00")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "30" } }, [_vm._v("30")])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.start_time_period,
-                      expression: "form_data.start_time_period"
-                    }
-                  ],
-                  staticClass: "custom-select",
-                  attrs: { name: "end_time_period", id: "inputGroupSelect01" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "start_time_period",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("AM/PM")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "AM" } }, [_vm._v("AM")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "PM" } }, [_vm._v("PM")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.start_time))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("End Time")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group mb-3" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.end_time_hour,
-                      expression: "form_data.end_time_hour"
-                    }
-                  ],
-                  staticClass: "custom-select",
-                  attrs: { name: "end_time_hour", id: "inputGroupSelect01" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "end_time_hour",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("HH")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("1")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "2" } }, [_vm._v("2")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "3" } }, [_vm._v("3")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "4" } }, [_vm._v("4")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "5" } }, [_vm._v("5")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "6" } }, [_vm._v("6")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "7" } }, [_vm._v("7")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "8" } }, [_vm._v("8")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "9" } }, [_vm._v("9")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "11" } }, [_vm._v("11")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "12" } }, [_vm._v("12")])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.end_time_minute,
-                      expression: "form_data.end_time_minute"
-                    }
-                  ],
-                  staticClass: "custom-select",
-                  attrs: { name: "end_time_minute", id: "inputGroupSelect01" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "end_time_minute",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("Min")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "00" } }, [_vm._v("00")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "30" } }, [_vm._v("30")])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.end_time_period,
-                      expression: "form_data.end_time_period"
-                    }
-                  ],
-                  staticClass: "custom-select",
-                  attrs: { name: "end_time_period", id: "inputGroupSelect01" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "end_time_period",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("AM/PM")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "AM" } }, [_vm._v("AM")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "PM" } }, [_vm._v("PM")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.end_time))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("Class Type")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.class_rate_id,
-                      expression: "form_data.class_rate_id"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "class_rate" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "class_rate_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("-- Select Class Rate --")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.class_rates.data, function(classRate) {
-                    return _c(
-                      "option",
-                      {
-                        key: classRate.slug,
-                        domProps: { value: classRate.id }
-                      },
-                      [_vm._v(_vm._s(classRate.name))]
-                    )
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.class_rate_id))
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row pt-3" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("Subject")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.subject_id,
-                      expression: "form_data.subject_id"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "subject" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "subject_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("-- Select Subject --")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.subjects.data, function(subject) {
-                    return _c(
-                      "option",
-                      { key: subject.slug, domProps: { value: subject.id } },
-                      [_vm._v(_vm._s(subject.name))]
-                    )
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.subject_id))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("Classroom")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.classroom_id,
-                      expression: "form_data.classroom_id"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "classroom" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "classroom_id",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("-- Select Classrooom --")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.classrooms.data, function(classroom) {
-                    return _c(
-                      "option",
-                      {
-                        key: classroom.slug,
-                        domProps: { value: classroom.id }
-                      },
-                      [_vm._v(_vm._s(classroom.name))]
-                    )
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.classroom_id))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("label", { attrs: { for: "validationCustom02" } }, [
-              _vm._v("Status")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form_data.status,
-                      expression: "form_data.status"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { name: "status" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.form_data,
-                        "status",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", value: "" } }, [
-                    _vm._v("-- Select Status --")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
-                  _vm._v(" "),
-                  _c("option", { attrs: { value: "0" } }, [_vm._v("Cancelled")])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "small text-danger" }, [
-              _vm._v(_vm._s(_vm.errors.status))
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-row mt-5" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-12" },
-            [
-              _c("h2", [_vm._v("Select Student")]),
-              _vm._v(" "),
-              _vm.students.data
-                ? [
-                    _c("Multiselect", {
-                      attrs: {
-                        options: _vm.students.data,
-                        multiple: true,
-                        "close-on-select": false,
-                        label: "full_name",
-                        "track-by": "id",
-                        placeholder: "Select Students"
-                      },
-                      model: {
-                        value: _vm.form_data.students,
-                        callback: function($$v) {
-                          _vm.$set(_vm.form_data, "students", $$v)
-                        },
-                        expression: "form_data.students"
-                      }
-                    })
-                  ]
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "small text-danger" }, [
-            _vm._v(_vm._s(_vm.errors.students))
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal-footer mr-3" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary pull-right",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#exampleModal"
         },
-        [_vm._v("Cancel")]
+        on: { click: _vm.clearForm }
+      },
+      [
+        _vm._v("\n    Add New Schedule\n    "),
+        _c("i", { staticClass: "ml-2 batch-icon batch-icon-plus" })
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "addhistoryModalLongTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "container-fluid" }, [
+                  _c("form", [
+                    _c("div", { staticClass: "form-row pt-3" }, [
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("Class Date")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form_data.class_date,
+                              expression: "form_data.class_date"
+                            }
+                          ],
+                          staticClass: "fallback form-control",
+                          attrs: {
+                            type: "date",
+                            name: "class_date",
+                            autocomplete: "off",
+                            required: ""
+                          },
+                          domProps: { value: _vm.form_data.class_date },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form_data,
+                                "class_date",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.class_date))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("Start Time")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.start_time_hour,
+                                  expression: "form_data.start_time_hour"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: {
+                                name: "start_time_hour",
+                                id: "inputGroupSelect01"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "start_time_hour",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("HH")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "1" } }, [
+                                _vm._v("1")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "2" } }, [
+                                _vm._v("2")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "3" } }, [
+                                _vm._v("3")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "4" } }, [
+                                _vm._v("4")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "5" } }, [
+                                _vm._v("5")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "6" } }, [
+                                _vm._v("6")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "7" } }, [
+                                _vm._v("7")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "8" } }, [
+                                _vm._v("8")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "9" } }, [
+                                _vm._v("9")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "10" } }, [
+                                _vm._v("10")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "11" } }, [
+                                _vm._v("11")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "12" } }, [
+                                _vm._v("12")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.start_time_minute,
+                                  expression: "form_data.start_time_minute"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: {
+                                name: "end_time_minute",
+                                id: "inputGroupSelect01"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "start_time_minute",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("Min")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "00" } }, [
+                                _vm._v("00")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "30" } }, [
+                                _vm._v("30")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.start_time_period,
+                                  expression: "form_data.start_time_period"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: {
+                                name: "end_time_period",
+                                id: "inputGroupSelect01"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "start_time_period",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("AM/PM")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "AM" } }, [
+                                _vm._v("AM")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "PM" } }, [
+                                _vm._v("PM")
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.start_time))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("End Time")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "input-group mb-3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.end_time_hour,
+                                  expression: "form_data.end_time_hour"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: {
+                                name: "end_time_hour",
+                                id: "inputGroupSelect01"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "end_time_hour",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("HH")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "1" } }, [
+                                _vm._v("1")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "2" } }, [
+                                _vm._v("2")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "3" } }, [
+                                _vm._v("3")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "4" } }, [
+                                _vm._v("4")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "5" } }, [
+                                _vm._v("5")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "6" } }, [
+                                _vm._v("6")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "7" } }, [
+                                _vm._v("7")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "8" } }, [
+                                _vm._v("8")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "9" } }, [
+                                _vm._v("9")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "10" } }, [
+                                _vm._v("10")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "11" } }, [
+                                _vm._v("11")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "12" } }, [
+                                _vm._v("12")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.end_time_minute,
+                                  expression: "form_data.end_time_minute"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: {
+                                name: "end_time_minute",
+                                id: "inputGroupSelect01"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "end_time_minute",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("Min")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "00" } }, [
+                                _vm._v("00")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "30" } }, [
+                                _vm._v("30")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.end_time_period,
+                                  expression: "form_data.end_time_period"
+                                }
+                              ],
+                              staticClass: "custom-select",
+                              attrs: {
+                                name: "end_time_period",
+                                id: "inputGroupSelect01"
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "end_time_period",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("AM/PM")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "AM" } }, [
+                                _vm._v("AM")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "PM" } }, [
+                                _vm._v("PM")
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.end_time))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("Class Type")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.class_rate_id,
+                                  expression: "form_data.class_rate_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "class_rate" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "class_rate_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("-- Select Class Rate --")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.class_rates.data, function(classRate) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: classRate.slug,
+                                    domProps: { value: classRate.id }
+                                  },
+                                  [_vm._v(_vm._s(classRate.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.class_rate_id))
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-row pt-3" }, [
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("Subject")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.subject_id,
+                                  expression: "form_data.subject_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "subject" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "subject_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("-- Select Subject --")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.subjects.data, function(subject) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: subject.slug,
+                                    domProps: { value: subject.id }
+                                  },
+                                  [_vm._v(_vm._s(subject.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.subject_id))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("Classroom")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.classroom_id,
+                                  expression: "form_data.classroom_id"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "classroom" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "classroom_id",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("-- Select Classrooom --")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.classrooms.data, function(classroom) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: classroom.slug,
+                                    domProps: { value: classroom.id }
+                                  },
+                                  [_vm._v(_vm._s(classroom.name))]
+                                )
+                              })
+                            ],
+                            2
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.classroom_id))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c("label", { attrs: { for: "validationCustom02" } }, [
+                          _vm._v("Status")
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form_data.status,
+                                  expression: "form_data.status"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: { name: "status" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.form_data,
+                                    "status",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "option",
+                                { attrs: { disabled: "", value: "" } },
+                                [_vm._v("-- Select Status --")]
+                              ),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "1" } }, [
+                                _vm._v("Active")
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "0" } }, [
+                                _vm._v("Cancelled")
+                              ])
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-danger" }, [
+                          _vm._v(_vm._s(_vm.errors.status))
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-row mt-5" }, [
+                      _c(
+                        "div",
+                        { staticClass: "col-md-12" },
+                        [
+                          _c("h2", [_vm._v("Select Student")]),
+                          _vm._v(" "),
+                          _vm.students.data
+                            ? [
+                                _c("Multiselect", {
+                                  attrs: {
+                                    options: _vm.students.data,
+                                    multiple: true,
+                                    "close-on-select": false,
+                                    label: "full_name",
+                                    "track-by": "id",
+                                    placeholder: "Select Students"
+                                  },
+                                  model: {
+                                    value: _vm.form_data.students,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form_data, "students", $$v)
+                                    },
+                                    expression: "form_data.students"
+                                  }
+                                })
+                              ]
+                            : _vm._e()
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "small text-danger" }, [
+                        _vm._v(_vm._s(_vm.errors.students))
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer mr-3" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("Cancel")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: { click: _vm.saveClassSchedule }
+                    },
+                    [
+                      _vm._v("\n              Save Schedule\n              "),
+                      _c("i", {
+                        staticClass: "ml-2 batch-icon batch-icon-stiffy"
+                      })
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "addhistoryModalLongTitle" }
+        },
+        [_vm._v("ADD NEW SCHEDULE")]
       ),
       _vm._v(" "),
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
-          attrs: { type: "button" },
-          on: { click: _vm.saveClassSchedule }
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
         },
-        [
-          _vm._v("\n      Save Schedule\n      "),
-          _c("i", { staticClass: "ml-2 batch-icon batch-icon-stiffy" })
-        ]
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
-  ])
-}
-var staticRenderFns = []
+  }
+]
 render._withStripped = true
 
 

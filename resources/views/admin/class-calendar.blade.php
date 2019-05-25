@@ -89,29 +89,9 @@
                   <h1>Class Calendar</h1>
               </div>
               <div class="col-md-6">
-                  <button class="btn btn-primary pull-right" type="button" data-toggle="modal"
-                      data-target="#exampleModal">Add New Schedule<i
-                          class="ml-2 batch-icon batch-icon-plus"></i></button>
-
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                      aria-labelledby="addhistoryModalLongTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-lg" role="document">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title" id="addhistoryModalLongTitle">ADD NEW SCHEDULE</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                  </button>
-                              </div>
-                              <div class="modal-body">
-                                <class-schedule-form></class-schedule-form>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
+                <!-- Modal -->
+                <class-schedule-form></class-schedule-form>
+              </div> <!-- end modal -->
           </div>
   </div>
   <div class="row mb-5">
