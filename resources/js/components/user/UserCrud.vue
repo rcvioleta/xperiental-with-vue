@@ -35,34 +35,47 @@
         </tr>
       </tbody>
     </table>
-    <user-modal
+    <user-form
       :active="isActive"
       :name="selectedUser.name"
       :email="selectedUser.email"
+      :password="selectedUser.password"
+      :password_confirmation="selectedUser.password_confirmation"
       :status="selectedUser.status"
       :slug="selectedUser.slug"
       :updateFunc="update"
-    ></user-modal>
+      @userNameChanged="selectedUser.name = $event"
+      @emailChanged="selectedUser.email = $event"
+      @statusChanged="selectedUser.status = $event"
+      @passwordChanged="selectedUser.password = $event"
+      @passConfirmationChanged="selectedUser.password_confirmation = $event"
+    ></user-form>
   </div>
 </template>
 
 <script>
 import { EventBus } from "../../app.js";
 import User from "../../helpers/User.js";
-import Modal from "../ui/modal/Modal.vue";
+import UserForm from "../forms/UserForm.vue";
 
 export default {
   data() {
     return {
       users: "",
-      selectedUser: "",
+      selectedUser: {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        status: 1
+      },
       userIndex: "",
       editingMode: false,
       errors: ""
     };
   },
   components: {
-    "user-modal": Modal
+    "user-form": UserForm
   },
   created() {
     User.fetchAll("user", (err, data) => {
@@ -137,25 +150,34 @@ export default {
         } else swal("User was kept");
       });
     },
-    editUser(slug) {
-      console.log("EDIT USER", slug);
-      this.userIndex = this.users.data.findIndex(user => user.slug === slug);
+    editUser(selectedSlug) {
+      console.log("EDIT USER", selectedSlug);
+      this.userIndex = this.users.data.findIndex(
+        user => user.slug === selectedSlug
+      );
 
-      this.selectedUser = this.users.data[this.userIndex];
+      const { name, email, slug } = this.users.data[this.userIndex];
+      const currentState = { ...this.selectedUser };
+      this.selectedUser = {
+        ...currentState,
+        name,
+        email,
+        slug
+      };
       this.editingMode = true;
     },
     update(e) {
-      const target = e.target;
-      const name = target.name.value;
-      const slug = target.slug.value;
-      const status = target.status.value;
-      const email = target.email.value;
-      const password = target.password.value;
-      const password_confirmation = target.password_confirmation.value;
+      const {
+        name,
+        slug,
+        status,
+        email,
+        password,
+        password_confirmation
+      } = this.selectedUser;
       const uri = `user/${slug}`;
       const payloads = {
         name,
-        slug: name,
         status,
         email,
         password,

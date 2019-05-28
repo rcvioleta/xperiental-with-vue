@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -34,15 +35,9 @@ class UserController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(UserRequest $request)
   {
-    $request->validate([
-      'name' => 'required',
-      'email' => 'required | email | unique:users',
-      'password' => 'required | min: 8 | confirmed',
-      'password_confirmation' => 'required'
-    ]);
-
+    unset($request['password_confirmation']);
     $user = User::create($request->all());
 
     return response()->json([
@@ -97,15 +92,9 @@ class UserController extends Controller
    * @param  \App\User  $user
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, User $user)
+  public function update(UserRequest $request, User $user)
   {
-    $request->validate([
-      'name' => 'required',
-      'email' => 'required | email',
-      'password' => 'required | min: 8 | confirmed',
-      'password_confirmation' => 'required'
-    ]);
-
+    unset($request['password_confirmation']);
     $user->update($request->all());
 
     return response()->json([

@@ -16,7 +16,7 @@
               class="form-control"
               id="profile-name"
               placeholder="Name"
-              required
+              v-model="form_data.name"
             >
             <div class="valid-feedback">Looks good!</div>
           </div>
@@ -28,31 +28,31 @@
               class="form-control"
               id="email"
               placeholder="Email"
-              required
+              v-model="form_data.email"
             >
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="col-md-12 mb-3">
             <label for="password">Password</label>
             <input
-              type="text"
+              type="password"
               name="password"
               class="form-control"
               id="password"
               placeholder="Password"
-              required
+              v-model="form_data.password"
             >
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="col-md-12 mb-3">
             <label for="password_confirmation">Confirm Password</label>
             <input
-              type="text"
+              type="password"
               name="password_confirmation"
               class="form-control"
               id="password_confirmation"
               placeholder="Confirm Password"
-              required
+              v-model="form_data.password_confirmation"
             >
             <div class="valid-feedback">Looks good!</div>
           </div>
@@ -88,20 +88,40 @@ import User from "../../helpers/User.js";
 export default {
   data() {
     return {
-      errors: ""
+      errors: "",
+      form_data: {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        status: 1
+      }
     };
   },
   methods: {
     saveNewUser(e) {
-      const target = e.target;
-      const name = target.name.value;
-      const email = target.email.value;
-      const password = target.password.value;
-      const password_confirmation = target.password_confirmation.value;
-      const newUser = new User(name, 1, email, password, password_confirmation);
+      const {
+        name,
+        email,
+        password,
+        password_confirmation,
+        status
+      } = this.form_data;
+      const newUser = new User(
+        name,
+        status,
+        email,
+        password,
+        password_confirmation
+      );
       newUser.save("user", (err, result) => {
         if (!err) {
           console.log("[SAVE USER RESULT]", result);
+          this.form_data = Object.keys(this.form_data).reduce((object, key) => {
+            if (key === "status") object[key] = this.form_data[key];
+            else object[key] = "";
+            return object;
+          }, {});
           EventBus.$emit("newUserAdded", result);
         } else {
           console.log("[SAVE USER ERROR]", err.response.data);
