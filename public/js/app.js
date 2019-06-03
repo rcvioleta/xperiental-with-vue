@@ -14948,6 +14948,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -15010,11 +15013,14 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
 
       if (end_time_hour && end_time_minute && end_time_period) {
         end_time = "".concat(end_time_hour, ":").concat(end_time_minute, " ").concat(end_time_period);
-      }
+      } // const students = this.form_data.students
+      //   .map(student => student.id)
+      //   .toString()
+      //   .split(", ")
+      //   .join(", ");
 
-      var students = this.form_data.students.map(function (student) {
-        return student.id;
-      }).toString().split(", ").join(", ");
+
+      var students = $('#callbacks').val().toString();
       var payloads = {
         students: students,
         class_date: class_date,
@@ -15053,14 +15059,22 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
       var _this2 = this;
 
       fetchAll("student", function (err, data) {
-        if (!err) _this2.students = data;else console.log("Error while fetching Students database", err.response);
+        if (!err) {
+          _this2.students = data;
+
+          _this2.$nextTick(function () {
+            this.loadMultiSelect();
+          });
+        } else console.log("Error while fetching Students database", err.response);
       });
     },
     getAllSubjects: function getAllSubjects() {
       var _this3 = this;
 
       fetchAll("subject", function (err, data) {
-        if (!err) _this3.subjects = data;else console.log("Error while fetching Subjects database", err.response);
+        if (!err) {
+          _this3.subjects = data;
+        } else console.log("Error while fetching Subjects database", err.response);
       });
     },
     getAllClassRates: function getAllClassRates() {
@@ -15089,6 +15103,39 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
         if (key === "students") object[key] = [];else object[key] = "";
         return object;
       }, {});
+    },
+    loadMultiSelect: function loadMultiSelect() {
+      $('#callbacks').multiSelect({
+        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+        afterInit: function afterInit(ms) {
+          var that = this,
+              $selectableSearch = that.$selectableUl.prev(),
+              $selectionSearch = that.$selectionUl.prev(),
+              selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+              selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+          that.qs1 = $selectableSearch.quicksearch(selectableSearchString).on('keydown', function (e) {
+            if (e.which === 40) {
+              that.$selectableUl.focus();
+              return false;
+            }
+          });
+          that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function (e) {
+            if (e.which == 40) {
+              that.$selectionUl.focus();
+              return false;
+            }
+          });
+        },
+        afterSelect: function afterSelect() {
+          this.qs1.cache();
+          this.qs2.cache();
+        },
+        afterDeselect: function afterDeselect() {
+          this.qs1.cache();
+          this.qs2.cache();
+        }
+      });
     }
   }
 });
@@ -15128,6 +15175,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -15389,9 +15439,14 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
       });
 
       _this.schedules.push(_objectSpread({}, event.data));
-    });
+    }); // console.log("hehe", this.schedule);
   },
   methods: {
+    itemContains: function itemContains(n) {
+      // console.log("Yoh", event.data);
+      console.log("hehe", students.split(",")); // alert(this.items.indexOf(n) > -1);
+      // return students.split(",").indexOf(n) > -1;
+    },
     editSchedule: function editSchedule(arg) {
       var _this2 = this;
 
@@ -15534,6 +15589,10 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
         if (!err) {
           _this5.students = data;
           console.log("[Done] Fetching students");
+
+          _this5.$nextTick(function () {
+            this.loadMultiSelect();
+          });
         } else console.log("Unable to fetch students", err);
       });
     },
@@ -15599,6 +15658,39 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
       this.editMode = false;
       this.newSchedule = "";
       this.index = "";
+    },
+    loadMultiSelect: function loadMultiSelect() {
+      $('#callbacks2').multiSelect({
+        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+        afterInit: function afterInit(ms) {
+          var that = this,
+              $selectableSearch = that.$selectableUl.prev(),
+              $selectionSearch = that.$selectionUl.prev(),
+              selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+              selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+          that.qs1 = $selectableSearch.quicksearch(selectableSearchString).on('keydown', function (e) {
+            if (e.which === 40) {
+              that.$selectableUl.focus();
+              return false;
+            }
+          });
+          that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function (e) {
+            if (e.which == 40) {
+              that.$selectionUl.focus();
+              return false;
+            }
+          });
+        },
+        afterSelect: function afterSelect() {
+          this.qs1.cache();
+          this.qs2.cache();
+        },
+        afterDeselect: function afterDeselect() {
+          this.qs1.cache();
+          this.qs2.cache();
+        }
+      });
     }
   },
   computed: {
@@ -55486,36 +55578,25 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-row mt-5" }, [
-                      _c(
-                        "div",
-                        { staticClass: "col-md-12" },
-                        [
-                          _c("h2", [_vm._v("Select Student")]),
-                          _vm._v(" "),
-                          _vm.students.data
-                            ? [
-                                _c("Multiselect", {
-                                  attrs: {
-                                    options: _vm.students.data,
-                                    multiple: true,
-                                    "close-on-select": false,
-                                    label: "full_name",
-                                    "track-by": "id",
-                                    placeholder: "Select Students"
-                                  },
-                                  model: {
-                                    value: _vm.form_data.students,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.form_data, "students", $$v)
-                                    },
-                                    expression: "form_data.students"
-                                  }
-                                })
-                              ]
-                            : _vm._e()
-                        ],
-                        2
-                      ),
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c("h2", [_vm._v("Select Student")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            staticClass: "form-control",
+                            attrs: { id: "callbacks", multiple: "multiple" }
+                          },
+                          _vm._l(_vm.students.data, function(student) {
+                            return _c(
+                              "option",
+                              { domProps: { value: student.id } },
+                              [_vm._v(_vm._s(student.full_name))]
+                            )
+                          }),
+                          0
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "small text-danger" }, [
                         _vm._v(_vm._s(_vm.errors.students))
@@ -56364,6 +56445,22 @@ var render = function() {
                       { staticClass: "col-md-12" },
                       [
                         _c("h2", [_vm._v("Select Student")]),
+                        _vm._v(" "),
+                        _c(
+                          "select",
+                          {
+                            staticClass: "form-control",
+                            attrs: { id: "callbacks2", multiple: "multiple" }
+                          },
+                          _vm._l(_vm.students.data, function(student) {
+                            return _c(
+                              "option",
+                              { domProps: { value: student.id } },
+                              [_vm._v(_vm._s(student.full_name))]
+                            )
+                          }),
+                          0
+                        ),
                         _vm._v(" "),
                         _vm.students.data
                           ? [
@@ -71775,14 +71872,15 @@ if (token) {
 /*!***************************************************************!*\
   !*** ./resources/js/components/calendar/AddClassSchedule.vue ***!
   \***************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=template&id=d6c256b8& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&");
 /* harmony import */ var _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=script&lang=js& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -71814,7 +71912,7 @@ component.options.__file = "resources/js/components/calendar/AddClassSchedule.vu
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73693,8 +73791,13 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< Updated upstream
 __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/js/app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/sass/app.scss */"./resources/sass/app.scss");
+=======
+__webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code - xperiential\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code - xperiential\resources\sass\app.scss */"./resources/sass/app.scss");
+>>>>>>> Stashed changes
 
 
 /***/ })

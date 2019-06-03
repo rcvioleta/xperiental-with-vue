@@ -59,3 +59,20 @@ table.table td, table.table th, table th {
 table.table td:nth-child(1), table.table th:nth-child(1) {
     text-align: left;
 }
+#mytable_length label, #mytable_filter label {
+    display: inline-flex;
+    padding-top: 5px;
+    margin-bottom: 20px;
+}
+#mytable_length label select, #mytable_filter label input {
+    margin: -5px 10px 0 10px;
+}
+#mytable_filter label input {
+    margin-right: 0;
+}
+#mytable_filter {
+    text-align: right;
+}
+#mytable_filter label {
+    width: 50%;
+}

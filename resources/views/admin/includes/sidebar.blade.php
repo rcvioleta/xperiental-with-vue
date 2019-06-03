@@ -61,6 +61,26 @@
         </ul>
       </li>
       <li class="nav-item">
+        <a class="nav-link nav-parent" href="#">
+          <i class="batch-icon batch-icon-users"></i>
+          Enrollment Management
+        </a>
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('enrollment.index') }}">
+              <i class="batch-icon batch-icon-bullet"></i>
+              Enrollment List
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('enrollment.create') }}">
+              <i class="batch-icon batch-icon-bullet"></i>
+              Enroll Student
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('class-schedule') }}">
           <i class="batch-icon batch-icon-calendar"></i>
           Class Schedule

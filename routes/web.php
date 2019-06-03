@@ -50,4 +50,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::get('/add-student', 'HomeController@addStudent')->name('add-student');
   Route::get('/students', 'HomeController@showStudentList')->name('student-list');
   Route::get('/class-schedule', 'HomeController@scheduleIndex')->name('class-schedule');
+
+
+  // Start Jomar
+  Route::prefix('enrollment')->group(function () {
+    Route::get('/', 'EnrollmentController@index')->name('enrollment.index');
+    Route::get('/create', 'EnrollmentController@create')->name('enrollment.create');
+    Route::get('/{id}/edit/', 'EnrollmentController@edit')->name('enrollment.edit');
+    Route::post('/{id}/update', 'EnrollmentController@update')->name('enrollment.update');
+  });
+
 });

@@ -185,6 +185,9 @@
               <div class="form-row mt-5">
                 <div class="col-md-12">
                   <h2>Select Student</h2>
+                  <select class="form-control" id='callbacks2' multiple='multiple'>
+                    <option v-for="student in students.data" :value="student.id">{{ student.full_name }}</option>
+                  </select>
                   <template v-if="students.data">
                     <Multiselect
                       v-model="newSchedule.students"
@@ -254,8 +257,15 @@ export default {
       });
       this.schedules.push({ ...event.data });
     });
+    // console.log("hehe", this.schedule);
   },
   methods: {
+    itemContains(n) {
+      // console.log("Yoh", event.data);
+      console.log("hehe", students.split(","));
+      // alert(this.items.indexOf(n) > -1);
+      // return students.split(",").indexOf(n) > -1;
+    },
     editSchedule(arg) {
       console.log("Event ID#", arg.event.id);
       console.log("Event Name#", arg.event.title);
@@ -402,6 +412,9 @@ export default {
         if (!err) {
           this.students = data;
           console.log("[Done] Fetching students");
+          this.$nextTick(function () {
+              this.loadMultiSelect();
+          });
         } else console.log("Unable to fetch students", err);
       });
     },
@@ -459,6 +472,43 @@ export default {
       this.editMode = false;
       this.newSchedule = "";
       this.index = "";
+    },
+    loadMultiSelect() {
+      $('#callbacks2').multiSelect({
+        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+        afterInit: function(ms){
+          var that = this,
+          $selectableSearch = that.$selectableUl.prev(),
+          $selectionSearch = that.$selectionUl.prev(),
+          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+          that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+          .on('keydown', function(e){
+            if (e.which === 40){
+              that.$selectableUl.focus();
+              return false;
+            }
+          });
+
+          that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+          .on('keydown', function(e){
+            if (e.which == 40){
+              that.$selectionUl.focus();
+              return false;
+            }
+          });
+        },
+        afterSelect: function(){
+          this.qs1.cache();
+          this.qs2.cache();
+        },
+        afterDeselect: function(){
+          this.qs1.cache();
+          this.qs2.cache();
+        }
+      });
     }
   },
   computed: {

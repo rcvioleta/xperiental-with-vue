@@ -201,7 +201,10 @@
                 <div class="form-row mt-5">
                   <div class="col-md-12">
                     <h2>Select Student</h2>
-                    <template v-if="students.data">
+                    <select class="form-control" id='callbacks' multiple='multiple'>
+                        <option v-for="student in students.data" :value="student.id">{{ student.full_name }}</option>
+                    </select>
+                    <!-- <template v-if="students.data">
                       <Multiselect
                         v-model="form_data.students"
                         :options="students.data"
@@ -211,7 +214,7 @@
                         track-by="id"
                         placeholder="Select Students"
                       ></Multiselect>
-                    </template>
+                    </template> -->
                   </div>
                   <div class="small text-danger">{{ errors.students }}</div>
                 </div>
@@ -298,11 +301,12 @@ export default {
         end_time = `${end_time_hour}:${end_time_minute} ${end_time_period}`;
       }
 
-      const students = this.form_data.students
-        .map(student => student.id)
-        .toString()
-        .split(", ")
-        .join(", ");
+      // const students = this.form_data.students
+      //   .map(student => student.id)
+      //   .toString()
+      //   .split(", ")
+      //   .join(", ");
+      const students = $('#callbacks').val().toString();
       const payloads = {
         students,
         class_date,
@@ -347,14 +351,21 @@ export default {
     },
     getAllStudents() {
       fetchAll("student", (err, data) => {
-        if (!err) this.students = data;
+        if (!err) {
+          this.students = data;
+          this.$nextTick(function () {
+              this.loadMultiSelect();
+          });
+        } 
         else
           console.log("Error while fetching Students database", err.response);
       });
     },
     getAllSubjects() {
       fetchAll("subject", (err, data) => {
-        if (!err) this.subjects = data;
+        if (!err) {
+          this.subjects = data;
+        } 
         else
           console.log("Error while fetching Subjects database", err.response);
       });
@@ -389,8 +400,45 @@ export default {
         else object[key] = "";
         return object;
       }, {});
+    },
+    loadMultiSelect() {
+      $('#callbacks').multiSelect({
+        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+        afterInit: function(ms){
+          var that = this,
+          $selectableSearch = that.$selectableUl.prev(),
+          $selectionSearch = that.$selectionUl.prev(),
+          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+          that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+          .on('keydown', function(e){
+            if (e.which === 40){
+              that.$selectableUl.focus();
+              return false;
+            }
+          });
+
+          that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+          .on('keydown', function(e){
+            if (e.which == 40){
+              that.$selectionUl.focus();
+              return false;
+            }
+          });
+        },
+        afterSelect: function(){
+          this.qs1.cache();
+          this.qs2.cache();
+        },
+        afterDeselect: function(){
+          this.qs1.cache();
+          this.qs2.cache();
+        }
+      });
     }
-  }
+  } 
 };
 </script>
 

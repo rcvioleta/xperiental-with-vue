@@ -120,6 +120,13 @@
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
   <script src="{{ asset('assets/js/scripts.js') }}" defer></script>
 
+  <!-- MultiSelect and Quicksearch -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/multi-select.css') }}" v>
+  <script src="{{ asset('assets/jquery.quicksearch.js') }}" defer></script>
+  <script src="{{ asset('assets/jquery.multi-select.js') }}" defer></script>
+  <!-- End Important -->
+
+
 	<script>
 		function SubjectAdd() {
 			$('#subject-add').css('display','block');
@@ -156,6 +163,10 @@
 			$('#system-add').css('display','none');
 			$('#class-rate-add').css('display','block');
 		}
+    // $(document).ready(function(){
+      // $('#callbacks').multiSelect();
+      // alert("1");
+    // })
 	</script>
   <!-- end template assets -->
 </body>
