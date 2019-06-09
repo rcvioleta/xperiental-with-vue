@@ -58,6 +58,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/create', 'EnrollmentController@create')->name('enrollment.create');
     Route::get('/{id}/edit/', 'EnrollmentController@edit')->name('enrollment.edit');
     Route::post('/{id}/update', 'EnrollmentController@update')->name('enrollment.update');
+    Route::post('/', 'EnrollmentController@store')->name('enrollment.store');
+    Route::post('/{id}', 'EnrollmentController@update')->name('enrollment.update');
   });
 
 });

@@ -23078,7 +23078,7 @@ exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-
 exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!@fullcalendar/daygrid/main.css */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@fullcalendar/daygrid/main.css"), "");
 
 // module
-exports.push([module.i, "\n.main-modal {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 900;\n  display: none;\n}\n.backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use,\n.backdrop.in-use {\n  display: block;\n}\n.danger-background {\n  background-color: #ff8080 !important;\n}\n.fc-right {\n  display: flex;\n}\n@media (min-width: 48em) {\n.main-modal {\n    width: 50%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 900;\r\n  display: none;\n}\n.backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use,\r\n.backdrop.in-use {\r\n  display: block;\n}\n.danger-background {\r\n  background-color: #ff8080 !important;\n}\n.fc-right {\r\n  display: flex;\n}\n@media (min-width: 48em) {\n.main-modal {\r\n    width: 50%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -23097,7 +23097,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\n.backdrop.in-use[data-v-416d01ed] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\r\n.backdrop.in-use[data-v-416d01ed] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -23116,7 +23116,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\n.backdrop.in-use[data-v-5b9fc564] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\r\n.backdrop.in-use[data-v-5b9fc564] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -23135,7 +23135,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-1a12e68c] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-1a12e68c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-1a12e68c],\n.backdrop.in-use[data-v-1a12e68c] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-1a12e68c] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-1a12e68c] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-1a12e68c] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-1a12e68c],\r\n.backdrop.in-use[data-v-1a12e68c] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-1a12e68c] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -23154,7 +23154,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\n.backdrop.in-use[data-v-0e604e8a] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\n    width: 30%;\n}\n}\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\r\n.backdrop.in-use[data-v-0e604e8a] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\r\n    width: 30%;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -71872,15 +71872,14 @@ if (token) {
 /*!***************************************************************!*\
   !*** ./resources/js/components/calendar/AddClassSchedule.vue ***!
   \***************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddClassSchedule_vue_vue_type_template_id_d6c256b8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=template&id=d6c256b8& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=template&id=d6c256b8&");
 /* harmony import */ var _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddClassSchedule.vue?vue&type=script&lang=js& */ "./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _AddClassSchedule_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var vue_multiselect_dist_vue_multiselect_min_css_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css& */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.css?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -71912,7 +71911,7 @@ component.options.__file = "resources/js/components/calendar/AddClassSchedule.vu
 /*!****************************************************************************************!*\
   !*** ./resources/js/components/calendar/AddClassSchedule.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73791,13 +73790,8 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< Updated upstream
-__webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/sass/app.scss */"./resources/sass/app.scss");
-=======
 __webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code - xperiential\resources\js\app.js */"./resources/js/app.js");
 module.exports = __webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code - xperiential\resources\sass\app.scss */"./resources/sass/app.scss");
->>>>>>> Stashed changes
 
 
 /***/ })

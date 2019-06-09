@@ -32,6 +32,8 @@
                 <table id="mytable" class="table table-datatable table-striped table-hover">
                     <thead>
                         <tr>
+                            <th>No.</th>
+                            <th>Student ID</th>
                             <th>Student Name</th>
                             <th>Enrolled Credits</th>
                             <th>Credit Type</th>
@@ -43,13 +45,15 @@
                     <tbody>
                         @foreach($enrollments as $enrollment)
                         <tr>
+                            <td>{!! $enrollment->enrollment_id !!}</td>
+                            <td>{!! $enrollment->student_id !!}</td>
                             <td>{!! $enrollment->first_name !!} {!! $enrollment->last_name !!}</td>
                             <td>{!! $enrollment->credits !!}</td>
                             <td>{!! $enrollment->credit_type !!}</td>
                             <td>{!! $enrollment->payment_status !!}</td>
                             <td>{!! $enrollment->created_at !!}</td>
                             <td class="text-center">
-                                <a href="{{ route('enrollment.edit', $enrollment->enrollment_id) }}" class="btn btn-warning pull-right waves-effect waves-light">Edit<i class="fa fa-pencil"></i>
+                                <a href="{{ route('enrollment.edit', $enrollment->enrollment_id) }}" class="btn btn-sm btn-warning pull-right waves-effect waves-light">Edit<i class="fa fa-pencil"></i>
                                 </a>
                             </td>
                         </tr>
@@ -57,6 +61,8 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th>No.</th>
+                            <th>Student ID</th>
                             <th>Student Name</th>
                             <th>Enrolled Credits</th>
                             <th>Credit Type</th>
@@ -97,7 +103,7 @@
 	<script>
         $(function () {
 
-            $("#mytable").DataTable();
+            $("#mytable").DataTable( {"order": [[ 0, "desc" ]]} );
 
         })
     </script>

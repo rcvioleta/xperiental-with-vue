@@ -9,6 +9,8 @@
 
   <title>Xperiental Learning Hub</title>
 
+  <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <!-- Styles -->
   {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
@@ -126,6 +128,8 @@
   <script src="{{ asset('assets/jquery.multi-select.js') }}" defer></script>
   <!-- End Important -->
 
+  <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}" defer></script>
+
 
 	<script>
 		function SubjectAdd() {
@@ -167,6 +171,36 @@
       // $('#callbacks').multiSelect();
       // alert("1");
     // })
+
+    $(document).ready(function(){
+
+      function messageToastr(type, msg) {
+
+        toastr[type](msg, (type=='success'? 'Success':'Error'));
+
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "positionClass": "toast-top-right",
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "50000",  
+          "extendedTimeOut": "10000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+
+      }
+
+      @if(session()->has('message'))
+        messageToastr('success', '{!! session('message') !!}' );
+      @endif
+
+    });
+
 	</script>
   <!-- end template assets -->
 </body>

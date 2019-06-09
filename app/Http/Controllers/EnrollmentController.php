@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Enrollment;
+use App\StudentInformation;
+use App\ClassRate;
 
 class EnrollmentController extends Controller
 {
@@ -14,12 +16,9 @@ class EnrollmentController extends Controller
      */
     public function index()
     {
-        return view('admin.enrollment.index')->with([
-        	'enrollments' => (new Enrollment())->newQuery()
-        	->join('student_information', 'enrollments.student_id', '=', 'student_information.id')
-            ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
-            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
-            ->get()]);
+        return view('admin.enrollment.index', [
+            'enrollments' => $this->getEnrollments(),
+        ]);
     }
 
     /**
@@ -29,7 +28,28 @@ class EnrollmentController extends Controller
      */
     public function create()
     {
-        return view('admin.enrollment.create');
+        $students = $this->getStudents();
+        $classtypes = $this->getClassTypes();
+        
+        return view('admin.enrollment.create', [
+            'students' => $students,
+            'classtypes' => $classtypes
+        ]);
+    }
+
+    protected function getStudents() {
+        return StudentInformation::get();
+    }
+
+    protected function getClassTypes() {
+        return ClassRate::get();
+    }
+
+    protected function getEnrollments() {
+        return Enrollment::join('student_information', 'enrollments.student_id', '=', 'student_information.id')
+            ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
+            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
+            ->get();
     }
 
     /**
@@ -40,17 +60,22 @@ class EnrollmentController extends Controller
      */
     public function store(Request $request)
     {
-  //       $this->validate($request, [
-		// 	'name' => 'required|unique:categories,name'
-		// ]);
-		// $path = asset('assets/images/default-img.png');
-		// if ($request->hasFile('image')) {
-		// 	$path = $request->file('image')->store('categories');
-		// }
-		// $data = ['name' => $request->name, 'path' => $path];
-		// (new Category())->newQuery()->create($data);
-		// $request->session()->flash('message', "Successfully create category.");
-		// return redirect()->back();
+        $class_rate = ClassRate::where('id', '=', $request->get('class_type'))->value('rate');
+
+        // echo "hey"; die;
+
+        Enrollment::create([
+            'student_id' => $request->get('student_name_id'),
+            'credits' => $request->get('credits'),
+            'credit_type_id' => $request->get('class_type'),
+            'payment_status' => $request->get('payment_status'),
+            'remarks' => $request->get('remarks'),
+            'amount_paid' => $request->get('amount_paid'),
+            'amount_balance' => ($class_rate * $request->get('credits')) - $request->get('amount_paid'),
+            'status' => true
+        ]);
+
+        return redirect()->back()->with('message', 'New Enrollment Record for student ID #'.$request->get('student_name_id').' was successfully saved.');
     }
 
     /**
@@ -72,9 +97,18 @@ class EnrollmentController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.enrollment.edit')->with([
-			'enrollment' => (new Enrollment())->newQuery()->where('enrollment_id', $id)->first()
-		]);
+        $enrollment = Enrollment::join('student_information', 'enrollments.student_id', '=', 'student_information.id')
+                            ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
+                            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
+                            ->where('enrollment_id', $id)
+                            ->first();
+
+        $classtypes = $this->getClassTypes();
+        
+        return view('admin.enrollment.edit', [
+            'enrollment' => $enrollment,
+            'classtypes' => $classtypes
+        ]);
     }
 
     /**
@@ -86,15 +120,24 @@ class EnrollmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-  //       $this->validate($request, ['name' => "required|unique:categories,name,{$category->id}"]);
-		// $path = $category->path;
-		// if ($request->hasFile('image')) {
-		// 	$path = $request->file('image')->store('categories');
-		// }
-		// $data = ['name' => $request->name, 'path' => $path];
-		// $category->fill($data)->save();
-		// $request->session()->flash('message', "Successfully update category");
-		// return redirect()->back();
+        // $this->validate($request, [
+        //     'name' => "required"
+        // ]);
+
+        $class_rate = ClassRate::where('id', '=', $request->get('class_type'))->value('rate');
+
+		$enrollment = Enrollment::findOrFail($id);
+
+        $enrollment->fill([
+            'credits' => $request->get('credits'),
+            'credit_type_id' => $request->get('class_type'),
+            'payment_status' => $request->get('payment_status'),
+            'remarks' => $request->get('remarks'),
+            'amount_paid' => $request->get('amount_paid'),
+            'amount_balance' => ($class_rate * $request->get('credits')) - $request->get('amount_paid'),
+        ])->push();
+
+		return redirect()->back()->with('message', 'Enrollment Record for student ID #'.$enrollment->student_id.' was successfully updated.');
     }
 
     /**

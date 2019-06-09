@@ -19,7 +19,10 @@ class CreateEnrollmentsTable extends Migration
             $table->unsignedInteger('credits')->nullable();
             $table->unsignedInteger('credit_type_id')->nullable();
             $table->string('payment_status')->nullable();
+            $table->unsignedInteger('amount_paid')->nullable();
+            $table->unsignedInteger('amount_balance')->nullable();
             $table->text('remarks')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
