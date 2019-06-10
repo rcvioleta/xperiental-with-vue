@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Enrollment;
 use App\StudentInformation;
 use App\ClassRate;
+use App\Http\Requests\EnrollmentRequest;
 
 class EnrollmentController extends Controller
 {
@@ -30,22 +31,25 @@ class EnrollmentController extends Controller
     {
         $students = $this->getStudents();
         $classtypes = $this->getClassTypes();
-        
+
         return view('admin.enrollment.create', [
             'students' => $students,
             'classtypes' => $classtypes
         ]);
     }
 
-    protected function getStudents() {
+    protected function getStudents()
+    {
         return StudentInformation::get();
     }
 
-    protected function getClassTypes() {
+    protected function getClassTypes()
+    {
         return ClassRate::get();
     }
 
-    protected function getEnrollments() {
+    protected function getEnrollments()
+    {
         return Enrollment::join('student_information', 'enrollments.student_id', '=', 'student_information.id')
             ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
             ->select('enrollments.*', 'first_name', 'last_name', 'id_num', 'name as credit_type')
@@ -58,7 +62,7 @@ class EnrollmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EnrollmentRequest $request)
     {
         $class_rate = ClassRate::where('id', '=', $request->class_type)->value('rate');
 
@@ -98,13 +102,13 @@ class EnrollmentController extends Controller
     public function edit($id)
     {
         $enrollment = Enrollment::join('student_information', 'enrollments.student_id', '=', 'student_information.id')
-                            ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
-                            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
-                            ->where('enrollment_id', $id)
-                            ->first();
+            ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
+            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
+            ->where('enrollment_id', $id)
+            ->first();
 
         $classtypes = $this->getClassTypes();
-        
+
         return view('admin.enrollment.edit', [
             'enrollment' => $enrollment,
             'classtypes' => $classtypes
@@ -126,7 +130,7 @@ class EnrollmentController extends Controller
 
         $class_rate = ClassRate::where('id', '=', $request->class_type)->value('rate');
 
-		$enrollment = Enrollment::findOrFail($id);
+        $enrollment = Enrollment::findOrFail($id);
 
         $enrollment->fill([
             'credits' => $request->credits,
@@ -137,7 +141,7 @@ class EnrollmentController extends Controller
             'amount_balance' => ($class_rate * $request->credits) - $request->amount_paid,
         ])->push();
 
-		return redirect()->back()->with('message', 'Enrollment Record for student ID #'.$enrollment->student_id.' was successfully updated.');
+        return redirect()->back()->with('message', 'Enrollment Record for student ID #' . $enrollment->student_id . ' was successfully updated.');
     }
 
     /**

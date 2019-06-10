@@ -58,18 +58,18 @@ class DatabaseSeeder extends Seeder
       ]);
     }
 
-    $edu_background = [
-      ['name' => 'Stella Maris Academy', 'attended' => '2008-2013', 'notes' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'],
-      ['name' => 'University of the Immaculate Conception', 'attended' => '2014-2017', 'notes' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.']
-    ];
-    foreach ($edu_background as $index => $row) {
-      EducationBackground::create([
-        'name' => $row['name'],
-        'slug' => str_slug($row['name']),
-        'year_attended' => $row['attended'],
-        'notes' => $row['notes']
-      ]);
-    }
+    // $edu_background = [
+    //   ['name' => 'Stella Maris Academy', 'attended' => '2008-2013', 'notes' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'],
+    //   ['name' => 'University of the Immaculate Conception', 'attended' => '2014-2017', 'notes' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.']
+    // ];
+    // foreach ($edu_background as $index => $row) {
+    //   EducationBackground::create([
+    //     'name' => $row['name'],
+    //     'slug' => str_slug($row['name']),
+    //     'year_attended' => $row['attended'],
+    //     'notes' => $row['notes']
+    //   ]);
+    // }
 
     factory(StudentInformation::class, 20)->create();
   }

@@ -10,7 +10,11 @@
 <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
-
+<style>
+	.invalid-feedback {
+		display: block;
+	}
+</style>
 @endsection
 
 @section('content')
@@ -39,6 +43,9 @@
 											@endforeach
 										</select>
 									</div>
+									@if ($errors->has('student_id'))
+										<div class="invalid-feedback">You must select a student</div>
+									@endif
 								</div>
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Student ID</label>
@@ -49,9 +56,9 @@
 								<div class="col-md-1 mb-2">
 									<label for="validationCustom02">Credits</label>
 									<input type="number" class="form-control" id="credits" name="credits">
-									<div class="valid-feedback">
-										Looks good!
-									</div>
+									@if ($errors->has('credits'))
+										<div class="invalid-feedback">{{ $errors->first('credits') }}</div>
+									@endif
 								</div>
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Credit Type</label>
@@ -71,6 +78,9 @@
 										</div>
 										<input type="text" class="form-control" id="amount_paid" name="amount_paid">	
 									</div>
+									@if ($errors->has('amount_paid'))
+										<div class="invalid-feedback">{{ $errors->first('amount_paid') }}</div>
+									@endif
 								</div>
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Payment Status</label>
