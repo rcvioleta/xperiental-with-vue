@@ -48,7 +48,7 @@ class EnrollmentController extends Controller
     protected function getEnrollments() {
         return Enrollment::join('student_information', 'enrollments.student_id', '=', 'student_information.id')
             ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
-            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
+            ->select('enrollments.*', 'first_name', 'last_name', 'id_num', 'name as credit_type')
             ->get();
     }
 
@@ -75,7 +75,7 @@ class EnrollmentController extends Controller
             'status' => true
         ]);
 
-        return redirect()->back()->with('message', 'New Enrollment Record for student ID #'.$request->get('student_name_id').' was successfully saved.');
+        return redirect()->back()->with('message', 'New Enrollment Record was successfully saved.');
     }
 
     /**

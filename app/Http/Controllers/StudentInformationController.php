@@ -16,7 +16,10 @@ class StudentInformationController extends Controller
   public function index()
   {
     $students = StudentInformation::all();
-    return StudentInformationResource::collection($students);
+    // return StudentInformationResource::collection($students);
+    return view('admin.student.index', [
+      'students' => $students,
+    ]);
   }
 
   /**
@@ -26,7 +29,7 @@ class StudentInformationController extends Controller
    */
   public function create()
   {
-    //
+    return view('admin.student.create');
   }
 
   /**
@@ -37,12 +40,32 @@ class StudentInformationController extends Controller
    */
   public function store(Request $request)
   {
-    $student = StudentInformation::create($request->all());
-    return response()->json([
-      'insertedId' => $student->id,
-      'message' => 'Successfully saved student information',
-      'status' => 200
+    // $student = StudentInformation::create($request->all());
+    // return response()->json([
+    //   'insertedId' => $student->id,
+    //   'message' => 'Successfully saved student information',
+    //   'status' => 200
+    // ]);
+
+    StudentInformation::create([
+      'id_num' => $request->get('id_num'),
+      'first_name' => $request->get('first_name'),
+      'middle_name' => $request->get('middle_name'),
+      'last_name' => $request->get('last_name'),
+      // 'gender' => $request->get('gender'),
+      'birth_date' => $request->get('birth_date'),
+      'phone_number' => $request->get('phone_number'),
+      'address' => $request->get('address'),
+      'emcon_full_name' => $request->get('emcon_full_name'),
+      'emcon_phone_number' => $request->get('emcon_phone_number'),
+      'emcon_relationship' => $request->get('emcon_relationship'),
+      'emcon_address' => $request->get('emcon_address'),
+      'status' => true,
     ]);
+
+    // echo $request; die;
+
+    return redirect()->back()->with('message', 'Student Record for ID# '.$request->get('id_num').' '.$request->get('first_name').' '.$request->get('middle_name').' '.$request->get('last_name').' was successfully saved.');
   }
 
   /**

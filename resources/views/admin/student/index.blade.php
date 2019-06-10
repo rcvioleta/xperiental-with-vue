@@ -16,10 +16,10 @@
 @section('content')
   <div class="row">
     <div class="col-md-6">
-      <h1>Enrollment List</h1>
+      <h1>Student List</h1>
     </div>
     <div class="col-md-6">
-      <a class="btn btn-primary pull-right" href="{{ route('enrollment.create') }}">Add New <i class="ml-2 batch-icon batch-icon-plus"></i></a>
+      <a class="btn btn-primary pull-right" href="{{ route('student.create') }}">Add New <i class="ml-2 batch-icon batch-icon-plus"></i></a>
     </div>
   </div>
   <div class="row mb-5">
@@ -32,28 +32,26 @@
                 <table id="mytable" class="table table-datatable table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>No.</th>
                             <th>Student ID</th>
                             <th>Student Name</th>
-                            <th>Enrolled Credits</th>
-                            <th>Credit Type</th>
-                            <th>Payment Status</th>
+                            <th>Gender</th>
+                            <th>Birth Date</th>
+                            <th>Telephone/Phone</th>
                             <th>Created On</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($enrollments as $enrollment)
+                        @foreach($students as $student)
                         <tr>
-                            <td>{!! $enrollment->enrollment_id !!}</td>
-                            <td>{!! $enrollment->id_num !!}</td>
-                            <td>{!! $enrollment->first_name !!} {!! $enrollment->last_name !!}</td>
-                            <td>{!! $enrollment->credits !!}</td>
-                            <td>{!! $enrollment->credit_type !!}</td>
-                            <td>{!! $enrollment->payment_status !!}</td>
-                            <td>{!! $enrollment->created_at !!}</td>
+                            <td>{!! $student->id_num !!}</td>
+                            <td>{!! $student->first_name !!} {!! $student->middle_name !!} {!! $student->last_name !!}</td>
+                            <td>{!! $student->gender !!}</td>
+                            <td>{!! $student->birth_date !!}</td>
+                            <td>{!! $student->phone_number !!}</td>
+                            <td>{!! $student->created_at !!}</td>
                             <td class="text-center">
-                                <a href="{{ route('enrollment.edit', $enrollment->enrollment_id) }}" class="btn btn-sm btn-warning pull-right waves-effect waves-light">Edit<i class="fa fa-pencil"></i>
+                                <a href="{{ route('student.edit', $student->id) }}" class="btn btn-sm btn-warning pull-right waves-effect waves-light">Edit<i class="fa fa-pencil"></i>
                                 </a>
                             </td>
                         </tr>
@@ -61,12 +59,11 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>No.</th>
                             <th>Student ID</th>
                             <th>Student Name</th>
-                            <th>Enrolled Credits</th>
-                            <th>Credit Type</th>
-                            <th>Payment Status</th>
+                            <th>Gender</th>
+                            <th>Birth Date</th>
+                            <th>Telephone/Phone</th>
                             <th>Created On</th>
                             <th class="text-center">Action</th>
                         </tr>

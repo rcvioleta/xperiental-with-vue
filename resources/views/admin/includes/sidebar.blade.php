@@ -47,13 +47,15 @@
         </a>
         <ul class="nav nav-pills flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('student-list') }}">
+            <!-- <a class="nav-link" href="{{ route('student-list') }}"> -->
+              <a class="nav-link" href="{{ route('student.index') }}">
               <i class="batch-icon batch-icon-bullet"></i>
               Student List
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('add-student') }}">
+            <!-- <a class="nav-link" href="{{ route('add-student') }}"> -->
+              <a class="nav-link" href="{{ route('student.create') }}">
               <i class="batch-icon batch-icon-bullet"></i>
               Add Student
             </a>

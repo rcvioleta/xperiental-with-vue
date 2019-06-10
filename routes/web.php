@@ -61,5 +61,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('/', 'EnrollmentController@store')->name('enrollment.store');
     Route::post('/{id}', 'EnrollmentController@update')->name('enrollment.update');
   });
+  Route::prefix('studentmanagement')->group(function () {
+    Route::get('/', 'StudentInformationController@index')->name('student.index');
+    Route::get('/create', 'StudentInformationController@create')->name('student.create');
+    Route::get('/{id}/edit/', 'StudentInformationController@edit')->name('student.edit');
+    Route::post('/{id}/update', 'StudentInformationController@update')->name('student.update');
+    Route::post('/', 'StudentInformationController@store')->name('student.store');
+    Route::post('/{id}', 'StudentInformationController@update')->name('student.update');
+  });
 
 });
