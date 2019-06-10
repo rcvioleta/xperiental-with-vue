@@ -15388,6 +15388,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
@@ -15560,28 +15563,6 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
         }
       });
     },
-    showOptions: function showOptions(arg) {// swal("Please let me know what action you'd like to do?", {
-      //   buttons: {
-      //     cancel: "Cancel",
-      //     edit: {
-      //       text: "Edit",
-      //       value: "edit"
-      //     },
-      //     delete: true
-      //   }
-      // }).then(value => {
-      //   switch (value) {
-      //     case "delete":
-      //       this.deleteSchedule(arg);
-      //       break;
-      //     case "edit":
-      //       this.editSchedule(arg);
-      //       break;
-      //     default:
-      //       swal("No actions performed!");
-      //   }
-      // });
-    },
     fetchAllStudents: function fetchAllStudents() {
       var _this5 = this;
 
@@ -15658,40 +15639,42 @@ var _updateSchedule = _helpers_Model__WEBPACK_IMPORTED_MODULE_6__["default"].upd
       this.editMode = false;
       this.newSchedule = "";
       this.index = "";
-    },
-    loadMultiSelect: function loadMultiSelect() {
-      $('#callbacks2').multiSelect({
-        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
-        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
-        afterInit: function afterInit(ms) {
-          var that = this,
-              $selectableSearch = that.$selectableUl.prev(),
-              $selectionSearch = that.$selectionUl.prev(),
-              selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-              selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
-          that.qs1 = $selectableSearch.quicksearch(selectableSearchString).on('keydown', function (e) {
-            if (e.which === 40) {
-              that.$selectableUl.focus();
-              return false;
-            }
-          });
-          that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function (e) {
-            if (e.which == 40) {
-              that.$selectionUl.focus();
-              return false;
-            }
-          });
-        },
-        afterSelect: function afterSelect() {
-          this.qs1.cache();
-          this.qs2.cache();
-        },
-        afterDeselect: function afterDeselect() {
-          this.qs1.cache();
-          this.qs2.cache();
-        }
-      });
-    }
+    } // loadMultiSelect() {
+    //   $('#callbacks2').multiSelect({
+    //     selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+    //     selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+    //     afterInit: function(ms){
+    //       var that = this,
+    //       $selectableSearch = that.$selectableUl.prev(),
+    //       $selectionSearch = that.$selectionUl.prev(),
+    //       selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+    //       selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+    //       that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+    //       .on('keydown', function(e){
+    //         if (e.which === 40){
+    //           that.$selectableUl.focus();
+    //           return false;
+    //         }
+    //       });
+    //       that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+    //       .on('keydown', function(e){
+    //         if (e.which == 40){
+    //           that.$selectionUl.focus();
+    //           return false;
+    //         }
+    //       });
+    //     },
+    //     afterSelect: function(){
+    //       this.qs1.cache();
+    //       this.qs2.cache();
+    //     },
+    //     afterDeselect: function(){
+    //       this.qs1.cache();
+    //       this.qs2.cache();
+    //     }
+    //   });
+    // }
+
   },
   computed: {
     activated: function activated() {
@@ -56445,22 +56428,6 @@ var render = function() {
                       { staticClass: "col-md-12" },
                       [
                         _c("h2", [_vm._v("Select Student")]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-control",
-                            attrs: { id: "callbacks2", multiple: "multiple" }
-                          },
-                          _vm._l(_vm.students.data, function(student) {
-                            return _c(
-                              "option",
-                              { domProps: { value: student.id } },
-                              [_vm._v(_vm._s(student.full_name))]
-                            )
-                          }),
-                          0
-                        ),
                         _vm._v(" "),
                         _vm.students.data
                           ? [

@@ -185,8 +185,11 @@
               <div class="form-row mt-5">
                 <div class="col-md-12">
                   <h2>Select Student</h2>
-                  <select class="form-control" id='callbacks2' multiple='multiple'>
-                    <option v-for="student in students.data" :value="student.id">{{ student.full_name }}</option>
+                  <select class="form-control" id="callbacks2" multiple="multiple">
+                    <option
+                      v-for="student in students.data"
+                      :value="student.id"
+                    >{{ student.full_name }}</option>
                   </select>
                   <template v-if="students.data">
                     <Multiselect
@@ -384,36 +387,13 @@ export default {
         }
       );
     },
-    showOptions(arg) {
-      // swal("Please let me know what action you'd like to do?", {
-      //   buttons: {
-      //     cancel: "Cancel",
-      //     edit: {
-      //       text: "Edit",
-      //       value: "edit"
-      //     },
-      //     delete: true
-      //   }
-      // }).then(value => {
-      //   switch (value) {
-      //     case "delete":
-      //       this.deleteSchedule(arg);
-      //       break;
-      //     case "edit":
-      //       this.editSchedule(arg);
-      //       break;
-      //     default:
-      //       swal("No actions performed!");
-      //   }
-      // });
-    },
     fetchAllStudents() {
       fetchAll("student", (err, data) => {
         if (!err) {
           this.students = data;
           console.log("[Done] Fetching students");
-          this.$nextTick(function () {
-              this.loadMultiSelect();
+          this.$nextTick(function() {
+            this.loadMultiSelect();
           });
         } else console.log("Unable to fetch students", err);
       });
@@ -474,37 +454,47 @@ export default {
       this.index = "";
     },
     loadMultiSelect() {
-      $('#callbacks2').multiSelect({
-        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
-        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
-        afterInit: function(ms){
+      $("#callbacks2").multiSelect({
+        selectableHeader:
+          "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+        selectionHeader:
+          "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+        afterInit: function(ms) {
           var that = this,
-          $selectableSearch = that.$selectableUl.prev(),
-          $selectionSearch = that.$selectionUl.prev(),
-          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
-          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+            $selectableSearch = that.$selectableUl.prev(),
+            $selectionSearch = that.$selectionUl.prev(),
+            selectableSearchString =
+              "#" +
+              that.$container.attr("id") +
+              " .ms-elem-selectable:not(.ms-selected)",
+            selectionSearchString =
+              "#" +
+              that.$container.attr("id") +
+              " .ms-elem-selection.ms-selected";
 
-          that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-          .on('keydown', function(e){
-            if (e.which === 40){
-              that.$selectableUl.focus();
-              return false;
-            }
-          });
+          that.qs1 = $selectableSearch
+            .quicksearch(selectableSearchString)
+            .on("keydown", function(e) {
+              if (e.which === 40) {
+                that.$selectableUl.focus();
+                return false;
+              }
+            });
 
-          that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-          .on('keydown', function(e){
-            if (e.which == 40){
-              that.$selectionUl.focus();
-              return false;
-            }
-          });
+          that.qs2 = $selectionSearch
+            .quicksearch(selectionSearchString)
+            .on("keydown", function(e) {
+              if (e.which == 40) {
+                that.$selectionUl.focus();
+                return false;
+              }
+            });
         },
-        afterSelect: function(){
+        afterSelect: function() {
           this.qs1.cache();
           this.qs2.cache();
         },
-        afterDeselect: function(){
+        afterDeselect: function() {
           this.qs1.cache();
           this.qs2.cache();
         }

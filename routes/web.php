@@ -70,4 +70,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('/{id}', 'StudentInformationController@update')->name('student.update');
   });
 
+  Route::prefix('instructor')->group(function () {
+    Route::get('/', 'InstructorController@index')->name('instructor.index');
+    Route::get('/{id}', 'InstructorController@destroy')->name('instructor.destroy');
+  });
 });

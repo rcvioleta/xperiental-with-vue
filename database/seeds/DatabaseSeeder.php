@@ -8,6 +8,7 @@ use App\Classroom;
 use App\ClassRate;
 use App\EducationBackground;
 use App\StudentInformation;
+use App\Instructor;
 
 class DatabaseSeeder extends Seeder
 {
@@ -72,5 +73,7 @@ class DatabaseSeeder extends Seeder
     // }
 
     factory(StudentInformation::class, 20)->create();
+
+    factory(Instructor::class, 10)->create();
   }
 }
