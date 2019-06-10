@@ -16,7 +16,7 @@
 @section('content')
 <div class="row">
 	<div class="col-md-6">
-		<h1>Add Student</h1>
+		<h1>Add Student Record</h1>
 	</div>
 </div>
 <div class="row mb-5">
@@ -65,11 +65,11 @@
 											<label for="validationCustom03">Gender</label>
 											<div class="col-md-12 mt-2" style="padding-left: 0">
 												<div class="custom-control custom-radio form-check form-check-inline" style="width:40%;float:left;">
-													<input type="radio" class="custom-control-input" id="customControlValidation2a" name="radio-stacked">
+													<input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" name="gender">
 													<label class="custom-control-label" for="customControlValidation2a">Male</label>
 												</div>
 												<div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
-													<input type="radio" class="custom-control-input" id="customControlValidation3a" name="radio-stacked">
+													<input type="radio" class="custom-control-input" id="customControlValidation3a" value="female" name="gender">
 													<label class="custom-control-label" for="customControlValidation3a">Female</label>
 													<div class="invalid-feedback">More example invalid feedback text</div>
 												</div>
@@ -141,7 +141,7 @@
 										</div>
 										<div class="col-md-4 mb-3">
 											<label for="validationCustom02">Home Address</label>
-											<input type="text" class="form-control" id="validationCustom02" emcon_address required>
+											<input type="text" class="form-control" id="validationCustom02" name="emcon_address" required>
 											<div class="valid-feedback">
 												Looks good!
 											</div>

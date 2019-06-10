@@ -60,18 +60,18 @@ class EnrollmentController extends Controller
      */
     public function store(Request $request)
     {
-        $class_rate = ClassRate::where('id', '=', $request->get('class_type'))->value('rate');
+        $class_rate = ClassRate::where('id', '=', $request->class_type)->value('rate');
 
         // echo "hey"; die;
 
         Enrollment::create([
-            'student_id' => $request->get('student_name_id'),
-            'credits' => $request->get('credits'),
-            'credit_type_id' => $request->get('class_type'),
-            'payment_status' => $request->get('payment_status'),
-            'remarks' => $request->get('remarks'),
-            'amount_paid' => $request->get('amount_paid'),
-            'amount_balance' => ($class_rate * $request->get('credits')) - $request->get('amount_paid'),
+            'student_id' => $request->student_name_id,
+            'credits' => $request->credits,
+            'credit_type_id' => $request->class_type,
+            'payment_status' => $request->payment_status,
+            'remarks' => $request->remarks,
+            'amount_paid' => $request->amount_paid,
+            'amount_balance' => ($class_rate * $request->credits) - $request->amount_paid,
             'status' => true
         ]);
 
@@ -124,17 +124,17 @@ class EnrollmentController extends Controller
         //     'name' => "required"
         // ]);
 
-        $class_rate = ClassRate::where('id', '=', $request->get('class_type'))->value('rate');
+        $class_rate = ClassRate::where('id', '=', $request->class_type)->value('rate');
 
 		$enrollment = Enrollment::findOrFail($id);
 
         $enrollment->fill([
-            'credits' => $request->get('credits'),
-            'credit_type_id' => $request->get('class_type'),
-            'payment_status' => $request->get('payment_status'),
-            'remarks' => $request->get('remarks'),
-            'amount_paid' => $request->get('amount_paid'),
-            'amount_balance' => ($class_rate * $request->get('credits')) - $request->get('amount_paid'),
+            'credits' => $request->credits,
+            'credit_type_id' => $request->class_type,
+            'payment_status' => $request->payment_status,
+            'remarks' => $request->remarks,
+            'amount_paid' => $request->amount_paid,
+            'amount_balance' => ($class_rate * $request->credits) - $request->amount_paid,
         ])->push();
 
 		return redirect()->back()->with('message', 'Enrollment Record for student ID #'.$enrollment->student_id.' was successfully updated.');

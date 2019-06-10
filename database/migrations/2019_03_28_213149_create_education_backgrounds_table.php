@@ -15,10 +15,10 @@ class CreateEducationBackgroundsTable extends Migration
   {
     Schema::create('education_backgrounds', function (Blueprint $table) {
       $table->bigIncrements('id');
-      $table->string('name');
-      $table->string('slug');
-      $table->string('year_attended');
-      $table->string('notes');
+      $table->unsignedInteger('student_id')->nullable();
+      $table->string('name')->nullable();
+      $table->string('year_attended')->nullable();
+      $table->string('notes')->nullable();
       $table->timestamps();
     });
   }

@@ -44,11 +44,6 @@
 									<label for="validationCustom02">Student ID</label>
 									<div class="form-group">
 										<input type="text" class="form-control" id="student_id" name="student_id" readonly>
-										<!-- <select class="select2Element form-control" id="student_id" name="student_id" onchange="$('#student_name').val(this.value)">
-											@foreach($students as $student)
-											<option value="{!! $student->id !!}">{!! $student->id !!}</option>
-											@endforeach
-										</select> -->
 									</div>
 								</div>
 								<div class="col-md-1 mb-2">
