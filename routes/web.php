@@ -61,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('/', 'EnrollmentController@store')->name('enrollment.store');
     Route::post('/{id}', 'EnrollmentController@update')->name('enrollment.update');
   });
+
   Route::prefix('studentmanagement')->group(function () {
     Route::get('/', 'StudentInformationController@index')->name('student.index');
     Route::get('/create', 'StudentInformationController@create')->name('student.create');
@@ -72,6 +73,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   Route::prefix('instructor')->group(function () {
     Route::get('/', 'InstructorController@index')->name('instructor.index');
+    Route::get('/create', 'InstructorController@create')->name('instructor.create');
+    Route::post('/store', 'InstructorController@store')->name('instructor.store');
+    Route::get('/{id}/edit', 'InstructorController@edit')->name('instructor.edit');
+    Route::post('/{id}/update', 'InstructorController@update')->name('instructor.update');
     Route::get('/{id}', 'InstructorController@destroy')->name('instructor.destroy');
+    Route::get('/{id}/activate', 'InstructorController@activate')->name('instructor.activate');
+    Route::get('/{id}/deactivate', 'InstructorController@deactivate')->name('instructor.deactivate');
   });
 });

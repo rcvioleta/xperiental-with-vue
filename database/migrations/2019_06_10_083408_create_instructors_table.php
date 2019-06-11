@@ -26,6 +26,7 @@ class CreateInstructorsTable extends Migration
             $table->string('contact_num');
             $table->string('address');
             $table->date('hired_date');
+            $table->softDeletes();
             $table->integer('status');
             $table->timestamps();
         });

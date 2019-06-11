@@ -13,6 +13,7 @@
         <thead>
             <tr>
                 <th>ID Number</th>
+                <th>Avatar</th>
                 <th>First Name</th>
                 <th>Middle Name</th>
                 <th>Last Name</th>
@@ -29,17 +30,26 @@
             @foreach ($instructors as $instructor)
                 <tr>
                     <td>{{ $instructor->id_num }}</td>
+                    <td><image src="{{ asset($instructor->image) }}" width="60px"></td>
                     <td>{{ $instructor->first_name }}</td>
                     <td>{{ $instructor->middle_name }}</td>
                     <td>{{ $instructor->last_name }}</td>
                     <td>{{ $instructor->gender }}</td>
-                    <td>{{ $instructor->birth_date }}</td>
+                    <td>{{ $instructor->bday }}</td>
                     <td>{{ $instructor->contact_num }}</td>
                     <td>{{ $instructor->address }}</td>
                     <td>{{ $instructor->hired_date }}</td>
-                    <td>{{ $instructor->status === 1 ? 'Active' : 'Inactive' }}</td>
                     <td>
-                        <a href="{{ route('instructor.edit', ['instructor' => $instructor->id]) }}">Edit</a> | 
+                        @if ($instructor->status == 1)
+                            <span>Current: Active</span><br>
+                            <a href="{{ route('instructor.deactivate', ['id' => $instructor->id]) }}">Deactivate</a>
+                        @else
+                            <span>Current: Inactive</span><br>
+                            <a href="{{ route('instructor.activate', ['id' => $instructor->id]) }}">Activate</a>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('instructor.edit', ['id' => $instructor->id]) }}">Edit</a> | 
                         <a href="{{ route('instructor.destroy', ['id' => $instructor->id]) }}">Delete</a>
                     </td>
                 </tr>
