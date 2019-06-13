@@ -66,8 +66,6 @@ class EnrollmentController extends Controller
     {
         $class_rate = ClassRate::where('id', '=', $request->class_type)->value('rate');
 
-        // echo "hey"; die;
-
         Enrollment::create([
             'student_id' => $request->student_name_id,
             'credits' => $request->credits,
@@ -103,7 +101,7 @@ class EnrollmentController extends Controller
     {
         $enrollment = Enrollment::join('student_information', 'enrollments.student_id', '=', 'student_information.id')
             ->join('class_rates', 'enrollments.credit_type_id', '=', 'class_rates.id')
-            ->select('enrollments.*', 'first_name', 'last_name', 'name as credit_type')
+            ->select('enrollments.*', 'first_name', 'last_name', 'id_num', 'name as credit_type')
             ->where('enrollment_id', $id)
             ->first();
 
@@ -124,10 +122,6 @@ class EnrollmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'name' => "required"
-        // ]);
-
         $class_rate = ClassRate::where('id', '=', $request->class_type)->value('rate');
 
         $enrollment = Enrollment::findOrFail($id);

@@ -36,7 +36,7 @@
 								<div class="col-md-3 mb-2">
 									<label for="validationCustom01">Student Name</label>
 									<div class="form-group">
-										<select class="select2Element form-control" id="student_name_id" name="student_name_id" onchange="$('#student_id').val(this.value)">
+										<select class="select2Element form-control" id="student_name_id" name="student_name_id" onchange="studentID(this.value)">
 											<option value="" selected disabled>Select Student</option>
 											@foreach($students as $student)
 											<option value="{!! $student->id !!}">{!! $student->last_name !!}, {!! $student->first_name !!}</option>
@@ -163,23 +163,30 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script>
 	function calculate() {
-			var total = 0;
-			var rates = {!! $classtypes !!};
-			var salectedRate = 0;
-			var balance = 0;
+		var total = 0;
+		var rates = {!! $classtypes !!};
+		var salectedRate = 0;
+		var balance = 0;
 			
-			for(var x = 0; x < rates.length; x++) {
-				if(rates[x].id == $('#class_type').val()) {
-					salectedRate = rates[x].rate;
-					total = $('#credits').val() * salectedRate;
-					balance = total - $('#amount_paid').val();
-				}
+		for(var x = 0; x < rates.length; x++) {
+			if(rates[x].id == $('#class_type').val()) {
+				salectedRate = rates[x].rate;
+				total = $('#credits').val() * salectedRate;
+				balance = total - $('#amount_paid').val();
 			}
-
-			$('#calc_total').val(total);
-			$('#calc_balance').val(balance);
-			$('#calc_formula').html('Formula:<br>' + $('#credits').val() + '(Credits) * '+ salectedRate +'('+ $('#class_type  option:selected').text() +')');
 		}
+
+		$('#calc_total').val(total);
+		$('#calc_balance').val(balance);
+		$('#calc_formula').html('Formula:<br>' + $('#credits').val() + '(Credits) * '+ salectedRate +'('+ $('#class_type  option:selected').text() +')');
+	}
+
+	function studentID(id) {
+
+		var student = {!! $students !!};
+		
+		$('#student_id').val(student[parseInt(id)-1].id_num);
+	}
 
 	// In your Javascript (external .js resource or <script> tag)
 	$(document).ready(function() {

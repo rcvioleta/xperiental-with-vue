@@ -38,7 +38,7 @@
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Student ID</label>
 									<div class="form-group">
-										<input type="text" class="form-control" value="{!! $enrollment->student_id !!}" id="student_id" name="student_id" readonly>
+										<input type="text" class="form-control" value="{!! $enrollment->id_num !!}" id="student_id" name="student_id" readonly>
 									</div>
 								</div>
 								<div class="col-md-1 mb-2">

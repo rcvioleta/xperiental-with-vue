@@ -185,101 +185,9 @@
 						</div>
 					</div>
 					<div id="tab-6-2" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-2">
-						<div class="modal fade" id="addhistoryModal" tabindex="-1" role="dialog" aria-labelledby="addhistoryModalLongTitle" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="addhistoryModalLongTitle">Add History</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<div class="container-fluid">
-											<form class="needs-validation" novalidate>
-												<div class="form-row pt-3">
-													<div class="col-md-12 mb-3">
-														<label for="validationCustom02">School Name</label>
-														<input type="text" class="form-control" id="validationCustom01" placeholder="School name" value="1001" required>
-														<div class="valid-feedback">
-															Looks good!
-														</div>
-													</div>
-												</div>
-												<div class="form-row pt-3">
-													<div class="col-md-6 mb-3">
-														<label for="validationCustom02">Attended From</label>
-														<input type="text" class="form-control" id="validationCustom01" placeholder="From Year" value="1001" required>
-														<div class="valid-feedback">
-															Looks good!
-														</div>
-													</div>
-													<div class="col-md-6 mb-3">
-														<label for="validationCustom02">Attended To</label>
-														<input type="text" class="form-control" id="validationCustom01" placeholder="To Year" value="1001" required>
-														<div class="valid-feedback">
-															Looks good!
-														</div>
-													</div>
-												</div>
-												<div class="form-row pt-3">
-													<div class="col-md-12 mb-3">
-														<label for="	FormControlTextarea1">Notes</label>
-														<textarea class="form-control" id="FormControlTextarea1" rows="3"></textarea>
-													</div>
-												</div>
-											</form>
-										</div>
-									</div>
-									<div class="modal-footer mr-3">
-										<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-										<button type="button" class="btn btn-primary">Save History <i class="ml-2 batch-icon batch-icon-stiffy"></i></button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="form-row">
-							<div class="col-lg-6">
-								<h2 class="ml-4 mb-3">School Attended</h2>
-							</div>
-							<div class="col-lg-6">
-								<button class="btn btn-primary pull-right mr-4 mb-3" data-toggle="modal" data-target="#addhistoryModal">Add History <i class="batch-icon batch-icon-plus"></i></button>
-							</div>
-						</div>
-						<div class="col-lg-12 pb-5">
+							
+						<educational-list :student-id="{{ $student->id }}" :edu-backgrounds="{{ $eduBackgrounds }}"></educational-list>
 
-							<form class="needs-validation" novalidate>
-								<div class="form-row">
-									<div class="col-md-12 mb-3">
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>School Name</th>
-													<th>Attended</th>
-													<th>Notes</th>
-													<th>Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												@foreach($eduBackgrounds as $eduBackground)
-												<tr>
-													<td>{!! $eduBackground->name !!}</td>
-													<td>{!! $eduBackground->year_attended !!}</td>
-													<td>{!! $eduBackground->notes !!}</td>
-													<td>
-														<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-															<button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-															<button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-														</div>
-													</td>
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</form>
-						</div>
 					</div>
 					<div id="tab-6-3" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-3">
 						<div class="form-row">
@@ -302,7 +210,7 @@
 													<th>Balance</th>
 													<th>Status</th>
 													<th>Remarks</th>
-													<th>Action</th>
+													<!-- <th>Action</th> -->
 												</tr>
 											</thead>
 											<tbody>
@@ -315,12 +223,12 @@
 													<td>{!! $enrollment->amount_balance !!}</td>
 													<td>{!! $enrollment->payment_status !!}</td>
 													<td>{!! $enrollment->remarks !!}</td>
-													<td>
+													<!-- <td>
 														<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
 															<button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
 															<button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
 														</div>
-													</td>
+													</td> -->
 												</tr>
 												@endforeach
 											</tbody>

@@ -37,6 +37,7 @@ Vue.component('user-form', require('./components/user/AddUser.vue').default);
 Vue.component('student-list', require('./components/student/StudentList.vue').default);
 Vue.component('class-schedule-form', require('./components/calendar/AddClassSchedule.vue').default);
 Vue.component('class-schedule', require('./components/calendar/ClassSchedule.vue').default);
+Vue.component('educational-list', require('./components/educationalbackground/EducationalList.vue').default);
 
 export const EventBus = new Vue();
 
@@ -45,6 +46,11 @@ export const EventBus = new Vue();
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+/* Bootstrap-vue */
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(BootstrapVue)
+
 
 const app = new Vue({
     el: '#app'

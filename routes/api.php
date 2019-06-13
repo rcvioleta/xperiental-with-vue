@@ -18,3 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('/instructor', 'InstructorController');
+
+// Educational background API's
+Route::prefix('educationalbackground')->group(function() {
+	Route::get('/', 'EducationBackgroundController@index');
+	Route::post('/store', 'EducationBackgroundController@store');
+	Route::post('/edit/{id}', 'EducationBackgroundController@edit');
+	Route::post('/update/{id}', 'EducationBackgroundController@update');
+	Route::post('/remove/{id}', 'EducationBackgroundController@delete');
+});

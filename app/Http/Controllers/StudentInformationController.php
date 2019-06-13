@@ -89,15 +89,15 @@ class StudentInformationController extends Controller
   public function edit($id)
   {
     $student = StudentInformation::where('id', $id)->first();
-    $eduBackgrounds = EducationBackground::where('student_id', $id)->get();
-    $enrollments = Enrollment::where('student_id', $id)->get();
-    $classSchedules = ClassSchedule::where('student_id', $id)->get();
+    $eduBackgrounds = EducationBackground::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
+    $enrollments = Enrollment::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
+    // $classSchedules = ClassSchedule::where('student_id', $id)->get();
         
     return view('admin.student.edit', [
       'student' => $student,
       'eduBackgrounds' => $eduBackgrounds,
       'enrollments' => $enrollments,
-      'classSchedules' => $classSchedules,
+      // 'classSchedules' => $classSchedules,
     ]);
   }
 

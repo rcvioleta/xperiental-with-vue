@@ -38,7 +38,8 @@ class EducationBackgroundController extends Controller
   public function store(Request $request)
   {
     $request->validate([
-      'name' => 'required | unique:education_backgrounds',
+      // 'name' => 'required | unique:education_backgrounds',
+      'name' => 'required',
       'year_attended' => 'required',
       'notes' => 'required'
     ]);
@@ -48,6 +49,7 @@ class EducationBackgroundController extends Controller
     return response()->json([
       'update' => new EducationBackgroundResource($educationBackground),
       'message' => 'Successfully added Education Background',
+      'newlist' => EducationBackground::where('student_id', $request->student_id)->orderBy('created_at', 'Desc')->get(),
       'status' => 200
     ]);
   }
@@ -81,13 +83,17 @@ class EducationBackgroundController extends Controller
    * @param  \App\EducationBackground  $educationBackground
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, EducationBackground $educationBackground)
+  public function update(Request $request, $id)
   {
-    $educationBackground->update($request->all());
+
+    $educationBackground = EducationBackground::findOrFail($id);
+
+    $educationBackground->fill($request->all())->push();
 
     return response()->json([
       'update' => new EducationBackgroundResource($educationBackground),
       'message' => 'Education Background was updated successfully!',
+      'newlist' => EducationBackground::where('student_id', $request->student_id)->orderBy('created_at', 'Desc')->get(),
       'status' => 200
     ]);
   }

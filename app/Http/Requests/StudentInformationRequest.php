@@ -24,6 +24,7 @@ class StudentInformationRequest extends FormRequest
   public function rules()
   {
     return [
+      'id_num' => 'required',
       'first_name' => 'required',
       'middle_name' => 'required',
       'last_name' => 'required',
