@@ -83,6 +83,26 @@
         </ul>
       </li>
       <li class="nav-item">
+        <a class="nav-link nav-parent" href="#">
+          <i class="batch-icon batch-icon-users"></i>
+          Employee Management
+        </a>
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('instructor.index') }}">
+              <i class="batch-icon batch-icon-bullet"></i>
+              Employee List
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('instructor.create') }}">
+              <i class="batch-icon batch-icon-bullet"></i>
+              Add Employee
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('class-schedule') }}">
           <i class="batch-icon batch-icon-calendar"></i>
           Class Schedule

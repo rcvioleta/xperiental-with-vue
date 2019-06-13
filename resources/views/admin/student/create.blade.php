@@ -77,7 +77,7 @@
 										</div>
 										<div class="col-md-2 mb-3">
 											<label for="validationCustom04">Birthdate</label>
-											<input type="text" class="fallback form-control" autocomplete="off" placeholder="DD/MM/YYYY" name="birth_date">
+											<input type="date" class="fallback form-control" autocomplete="off" name="birth_date">
 											<div class="invalid-feedback">
 												Please provide a valid state.
 											</div>
@@ -127,9 +127,6 @@
 													</span>
 												</div>
 												<input type="text" class="sp_celphones form-control" autocomplete="off" name="emcon_phone_number" aria-describedby="inputGroupPrepend-6">
-											</div>
-											<div class="invalid-feedback">
-												Please provide a valid zip.
 											</div>
 										</div>
 										<div class="col-md-2 mb-3">

@@ -1,35 +1,167 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create - Instructor</title>
-</head>
-<body>
-    <h1>Add - Instructors</h1>
+@extends('layouts.app')
 
-    <form action="{{ route('instructor.store') }}" method="POST" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <input type="text" name="id_num" placeholder="ID Number"><br><br>
-        <input type="file" name="image"><br><br>
-        <input type="text" name="first_name" placeholder="First Name"><br><br>
-        <input type="text" name="middle_name" placeholder="Middle Name"><br><br>
-        <input type="text" name="last_name" placeholder="Last Name"><br><br>
-        <input type="text" name="position" placeholder="Position"><br><br>
-        Male: <input type="radio" name="gender" value="male">
-        Female: <input type="radio" name="gender" value="female"><br><br>
-        <span>Birth Date</span><br>
-        <input type="date" name="bday"><br><br>
-        <input type="text" name="contact_num" placeholder="Contact Number"><br><br>
-        <input type="text" name="address" placeholder="Address"><br><br>
-        <span>Hired Date</span><br>
-        <input type="date" name="hired_date"><br><br>
-        <select name="status" id="">
-            <option value="1" selected>Active</option>
-            <option value="0">Inactive</option>
-        </select><br><br>
-        <button type="submit">Save</button>
-    </form>
-</body>
-</html>
+@section('styling')
+<link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/fonts/line-awesome/css/line-awesome.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
+
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-md-6">
+        <h1>Add Employee Record</h1>
+    </div>
+</div>
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 pb-5">
+                        <h2>Employee Information</h2>
+                        <form class="needs-validation" method="POST" action="{{ route('instructor.store') }}" enctype="multipart/form-data" novalidate>
+                            @csrf
+                            <div class="form-row mb-3">
+                                <div class="col-lg-12">
+                                    <div class="form-row">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom01">Employee ID</label>
+                                            <input type="text" class="form-control" name="id_num" placeholder="ID Number" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom01">First name</label>
+                                            <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom02">Middle name</label>
+                                            <input type="text" class="form-control" name="middle_name" placeholder="Middle Name" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom02">Last name</label>
+                                            <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                                            <div class="valid-feedback">
+                                                Looks good!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-2 mb-3">
+                                            <label for="validationCustom03">Gender</label>
+                                            <div class="col-md-12 mt-2" style="padding-left: 0">
+                                                <div class="custom-control custom-radio form-check form-check-inline" style="width:40%;float:left;">
+                                                    <input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" name="gender">
+                                                    <label class="custom-control-label" for="customControlValidation2a">Male</label>
+                                                </div>
+                                                <div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
+                                                    <input type="radio" class="custom-control-input" id="customControlValidation3a" value="female" name="gender">
+                                                    <label class="custom-control-label" for="customControlValidation3a">Female</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-3">
+                                            <label for="validationCustom04">Birthdate</label>
+                                            <input type="date" class="fallback form-control" name="bday">
+                                        </div>
+                                        <div class="col-md-2 mb-3">
+                                            <label for="validationCustom05">Telephone/Phone</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text" id="inputGroupPrepend-6">
+                                                        <i class="batch-icon batch-icon-headphones"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="sp_celphones form-control" autocomplete="off" name="contact_num" placeholder="Contact Number" aria-describedby="inputGroupPrepend-6">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="validationCustom02">Home Address</label>
+                                            <input type="text" class="form-control" id="validationCustom02" name="address" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-row mt-5">
+                                <div class="col-lg-4 pb-5">
+                                    <h2>Profile Image</h2>
+                                    <div class="form-row">
+                                        <div class="col-md-12 mb-3">
+                                            <input type="file" name="image">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 pb-5">
+                                    <h2>Emplyoment Details</h2>
+                                    <div class="form-row">
+                                        <div class="col-md-5 mb-3">
+                                            <label for="validationCustom01">Position/Designation</label>
+                                            <input type="text" class="form-control" id="validationCustom01" name="position" required>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="validationCustom04">Hired Date</label>
+                                            <input type="date" class="fallback form-control" name="hired_date">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom02">Status</label>
+                                            <div class="form-group">
+                                                <select class="form-control" name="status">
+                                                    <option value="1" selected>Active</option>
+                                                    <option value="0">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary pull-right">Save Employee Record <i class="ml-2 batch-icon batch-icon-stiffy"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mb-5">
+    <div class="col-md-12">
+        <footer>
+
+        </footer>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+{{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
+<script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
+<script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
+<script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
+<script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
+<script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script>
+<script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
+<script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
+<script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
+<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
+<script>
+
+</script>
+@endsection

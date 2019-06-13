@@ -100,3 +100,8 @@ table.table td:nth-child(1), table.table th:nth-child(1) {
 table.table-hover tbody tr:hover {
     background-color: #2dd4c6 !important;
 }
+.profile-image {
+    width: auto;
+    border: 1px solid #cacaca;
+    max-height: 260px;
+}
