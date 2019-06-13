@@ -21,6 +21,7 @@ class CreateEnrollmentsTable extends Migration
             $table->string('payment_status')->nullable();
             $table->unsignedInteger('amount_paid')->nullable();
             $table->unsignedInteger('amount_balance')->nullable();
+            $table->date('enrolled_date')->nullable();
             $table->text('remarks')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();

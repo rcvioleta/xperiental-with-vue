@@ -32,8 +32,8 @@
                 <table id="mytable" class="table table-datatable table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>ID Number</th>
-                            <!-- <th>Avatar</th> -->
+                            <th>ID No.</th>
+                            <th>Avatar</th>
                             <th>First Name</th>
                             <th>Middle Name</th>
                             <th>Last Name</th>
@@ -46,7 +46,7 @@
                         @foreach ($instructors as $instructor)
                         <tr>
                             <td>{{ $instructor->id_num }}</td>
-                            <!-- <td><image src="{{ asset($instructor->image) }}" width="60px"></td> -->
+                            <td><image src="{{ asset($instructor->image) }}" width="40px"></td>
                             <td>{{ $instructor->first_name }}</td>
                             <td>{{ $instructor->middle_name }}</td>
                             <td>{{ $instructor->last_name }}</td>
@@ -61,10 +61,10 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-                                    <a href="{{ route('instructor.destroy', ['id' => $instructor->id]) }}" class="btn btn-danger waves-effect waves-light">Remove</a>
-                                    <a href="{{ route('instructor.edit', ['id' => $instructor->id]) }}" class="btn btn-warning waves-effect waves-light">Edit</a>
-                                </div>
+                                <!-- <div class="btn-group btn-group-sm" role="group" aria-label="Small button group"> -->
+                                    <!-- <a href="{{ route('instructor.destroy', ['id' => $instructor->id]) }}" class="btn btn-danger waves-effect waves-light">Remove</a> -->
+                                    <a href="{{ route('instructor.edit', ['id' => $instructor->id]) }}" class="table-button btn btn-warning waves-effect waves-light">Edit <i class="fa fa-pencil"></i></a>
+                                <!-- </div> -->
 
                             </td>
                         </tr>
@@ -72,8 +72,8 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>ID Number</th>
-                            <!-- <th>Avatar</th> -->
+                            <th>ID No.</th>
+                            <th>Avatar</th>
                             <th>First Name</th>
                             <th>Middle Name</th>
                             <th>Last Name</th>

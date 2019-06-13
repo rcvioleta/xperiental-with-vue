@@ -99,8 +99,6 @@
 										<div class="col-md-8">
 											<div id="calc_formula"></div>
 										</div>
-											
-										
 									</div>
 									<div class="form-row">
 										<div class="col-md-12 mt-3 input-group">
@@ -116,9 +114,14 @@
 											<input class="form-control" type="text" id="calc_balance" value="" readonly>	
 										</div>
 									</div>
-									
 								</div>
-								<div class="col-md-9 mb-3">
+								<div class="col-md-2">
+									<label for="validationCustom02">Enrolled Date</label>
+									<div class="form-group">
+										<input type="date" name="enrolled_date" class="form-control" value="{!! $enrollment->enrolled_date !!}">
+									</div>
+								</div>
+								<div class="col-md-7 mb-3">
 									<label for="validationCustom03">Remarks</label>
 									<textarea class="form-control" rows="4" id="remarks" name="remarks" style="min-height: 12.3rem;">{!! $enrollment->remarks !!}</textarea>
 								</div>

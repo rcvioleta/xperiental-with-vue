@@ -104,7 +104,7 @@
 											</div>
 											<div class="col-md-2 mb-3">
 												<label for="validationCustom04">Birthdate</label>
-												<input type="text" class="fallback form-control" autocomplete="off" value="{!! $student->birth_date !!}" placeholder="DD/MM/YYYY" name="birth_date">
+												<input type="date" class="fallback form-control" autocomplete="off" value="{!! $student->birth_date !!}" name="birth_date">
 												<div class="invalid-feedback">
 													Please provide a valid state.
 												</div>

@@ -74,6 +74,7 @@ class EnrollmentController extends Controller
             'remarks' => $request->remarks,
             'amount_paid' => $request->amount_paid,
             'amount_balance' => ($class_rate * $request->credits) - $request->amount_paid,
+            'enrolled_date' => $request->enrolled_date,
             'status' => true
         ]);
 
@@ -133,6 +134,7 @@ class EnrollmentController extends Controller
             'remarks' => $request->remarks,
             'amount_paid' => $request->amount_paid,
             'amount_balance' => ($class_rate * $request->credits) - $request->amount_paid,
+            'enrolled_date' => $request->enrolled_date
         ])->push();
 
         return redirect()->back()->with('message', 'Enrollment Record for student ID #' . $enrollment->student_id . ' was successfully updated.');

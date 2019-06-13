@@ -110,10 +110,10 @@
                                     <h2>Profile Image</h2>
                                     <div class="form-row">
                                         <div class="col-md-12 mb-3">
-                                            <image src="{{ asset($instructor->image) }}" class="profile-image">
+                                            <image id="profImage" src="{{ asset($instructor->image) }}" class="profile-image">
                                         </div>
                                         <div class="col-md-12 mb-3">
-                                            <input type="file" name="image">
+                                            <input type="file" name="image" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png">
                                         </div>
                                     </div>
                                 </div>
@@ -181,6 +181,17 @@
 <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
 <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
 <script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function (e) {
+                $('#profImage').attr('src', e.target.result).width(150).height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 </script>
+
 @endsection
