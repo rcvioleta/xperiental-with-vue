@@ -25,6 +25,12 @@ class StudentInformationController extends Controller
     ]);
   }
 
+  public function fetchStudents()
+  {
+    $students = StudentInformation::all();
+    return StudentInformationResource::collection($students);
+  }
+
   /**
    * Show the form for creating a new resource.
    *
@@ -66,7 +72,7 @@ class StudentInformationController extends Controller
       'status' => true,
     ]);
 
-    return redirect()->back()->with('message', 'Student Record for ID# '.$request->id_num.' '.$request->first_name.' '.$request->middle_name.' '.$request->last_name.' was successfully saved.');
+    return redirect()->back()->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully saved.');
   }
 
   /**
@@ -92,7 +98,7 @@ class StudentInformationController extends Controller
     $eduBackgrounds = EducationBackground::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
     $enrollments = Enrollment::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
     // $classSchedules = ClassSchedule::where('student_id', $id)->get();
-        
+
     return view('admin.student.edit', [
       'student' => $student,
       'eduBackgrounds' => $eduBackgrounds,
@@ -121,23 +127,23 @@ class StudentInformationController extends Controller
 
     $student = StudentInformation::findOrFail($id);
 
-        $student->fill([
-            'id_num' => $request->id_num,
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'birth_date' => $request->birth_date,
-            'phone_number' => $request->phone_number,
-            'address' => $request->address,
-            'emcon_full_name' => $request->emcon_full_name,
-            'emcon_phone_number' => $request->emcon_phone_number,
-            'emcon_relationship' => $request->emcon_relationship,
-            'emcon_address' => $request->emcon_address,
-            'status' => true,
-        ])->push();
+    $student->fill([
+      'id_num' => $request->id_num,
+      'first_name' => $request->first_name,
+      'middle_name' => $request->middle_name,
+      'last_name' => $request->last_name,
+      'gender' => $request->gender,
+      'birth_date' => $request->birth_date,
+      'phone_number' => $request->phone_number,
+      'address' => $request->address,
+      'emcon_full_name' => $request->emcon_full_name,
+      'emcon_phone_number' => $request->emcon_phone_number,
+      'emcon_relationship' => $request->emcon_relationship,
+      'emcon_address' => $request->emcon_address,
+      'status' => true,
+    ])->push();
 
-    return redirect()->back()->with('message', 'Student Record for ID# '.$request->id_num.' '.$request->first_name.' '.$request->middle_name.' '.$request->last_name.' was successfully updated.');
+    return redirect()->back()->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully updated.');
   }
 
   /**

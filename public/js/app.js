@@ -14951,6 +14951,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -15013,14 +15014,14 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
 
       if (end_time_hour && end_time_minute && end_time_period) {
         end_time = "".concat(end_time_hour, ":").concat(end_time_minute, " ").concat(end_time_period);
-      } // const students = this.form_data.students
-      //   .map(student => student.id)
-      //   .toString()
-      //   .split(", ")
-      //   .join(", ");
+      }
 
+      var students = this.form_data.students.map(function (student) {
+        return student.id;
+      }).toString().split(", ").join(", "); // const students = $("#callbacks")
+      //   .val()
+      //   .toString();
 
-      var students = $('#callbacks').val().toString();
       var payloads = {
         students: students,
         class_date: class_date,
@@ -15058,13 +15059,12 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
     getAllStudents: function getAllStudents() {
       var _this2 = this;
 
-      fetchAll("student", function (err, data) {
+      fetchAll("/admin/get/students", function (err, data) {
         if (!err) {
           _this2.students = data;
-
-          _this2.$nextTick(function () {
-            this.loadMultiSelect();
-          });
+          console.log("fetched students", data); // this.$nextTick(function() {
+          //   this.loadMultiSelect();
+          // });
         } else console.log("Error while fetching Students database", err.response);
       });
     },
@@ -15103,40 +15103,52 @@ var fetchAll = _helpers_Model_js__WEBPACK_IMPORTED_MODULE_3__["default"].fetchAl
         if (key === "students") object[key] = [];else object[key] = "";
         return object;
       }, {});
-    },
-    loadMultiSelect: function loadMultiSelect() {
-      $('#callbacks').multiSelect({
-        selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
-        selectionHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
-        afterInit: function afterInit(ms) {
-          var that = this,
-              $selectableSearch = that.$selectableUl.prev(),
-              $selectionSearch = that.$selectionUl.prev(),
-              selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-              selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
-          that.qs1 = $selectableSearch.quicksearch(selectableSearchString).on('keydown', function (e) {
-            if (e.which === 40) {
-              that.$selectableUl.focus();
-              return false;
-            }
-          });
-          that.qs2 = $selectionSearch.quicksearch(selectionSearchString).on('keydown', function (e) {
-            if (e.which == 40) {
-              that.$selectionUl.focus();
-              return false;
-            }
-          });
-        },
-        afterSelect: function afterSelect() {
-          this.qs1.cache();
-          this.qs2.cache();
-        },
-        afterDeselect: function afterDeselect() {
-          this.qs1.cache();
-          this.qs2.cache();
-        }
-      });
-    }
+    } // loadMultiSelect() {
+    //   $("#callbacks").multiSelect({
+    //     selectableHeader:
+    //       "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selectable Student'>",
+    //     selectionHeader:
+    //       "<input type='text' class='search-input form-control' autocomplete='off' placeholder='Search Selected Student'>",
+    //     afterInit: function(ms) {
+    //       var that = this,
+    //         $selectableSearch = that.$selectableUl.prev(),
+    //         $selectionSearch = that.$selectionUl.prev(),
+    //         selectableSearchString =
+    //           "#" +
+    //           that.$container.attr("id") +
+    //           " .ms-elem-selectable:not(.ms-selected)",
+    //         selectionSearchString =
+    //           "#" +
+    //           that.$container.attr("id") +
+    //           " .ms-elem-selection.ms-selected";
+    //       that.qs1 = $selectableSearch
+    //         .quicksearch(selectableSearchString)
+    //         .on("keydown", function(e) {
+    //           if (e.which === 40) {
+    //             that.$selectableUl.focus();
+    //             return false;
+    //           }
+    //         });
+    //       that.qs2 = $selectionSearch
+    //         .quicksearch(selectionSearchString)
+    //         .on("keydown", function(e) {
+    //           if (e.which == 40) {
+    //             that.$selectionUl.focus();
+    //             return false;
+    //           }
+    //         });
+    //     },
+    //     afterSelect: function() {
+    //       this.qs1.cache();
+    //       this.qs2.cache();
+    //     },
+    //     afterDeselect: function() {
+    //       this.qs1.cache();
+    //       this.qs2.cache();
+    //     }
+    //   });
+    // }
+
   }
 });
 
@@ -15756,18 +15768,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      newClassRate: {
+        name: "",
+        rate: "",
+        status: 1
+      },
+      editingMode: false
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on("editingMode", function (payloads) {
+      _this.editingMode = payloads.editing;
+      _this.newClassRate = payloads.data;
+    });
   },
   methods: {
-    saveClassRate: function saveClassRate(e) {
-      var target = e.target;
-      var name = target.name.value;
-      var rate = target.rate.value;
-      var status = target.status.value;
+    saveClassRate: function saveClassRate() {
+      var _this$newClassRate = this.newClassRate,
+          name = _this$newClassRate.name,
+          rate = _this$newClassRate.rate,
+          status = _this$newClassRate.status;
       var newClassRate = new _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"](name, status, rate);
       newClassRate.save("class-rate", function (err, result) {
         if (!err) {
@@ -15776,6 +15814,37 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           console.log("[SAVE CLASS RATE ERROR]", err.message);
           swal("Something went wrong", "Cannot add new class rate", "error");
+        }
+      });
+    },
+    updateClassRate: function updateClassRate() {
+      var _this2 = this;
+
+      var _this$newClassRate2 = this.newClassRate,
+          name = _this$newClassRate2.name,
+          slug = _this$newClassRate2.slug,
+          status = _this$newClassRate2.status,
+          rate = _this$newClassRate2.rate;
+      var uri = "class-rate/".concat(slug);
+      var payloads = {
+        name: name,
+        slug: name,
+        status: status,
+        rate: rate
+      };
+      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
+        if (!err) {
+          // this.classRates.data[this.classRateIndex] = update;
+          _this2.newClassRate = Object.keys(_this2.newClassRate).reduce(function (object, key) {
+            if (key === "status") object[key] = 1;else object[key] = "";
+            return object;
+          }, {});
+          _this2.editingMode = false;
+          console.log("[update] result", update);
+          swal("Success!", "Successfully updated Class Rate", "success");
+        } else {
+          swal("Something went wrong", "Unable to update Class Rate", "error");
+          console.log("[update] error", err.response);
         }
       });
     }
@@ -15795,7 +15864,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 /* harmony import */ var _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/ClassRate.js */ "./resources/js/helpers/ClassRate.js");
-/* harmony import */ var _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ui/modal/Modal.vue */ "./resources/js/components/ui/modal/Modal.vue");
 //
 //
 //
@@ -15847,15 +15915,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -15866,9 +15925,6 @@ __webpack_require__.r(__webpack_exports__);
       classRateIndex: "",
       editingMode: false
     };
-  },
-  components: {
-    "classrate-modal": _ui_modal_Modal_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   created: function created() {
     var _this = this;
@@ -15936,35 +15992,34 @@ __webpack_require__.r(__webpack_exports__);
         return rate.slug === slug;
       });
       this.selectedClassRate = this.classRates.data[this.classRateIndex];
-      this.editingMode = true;
-    },
-    update: function update(e) {
-      var _this3 = this;
+      this.editingMode = true; // send updates to AddClassRate component
 
-      var target = e.target;
-      var name = target.name.value;
-      var slug = target.slug.value;
-      var status = target.status.value;
-      var rate = target.rate.value;
-      var uri = "class-rate/".concat(slug);
       var payloads = {
-        name: name,
-        slug: name,
-        status: status,
-        rate: rate
+        editing: this.editingMode,
+        data: this.selectedClassRate
       };
-      _helpers_ClassRate_js__WEBPACK_IMPORTED_MODULE_1__["default"].update(uri, payloads, function (err, update) {
-        if (!err) {
-          _this3.classRates.data[_this3.classRateIndex] = update;
-          _this3.editingMode = false;
-          console.log("[update] result", update);
-          swal("Success!", "Successfully updated Class Rate", "success");
-        } else {
-          swal("Something went wrong", "Unable to update Class Rate", "error");
-          console.log("[update] error", err.response);
-        }
-      });
-    }
+      _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("editingMode", payloads);
+    } // update(e) {
+    //   const target = e.target;
+    //   const name = target.name.value;
+    //   const slug = target.slug.value;
+    //   const status = target.status.value;
+    //   const rate = target.rate.value;
+    //   const uri = `class-rate/${slug}`;
+    //   const payloads = { name, slug: name, status, rate };
+    //   ClassRate.update(uri, payloads, (err, update) => {
+    //     if (!err) {
+    //       this.classRates.data[this.classRateIndex] = update;
+    //       this.editingMode = false;
+    //       console.log("[update] result", update);
+    //       swal("Success!", "Successfully updated Class Rate", "success");
+    //     } else {
+    //       swal("Something went wrong", "Unable to update Class Rate", "error");
+    //       console.log("[update] error", err.response);
+    //     }
+    //   });
+    // }
+
   },
   computed: {
     isActive: function isActive() {
@@ -18374,16 +18429,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["slug", "name", "status", "updateFunc", "active", "rate", "email"],
+  props: ["slug", "name", "status", "updateFunc", "active", "email"],
   data: function data() {
     return {};
   },
@@ -18407,14 +18455,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
 /* harmony import */ var _helpers_User_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/User.js */ "./resources/js/helpers/User.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
+//
+//
+//
+//
 //
 //
 //
@@ -18502,7 +18546,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      errors: "",
+      errors: {},
       form_data: {
         name: "",
         email: "",
@@ -18526,6 +18570,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       newUser.save("user", function (err, result) {
         if (!err) {
           console.log("[SAVE USER RESULT]", result);
+          _this.errors = {};
           _this.form_data = Object.keys(_this.form_data).reduce(function (object, key) {
             if (key === "status") object[key] = _this.form_data[key];else object[key] = "";
             return object;
@@ -18533,14 +18578,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           _app_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit("newUserAdded", result);
         } else {
           console.log("[SAVE USER ERROR]", err.response.data);
-          _this.errors = Object.keys(err.response.data.errors).map(function (key) {
-            return _toConsumableArray(Array(err.response.data.errors[key])).map(function (errorArr) {
-              return Object.keys(errorArr).map(function (error) {
-                return errorArr[error];
-              });
-            });
-          });
-          swal("Something went wrong", _this.errors.toString().split(",").join("\n"), "error");
+          var errList = err.response.data.errors;
+          _this.errors = Object.keys(errList).reduce(function (object, key) {
+            object[key] = errList[key][0];
+            return object;
+          }, {});
         }
       });
     }
@@ -41757,7 +41799,7 @@ var hasIntersectionObserverSupport = isBrowser && 'IntersectionObserver' in wind
 
 var getEnv = function getEnv(key) {
   var fallback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var env = typeof process !== 'undefined' && process ? Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"","NODE_ENV":"development"}) || false : {};
+  var env = typeof process !== 'undefined' && process ? Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}) || false : {};
 
   if (!key) {
     /* istanbul ignore next */
@@ -53283,7 +53325,7 @@ exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-
 exports.i(__webpack_require__(/*! -!../../../../node_modules/css-loader??ref--6-1!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!@fullcalendar/daygrid/main.css */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@fullcalendar/daygrid/main.css"), "");
 
 // module
-exports.push([module.i, "\n.main-modal {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 900;\r\n  display: none;\n}\n.backdrop {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use,\r\n.backdrop.in-use {\r\n  display: block;\n}\n.danger-background {\r\n  background-color: #ff8080 !important;\n}\n.fc-right {\r\n  display: flex;\n}\n@media (min-width: 48em) {\n.main-modal {\r\n    width: 50%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.main-modal {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 900;\n  display: none;\n}\n.backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use,\n.backdrop.in-use {\n  display: block;\n}\n.danger-background {\n  background-color: #ff8080 !important;\n}\n.fc-right {\n  display: flex;\n}\n@media (min-width: 48em) {\n.main-modal {\n    width: 50%;\n}\n}\n", ""]);
 
 // exports
 
@@ -53302,7 +53344,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\r\n.backdrop.in-use[data-v-416d01ed] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-416d01ed] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-416d01ed] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-416d01ed],\n.backdrop.in-use[data-v-416d01ed] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-416d01ed] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -53321,7 +53363,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.5);\r\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\r\n.backdrop.in-use[data-v-5b9fc564] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.edu-background-form[data-v-5b9fc564] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-5b9fc564] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.5);\n  display: none;\n}\n.edu-background-form.in-use[data-v-5b9fc564],\n.backdrop.in-use[data-v-5b9fc564] {\n  display: block;\n}\n@media (min-width: 48em) {\n.edu-background-form[data-v-5b9fc564] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -53340,7 +53382,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-1a12e68c] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-1a12e68c] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-1a12e68c],\r\n.backdrop.in-use[data-v-1a12e68c] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-1a12e68c] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-1a12e68c] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-1a12e68c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-1a12e68c],\n.backdrop.in-use[data-v-1a12e68c] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-1a12e68c] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -53359,7 +53401,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 50%;\r\n  left: 50%;\r\n  width: 80%;\r\n  -webkit-transform: translate(-50%, -50%);\r\n          transform: translate(-50%, -50%);\r\n  z-index: 200;\r\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  z-index: 100;\r\n  background: rgba(0, 0, 0, 0.7);\r\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\r\n.backdrop.in-use[data-v-0e604e8a] {\r\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\r\n    width: 30%;\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.main-modal[data-v-0e604e8a] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  z-index: 200;\n  display: none;\n}\n.backdrop[data-v-0e604e8a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 100;\n  background: rgba(0, 0, 0, 0.7);\n  display: none;\n}\n.main-modal.in-use[data-v-0e604e8a],\n.backdrop.in-use[data-v-0e604e8a] {\n  display: block;\n}\n@media (min-width: 48em) {\n.main-modal[data-v-0e604e8a] {\n    width: 30%;\n}\n}\n", ""]);
 
 // exports
 
@@ -86427,25 +86469,38 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-row mt-5" }, [
-                      _c("div", { staticClass: "col-md-12" }, [
-                        _c("h2", [_vm._v("Select Student")]),
-                        _vm._v(" "),
-                        _c(
-                          "select",
-                          {
-                            staticClass: "form-control",
-                            attrs: { id: "callbacks", multiple: "multiple" }
-                          },
-                          _vm._l(_vm.students.data, function(student) {
-                            return _c(
-                              "option",
-                              { domProps: { value: student.id } },
-                              [_vm._v(_vm._s(student.full_name))]
-                            )
-                          }),
-                          0
-                        )
-                      ]),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-12" },
+                        [
+                          _c("h2", [_vm._v("Select Student")]),
+                          _vm._v(" "),
+                          _vm.students.data
+                            ? [
+                                _c("Multiselect", {
+                                  attrs: {
+                                    options: _vm.students.data,
+                                    multiple: true,
+                                    "close-on-select": false,
+                                    label: "full_name",
+                                    "track-by": "id",
+                                    placeholder: "Select Students"
+                                  },
+                                  model: {
+                                    value: _vm.form_data.students,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.form_data, "students", $$v)
+                                    },
+                                    expression: "form_data.students"
+                                  }
+                                })
+                              ]
+                            : _c("div", { staticClass: "bg-warning p-2" }, [
+                                _vm._v("You must add students first")
+                              ])
+                        ],
+                        2
+                      ),
                       _vm._v(" "),
                       _c("div", { staticClass: "small text-danger" }, [
                         _vm._v(_vm._s(_vm.errors.students))
@@ -87399,123 +87454,197 @@ var render = function() {
       attrs: { id: "class-rate-add" }
     },
     [
-      _vm._m(0),
+      _c("div", { staticClass: "card-header" }, [
+        _c("h4", [
+          !_vm.editingMode
+            ? _c("strong", [_vm._v("Add Class Rate")])
+            : _c("strong", [_vm._v("Edit Class Rate")])
+        ])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c(
-          "form",
-          {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                return _vm.saveClassRate($event)
-              }
-            }
-          },
-          [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3)]
-        )
+        _c("form", [
+          _c("div", { staticClass: "form-row" }, [
+            _c("div", { staticClass: "col-md-6 mb-3" }, [
+              _c("label", { attrs: { for: "validationCustom01" } }, [
+                _vm._v("Class Rate Name")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newClassRate.name,
+                    expression: "newClassRate.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "name",
+                  id: "validationCustom01",
+                  placeholder: "Class Rate Name",
+                  required: ""
+                },
+                domProps: { value: _vm.newClassRate.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newClassRate, "name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "valid-feedback" }, [
+                _vm._v("Looks good!")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-6 mb-3" }, [
+              _c("label", { attrs: { for: "validationCustom01" } }, [
+                _vm._v("Rate")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.newClassRate.rate,
+                    expression: "newClassRate.rate"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  name: "rate",
+                  id: "validationCustom03",
+                  placeholder: "Rate",
+                  required: ""
+                },
+                domProps: { value: _vm.newClassRate.rate },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.newClassRate, "rate", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "valid-feedback" }, [
+                _vm._v("Looks good!")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-row" }, [
+            _c("div", { staticClass: "col-md-6 mb-3" }, [
+              _c("label", { attrs: { for: "validationCustom02" } }, [
+                _vm._v("Status")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.newClassRate.status,
+                        expression: "newClassRate.status"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { name: "status" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.newClassRate,
+                          "status",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v("Inactive")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "valid-feedback" }, [
+                _vm._v("Looks good!")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              !_vm.editingMode
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary pull-right",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.saveClassRate($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v("\n            Save Class Rate\n            "),
+                      _c("i", {
+                        staticClass: "ml-2 batch-icon batch-icon-stiffy"
+                      })
+                    ]
+                  )
+                : _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary pull-right",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.updateClassRate($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v("\n            Update Class Rate\n            "),
+                      _c("i", {
+                        staticClass: "ml-2 batch-icon batch-icon-stiffy"
+                      })
+                    ]
+                  )
+            ])
+          ])
+        ])
       ])
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", [_c("strong", [_vm._v("Add Class Rate")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "col-md-6 mb-3" }, [
-        _c("label", { attrs: { for: "validationCustom01" } }, [
-          _vm._v("Class Rate Name")
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            name: "name",
-            id: "validationCustom01",
-            placeholder: "Class Rate Name",
-            required: ""
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6 mb-3" }, [
-        _c("label", { attrs: { for: "validationCustom01" } }, [_vm._v("Rate")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            name: "rate",
-            id: "validationCustom03",
-            placeholder: "Rate",
-            required: ""
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-row" }, [
-      _c("div", { staticClass: "col-md-6 mb-3" }, [
-        _c("label", { attrs: { for: "validationCustom02" } }, [
-          _vm._v("Status")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group" }, [
-          _c(
-            "select",
-            { staticClass: "form-control", attrs: { name: "status" } },
-            [
-              _c("option", { attrs: { value: "1" } }, [_vm._v("Active")]),
-              _vm._v(" "),
-              _c("option", { attrs: { value: "0" } }, [_vm._v("Inactive")])
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "valid-feedback" }, [_vm._v("Looks good!")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary pull-right",
-            attrs: { type: "submit" }
-          },
-          [
-            _vm._v("\n            Save Class Rate\n            "),
-            _c("i", { staticClass: "ml-2 batch-icon batch-icon-stiffy" })
-          ]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -87537,159 +87666,140 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "class-rate" } },
-    [
-      _c(
-        "table",
-        {
-          staticClass: "table table-datatable table-striped table-hover",
-          attrs: { id: "datatable-1" }
-        },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.classRates.data, function(classRate) {
-              return _c("tr", { key: classRate.slug }, [
-                _c("td", [
-                  _vm._v(
-                    _vm._s(
-                      classRate.name.charAt(0).toUpperCase() +
-                        classRate.name.slice(1)
-                    )
+  return _c("div", { attrs: { id: "class-rate" } }, [
+    _c(
+      "table",
+      {
+        staticClass: "table table-datatable table-striped table-hover",
+        attrs: { id: "datatable-1" }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.classRates.data, function(classRate) {
+            return _c("tr", { key: classRate.slug }, [
+              _c("td", [
+                _vm._v(
+                  _vm._s(
+                    classRate.name.charAt(0).toUpperCase() +
+                      classRate.name.slice(1)
                   )
-                ]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(classRate.rate))]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("div", { staticClass: "btn-group" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: classRate.status,
-                            expression: "classRate.status"
-                          }
-                        ],
-                        staticClass: "btn btn-primary btn-sm dropdown-toggle",
-                        on: {
-                          change: [
-                            function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                classRate,
-                                "status",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            },
-                            function($event) {
-                              return _vm.updateStatus($event, classRate.slug)
-                            }
-                          ]
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          { domProps: { value: classRate.status ? 1 : 0 } },
-                          [
-                            _vm._v(
-                              _vm._s(classRate.status ? "Active" : "Inactive")
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "option",
-                          { domProps: { value: classRate.status ? 0 : 1 } },
-                          [
-                            _vm._v(
-                              _vm._s(classRate.status ? "Inactive" : "Active")
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("td", [
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(classRate.rate))]),
+              _vm._v(" "),
+              _c("td", [
+                _c("div", { staticClass: "btn-group" }, [
                   _c(
-                    "div",
+                    "select",
                     {
-                      staticClass: "btn-group btn-group-sm",
-                      attrs: {
-                        role: "group",
-                        "aria-label": "Small button group"
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: classRate.status,
+                          expression: "classRate.status"
+                        }
+                      ],
+                      staticClass: "btn btn-primary btn-sm dropdown-toggle",
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              classRate,
+                              "status",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            return _vm.updateStatus($event, classRate.slug)
+                          }
+                        ]
                       }
                     },
                     [
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteClassRate(classRate.slug)
-                            }
-                          }
-                        },
-                        [_vm._v("Remove")]
+                        "option",
+                        { domProps: { value: classRate.status ? 1 : 0 } },
+                        [
+                          _vm._v(
+                            _vm._s(classRate.status ? "Active" : "Inactive")
+                          )
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.editClassroom(classRate.slug)
-                            }
-                          }
-                        },
-                        [_vm._v("Edit")]
+                        "option",
+                        { domProps: { value: classRate.status ? 0 : 1 } },
+                        [
+                          _vm._v(
+                            _vm._s(classRate.status ? "Inactive" : "Active")
+                          )
+                        ]
                       )
                     ]
                   )
                 ])
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "btn-group btn-group-sm",
+                    attrs: { role: "group", "aria-label": "Small button group" }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteClassRate(classRate.slug)
+                          }
+                        }
+                      },
+                      [_vm._v("Remove")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-warning",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editClassroom(classRate.slug)
+                          }
+                        }
+                      },
+                      [_vm._v("Edit")]
+                    )
+                  ]
+                )
               ])
-            }),
-            0
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("classrate-modal", {
-        attrs: {
-          active: _vm.isActive,
-          name: _vm.selectedClassRate.name,
-          rate: _vm.selectedClassRate.rate,
-          status: _vm.selectedClassRate.status,
-          slug: _vm.selectedClassRate.slug,
-          updateFunc: _vm.update
-        }
-      })
-    ],
-    1
-  )
+            ])
+          }),
+          0
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -90169,18 +90279,6 @@ var render = function() {
                 })
               ]),
               _vm._v(" "),
-              _vm.rate
-                ? _c("div", { staticClass: "form-group" }, [
-                    _c("label", { attrs: { for: "rate" } }, [_vm._v("Rate")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "number", id: "rate", name: "rate" },
-                      domProps: { value: _vm.rate }
-                    })
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
               _vm.email
                 ? [
                     _c("div", { staticClass: "form-group" }, [
@@ -90329,6 +90427,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.name },
                   attrs: {
                     type: "text",
                     name: "name",
@@ -90346,8 +90445,8 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "valid-feedback" }, [
-                  _vm._v("Looks good!")
+                _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.name))
                 ])
               ]),
               _vm._v(" "),
@@ -90364,6 +90463,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.email },
                   attrs: {
                     type: "email",
                     name: "email",
@@ -90381,8 +90481,8 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "valid-feedback" }, [
-                  _vm._v("Looks good!")
+                _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.email))
                 ])
               ]),
               _vm._v(" "),
@@ -90401,6 +90501,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.password },
                   attrs: {
                     type: "password",
                     name: "password",
@@ -90418,8 +90519,8 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "valid-feedback" }, [
-                  _vm._v("Looks good!")
+                _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.password))
                 ])
               ]),
               _vm._v(" "),
@@ -90438,6 +90539,7 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  class: { "is-invalid": _vm.errors.password_confirmation },
                   attrs: {
                     type: "password",
                     name: "password_confirmation",
@@ -90459,8 +90561,8 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "valid-feedback" }, [
-                  _vm._v("Looks good!")
+                _c("div", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.password_confirmation))
                 ])
               ])
             ]),
@@ -104994,8 +105096,8 @@ function (_Model) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code - xperiential\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\13659\Desktop\xperiental\Code - xperiential\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/rogene/Desktop/Projects/xperiental-with-vue/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

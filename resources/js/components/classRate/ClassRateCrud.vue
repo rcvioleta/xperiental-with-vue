@@ -46,21 +46,12 @@
         </tr>
       </tbody>
     </table>
-    <classrate-modal
-      :active="isActive"
-      :name="selectedClassRate.name"
-      :rate="selectedClassRate.rate"
-      :status="selectedClassRate.status"
-      :slug="selectedClassRate.slug"
-      :updateFunc="update"
-    ></classrate-modal>
   </div>
 </template>
 
 <script>
 import { EventBus } from "../../app.js";
 import ClassRate from "../../helpers/ClassRate.js";
-import Modal from "../ui/modal/Modal.vue";
 
 export default {
   data() {
@@ -70,9 +61,6 @@ export default {
       classRateIndex: "",
       editingMode: false
     };
-  },
-  components: {
-    "classrate-modal": Modal
   },
   created() {
     ClassRate.fetchAll("class-rate", (err, data) => {
@@ -151,28 +139,34 @@ export default {
 
       this.selectedClassRate = this.classRates.data[this.classRateIndex];
       this.editingMode = true;
-    },
-    update(e) {
-      const target = e.target;
-      const name = target.name.value;
-      const slug = target.slug.value;
-      const status = target.status.value;
-      const rate = target.rate.value;
-      const uri = `class-rate/${slug}`;
-      const payloads = { name, slug: name, status, rate };
-
-      ClassRate.update(uri, payloads, (err, update) => {
-        if (!err) {
-          this.classRates.data[this.classRateIndex] = update;
-          this.editingMode = false;
-          console.log("[update] result", update);
-          swal("Success!", "Successfully updated Class Rate", "success");
-        } else {
-          swal("Something went wrong", "Unable to update Class Rate", "error");
-          console.log("[update] error", err.response);
-        }
-      });
+      // send updates to AddClassRate component
+      const payloads = {
+        editing: this.editingMode,
+        data: this.selectedClassRate
+      };
+      EventBus.$emit("editingMode", payloads);
     }
+    // update(e) {
+    //   const target = e.target;
+    //   const name = target.name.value;
+    //   const slug = target.slug.value;
+    //   const status = target.status.value;
+    //   const rate = target.rate.value;
+    //   const uri = `class-rate/${slug}`;
+    //   const payloads = { name, slug: name, status, rate };
+
+    //   ClassRate.update(uri, payloads, (err, update) => {
+    //     if (!err) {
+    //       this.classRates.data[this.classRateIndex] = update;
+    //       this.editingMode = false;
+    //       console.log("[update] result", update);
+    //       swal("Success!", "Successfully updated Class Rate", "success");
+    //     } else {
+    //       swal("Something went wrong", "Unable to update Class Rate", "error");
+    //       console.log("[update] error", err.response);
+    //     }
+    //   });
+    // }
   },
   computed: {
     isActive() {

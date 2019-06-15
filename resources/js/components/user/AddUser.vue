@@ -14,11 +14,12 @@
               type="text"
               name="name"
               class="form-control"
+              :class="{'is-invalid': errors.name}"
               id="profile-name"
               placeholder="Name"
               v-model="form_data.name"
             >
-            <div class="valid-feedback">Looks good!</div>
+            <div class="text-danger">{{ errors.name }}</div>
           </div>
           <div class="col-md-12 mb-3">
             <label for="email">Email</label>
@@ -26,11 +27,12 @@
               type="email"
               name="email"
               class="form-control"
+              :class="{'is-invalid': errors.email}"
               id="email"
               placeholder="Email"
               v-model="form_data.email"
             >
-            <div class="valid-feedback">Looks good!</div>
+            <div class="text-danger">{{ errors.email }}</div>
           </div>
           <div class="col-md-12 mb-3">
             <label for="password">Password</label>
@@ -38,11 +40,12 @@
               type="password"
               name="password"
               class="form-control"
+              :class="{'is-invalid': errors.password}"
               id="password"
               placeholder="Password"
               v-model="form_data.password"
             >
-            <div class="valid-feedback">Looks good!</div>
+            <div class="text-danger">{{ errors.password }}</div>
           </div>
           <div class="col-md-12 mb-3">
             <label for="password_confirmation">Confirm Password</label>
@@ -50,11 +53,12 @@
               type="password"
               name="password_confirmation"
               class="form-control"
+              :class="{'is-invalid': errors.password_confirmation}"
               id="password_confirmation"
               placeholder="Confirm Password"
               v-model="form_data.password_confirmation"
             >
-            <div class="valid-feedback">Looks good!</div>
+            <div class="text-danger">{{ errors.password_confirmation }}</div>
           </div>
           <!-- <div class="col-md-6 mb-3">
             <label for="validationCustom04">Status</label>
@@ -88,7 +92,7 @@ import User from "../../helpers/User.js";
 export default {
   data() {
     return {
-      errors: "",
+      errors: {},
       form_data: {
         name: "",
         email: "",
@@ -117,6 +121,7 @@ export default {
       newUser.save("user", (err, result) => {
         if (!err) {
           console.log("[SAVE USER RESULT]", result);
+          this.errors = {};
           this.form_data = Object.keys(this.form_data).reduce((object, key) => {
             if (key === "status") object[key] = this.form_data[key];
             else object[key] = "";
@@ -125,19 +130,11 @@ export default {
           EventBus.$emit("newUserAdded", result);
         } else {
           console.log("[SAVE USER ERROR]", err.response.data);
-          this.errors = Object.keys(err.response.data.errors).map(key => {
-            return [...Array(err.response.data.errors[key])].map(errorArr => {
-              return Object.keys(errorArr).map(error => errorArr[error]);
-            });
-          });
-          swal(
-            "Something went wrong",
-            this.errors
-              .toString()
-              .split(",")
-              .join("\n"),
-            "error"
-          );
+          const errList = err.response.data.errors;
+          this.errors = Object.keys(errList).reduce((object, key) => {
+            object[key] = errList[key][0];
+            return object;
+          }, {});
         }
       });
     }

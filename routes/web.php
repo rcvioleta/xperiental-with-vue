@@ -19,6 +19,11 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::resource('/student', 'StudentInformationController');
+
+  Route::group(['prefix' => 'get'], function () {
+    Route::get('/students', 'StudentInformationController@fetchStudents');
+  });
+
   Route::resource('/emergency-contact', 'EmergencyContactController');
   Route::resource('/education-background', 'EducationBackgroundController');
 

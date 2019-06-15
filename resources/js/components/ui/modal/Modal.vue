@@ -18,13 +18,6 @@
               <input type="text" id="name" name="name" class="form-control" :value="name">
             </div>
 
-            <!-- for editing class rates -->
-            <div class="form-group" v-if="rate">
-              <label for="rate">Rate</label>
-              <input type="number" id="rate" name="rate" class="form-control" :value="rate">
-            </div>
-            <!-- end for editing class rates -->
-
             <!-- for editing users -->
             <template v-if="email">
               <div class="form-group">
@@ -68,7 +61,7 @@
 import { EventBus } from "../../../app.js";
 
 export default {
-  props: ["slug", "name", "status", "updateFunc", "active", "rate", "email"],
+  props: ["slug", "name", "status", "updateFunc", "active", "email"],
   data() {
     return {};
   },
