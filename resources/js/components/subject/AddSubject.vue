@@ -2,11 +2,12 @@
   <div class="card" id="subject-add" style="display: block;">
     <div class="card-header">
       <h4>
-        <strong>Add Subject</strong>
+        <strong v-if="editingMode">Edit Subject</strong>
+        <strong v-else>Add Subject</strong>
       </h4>
     </div>
     <div class="card-body">
-      <form @submit.prevent="saveSubject">
+      <form>
         <div class="form-row">
           <div class="col-md-6 mb-3">
             <label for="validationCustom01">Subject Name</label>
@@ -14,26 +15,41 @@
               type="text"
               name="name"
               class="form-control"
+              :class="{'is-invalid': errors.name}"
               id="validationCustom01"
               placeholder="Subject"
+              v-model="newSubject.name"
               required
             >
-            <div class="valid-feedback">Looks good!</div>
+            <div class="text-danger">{{ errors.name }}</div>
           </div>
           <div class="col-md-6 mb-3">
             <label for="validationCustom02">Status</label>
             <div class="form-group">
-              <select class="form-control" name="status">
+              <select
+                class="form-control"
+                :class="{'is-invalid': errors.status}"
+                name="status"
+                v-model="newSubject.status"
+              >
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
               </select>
             </div>
-            <div class="valid-feedback">Looks good!</div>
+            <div class="text-danger">{{ errors.status }}</div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button class="btn btn-primary pull-right" type="submit">
+            <button
+              class="btn btn-primary pull-right"
+              @click.prevent="updateSubject"
+              v-if="editingMode"
+            >
+              Update Subject
+              <i class="ml-2 batch-icon batch-icon-stiffy"></i>
+            </button>
+            <button class="btn btn-primary pull-right" @click.prevent="saveSubject" v-else>
               Save Subject
               <i class="ml-2 batch-icon batch-icon-stiffy"></i>
             </button>
@@ -45,30 +61,75 @@
 </template>
 
 <script>
-// axios was already imported by subject-crud component, import not required
 import { EventBus } from "../../app.js";
-
 import Model from "../../helpers/Model.js";
 
 export default {
   data() {
-    return {};
+    return {
+      newSubject: {
+        name: "",
+        status: 1
+      },
+      editingMode: false,
+      errors: {}
+    };
+  },
+  created() {
+    EventBus.$on("editingSubject", payloads => {
+      this.reset();
+      this.editingMode = payloads.editing;
+      this.newSubject = payloads.data;
+    });
   },
   methods: {
-    saveSubject(e) {
-      const target = e.target;
-      const subject = target.name.value;
-      const status = target.status.value;
-      const newSubject = new Model(subject, status);
+    saveSubject() {
+      const { name, status } = this.newSubject;
+      const newSubject = new Model(name, status);
       newSubject.save("subject", (err, result) => {
         if (!err) {
           console.log("[ADD SUBJECT RESULT]", result);
           EventBus.$emit("newSubjectAdded", result);
+          this.reset();
         } else {
-          console.log("[SAVE SUBJECT ERROR]", err.response);
-          swal("Something went wrong", "Cannot save subject", "error");
+          console.log("[SAVE SUBJECT ERROR]", err.response.data.errors);
+          const errList = err.response.data.errors;
+          this.storeErrors(errList);
         }
       });
+    },
+    updateSubject() {
+      const { name, slug, status } = this.newSubject;
+      const uri = `subject/${slug}`;
+      const payloads = { name, slug: name, status };
+
+      Model.update(uri, payloads, (err, update) => {
+        if (!err) {
+          console.log("[updateStatus] result", update);
+          swal("Success!", "Successfull updated subject", "success");
+          this.editingMode = false;
+          this.reset();
+          EventBus.$emit("editingSubjectOk");
+        } else {
+          console.log("[updateStatus] error", err.response.data.errors);
+          const errList = err.response.data.errors;
+          this.storeErrors(errList);
+        }
+      });
+    },
+    reset() {
+      this.errors = {};
+      this.newSubject = Object.keys(this.newSubject).reduce((object, key) => {
+        if (key === "status") object[key] = 1;
+        else object[key] = "";
+        return object;
+      }, {});
+    },
+    storeErrors(errList) {
+      this.errors = Object.keys(errList).reduce((object, key) => {
+        object[key] = errList[key][0];
+        return object;
+      }, {});
     }
   }
 };

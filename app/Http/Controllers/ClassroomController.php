@@ -36,6 +36,10 @@ class ClassroomController extends Controller
    */
   public function store(Request $request)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'status' => 'required|numeric|max:1|digits:1'
+    ]);
     $classroom = Classroom::create($request->all());
 
     return response()->json([
@@ -92,6 +96,11 @@ class ClassroomController extends Controller
    */
   public function update(Request $request, Classroom $classroom)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'status' => 'required|numeric|max:1|digits:1'
+    ]);
+
     $classroom->update($request->all());
 
     return response()->json([

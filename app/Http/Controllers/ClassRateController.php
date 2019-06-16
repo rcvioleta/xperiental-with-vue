@@ -36,6 +36,12 @@ class ClassRateController extends Controller
    */
   public function store(Request $request)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'rate' => 'required|numeric',
+      'status' => 'required|numeric|max:1|digits:1'
+    ]);
+
     $classRate = ClassRate::create($request->all());
 
     return response()->json([
@@ -93,6 +99,12 @@ class ClassRateController extends Controller
    */
   public function update(Request $request, ClassRate $classRate)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'rate' => 'required|numeric',
+      'status' => 'required|numeric|max:1|digits:1'
+    ]);
+
     $classRate->update($request->all());
 
     return response()->json([

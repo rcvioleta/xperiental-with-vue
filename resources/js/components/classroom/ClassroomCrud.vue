@@ -45,56 +45,31 @@
         </tr>
       </tbody>
     </table>
-    <clasroom-modal
-      :active="isActive"
-      :name="selectedClassroom.name"
-      :status="selectedClassroom.status"
-      :slug="selectedClassroom.slug"
-      :updateFunc="update"
-    ></clasroom-modal>
   </div>
 </template>
 
 <script>
-import swal from "sweetalert";
-
 import { EventBus } from "../../app.js";
 import Model from "../../helpers/Model.js";
-import Modal from "../ui/modal/Modal.vue";
 
 export default {
   data() {
     return {
       classrooms: "",
-      selectedClassroom: "",
-      classroomIndex: "",
-      editingMode: false
+      index: ""
     };
   },
   created() {
-    Model.fetchAll("classroom", (err, data) => {
-      if (!err) this.classrooms = data;
-      else {
-        swal("Something went wrong", "Unable to fetch classrooms", "error");
-        console.log(
-          "%c Unable to get classroom data from database",
-          "font-weight: bold; color: red; font-family: Monaco"
-        );
-        console.log(err.response);
-      }
+    this.fetchClassroom();
+
+    EventBus.$on("editingClassroomOk", () => {
+      this.fetchClassroom();
     });
 
     EventBus.$on("newClassroomAdded", result => {
       this.classrooms.data.push(result);
       swal("Congrats!", "New classroom added", "success");
     });
-
-    EventBus.$on("closeModalEvent", () => {
-      this.editingMode = false;
-    });
-  },
-  components: {
-    "clasroom-modal": Modal
   },
   methods: {
     updateStatus(e, slug) {
@@ -146,40 +121,27 @@ export default {
         } else swal("Classroom was kept");
       });
     },
-    update(e) {
-      const name = e.target.name.value;
-      const slug = e.target.slug.value;
-      const status = e.target.status.value;
-      const uri = `classroom/${slug}`;
-      const payloads = { name, slug: name, status };
-
-      Model.update(uri, payloads, (err, update) => {
-        if (!err) {
-          this.classrooms.data[this.classroomIndex] = update;
-          this.editingMode = false;
-          console.log("[update] result", update);
-          swal("Success!", "Successfully updated Classroom", "success");
-        } else {
-          swal("Something went wrong", "Unable to update Classroom", "error");
-          console.log("[update] error", err.response);
-        }
-      });
-    },
     editClassroom(slug) {
       console.log("EDIT SUBJECT", slug);
-      this.classroomIndex = this.classrooms.data.findIndex(
+      this.index = this.classrooms.data.findIndex(
         classroom => classroom.slug === slug
       );
-
-      this.selectedClassroom = this.classrooms.data[this.classroomIndex];
-      this.editingMode = true;
-    }
-  },
-  computed: {
-    isActive() {
-      return {
-        "in-use": this.editingMode
-      };
+      const data = { ...this.classrooms.data[this.index] };
+      const payloads = { editing: true, data };
+      EventBus.$emit("editingClassroom", payloads);
+    },
+    fetchClassroom() {
+      Model.fetchAll("classroom", (err, data) => {
+        if (!err) this.classrooms = data;
+        else {
+          swal("Something went wrong", "Unable to fetch classrooms", "error");
+          console.log(
+            "%c Unable to get classroom data from database",
+            "font-weight: bold; color: red; font-family: Monaco"
+          );
+          console.log(err.response);
+        }
+      });
     }
   }
 };
