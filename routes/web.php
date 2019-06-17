@@ -86,4 +86,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/{id}/activate', 'InstructorController@activate')->name('instructor.activate');
     Route::get('/{id}/deactivate', 'InstructorController@deactivate')->name('instructor.deactivate');
   });
+
+  Route::prefix('classschedule')->group(function () {
+    Route::get('/', 'ClassScheduleController@index')->name('classschedule.index');
+  });
+
 });

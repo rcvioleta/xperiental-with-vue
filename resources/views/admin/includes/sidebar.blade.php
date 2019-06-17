@@ -41,6 +41,16 @@
         <h6 class="mt-0 nav-header">Navigation</h6>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('classschedule.index') }}">
+          <i class="batch-icon batch-icon-calendar"></i>
+          Class Schedule
+        </a>
+        <a class="nav-link" href="{{ route('class-schedule') }}">
+          <i class="batch-icon batch-icon-calendar"></i>
+          Class Schedule-old
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link nav-parent" href="#">
           <i class="batch-icon batch-icon-users"></i>
           Student Management
@@ -101,12 +111,6 @@
             </a>
           </li>
         </ul>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ route('class-schedule') }}">
-          <i class="batch-icon batch-icon-calendar"></i>
-          Class Schedule
-        </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('configurations') }}">

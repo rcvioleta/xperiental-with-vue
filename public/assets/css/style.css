@@ -105,3 +105,13 @@ table.table-hover tbody tr:hover {
     border: 1px solid #cacaca;
     max-height: 260px !important;
 }
+.el-transfer-panel {
+    width: 43% !important;
+}
+.el-transfer-panel__item.el-checkbox {
+    width: 100% !important;
+    margin-right: 0 !important;
+}
+legend.col-form-label {
+    line-height: 1.5 !important;
+}

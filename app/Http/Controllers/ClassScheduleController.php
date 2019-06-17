@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\ClassSchedule;
+use App\StudentInformation;
+use App\ClassRate;
+use App\Subject;
+use App\Classroom;
+use App\ClassStudent;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,9 +23,39 @@ class ClassScheduleController extends Controller
    */
   public function index()
   {
-    return ClassScheduleResource::collection(ClassSchedule::all());
+    // return ClassScheduleResource::collection(ClassSchedule::all());
+    return view('admin.class-schedule.index', [
+      'schedules' => $this->getSchedules(),
+      'students' => $this->getStudents(),
+      'classtypes' => $this->getClassTypes(),
+      'classrooms' => $this->getClassrooms(),
+      'subjects' => $this->getSubjects(),
+    ]);
   }
 
+  protected function getSchedules() {
+    return ClassSchedule::get();
+  }
+
+  protected function getStudents()
+  {
+    return StudentInformation::get();
+  }
+
+  protected function getClassTypes()
+  {
+    return ClassRate::get();
+  }
+
+  protected function getClassrooms()
+  {
+    return Classroom::get();
+  }
+
+  protected function getSubjects()
+  {
+    return Subject::get();
+  }
   /**
    * Show the form for creating a new resource.
    *
@@ -37,11 +72,41 @@ class ClassScheduleController extends Controller
    * @param  App\Http\Requests\ClassScheduleRequest  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(ClassScheduleRequest $request)
+  public function store(Request $request)
   {
-    $newSchedule = ClassSchedule::create($request->all());
+    // $newSchedule = ClassSchedule::create($request->all());
+    // return response()->json([
+    //   'data' => new ClassScheduleResource($newSchedule)
+    // ]);
+
+    $newSchedule = ClassSchedule::create([
+      'date_start' => $request->startTimeFull,
+      'date_end' => $request->endTimeFull,
+      'instructor_id' => 12,
+      'class_rate_id' => $request->classType,
+      'subject_id' => $request->subject,
+      'classroom_id' => $request->classroom,
+      'status' => $request->status,
+    ]);
+
+    $schedId = new ClassScheduleResource($newSchedule);
+
+    $students = [];
+
+    foreach ( $request->students as $student) {
+      $students[] = [
+        'student_id' => $student,
+        'class_schedules_id' => $schedId->id,
+      ];
+    }
+
+    ClassStudent::insert($students);
+
     return response()->json([
-      'data' => new ClassScheduleResource($newSchedule)
+      'update' => $schedId,
+      'message' => 'Successfully added New Schedule',
+      'newlist' => $this->getSchedules(),
+      'status' => 200
     ]);
   }
 

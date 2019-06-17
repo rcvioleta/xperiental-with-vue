@@ -15,14 +15,13 @@ class CreateClassSchedulesTable extends Migration
   {
     Schema::create('class_schedules', function (Blueprint $table) {
       $table->bigIncrements('id');
-      $table->date('class_date');
-      $table->string('start_time');
-      $table->string('end_time');
-      $table->string('students');
-      $table->integer('class_rate_id');
-      $table->integer('subject_id');
-      $table->integer('classroom_id');
-      $table->integer('status');
+      $table->dateTime('date_start')->nullable();
+      $table->dateTime('date_end')->nullable();
+      $table->integer('instructor_id')->nullable();
+      $table->integer('class_rate_id')->nullable();
+      $table->integer('subject_id')->nullable();
+      $table->integer('classroom_id')->nullable();
+      $table->boolean('status')->default(1);
       $table->timestamps();
     });
   }

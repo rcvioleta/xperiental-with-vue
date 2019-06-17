@@ -38,6 +38,7 @@ Vue.component('student-list', require('./components/student/StudentList.vue').de
 Vue.component('class-schedule-form', require('./components/calendar/AddClassSchedule.vue').default);
 Vue.component('class-schedule', require('./components/calendar/ClassSchedule.vue').default);
 Vue.component('educational-list', require('./components/educationalbackground/EducationalList.vue').default);
+Vue.component('class-calendar', require('./components/classSchedule/class-calendar.vue').default);
 
 export const EventBus = new Vue();
 
@@ -48,8 +49,16 @@ export const EventBus = new Vue();
  */
 /* Bootstrap-vue */
 import BootstrapVue from 'bootstrap-vue'
-
 Vue.use(BootstrapVue)
+
+// import ElementUI from 'element-ui';
+// import 'element-ui/lib/theme-chalk/index.css';
+import { Transfer } from 'element-ui';
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
+
+locale.use(lang)
+Vue.component(Transfer.name, Transfer);
 
 
 const app = new Vue({
