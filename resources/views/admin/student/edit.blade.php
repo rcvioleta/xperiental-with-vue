@@ -144,6 +144,19 @@
 												@endif
 											</div>
 										</div>
+										<div class="form-row">
+											<div class="col-md-2 mb-3">
+												<label for="avatar">Profile Picture</label>
+												<div class="form-row">
+													<div class="col-md-12 mb-3">
+														<image id="profImage"  src="{{ asset($student->image) }}" class="profile-image">
+													</div>
+													<div class="col-md-12 mb-3">
+														<input type="file" name="image" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png">
+													</div>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 								<hr>
@@ -286,6 +299,16 @@
 <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
 
 <script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
 
+			reader.onload = function (e) {
+				$('#profImage').attr('src', e.target.result).width(150).height(200);
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
 </script>
 @endsection

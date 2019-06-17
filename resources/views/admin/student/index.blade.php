@@ -33,6 +33,7 @@
                     <thead>
                         <tr>
                             <th>Student ID</th>
+                            <th>Avatar</th>
                             <th>Student Name</th>
                             <th>Gender</th>
                             <th>Birth Date</th>
@@ -44,7 +45,8 @@
                     <tbody>
                         @foreach($students as $student)
                         <tr>
-                            <td>{!! $student->id_num !!}</td>
+                            <td>{!! $student->id_num !!}</td> 
+                            <td><img src="{{asset($student->image)}}" alt="Avatar" width="40px"></td> 
                             <td>{!! $student->first_name !!} {!! $student->middle_name !!} {!! $student->last_name !!}</td>
                             <td>{!! $student->gender !!}</td>
                             <td>{!! $student->birth_date !!}</td>

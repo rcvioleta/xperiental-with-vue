@@ -26,7 +26,7 @@
 				<div class="row">
 					<div class="col-lg-12 pb-5">
 						<h2>Student Information</h2>
-						<form class="needs-validation" method="POST" action="{{route('student.store')}}" novalidate>
+						<form class="needs-validation" method="POST" action="{{route('student.store')}}" novalidate enctype="multipart/form-data">
 							@csrf
 							<div class="form-row mb-3">
 								<div class="col-lg-12">
@@ -122,6 +122,24 @@
 											@endif
 										</div>
 									</div>
+									<div class="form-row">
+										<div class="col-md-2 mb-3">
+											<label for="avatar">Profile Picture</label>
+											<div class="form-row">
+												<div class="col-md-12 mb-3">
+													<image id="profImage" src="" class="profile-image">
+												</div>
+												<div class="col-md-12 mb-3">
+													<input type="file" name="image" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png">
+												</div>
+											</div>
+											@if ($errors->has('image'))
+												<div class="text-danger">
+													{{$errors->first('image')}}
+												</div>	
+											@endif
+										</div>
+									</div>
 								</div>
 							</div>
 							<hr>
@@ -208,6 +226,16 @@
 <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
 <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
 <script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
 
+			reader.onload = function (e) {
+				$('#profImage').attr('src', e.target.result).width(150).height(200);
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
 </script>
 @endsection

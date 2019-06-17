@@ -16,6 +16,7 @@ class CreateStudentInformationTable extends Migration
     Schema::create('student_information', function (Blueprint $table) {
       $table->bigIncrements('id');
       $table->string('id_num')->nullable();
+      $table->string('image')->nullable();
       $table->string('first_name')->nullable();
       $table->string('middle_name')->nullable();
       $table->string('last_name')->nullable();

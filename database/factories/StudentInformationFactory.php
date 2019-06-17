@@ -12,6 +12,7 @@ $factory->define(StudentInformation::class, function (Faker $faker) {
     $emcon_full_name = $faker->firstName . ' ' . $faker->lastName;
     return [
         'id_num' => $faker->numberBetween(00000, 99999),
+        'image' => 'images/avatar/avatar-default.png',
         'first_name' => $faker->firstName,
         'middle_name' => $faker->lastName,
         'last_name' => $faker->lastName,

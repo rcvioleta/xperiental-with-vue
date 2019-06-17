@@ -57,8 +57,13 @@ class StudentInformationController extends Controller
     //   'status' => 200
     // ]);
 
+    $avatar = $request->image;
+    $avatar_name = time() . $avatar->getClientOriginalName();
+    $avatar->move('images/avatar', $avatar_name);
+
     StudentInformation::create([
       'id_num' => $request->id_num,
+      'image' => 'images/avatar/' . $avatar_name,
       'first_name' => $request->first_name,
       'middle_name' => $request->middle_name,
       'last_name' => $request->last_name,
@@ -128,21 +133,30 @@ class StudentInformationController extends Controller
 
     $student = StudentInformation::findOrFail($id);
 
-    $student->fill([
-      'id_num' => $request->id_num,
-      'first_name' => $request->first_name,
-      'middle_name' => $request->middle_name,
-      'last_name' => $request->last_name,
-      'gender' => $request->gender,
-      'birth_date' => $request->birth_date,
-      'phone_number' => $request->phone_number,
-      'address' => $request->address,
-      'emcon_full_name' => $request->emcon_full_name,
-      'emcon_phone_number' => $request->emcon_phone_number,
-      'emcon_relationship' => $request->emcon_relationship,
-      'emcon_address' => $request->emcon_address,
-      'status' => true,
-    ])->push();
+    if ($request->hasFile('image')) {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        $avatar = $request->image;
+        $avatar_name = time() . $avatar->getClientOriginalName();
+        $avatar->move('images/avatar', $avatar_name);
+        $student->image = 'images/avatar/' . $avatar_name;
+    }
+
+    $student->id_num = $request->id_num;
+    $student->first_name = $request->first_name;
+    $student->middle_name = $request->middle_name;
+    $student->last_name = $request->last_name;
+    $student->gender = $request->gender;
+    $student->birth_date = $request->birth_date;
+    $student->phone_number = $request->phone_number;
+    $student->address = $request->address;
+    $student->emcon_full_name = $request->emcon_full_name;
+    $student->emcon_phone_number = $request->emcon_phone_number;
+    $student->emcon_relationship = $request->emcon_relationship;
+    $student->emcon_address = $request->emcon_address;
+    $student->save();
 
     return redirect()->back()->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully updated.');
   }
