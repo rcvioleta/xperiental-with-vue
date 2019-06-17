@@ -25,6 +25,7 @@ Route::prefix('educationalbackground')->group(function() {
 	Route::post('/update/{id}', 'EducationBackgroundController@update');
 });
 Route::prefix('classschedule')->group(function() {
+	Route::get('/getStudentByClass/{id}', 'ClassScheduleController@getStudentByClass');
 	Route::post('/store', 'ClassScheduleController@store');
 	Route::post('/update/{id}', 'ClassScheduleController@update');
 });

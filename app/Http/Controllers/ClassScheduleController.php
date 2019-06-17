@@ -56,6 +56,11 @@ class ClassScheduleController extends Controller
   {
     return Subject::get();
   }
+
+  protected function getStudentByClass($id)
+  {
+    return ClassStudent::where('class_schedules_id', $id)->get();
+  }
   /**
    * Show the form for creating a new resource.
    *
@@ -82,7 +87,7 @@ class ClassScheduleController extends Controller
     $newSchedule = ClassSchedule::create([
       'date_start' => $request->startTimeFull,
       'date_end' => $request->endTimeFull,
-      'instructor_id' => 12,
+      'instructor_id' => 1,
       'class_rate_id' => $request->classType,
       'subject_id' => $request->subject,
       'classroom_id' => $request->classroom,
@@ -139,19 +144,50 @@ class ClassScheduleController extends Controller
    */
   public function update(Request $request, $id)
   {
-    $request['subject_id'] = $request->subject;
-    unset($request['subject']);
-    $classSchedule = ClassSchedule::find($id);
-    $classSchedule->update($request->all());
-    $classSchedule['subject'] = $classSchedule['subject_id'];
-    unset($classSchedule['subject_id']);
+    // $request['subject_id'] = $request->subject;
+    // unset($request['subject']);
+    // $classSchedule = ClassSchedule::find($id);
+    // $classSchedule->update($request->all());
+    // $classSchedule['subject'] = $classSchedule['subject_id'];
+    // unset($classSchedule['subject_id']);
 
     // return response($classSchedule);
 
+    // return response()->json([
+    //   'update' => new ClassScheduleCollection($classSchedule),
+    //   'message' => 'Successfully updated class schedule',
+    //   'status' => Response::HTTP_ACCEPTED
+    // ]);
+
+    ClassStudent::where('class_schedules_id', $id)->delete();
+
+    $classSchedule = ClassSchedule::findOrFail($id);
+
+    $classSchedule->fill([
+      'date_start' => $request->startTimeFull,
+      'date_end' => $request->endTimeFull,
+      'instructor_id' => 1,
+      'class_rate_id' => $request->classType,
+      'subject_id' => $request->subject,
+      'classroom_id' => $request->classroom,
+      'status' => $request->status,
+    ])->push();
+
+    $students = [];
+
+    foreach ( $request->students as $student) {
+      $students[] = [
+        'student_id' => $student,
+        'class_schedules_id' => $id,
+      ];
+    }
+
+    ClassStudent::insert($students);
+
     return response()->json([
-      'update' => new ClassScheduleCollection($classSchedule),
-      'message' => 'Successfully updated class schedule',
-      'status' => Response::HTTP_ACCEPTED
+      'message' => 'Successfully updated Class Schedule',
+      'newlist' => $this->getSchedules(),
+      'status' => 200
     ]);
   }
 

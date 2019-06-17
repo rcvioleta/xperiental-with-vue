@@ -1,12 +1,12 @@
 <template>
     <div>
         <full-calendar 
-            default-view="dayGridMonth" 
-            :plugins="calendarPlugins"
-            :weekends="true"
-            :events="events"
-            @dateClick="handleDateClick"
-            @eventClick="editSchedule"
+        default-view="dayGridMonth" 
+        :plugins="calendarPlugins"
+        :weekends="true"
+        :events="events"
+        @dateClick="handleDateClick"
+        @eventClick="editForm"
         />
         <b-modal :id="'modal_' + infoModal.student_id" :title="modaltitle" :ok-title="okName" @ok="handleOk" size="lg">
             <b-form @submit.stop.prevent="handleSubmit">
@@ -79,18 +79,18 @@
                 <b-row class="pl-4 pr-4 pt-0 pb-0">
                     <b-col class="p-2">
                         <el-transfer
-                            filterable
-                            :filter-method="filterMethod"
-                            filter-placeholder="Search"
-                            v-model="infoModal.students"
-                            :data="allStudent"
-                            :titles="['Student List', 'Class Students']">
-                        </el-transfer>
-                    </b-col>
-                </b-row>
-            </b-form>
-        </b-modal>
-    </div>
+                        filterable
+                        :filter-method="filterMethod"
+                        filter-placeholder="Search"
+                        v-model="infoModal.students"
+                        :data="allStudent"
+                        :titles="['Student List', 'Class Students']">
+                    </el-transfer>
+                </b-col>
+            </b-row>
+        </b-form>
+    </b-modal>
+</div>
 </template>
 
 <script>
@@ -155,27 +155,6 @@
 
                 this.addForm();
             },
-            editSchedule(arg) { 
-                // console.log('Event', arg.event.extendedProps.eventId);
-
-                this.modaltitle = 'EDIT SCHEDULE';
-                this.infoModal.okName = 'Update';
-                this.infoModal.classDate = arg.event.extendedProps.date_start;
-                this.infoModal.classType = arg.event.extendedProps.class_rate_id;
-                this.infoModal.subject = arg.event.extendedProps.subject_id;
-                this.infoModal.classroom = arg.event.extendedProps.classroom_id;
-                this.infoModal.status = arg.event.extendedProps.status;
-                this.infoModal.startHrs = 'Hrs';
-                this.infoModal.startMin = 'Min';
-                this.infoModal.startAmPm = 'AM/PM';
-                this.infoModal.endHrs = 'Hrs';
-                this.infoModal.endMin = 'Min';
-                this.infoModal.endAmPm = 'AM/PM';
-
-                this.$nextTick(() => {
-                    this.$root.$emit('bv::show::modal', 'modal_' + this.infoModal.student_id)
-                })
-            },
             filterMethod(query, item) {
                 return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
             },
@@ -192,16 +171,42 @@
                     this.$root.$emit('bv::show::modal', 'modal_' + this.infoModal.student_id)
                 })
             },
-            editForm(button, name, year_attended, notes, educId) {
-                this.modaltitle = 'Edit History';
+            editForm(arg) { 
+                console.log('sched id: ', arg.event.extendedProps.eventId);
+
+                this.modaltitle = 'EDIT SCHEDULE';
                 this.okName = 'Update';
-                this.editId = educId;
-                this.infoModal.name = name;
-                this.infoModal.year_attended = year_attended;
-                this.infoModal.notes = notes;
+                this.editId = arg.event.extendedProps.eventId;
+
+                var startDate = arg.event.extendedProps.date_start;
+                var endDate = arg.event.extendedProps.date_end;
+                this.infoModal.classDate = this.beautifyDate(startDate)[0].classDate;
+                this.infoModal.classType = arg.event.extendedProps.class_rate_id;
+                this.infoModal.subject = arg.event.extendedProps.subject_id;
+                this.infoModal.classroom = arg.event.extendedProps.classroom_id;
+                this.infoModal.status = arg.event.extendedProps.status;
+                this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
+                this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
+                this.infoModal.endAmPm = this.beautifyDate(endDate)[0].AmPm;
+                this.infoModal.startHrs = this.beautifyDate(startDate)[0].Hrs;
+                this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
+                this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
+
+                axios.get('/api/classschedule/getStudentByClass/' + this.editId)
+                .then(response => {
+                    
+                    this.infoModal.students = [];
+
+                    for(var x = 0; x < response.data.length; x++) {
+                        this.infoModal.students.push( response.data[x].student_id );
+                    }
+                })
+                .catch(err=>{
+                    console.log("error", err);
+                });
 
                 this.$nextTick(() => {
-                    this.$root.$emit('bv::show::modal', 'modal_' + this.infoModal.student_id, button)
+                    this.$root.$emit('bv::show::modal', 'modal_' + this.infoModal.student_id)
                 })
             },
             handleOk(bvModalEvt) {
@@ -234,7 +239,6 @@
 
                     this.displaySchedule(response.data.newlist);
                     this.messageToastr('success', response.data.message );
-                    console.log('submitted', response.data.message);
 
                     this.resetInfoModal();
                 })
@@ -242,8 +246,6 @@
                     console.log("error", err);
                     this.messageToastr('error', response.data.message );
                 });
-
-                console.log('send this: ', this.infoModal);
 
                 this.$nextTick(() => {
                     this.$bvModal.hide()
@@ -302,9 +304,29 @@
                   "hideEasing": "linear",
                   "showMethod": "fadeIn",
                   "hideMethod": "fadeOut"
-                }
+              }
 
-            },
-        }
+          },
+          beautifyDate(thisTime) {
+            var startDate = new Date(thisTime);
+            var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
+            var startHrs = ('00' + startDate.getHours()).slice(-2);
+            var startMin = ('00' + startDate.getMinutes()).slice(-2);
+
+            var time = startHrs+':'+startMin;
+            time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+            time = time.slice(1);
+
+            var final = [];
+
+            return final = [{
+                'classDate' : classDate,
+                'AmPm' : (time[0] < 12 ? 'AM' : 'PM'),
+                'Hrs' : time[0] = +time[0] % 12 || 12,
+                'Min' : startMin,
+            }];
+        },
     }
+}
 </script>

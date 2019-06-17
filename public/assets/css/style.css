@@ -115,3 +115,7 @@ table.table-hover tbody tr:hover {
 legend.col-form-label {
     line-height: 1.5 !important;
 }
+a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
+    color: white !important;
+    font-size: 12px !important;
+}
