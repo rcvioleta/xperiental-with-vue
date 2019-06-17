@@ -52,31 +52,39 @@
 										<div class="form-row">
 											<div class="col-md-3 mb-3">
 												<label for="validationCustom01">Student ID</label>
-												<input type="text" class="form-control" id="validationCustom01" value="{!! $student->id_num !!}" name="id_num" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" id="validationCustom01" value="{{ $student->id_num }}" name="id_num" required>
+												@if ($errors->has('id_num'))
+													<div class="text-danger">
+														{{$errors->first('id_num')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-3 mb-3">
 												<label for="validationCustom01">First name</label>
-												<input type="text" class="form-control" id="validationCustom01" value="{!! $student->first_name !!}" name="first_name" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('first_name') ? 'is-invalid' : ''}}" id="validationCustom01" value="{!! $student->first_name !!}" name="first_name" required>
+												@if ($errors->has('first_name'))
+													<div class="text-danger">
+														{{$errors->first('first_name')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-3 mb-3">
 												<label for="validationCustom02">Middle name</label>
-												<input type="text" class="form-control" id="validationCustom02" value="{!! $student->middle_name !!}" name="middle_name" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('middle_name') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->middle_name !!}" name="middle_name" required>
+												@if ($errors->has('middle_name'))
+													<div class="text-danger">
+														{{$errors->first('middle_name')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-3 mb-3">
 												<label for="validationCustom02">Last name</label>
-												<input type="text" class="form-control" id="validationCustom02" value="{!! $student->last_name !!}" name="last_name" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('last_name') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->last_name !!}" name="last_name" required>
+												@if ($errors->has('last_name'))
+													<div class="text-danger">
+														{{$errors->first('last_name')}}
+													</div>
+												@endif
 											</div>
 										</div>
 										<div class="form-row">
@@ -98,16 +106,17 @@
 														@endif
 														>
 														<label class="custom-control-label" for="customControlValidation3a">Female</label>
-														<div class="invalid-feedback">More example invalid feedback text</div>
 													</div>
 												</div>
 											</div>
 											<div class="col-md-2 mb-3">
 												<label for="validationCustom04">Birthdate</label>
-												<input type="date" class="fallback form-control" autocomplete="off" value="{!! $student->birth_date !!}" name="birth_date">
-												<div class="invalid-feedback">
-													Please provide a valid state.
-												</div>
+												<input type="date" class="fallback form-control {{$errors->has('birth_date') ? 'is-invalid' : ''}}" autocomplete="off" value="{!! $student->birth_date !!}" name="birth_date">
+												@if ($errors->has('birth_date'))
+													<div class="text-danger">
+														{{$errors->first('birth_date')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-2 mb-3">
 												<label for="validationCustom05">Telephone/Phone</label>
@@ -117,18 +126,22 @@
 															<i class="batch-icon batch-icon-headphones"></i>
 														</span>
 													</div>
-													<input type="text" class="sp_celphones form-control" autocomplete="off" value="{!! $student->phone_number !!}" name="phone_number" aria-describedby="inputGroupPrepend-6">
+													<input type="text" class="sp_celphones form-control {{$errors->has('phone_number') ? 'is-invalid' : ''}}" autocomplete="off" value="{!! $student->phone_number !!}" name="phone_number" aria-describedby="inputGroupPrepend-6">
 												</div>
-												<div class="invalid-feedback">
-													Please provide a valid zip.
-												</div>
+												@if ($errors->has('phone_number'))
+													<div class="text-danger mt-3" style="display: inline-block;">
+														{{$errors->first('phone_number')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-6 mb-3">
 												<label for="validationCustom02">Home Address</label>
-												<input type="text" class="form-control" id="validationCustom02" value="{!! $student->address !!}" name="address" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('address') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->address !!}" name="address" required>
+												@if ($errors->has('address'))
+													<div class="text-danger">
+														{{$errors->first('address')}}
+													</div>
+												@endif
 											</div>
 										</div>
 									</div>
@@ -140,10 +153,12 @@
 										<div class="form-row">
 											<div class="col-md-4 mb-3">
 												<label for="validationCustom01">Full Name</label>
-												<input type="text" class="form-control" id="validationCustom01" value="{!! $student->emcon_full_name !!}" name="emcon_full_name" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('emcon_full_name') ? 'is-invalid' : ''}}" id="validationCustom01" value="{!! $student->emcon_full_name !!}" name="emcon_full_name" required>
+												@if ($errors->has('emcon_full_name'))
+													<div class="text-danger">
+														{{$errors->first('emcon_full_name')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-2 mb-3">
 												<label for="validationCustom05">Telephone/Phone</label>
@@ -153,25 +168,31 @@
 															<i class="batch-icon batch-icon-headphones"></i>
 														</span>
 													</div>
-													<input type="text" class="sp_celphones form-control" autocomplete="off" value="{!! $student->emcon_phone_number !!}" name="emcon_phone_number" aria-describedby="inputGroupPrepend-6">
+													<input type="text" class="sp_celphones form-control {{$errors->has('emcon_phone_number') ? 'is-invalid' : ''}}" autocomplete="off" value="{!! $student->emcon_phone_number !!}" name="emcon_phone_number" aria-describedby="inputGroupPrepend-6">
 												</div>
-												<div class="invalid-feedback">
-													Please provide a valid zip.
-												</div>
+												@if ($errors->has('emcon_phone_number'))
+													<div class="text-danger mt-3" style="display: inline-block;">
+														{{$errors->first('emcon_phone_number')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-2 mb-3">
 												<label for="validationCustom02">Relation to Student</label>
-												<input type="text" class="form-control" id="validationCustom02" value="{!! $student->emcon_relationship !!}" name="emcon_relationship" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('emcon_relationship') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->emcon_relationship !!}" name="emcon_relationship" required>
+												@if ($errors->has('emcon_relationship'))
+													<div class="text-danger">
+														{{$errors->first('emcon_relationship')}}
+													</div>
+												@endif
 											</div>
 											<div class="col-md-4 mb-3">
 												<label for="validationCustom02">Home Address</label>
-												<input type="text" class="form-control" id="validationCustom02" value="{!! $student->emcon_address !!}" name="emcon_address" required>
-												<div class="valid-feedback">
-													Looks good!
-												</div>
+												<input type="text" class="form-control {{$errors->has('emcon_address') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->emcon_address !!}" name="emcon_address" required>
+												@if ($errors->has('emcon_address'))
+													<div class="text-danger">
+														{{$errors->first('emcon_address')}}
+													</div>
+												@endif
 											</div>
 										</div>
 									</div>

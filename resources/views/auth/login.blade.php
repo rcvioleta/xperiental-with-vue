@@ -60,9 +60,6 @@
             <a class="signin-logo d-sm-none d-md-block" href="#">
               <img src="assets/img/logo-dark.png" width="145" height="32.3" alt="QuillPro">
             </a>
-            @if (count($errors) > 0)
-              {{ $errors }}
-            @endif
             <form method="POST" action="{{ route('login') }}">
               @csrf
               <div class="form-group">

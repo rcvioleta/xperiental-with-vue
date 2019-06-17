@@ -8,6 +8,7 @@ use App\EducationBackground;
 use App\Enrollment;
 use App\ClassSchedule;
 use App\Http\Resources\StudentInformationResource;
+use App\Http\Requests\StudentInformationRequest;
 
 class StudentInformationController extends Controller
 {
@@ -47,7 +48,7 @@ class StudentInformationController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(StudentInformationRequest $request)
   {
     // $student = StudentInformation::create($request->all());
     // return response()->json([
@@ -115,7 +116,7 @@ class StudentInformationController extends Controller
    * @return \Illuminate\Http\Response
    */
   // public function update(Request $request, StudentInformation $student)
-  public function update(Request $request, $id)
+  public function update(StudentInformationRequest $request, $id)
   {
     // $student->update($request->all());
 

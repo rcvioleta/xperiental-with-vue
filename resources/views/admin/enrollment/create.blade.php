@@ -23,6 +23,18 @@
 		<h1>Enroll Student</h1>
 	</div>
 </div>
+
+@if (count($errors->all()) > 0)
+	@foreach ($errors->all() as $error)
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			{{$error}}
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	@endforeach
+@endif
+
 <div class="row mb-5">
 	<div class="col-md-12">
 		<div class="card">
@@ -43,9 +55,6 @@
 											@endforeach
 										</select>
 									</div>
-									@if ($errors->has('student_id'))
-										<div class="invalid-feedback">You must select a student</div>
-									@endif
 								</div>
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Student ID</label>
@@ -56,9 +65,6 @@
 								<div class="col-md-1 mb-2">
 									<label for="validationCustom02">Credits</label>
 									<input type="number" class="form-control" id="credits" name="credits">
-									@if ($errors->has('credits'))
-										<div class="invalid-feedback">{{ $errors->first('credits') }}</div>
-									@endif
 								</div>
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Credit Type</label>
@@ -78,9 +84,6 @@
 										</div>
 										<input type="text" class="form-control" id="amount_paid" name="amount_paid">	
 									</div>
-									@if ($errors->has('amount_paid'))
-										<div class="invalid-feedback">{{ $errors->first('amount_paid') }}</div>
-									@endif
 								</div>
 								<div class="col-md-2 mb-2">
 									<label for="validationCustom02">Payment Status</label>

@@ -29,4 +29,13 @@ class EnrollmentRequest extends FormRequest
             'amount_paid' => 'required'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'student_id.required' => 'You must select a Student',
+            'credits.required' => 'Please specify the number of credits you wish to add',
+            'amount_paid.required' => 'Student must pay partial or full'
+        ];
+    }
 }

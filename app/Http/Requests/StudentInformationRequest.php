@@ -31,7 +31,25 @@ class StudentInformationRequest extends FormRequest
       'gender' => 'required',
       'birth_date' => 'required',
       'phone_number' => 'required|integer',
-      'address' => 'required'
+      'address' => 'required',
+      'emcon_full_name' => 'required',
+      'emcon_phone_number' => 'required',
+      'emcon_relationship' => 'required',
+      'emcon_address' => 'required'
+    ];
+  }
+
+  public function messages()
+  {
+    return [
+      'id_num.required' => 'Student ID field is required',
+      'gender.required' => 'Gender is required',
+      'birth_date.required' => 'Birthdate is required',
+      'phone_number.required' => 'Phone number is required',
+      'emcon_full_name.required' => 'Full name of emergency contact is needed',
+      'emcon_phone_number.required' => 'Phone number is required',
+      'emcon_relationship.required' => 'Relationship is required',
+      'emcon_address.required' => 'The address field is required'
     ];
   }
 }
