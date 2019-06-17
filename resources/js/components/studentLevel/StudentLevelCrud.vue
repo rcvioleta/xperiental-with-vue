@@ -45,50 +45,30 @@
         </tr>
       </tbody>
     </table>
-    <level-modal
-      :active="isActive"
-      :name="selectedLevel.name"
-      :status="selectedLevel.status"
-      :slug="selectedLevel.slug"
-      :updateFunc="update"
-    ></level-modal>
   </div>
 </template>
 
 <script>
 import { EventBus } from "../../app.js";
 import Model from "../../helpers/Model.js";
-import Modal from "../ui/modal/Modal.vue";
 
 export default {
   data() {
     return {
       studentLevels: "",
-      selectedLevel: "",
-      levelIndex: "",
-      editingMode: false
+      index: ""
     };
   },
-  components: {
-    "level-modal": Modal
-  },
   created() {
-    Model.fetchAll("student-level", (err, response) => {
-      if (!err) {
-        this.studentLevels = response;
-      } else {
-        swal("Something went wrong", "Unable to fetch Student Levels", "error");
-        console.log("getStudentLevels Error:", err.response);
-      }
-    });
+    this.fetchStudentLevel();
 
     EventBus.$on("newLevelAdded", result => {
       this.studentLevels.data.push(result);
       swal("Congrats!", "New student level added", "success");
     });
 
-    EventBus.$on("closeModalEvent", () => {
-      this.editingMode = false;
+    EventBus.$on("editingStudentLevelOk", () => {
+      this.fetchStudentLevel();
     });
   },
   methods: {
@@ -141,40 +121,29 @@ export default {
         } else swal("Student Level was kept");
       });
     },
-    update(e) {
-      const name = e.target.name.value;
-      const slug = e.target.slug.value;
-      const status = e.target.status.value;
-      const uri = `student-level/${slug}`;
-      const payloads = { name, slug: name, status };
-
-      Model.update(uri, payloads, (err, update) => {
-        if (!err) {
-          this.studentLevels.data[this.levelIndex] = update;
-          this.editingMode = false;
-          console.log("[update] result", update);
-          swal("Success!", "Successfully updated level", "success");
-        } else {
-          swal("Something went wrong", "Unable to update level", "error");
-          console.log("[update] error", err.response);
-        }
-      });
-    },
     editStudentLevel(slug) {
       console.log("EDIT SUBJECT", slug);
-      this.levelIndex = this.studentLevels.data.findIndex(
+      this.index = this.studentLevels.data.findIndex(
         level => level.slug === slug
       );
-      const levelObj = this.studentLevels.data[this.levelIndex];
-      this.selectedLevel = { ...levelObj };
-      this.editingMode = true;
-    }
-  },
-  computed: {
-    isActive() {
-      return {
-        "in-use": this.editingMode
-      };
+
+      const data = { ...this.studentLevels.data[this.index] };
+      const payloads = { editing: true, data };
+      EventBus.$emit("editingStudentLevel", payloads);
+    },
+    fetchStudentLevel() {
+      Model.fetchAll("student-level", (err, response) => {
+        if (!err) {
+          this.studentLevels = response;
+        } else {
+          swal(
+            "Something went wrong",
+            "Unable to fetch Student Levels",
+            "error"
+          );
+          console.log("getStudentLevels Error:", err.response);
+        }
+      });
     }
   }
 };

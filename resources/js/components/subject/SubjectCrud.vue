@@ -37,14 +37,6 @@
         </tr>
       </tbody>
     </table>
-
-    <subject-modal
-      :active="isActive"
-      :name="selectedSubject.name"
-      :status="selectedSubject.status"
-      :slug="selectedSubject.slug"
-      :updateFunc="update"
-    ></subject-modal>
   </div>
 </template>
 
@@ -52,30 +44,23 @@
 import Model from "../../helpers/Model.js";
 import { EventBus } from "../../app.js";
 
-import Modal from "../ui/modal/Modal.vue";
-
 export default {
   data() {
     return {
       subjects: [],
-      selectedSubject: "",
-      editingMode: false,
-      subjectIndex: ""
+      index: ""
     };
-  },
-  components: {
-    "subject-modal": Modal
   },
   created() {
     this.fetchSubjects();
 
+    EventBus.$on("editingSubjectOk", () => {
+      this.fetchSubjects();
+    });
+
     EventBus.$on("newSubjectAdded", result => {
       this.subjects.data.push(result);
       swal("Congrats!", "New subject added", "success");
-    });
-
-    EventBus.$on("closeModalEvent", () => {
-      this.editingMode = false;
     });
   },
   methods: {
@@ -130,33 +115,12 @@ export default {
     },
     editSubject(slug) {
       console.log("EDIT SUBJECT", slug);
-      this.subjectIndex = this.subjects.data.findIndex(
+      this.index = this.subjects.data.findIndex(
         subject => subject.slug === slug
       );
-      this.selectedSubject = this.subjects.data[this.subjectIndex];
-      this.editingMode = true;
-    },
-    update(e) {
-      const target = e.target;
-      const name = target.name.value;
-      const slug = target.slug.value;
-      const status = target.status.value;
-      const uri = `subject/${slug}`;
-      const payloads = { name, slug: name, status };
-
-      Model.update(uri, payloads, (err, update) => {
-        if (!err) {
-          const updatedSubject = { ...this.subjects };
-          updatedSubject.data[this.subjectIndex] = update;
-          this.subjects = { ...updatedSubject };
-          this.editingMode = false;
-          console.log("[updateStatus] result", update);
-          swal("Success!", "Successfull updated subject", "success");
-        } else {
-          swal("Something went wrong", "Unable to update subject", "err");
-          console.log("[updateStatus] error", err.response);
-        }
-      });
+      const data = this.subjects.data[this.index];
+      const payloads = { editing: true, data };
+      EventBus.$emit("editingSubject", payloads);
     },
     fetchSubjects() {
       Model.fetchAll("subject", (err, data) => {
@@ -166,13 +130,6 @@ export default {
           swal("Something went wrong", "Unable to fetch subjects", "error");
         }
       });
-    }
-  },
-  computed: {
-    isActive() {
-      return {
-        "in-use": this.editingMode
-      };
     }
   }
 };

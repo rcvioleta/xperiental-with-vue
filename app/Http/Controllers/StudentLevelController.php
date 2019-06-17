@@ -37,6 +37,11 @@ class StudentLevelController extends Controller
    */
   public function store(Request $request)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'status' => 'required|numeric|max:1|digits:1'
+    ]);
+
     $studentLevel = StudentLevel::create($request->all());
 
     return response()->json([
@@ -93,6 +98,11 @@ class StudentLevelController extends Controller
    */
   public function update(Request $request, StudentLevel $studentLevel)
   {
+    $this->validate($request, [
+      'name' => 'required',
+      'status' => 'required|numeric|max:1|digits:1'
+    ]);
+
     $studentLevel->update($request->all());
 
     return response()->json([

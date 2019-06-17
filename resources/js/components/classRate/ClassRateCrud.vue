@@ -57,28 +57,19 @@ export default {
   data() {
     return {
       classRates: "",
-      selectedClassRate: "",
-      classRateIndex: "",
-      editingMode: false
+      index: ""
     };
   },
   created() {
-    ClassRate.fetchAll("class-rate", (err, data) => {
-      console.log(
-        "%c Fetched Data:",
-        "font-family: Monaco; color: yellow; font-weight: bold;"
-      );
-      console.log(data);
-      this.classRates = data;
-    });
+    this.fetchClassRate();
 
     EventBus.$on("newClassRateAdded", newClassRate => {
       this.classRates.data.push(newClassRate);
       swal("Congrats!", "New class rate added", "success");
     });
 
-    EventBus.$on("closeModalEvent", () => {
-      this.editingMode = false;
+    EventBus.$on("editingClassRateOk", () => {
+      this.fetchClassRate();
     });
   },
   methods: {
@@ -133,46 +124,21 @@ export default {
     },
     editClassroom(slug) {
       console.log("EDIT CLASS RATE", slug);
-      this.classRateIndex = this.classRates.data.findIndex(
-        rate => rate.slug === slug
-      );
-
-      this.selectedClassRate = this.classRates.data[this.classRateIndex];
-      this.editingMode = true;
+      this.index = this.classRates.data.findIndex(rate => rate.slug === slug);
+      const data = { ...this.classRates.data[this.index] };
       // send updates to AddClassRate component
-      const payloads = {
-        editing: this.editingMode,
-        data: this.selectedClassRate
-      };
-      EventBus.$emit("editingMode", payloads);
-    }
-    // update(e) {
-    //   const target = e.target;
-    //   const name = target.name.value;
-    //   const slug = target.slug.value;
-    //   const status = target.status.value;
-    //   const rate = target.rate.value;
-    //   const uri = `class-rate/${slug}`;
-    //   const payloads = { name, slug: name, status, rate };
-
-    //   ClassRate.update(uri, payloads, (err, update) => {
-    //     if (!err) {
-    //       this.classRates.data[this.classRateIndex] = update;
-    //       this.editingMode = false;
-    //       console.log("[update] result", update);
-    //       swal("Success!", "Successfully updated Class Rate", "success");
-    //     } else {
-    //       swal("Something went wrong", "Unable to update Class Rate", "error");
-    //       console.log("[update] error", err.response);
-    //     }
-    //   });
-    // }
-  },
-  computed: {
-    isActive() {
-      return {
-        "in-use": this.editingMode
-      };
+      const payloads = { editing: true, data };
+      EventBus.$emit("editingClassRate", payloads);
+    },
+    fetchClassRate() {
+      ClassRate.fetchAll("class-rate", (err, data) => {
+        console.log(
+          "%c Fetched Data:",
+          "font-family: Monaco; color: yellow; font-weight: bold;"
+        );
+        console.log(data);
+        this.classRates = data;
+      });
     }
   }
 };

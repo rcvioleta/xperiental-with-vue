@@ -35,69 +35,31 @@
         </tr>
       </tbody>
     </table>
-    <user-form
-      :active="isActive"
-      :name="selectedUser.name"
-      :email="selectedUser.email"
-      :password="selectedUser.password"
-      :password_confirmation="selectedUser.password_confirmation"
-      :status="selectedUser.status"
-      :slug="selectedUser.slug"
-      :updateFunc="update"
-      @userNameChanged="selectedUser.name = $event"
-      @emailChanged="selectedUser.email = $event"
-      @statusChanged="selectedUser.status = $event"
-      @passwordChanged="selectedUser.password = $event"
-      @passConfirmationChanged="selectedUser.password_confirmation = $event"
-    ></user-form>
   </div>
 </template>
 
 <script>
 import { EventBus } from "../../app.js";
 import User from "../../helpers/User.js";
-import UserForm from "../forms/UserForm.vue";
 
 export default {
   data() {
     return {
       users: "",
-      selectedUser: {
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        status: 1
-      },
-      userIndex: "",
-      editingMode: false,
+      index: "",
       errors: ""
     };
   },
-  components: {
-    "user-form": UserForm
-  },
   created() {
-    User.fetchAll("user", (err, data) => {
-      if (!err) {
-        this.users = data;
-        console.log("[FETCHED USERS]", data);
-      } else {
-        swal(
-          "Something went wrong",
-          "Unable to get users from database",
-          "error"
-        );
-      }
+    this.fetchUsers();
+
+    EventBus.$on("editingUserOk", () => {
+      this.fetchUsers();
     });
 
     EventBus.$on("newUserAdded", newUser => {
       this.users.data.push(newUser);
       swal("Congrats!", "New user added", "success");
-    });
-
-    EventBus.$on("closeModalEvent", () => {
-      this.editingMode = false;
     });
   },
   methods: {
@@ -152,70 +114,27 @@ export default {
     },
     editUser(selectedSlug) {
       console.log("EDIT USER", selectedSlug);
-      this.userIndex = this.users.data.findIndex(
+      this.index = this.users.data.findIndex(
         user => user.slug === selectedSlug
       );
 
-      const { name, email, slug } = this.users.data[this.userIndex];
-      const currentState = { ...this.selectedUser };
-      this.selectedUser = {
-        ...currentState,
-        name,
-        email,
-        slug
-      };
-      this.editingMode = true;
+      const data = { ...this.users.data[this.index] };
+      const payloads = { editing: true, data };
+      EventBus.$emit("editingUser", payloads);
     },
-    update(e) {
-      const {
-        name,
-        slug,
-        status,
-        email,
-        password,
-        password_confirmation
-      } = this.selectedUser;
-      const uri = `user/${slug}`;
-      const payloads = {
-        name,
-        status,
-        email,
-        password,
-        password_confirmation
-      };
-
-      User.update(uri, payloads, (err, update) => {
+    fetchUsers() {
+      User.fetchAll("user", (err, data) => {
         if (!err) {
-          this.users.data[this.userIndex] = update;
-          this.editingMode = false;
-          this.userIndex = "";
-          this.selectedUser = "";
-          console.log("[update] result", update);
-          swal("Success!", "Successfully updated user information", "success");
+          this.users = data;
+          console.log("[FETCHED USERS]", data);
         } else {
-          console.log("[SAVE USER ERROR]", err.response.data);
-          this.errors = Object.keys(err.response.data.errors).map(key => {
-            return [...Array(err.response.data.errors[key])].map(errorArr => {
-              return Object.keys(errorArr).map(error => errorArr[error]);
-            });
-          });
           swal(
             "Something went wrong",
-            this.errors
-              .toString()
-              .split(",")
-              .join("\n"),
+            "Unable to get users from database",
             "error"
           );
         }
       });
-    }
-  },
-  computed: {
-    isActive() {
-      return {
-        "in-use": this.editingMode
-      };
     }
   }
 };

@@ -15,7 +15,7 @@ class CreateInstructorsTable extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id_num')->unsigned()->unique();
+            $table->integer('id_num')->unsigned();
             $table->string('image');
             $table->string('first_name');
             $table->string('middle_name');
