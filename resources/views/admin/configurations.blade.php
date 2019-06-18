@@ -46,10 +46,10 @@
             <div id="tab-6-1" class="row tab-pane fade show active" role="tabpanel" aria-labelledby="tab-6-1">
               <div class="row">
                 <div class="p-0 col-lg-12 pb-5">
-                  <div class="table-responsive">
+                  <!-- <div class="table-responsive"> -->
                     <!-- DO NOT DELETE. THIS IS A CUSTOM VUE COMPONENT -->
                     <subject-crud></subject-crud>
-                  </div>
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
