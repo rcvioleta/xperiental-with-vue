@@ -28,7 +28,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-12 pb-5">
-              <class-calendar :class-types="{{ $classtypes }}" :schedules="{{ $schedules }}" :students="{{ $students }}" :classrooms="{{ $classrooms }}" :subjects="{{ $subjects }}"></class-calendar>
+              <class-calendar :class-types="{{ $classtypes }}" :schedules="{{ $schedules }}" :students="{{ $students }}" :classrooms="{{ $classrooms }}" :subjects="{{ $subjects }}" :instructors="{{ $instructors }}"></class-calendar>
             </div>
           </div>
         </div>

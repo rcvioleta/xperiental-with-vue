@@ -61,14 +61,30 @@
                         </b-form-group>
                     </b-col>
                     <b-col class="p-2">
+                        <b-form-group label="Instructor">
+                            <el-select
+                                v-model="infoModal.instructor_id"
+                                filterable
+                                remote
+                                placeholder="Type to search"
+                                :remote-method="remoteMethod"
+                                :loading="loading">
+                                <el-option
+                                  v-for="item in options"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </b-form-group>
+                    </b-col>
+                    <b-col class="p-2">
                         <b-form-group label="Status">
                             <b-form-select v-model="infoModal.status">
                                 <option value="1">Enabled</option>
                                 <option value="0">Disabled</option>
                             </b-form-select>
                         </b-form-group>
-                    </b-col>
-                    <b-col class="p-2">
                     </b-col>
                 </b-row>
                 <b-row class="pl-3 pr-3 pt-3 pb-0">
@@ -101,9 +117,12 @@
     import 'element-ui/lib/theme-chalk/index.css';
 
     export default {
-        props: ['classTypes', 'schedules', 'students', 'classrooms', 'subjects'],
+        props: ['classTypes', 'schedules', 'students', 'classrooms', 'subjects', 'instructors'],
         data() {
             return {
+                options: [],
+                listInstructor: [],
+                loading: false,
                 allStudent: [],
                 calendarPlugins: [ dayGridPlugin, interactionPlugin ],
                 events: [],
@@ -124,11 +143,12 @@
                     endAmPm: 'AM/PM',
                     students: [],
                     startTimeFull: '',
-                    endTimeFull: ''
+                    endTimeFull: '',
+                    instructor_id: '',
                 },
                 optionTime: {
                     hrs: ['Hrs', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    mnts: ['Min', '30', '00'],
+                    mnts: ['Min', '00', '30'],
                     ampm: ['AM/PM', 'AM', 'PM']
                 },
             }
@@ -137,17 +157,30 @@
             FullCalendar
         },
         created() {
+            this.allStudent = this.students.map(item => {
+                return { key: item.id, label: item.first_name + ' ' + item.middle_name + ' ' + item.last_name };
+            });
 
-            for(var x = 0; x < this.students.length; x++) {
-                this.allStudent.push({
-                    label: this.students[x].first_name + ' ' + this.students[x].middle_name + ' ' + this.students[x].last_name,
-                    key: this.students[x].id,
-                });
-            }
+            this.listInstructor = this.instructors.map(item => {
+                return { value: item.id, label: item.first_name + ' ' + item.middle_name + ' ' + item.last_name };
+            });
 
             this.displaySchedule(this.schedules);
         },
         methods: {
+            remoteMethod(query) {
+                if (query !== '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.loading = false;
+                        this.options = this.listInstructor.filter(item => {
+                        return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
+                    });
+                  }, 200);
+                } else {
+                    this.options = [];
+                }
+            },
             handleDateClick(arg) {
                 var d = new Date(arg.date);
                 d.setDate( d.getDate() + 1 );
@@ -185,6 +218,7 @@
                 this.infoModal.subject = arg.event.extendedProps.subject_id;
                 this.infoModal.classroom = arg.event.extendedProps.classroom_id;
                 this.infoModal.status = arg.event.extendedProps.status;
+                this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
                 this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
                 this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
                 this.infoModal.endAmPm = this.beautifyDate(endDate)[0].AmPm;
@@ -218,20 +252,8 @@
                 else if(this.okName == 'Update')
                     url = '/api/classschedule/update/' + this.editId;
 
-                const convertTime12to24 = (time12h) => {
-                    const [time, modifier] = time12h.split(' ');
-                    let [hours, minutes] = time.split(':');
 
-                    if (hours === '12')
-                        hours = '00';
-                    if (modifier === 'PM')
-                        hours = parseInt(hours, 10) + 12;
-
-                    return this.infoModal.classDate + `T${hours}:${minutes}:00`;
-                }
-
-                this.infoModal.startTimeFull = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
-                this.infoModal.endTimeFull = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
+                this.SetTimeProperly();
 
 
                 axios.post(url, this.infoModal)
@@ -267,6 +289,7 @@
                 this.infoModal.students = [];
                 this.infoModal.startTimeFull = '';
                 this.infoModal.endTimeFull = '';
+                this.infoModal.instructor_id = '';
             },
             displaySchedule(sched) {
 
@@ -327,6 +350,22 @@
                 'Min' : startMin,
             }];
         },
+        SetTimeProperly() {
+            const convertTime12to24 = (time12h) => {
+                const [time, modifier] = time12h.split(' ');
+                let [hours, minutes] = time.split(':');
+
+                if (hours === '12')
+                    hours = '00';
+                if (modifier === 'PM')
+                    hours = parseInt(hours, 10) + 12;
+
+                return this.infoModal.classDate + `T${hours}:${minutes}:00`;
+            }
+
+            this.infoModal.startTimeFull = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
+            this.infoModal.endTimeFull = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
+        }
     }
 }
 </script>

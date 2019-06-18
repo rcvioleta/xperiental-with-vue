@@ -53,13 +53,14 @@ Vue.use(BootstrapVue)
 
 // import ElementUI from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
-import { Transfer } from 'element-ui';
+import { Transfer, Select, Option } from 'element-ui';
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 
 locale.use(lang)
 Vue.component(Transfer.name, Transfer);
-
+Vue.component(Select.name, Select);
+Vue.component(Option.name, Option);
 
 const app = new Vue({
     el: '#app'

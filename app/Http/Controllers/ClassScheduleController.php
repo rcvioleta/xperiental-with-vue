@@ -8,6 +8,7 @@ use App\ClassRate;
 use App\Subject;
 use App\Classroom;
 use App\ClassStudent;
+use App\Instructor;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,7 @@ class ClassScheduleController extends Controller
       'classtypes' => $this->getClassTypes(),
       'classrooms' => $this->getClassrooms(),
       'subjects' => $this->getSubjects(),
+      'instructors' => $this->getInstructors(),
     ]);
   }
 
@@ -55,6 +57,11 @@ class ClassScheduleController extends Controller
   protected function getSubjects()
   {
     return Subject::get();
+  }
+
+  protected function getInstructors()
+  {
+    return Instructor::get();
   }
 
   protected function getStudentByClass($id)
@@ -87,7 +94,7 @@ class ClassScheduleController extends Controller
     $newSchedule = ClassSchedule::create([
       'date_start' => $request->startTimeFull,
       'date_end' => $request->endTimeFull,
-      'instructor_id' => 1,
+      'instructor_id' => $request->instructor_id,
       'class_rate_id' => $request->classType,
       'subject_id' => $request->subject,
       'classroom_id' => $request->classroom,
@@ -166,7 +173,7 @@ class ClassScheduleController extends Controller
     $classSchedule->fill([
       'date_start' => $request->startTimeFull,
       'date_end' => $request->endTimeFull,
-      'instructor_id' => 1,
+      'instructor_id' => $request->instructor_id,
       'class_rate_id' => $request->classType,
       'subject_id' => $request->subject,
       'classroom_id' => $request->classroom,

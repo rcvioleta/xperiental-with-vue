@@ -119,3 +119,16 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
     color: white !important;
     font-size: 12px !important;
 }
+.el-select-dropdown.el-popper {
+    z-index: 99999 !important;
+}
+.el-select .el-input__inner {
+    padding: .6rem .75rem !important;
+    margin-top: 0 !important;
+    border: 1px solid #d2d2d2 !important;
+    width: 100% !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    color: #343a40 !important;
+    margin-right: -6px !important;
+}
