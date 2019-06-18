@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ClassRate;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClassRateResource;
+use App\Http\Requests\ClassRateRequest;
 
 class ClassRateController extends Controller
 {
@@ -34,7 +35,7 @@ class ClassRateController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(Request $request)
+  public function store(ClassRateRequest $request)
   {
     $this->validate($request, [
       'name' => 'required',
@@ -97,7 +98,7 @@ class ClassRateController extends Controller
    * @param  \App\ClassRate  $classRate
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, ClassRate $classRate)
+  public function update(ClassRateRequest $request, ClassRate $classRate)
   {
     $this->validate($request, [
       'name' => 'required',

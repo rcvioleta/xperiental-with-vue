@@ -15,7 +15,7 @@
               type="text"
               name="name"
               class="form-control"
-              :class="{'is-invalid': errors.name}"
+              :class="{'is-invalid': errors.name }"
               id="validationCustom01"
               placeholder="Class Rate Name"
               v-model="newClassRate.name"
@@ -29,13 +29,13 @@
               type="text"
               name="rate"
               class="form-control"
-              :class="{'is-invalid': errors.rate}"
+              :class="{'is-invalid': errors.rate }"
               id="validationCustom03"
               placeholder="Rate"
               v-model="newClassRate.rate"
               required
             >
-            <div class="text-danger">{{errors.rate}}</div>
+            <div class="text-danger">{{ errors.rate }}</div>
           </div>
         </div>
         <div class="form-row">
@@ -44,7 +44,7 @@
             <div class="form-group">
               <select
                 class="form-control"
-                :class="{'is-invalid': errors.status}"
+                :class="{'is-invalid': errors.status }"
                 name="status"
                 v-model="newClassRate.status"
               >
@@ -52,7 +52,7 @@
                 <option value="0">Inactive</option>
               </select>
             </div>
-            <div class="text-danger">{{errors.status}}</div>
+            <div class="text-danger">{{ errors.status }}</div>
           </div>
         </div>
         <div class="row">
@@ -106,10 +106,12 @@ export default {
       newClassRate.save("class-rate", (err, result) => {
         if (!err) {
           console.log("[SAVE CLASS RATE RESULT]", result);
+          this.errors = {};
           EventBus.$emit("newClassRateAdded", result);
           this.reset();
         } else {
-          console.log("[SAVE CLASS RATE ERROR]", err.response.data.errors);
+          console.log("[SAVE CLASS RATE ERROR]", err.response.data);
+          // swal("Something went wrong", "Cannot add new class rate", "error");
           const errList = err.response.data.errors;
           this.storeErrors(errList);
         }
@@ -122,6 +124,17 @@ export default {
 
       ClassRate.update(uri, payloads, (err, update) => {
         if (!err) {
+          // this.classRates.data[this.classRateIndex] = update;
+          this.newClassRate = Object.keys(this.newClassRate).reduce(
+            (object, key) => {
+              if (key === "status") object[key] = 1;
+              else object[key] = "";
+              return object;
+            },
+            {}
+          );
+          this.editingMode = false;
+          this.errors = {};
           console.log("[update] result", update);
           swal("Success!", "Successfully updated Class Rate", "success");
           this.editingMode = false;
@@ -129,7 +142,7 @@ export default {
           // let ClassRateCrud component know that it requires to fetch updates
           EventBus.$emit("editingClassRateOk");
         } else {
-          console.log("[update] error", err.response.data.errors);
+          console.log("[update] error", err.response);
           const errList = err.response.data.errors;
           this.storeErrors(errList);
         }

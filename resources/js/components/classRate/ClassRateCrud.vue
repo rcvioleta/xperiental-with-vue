@@ -39,7 +39,7 @@
               <button
                 type="button"
                 class="btn btn-warning"
-                @click="editClassroom(classRate.slug)"
+                @click="editClassRate(classRate.slug)"
               >Edit</button>
             </div>
           </td>
@@ -122,23 +122,19 @@ export default {
         } else swal("Class Rate was kept");
       });
     },
-    editClassroom(slug) {
+    editClassRate(slug) {
       console.log("EDIT CLASS RATE", slug);
-      this.index = this.classRates.data.findIndex(rate => rate.slug === slug);
-      const data = { ...this.classRates.data[this.index] };
+      this.classRateIndex = this.classRates.data.findIndex(
+        rate => rate.slug === slug
+      );
+
+      this.selectedClassRate = this.classRates.data[this.classRateIndex];
       // send updates to AddClassRate component
-      const payloads = { editing: true, data };
-      EventBus.$emit("editingClassRate", payloads);
-    },
-    fetchClassRate() {
-      ClassRate.fetchAll("class-rate", (err, data) => {
-        console.log(
-          "%c Fetched Data:",
-          "font-family: Monaco; color: yellow; font-weight: bold;"
-        );
-        console.log(data);
-        this.classRates = data;
-      });
+      const payloads = {
+        editing: true,
+        data: this.selectedClassRate
+      };
+      EventBus.$emit("editingMode", payloads);
     }
   }
 };
