@@ -128,7 +128,7 @@ export default {
         rate => rate.slug === slug
       );
 
-      this.selectedClassRate = this.classRates.data[this.classRateIndex];
+      const data = {...this.classRates.data[this.classRateIndex]};
       // send updates to AddClassRate component
       const payloads = {
         editing: true,

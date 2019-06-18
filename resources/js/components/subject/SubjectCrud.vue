@@ -118,7 +118,7 @@ export default {
       this.index = this.subjects.data.findIndex(
         subject => subject.slug === slug
       );
-      const data = this.subjects.data[this.index];
+      const data = {...this.subjects.data[this.index]};
       const payloads = { editing: true, data };
       EventBus.$emit("editingSubject", payloads);
     },
