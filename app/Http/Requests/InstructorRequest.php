@@ -29,13 +29,24 @@ class InstructorRequest extends FormRequest
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
             'last_name' => 'required|string',
-            'position' => 'string',
+            'position' => 'required|string',
             'gender' => 'required|string',
             'bday' => 'required|string|date_format:Y-m-d',
-            'contact_num' => 'required|numeric',
+            'contact_num' => 'required',
             'address' => 'required|string',
             'hired_date' => 'required|string|date_format:Y-m-d',
-            'status' => 'required|max:1'
+            'status' => 'required|max:1|digits:1'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'id_num.required' => 'ID Number is required',
+            'image.required' => 'Profile picture is required',
+            'gender.required' => 'Gender must be chosen',
+            'contact_num.required' => 'Contact number is required',
+            'bday.required' => 'Birth date is required'
         ];
     }
 }

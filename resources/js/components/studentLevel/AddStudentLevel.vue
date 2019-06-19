@@ -2,7 +2,7 @@
   <div class="card" id="level-add" style="display: none;">
     <div class="card-header">
       <h4>
-        <strong v-if="editingMode">Edit Grade Level</strong>
+        <strong v-if="editingMode">Edit Level</strong>
         <strong v-else>Add Grade Level</strong>
       </h4>
     </div>
@@ -10,13 +10,13 @@
       <form>
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Grade Name</label>
+            <label for="level-name">Level Name</label>
             <input
               type="text"
               name="name"
               class="form-control"
               :class="{'is-invalid': errors.name}"
-              id="validationCustom01"
+              id="level-name"
               placeholder="Grade Name"
               v-model="newStudentLevel.name"
               required
@@ -24,9 +24,10 @@
             <div class="text-danger">{{errors.name}}</div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="validationCustom02">Status</label>
+            <label for="level-status">Status</label>
             <div class="form-group">
               <select
+                id="level-status"
                 class="form-control"
                 :class="{'is-invalid': errors.status}"
                 name="status"

@@ -244,11 +244,11 @@ $(document).ready(function() {
 
 
 		/* Popover */
-		$('[data-toggle="popover"]').popover();
+		// $('[data-toggle="popover"]').popover();
 
 
 		/* Enable Tooltips */
-		$('[data-toggle="tooltip"]').tooltip();
+		// $('[data-toggle="tooltip"]').tooltip();
 
 
 		/* Auto-Links */

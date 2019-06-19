@@ -10,13 +10,13 @@
       <form @submit.prevent="saveClassroom">
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Classroom Name</label>
+            <label for="classroom-name">Classroom Name</label>
             <input
               type="text"
               name="name"
               class="form-control"
               :class="{'is-invalid': errors.name}"
-              id="validationCustom01"
+              id="classroom-name"
               placeholder="Subject"
               v-model="newClassroom.name"
               required
@@ -24,9 +24,10 @@
             <div class="text-danger">{{errors.name}}</div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="validationCustom02">Status</label>
+            <label for="classroom-status">Status</label>
             <div class="form-group">
               <select
+                id="classroom-status"
                 class="form-control"
                 name="status"
                 :class="{'is-invalid': errors.status}"

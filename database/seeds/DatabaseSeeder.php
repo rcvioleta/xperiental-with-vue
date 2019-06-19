@@ -20,7 +20,15 @@ class DatabaseSeeder extends Seeder
   public function run()
   {
     // $this->call(UsersTableSeeder::class);
-    factory(User::class, 5)->create();
+    User::create([
+      'name' => 'Administrator',
+      'slug' => str_slug('administrator'),
+      'email' => 'admin@example.com',
+      'email_verified_at' => now(),
+      'password' => 'password',
+      'status' => 1,
+      'remember_token' => Str::random(10)
+    ]);
 
     $subjects = ['English', 'Filipino', 'Mathematics', 'Science and Health', 'Makabayan', 'Sibika at Kultura', 'MSEP'];
     foreach ($subjects as $subject) {

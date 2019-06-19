@@ -33,31 +33,31 @@
                                     <div class="form-row">
                                         <div class="col-md-3 mb-3">
                                             <label for="validationCustom01">Employee ID</label>
-                                            <input type="text" class="form-control" name="id_num" value="{{ $instructor->id_num }}" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
+                                            <input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" name="id_num" value="{{ $instructor->id_num }}" required>
+                                            @if ($errors->has('id_num'))
+                                                <div class="text-danger">{{$errors->first('id_num')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="validationCustom01">First name</label>
-                                            <input type="text" class="form-control" name="first_name" value="{{ $instructor->first_name }}" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
+                                            <input type="text" class="form-control {{$errors->has('first_name') ? 'is-invalid' : ''}}" name="first_name" value="{{ $instructor->first_name }}" required>
+                                            @if ($errors->has('first_name'))
+                                                <div class="text-danger">{{$errors->first('first_name')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="validationCustom02">Middle name</label>
-                                            <input type="text" class="form-control" name="middle_name" value="{{ $instructor->middle_name }}" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
+                                            <input type="text" class="form-control {{$errors->has('middle_name') ? 'is-invalid' : ''}}" name="middle_name" value="{{ $instructor->middle_name }}" required>
+                                            @if ($errors->has('middle_name'))
+                                                <div class="text-danger">{{$errors->first('middle_name')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="validationCustom02">Last name</label>
-                                            <input type="text" class="form-control" name="last_name" value="{{ $instructor->last_name }}" required>
-                                            <div class="valid-feedback">
-                                                Looks good!
-                                            </div>
+                                            <input type="text" class="form-control {{$errors->has('last_name') ? 'is-invalid' : ''}}" name="last_name" value="{{ $instructor->last_name }}" required>
+                                            @if ($errors->has('last_name'))
+                                                <div class="text-danger">{{$errors->first('last_name')}}</div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -84,7 +84,10 @@
                                         </div>
                                         <div class="col-md-2 mb-3">
                                             <label for="validationCustom04">Birthdate</label>
-                                            <input type="date" class="fallback form-control" name="bday" value="{{ $instructor->bday }}">
+                                            <input type="date" class="fallback form-control {{$errors->has('bday') ? 'is-invalid' : ''}}" name="bday" value="{{ $instructor->bday }}">
+                                            @if ($errors->has('bday'))
+                                                <div class="text-danger mt-3">{{$errors->first('bday')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-2 mb-3">
                                             <label for="validationCustom05">Telephone/Phone</label>
@@ -94,12 +97,18 @@
                                                         <i class="batch-icon batch-icon-headphones"></i>
                                                     </span>
                                                 </div>
-                                                <input type="text" class="sp_celphones form-control" autocomplete="off" name="contact_num" value="{{ $instructor->contact_num }}" aria-describedby="inputGroupPrepend-6">
+                                                <input type="text" class="sp_celphones form-control {{$errors->has('contact_num') ? 'is-invalid' : ''}}" autocomplete="off" name="contact_num" value="{{ $instructor->contact_num }}" aria-describedby="inputGroupPrepend-6">
                                             </div>
+                                            @if ($errors->has('contact_num'))
+                                                <div class="text-danger mt-3">{{$errors->first('contact_num')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="validationCustom02">Home Address</label>
-                                            <input type="text" class="form-control" id="validationCustom02" name="address" value="{{ $instructor->address }}" required>
+                                            <input type="text" class="form-control {{$errors->has('address') ? 'is-invalid' : ''}}" id="validationCustom02" name="address" value="{{ $instructor->address }}" required>
+                                            @if ($errors->has('address'))
+                                                <div class="text-danger mt-3">{{$errors->first('address')}}</div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -122,11 +131,17 @@
                                     <div class="form-row">
                                         <div class="col-md-5 mb-3">
                                             <label for="validationCustom01">Position/Designation</label>
-                                            <input type="text" class="form-control" id="validationCustom01" name="position" value="{{ $instructor->position }}" required>
+                                            <input type="text" class="form-control {{$errors->has('position') ? 'is-invalid' : ''}}" id="validationCustom01" name="position" value="{{ $instructor->position }}" required>
+                                            @if ($errors->has('position'))
+                                                <div class="text-danger">{{$errors->first('position')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label for="validationCustom04">Hired Date</label>
-                                            <input type="date" class="fallback form-control" name="hired_date" value="{{ $instructor->hired_date }}">
+                                            <input type="date" class="fallback form-control {{$errors->has('hired_date') ? 'is-invalid' : ''}}" name="hired_date" value="{{ $instructor->hired_date }}">
+                                            @if ($errors->has('hired_date'))
+                                                <div class="text-danger">{{$errors->first('hired_date')}}</div>
+                                            @endif
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <label for="validationCustom02">Status</label>

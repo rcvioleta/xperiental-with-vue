@@ -10,13 +10,13 @@
       <form>
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Class Rate Name</label>
+            <label for="class-rate-name">Class Rate Name</label>
             <input
               type="text"
               name="name"
               class="form-control"
               :class="{'is-invalid': errors.name }"
-              id="validationCustom01"
+              id="class-rate-name"
               placeholder="Class Rate Name"
               v-model="newClassRate.name"
               required
@@ -24,13 +24,13 @@
             <div class="text-danger">{{errors.name}}</div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Rate</label>
+            <label for="rate">Rate</label>
             <input
               type="text"
               name="rate"
               class="form-control"
               :class="{'is-invalid': errors.rate }"
-              id="validationCustom03"
+              id="rate"
               placeholder="Rate"
               v-model="newClassRate.rate"
               required
@@ -40,9 +40,10 @@
         </div>
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom02">Status</label>
+            <label for="class-rate-status">Status</label>
             <div class="form-group">
               <select
+                id="class-rate-status"
                 class="form-control"
                 :class="{'is-invalid': errors.status }"
                 name="status"

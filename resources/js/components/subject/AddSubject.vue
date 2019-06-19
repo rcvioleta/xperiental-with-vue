@@ -10,13 +10,13 @@
       <form>
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="validationCustom01">Subject Name</label>
+            <label for="subject-name">Subject Name</label>
             <input
               type="text"
               name="name"
               class="form-control"
               :class="{'is-invalid': errors.name}"
-              id="validationCustom01"
+              id="subject-name"
               placeholder="Subject"
               v-model="newSubject.name"
               required
@@ -24,9 +24,10 @@
             <div class="text-danger">{{ errors.name }}</div>
           </div>
           <div class="col-md-6 mb-3">
-            <label for="validationCustom02">Status</label>
+            <label for="status">Status</label>
             <div class="form-group">
               <select
+                id="status"
                 class="form-control"
                 :class="{'is-invalid': errors.status}"
                 name="status"
