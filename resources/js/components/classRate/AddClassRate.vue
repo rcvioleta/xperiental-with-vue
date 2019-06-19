@@ -125,14 +125,6 @@ export default {
       ClassRate.update(uri, payloads, (err, update) => {
         if (!err) {
           // this.classRates.data[this.classRateIndex] = update;
-          this.newClassRate = Object.keys(this.newClassRate).reduce(
-            (object, key) => {
-              if (key === "status") object[key] = 1;
-              else object[key] = "";
-              return object;
-            },
-            {}
-          );
           this.editingMode = false;
           this.errors = {};
           console.log("[update] result", update);

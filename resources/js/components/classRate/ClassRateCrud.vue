@@ -77,8 +77,8 @@ export default {
       const status = Number(e.target.value);
       let uri = "";
 
-      if (status === 1) uri = `class-rate/active/${slug}`;
-      else uri = `class-rate/inactive/${slug}`;
+      if (status === 1) uri = `/class-rate/active/${slug}`;
+      else uri = `/class-rate/inactive/${slug}`;
 
       ClassRate.updateStatus(uri, (err, result) => {
         if (!err) {
@@ -124,17 +124,21 @@ export default {
     },
     editClassRate(slug) {
       console.log("EDIT CLASS RATE", slug);
-      this.classRateIndex = this.classRates.data.findIndex(
-        rate => rate.slug === slug
-      );
+      this.index = this.classRates.data.findIndex(rate => rate.slug === slug);
 
-      const data = {...this.classRates.data[this.classRateIndex]};
+      const data = { ...this.classRates.data[this.index] };
       // send updates to AddClassRate component
-      const payloads = {
-        editing: true,
-        data: this.selectedClassRate
-      };
-      EventBus.$emit("editingMode", payloads);
+      const payloads = { editing: true, data };
+      EventBus.$emit("editingClassRate", payloads);
+    },
+    fetchClassRate() {
+      ClassRate.fetchAll("class-rate", (err, data) => {
+        if (!err) this.classRates = data;
+        else {
+          console.log("[FETCH CLASS RATES ERROR]", err.response);
+          swal("Something went wrong", "Unable to fetch class rates", "error");
+        }
+      });
     }
   }
 };
