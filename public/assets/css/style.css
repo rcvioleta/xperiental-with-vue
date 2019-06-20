@@ -132,3 +132,47 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
     color: #343a40 !important;
     margin-right: -6px !important;
 }
+#sidebar {
+    background-color: #122f3b;
+}
+.el-menu {
+     border-right: none !important; 
+     background-color: #122f3b !important;
+}
+.el-menu-item, .el-submenu__title {
+     font-size: 13px !important;
+}
+.el-menu-item:focus, .el-menu-item:hover, .el-submenu__title:hover {
+    outline: 0;
+    background: #ecf5ff !important;
+    background: #07a7e3 !important;
+    background: -moz-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%) !important;
+    background: -webkit-linear-gradient(-45deg, #07a7e3 0%, #32dac3 100%) !important;
+    background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
+}
+.el-link.el-link--default, .el-link.el-link--default:hover {
+    color: #fff !important;
+}
+.el-menu-item, .el-submenu__title {
+    height: 50px !important;
+    line-height: 50px !important;
+}
+.el-icon-arrow-down:before {
+    font-weight: bold;
+    font-size: 12px;
+    top: 2px;
+    position: relative;
+}
+.el-submenu [class^=el-icon-], .el-menu-item [class^=el-icon-] {
+    margin-right: 0 !important;
+}
+a.navbar-brand {
+    margin: 22px 0 16px 22px;
+}
+.menu-line {
+    border: .05rem solid #72848c; 
+    margin: 20px 14px 10px 14px;
+}
+.menu-text-divide {
+    padding: 10px 22px;
+}

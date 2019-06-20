@@ -287,7 +287,7 @@
 @endsection
 
 @section('scripts')
-{{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
+<!-- {{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
 <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
@@ -296,7 +296,7 @@
 <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
 <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
-<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
+<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script> -->
 
 <script>
 	function readURL(input) {

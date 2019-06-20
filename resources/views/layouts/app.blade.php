@@ -97,18 +97,25 @@
             </div>
         </nav> --}}
 
-        <div class="container-fluid">
-            <div class="row">
+        <!-- <div class="container-fluid">
+            <div class="row"> -->
+        <el-container>
+          <el-aside width="240px" id="sidebar">
 
-                @include('admin.includes.sidebar')
-                <div class="right-column">
-                    <main class="main-content p-5" role="main">
+            <side-bar user-name="Administrator"></side-bar>
+
+          </el-aside>
+
+                <!-- <div class="right-column">
+                    <main class="main-content p-5" role="main"> -->
+                      <el-main>
                         @yield('content')
-                    </div>
-                </div>
-
-            </div>
-        </div>
+                      <el-main>
+                    <!-- </div>
+                </div> -->
+        </el-container>
+            <!-- </div>
+        </div> -->
 
     </div>
 
@@ -120,12 +127,12 @@
   <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
-  <script src="{{ asset('assets/js/scripts.js') }}" defer></script>
+  <!-- <script src="{{ asset('assets/js/scripts.js') }}" defer></script> -->
 
   <!-- MultiSelect and Quicksearch -->
-  <link rel="stylesheet" type="text/css" href="{{ asset('assets/multi-select.css') }}" v>
+<!--   <link rel="stylesheet" type="text/css" href="{{ asset('assets/multi-select.css') }}" defer>
   <script src="{{ asset('assets/jquery.quicksearch.js') }}" defer></script>
-  <script src="{{ asset('assets/jquery.multi-select.js') }}" defer></script>
+  <script src="{{ asset('assets/jquery.multi-select.js') }}" defer></script> -->
   <!-- End Important -->
 
   <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}" defer></script>

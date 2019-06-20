@@ -73,7 +73,8 @@
 											<label for="validationCustom03">Gender</label>
 											<div class="col-md-12 mt-2" style="padding-left: 0">
 												<div class="custom-control custom-radio form-check form-check-inline" style="width:40%;float:left;">
-													<input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" name="gender" @if(old('gender') === 'male') checked @endif)>
+													<input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" name="gender" 
+													@if(old('gender') === 'male') checked @endif>
 													<label class="custom-control-label" for="customControlValidation2a">Male</label>
 												</div>
 												<div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
@@ -130,7 +131,7 @@
 													<image id="profImage" src="" class="profile-image">
 												</div>
 												<div class="col-md-12 mb-3">
-													<input type="file" name="image" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png">
+													<input type="file" name="image" onchange="readURL(this);" accept="image/gif, image/jpeg, image/png" value="{{ old('image') }}">
 												</div>
 											</div>
 											@if ($errors->has('image'))
@@ -215,7 +216,7 @@
 @endsection
 
 @section('scripts')
-{{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
+<!-- {{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
 <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
@@ -224,7 +225,7 @@
 <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
 <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
 <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
-<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
+<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script> -->
 <script>
 	function readURL(input) {
 		if (input.files && input.files[0]) {

@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('side-bar', require('./components/layout/sidebar.vue').default);
 Vue.component('subject-crud', require('./components/subject/SubjectCrud.vue').default);
 Vue.component('subject-form', require('./components/subject/AddSubject.vue').default);
 // Vue.component('add-student-button', require('./components/student/AddStudentButton.vue').default);
@@ -51,16 +52,18 @@ export const EventBus = new Vue();
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
-// import ElementUI from 'element-ui';
-// import 'element-ui/lib/theme-chalk/index.css';
-import { Transfer, Select, Option } from 'element-ui';
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
+import ElementUI from 'element-ui';
 
-locale.use(lang)
-Vue.component(Transfer.name, Transfer);
-Vue.component(Select.name, Select);
-Vue.component(Option.name, Option);
+// import 'element-ui/lib/theme-chalk/index.css';
+// import { Transfer, Select, Option } from 'element-ui';
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale';
+
+locale.use(lang);
+Vue.use(ElementUI);
+// Vue.component(Transfer.name, Transfer);
+// Vue.component(Select.name, Select);
+// Vue.component(Option.name, Option);
 
 const app = new Vue({
     el: '#app'

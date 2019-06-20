@@ -18,9 +18,6 @@
     <div class="col-md-6">
       <h1>CLASS CALENDAR</h1>
     </div>
-    <!-- <div class="col-md-6">
-      <a class="btn btn-primary pull-right" href="{{ route('instructor.create') }}">Add New <i class="ml-2 batch-icon batch-icon-plus"></i></a>
-    </div> -->
   </div>
   <div class="row mb-5">
     <div class="col-md-12">
@@ -45,22 +42,5 @@
 @endsection
 
 @section('scripts')
-    {{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
-    <script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
-    <script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
-    <script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
-    <script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
-    <script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script>
-    <script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
-    <script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
-    <script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
-    <script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
 
-    <script>
-        $(function () {
-
-            $("#mytable").DataTable( {"order": [[ 0, "desc" ]]} );
-
-        })
-    </script>
 @endsection
