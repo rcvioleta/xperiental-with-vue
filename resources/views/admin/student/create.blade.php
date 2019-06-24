@@ -101,11 +101,11 @@
 											<label for="validationCustom05">Telephone/Phone</label>
 											<div class="input-group">
 												<div class="input-group-prepend">
-													<span class="input-group-text" id="inputGroupPrepend-6">
+													<span class="input-group-text">
 														<i class="batch-icon batch-icon-headphones"></i>
 													</span>
 												</div>
-												<input type="text" class="sp_celphones form-control {{$errors->has('phone_number') ? 'is-invalid' : ''}}" value="{{old('phone_number')}}" autocomplete="off" name="phone_number" aria-describedby="inputGroupPrepend-6">
+												<input type="text" class="sp_celphones form-control {{$errors->has('phone_number') ? 'is-invalid' : ''}}" value="{{old('phone_number')}}" autocomplete="off" name="phone_number">
 											</div>
 											@if ($errors->has('phone_number'))
 												<div class="text-danger mt-3">

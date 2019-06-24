@@ -7,6 +7,7 @@ use App\StudentInformation;
 use App\EducationBackground;
 use App\Enrollment;
 use App\ClassSchedule;
+use App\ClassStudent;
 use App\Http\Resources\StudentInformationResource;
 use App\Http\Requests\StudentInformationRequest;
 
@@ -20,7 +21,7 @@ class StudentInformationController extends Controller
   public function index()
   {
     $students = StudentInformation::all();
-    // return StudentInformationResource::collection($students);
+
     return view('admin.student.index', [
       'students' => $students,
     ]);
@@ -30,6 +31,29 @@ class StudentInformationController extends Controller
   {
     $students = StudentInformation::all();
     return StudentInformationResource::collection($students);
+  }
+
+  protected function getStudentClassSchedule($id) {
+    return ClassStudent::join('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
+      ->join('class_rates', 'class_rates.id', 'class_schedules.class_rate_id')
+      ->join('subjects', 'subjects.id', 'class_schedules.subject_id')
+      ->join('instructors', 'instructors.id', 'class_schedules.instructor_id')
+      ->select('class_schedules.*', 'credits', 'class_rates.name as class_type', 'subjects.name as subject', 'first_name', 'middle_name', 'last_name', 'class_schedules.status as status')
+      ->where('student_id', $id)
+      ->orderBy('class_students.class_students_id', 'Desc')
+      ->get();
+  }
+
+  protected function getStudentEnrollment($id) {
+    return Enrollment::join('class_rates', 'class_rates.id', 'enrollments.credit_type_id')
+        ->select('enrollments.*', 'class_rates.name as credit_name')
+        ->where('student_id', $id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+  }
+
+  protected function getStudentBackgroundEdu($id) {
+    return EducationBackground::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
   }
 
   /**
@@ -50,12 +74,6 @@ class StudentInformationController extends Controller
    */
   public function store(StudentInformationRequest $request)
   {
-    // $student = StudentInformation::create($request->all());
-    // return response()->json([
-    //   'insertedId' => $student->id,
-    //   'message' => 'Successfully saved student information',
-    //   'status' => 200
-    // ]);
 
     $avatar = $request->image;
     $avatar_name = time() . $avatar->getClientOriginalName();
@@ -101,15 +119,19 @@ class StudentInformationController extends Controller
   public function edit($id)
   {
     $student = StudentInformation::where('id', $id)->first();
-    $eduBackgrounds = EducationBackground::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
-    $enrollments = Enrollment::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
-    // $classSchedules = ClassSchedule::where('student_id', $id)->get();
+
+    $eduBackgrounds = $this->getStudentBackgroundEdu($id);
+
+    $enrollments = $this->getStudentEnrollment($id);
+
+    $classSchedules = $this->getStudentClassSchedule($id);
+
 
     return view('admin.student.edit', [
       'student' => $student,
       'eduBackgrounds' => $eduBackgrounds,
       'enrollments' => $enrollments,
-      // 'classSchedules' => $classSchedules,
+      'classSchedules' => $classSchedules,
     ]);
   }
 
@@ -123,13 +145,6 @@ class StudentInformationController extends Controller
   // public function update(Request $request, StudentInformation $student)
   public function update(StudentInformationRequest $request, $id)
   {
-    // $student->update($request->all());
-
-    // return response()->json([
-    //   'update' => new StudentInformationResource($student),
-    //   'message' => 'Student Information was updated successfully!',
-    //   'status' => 200
-    // ]);
 
     $student = StudentInformation::findOrFail($id);
 

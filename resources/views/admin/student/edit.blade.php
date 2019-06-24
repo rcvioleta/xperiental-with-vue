@@ -36,6 +36,9 @@
 					<li class="nav-item">
 						<a class="nav-link" href="#tab-6-3" data-toggle="tab" role="tab" aria-controls="tab-6-3" aria-selected="false">ENROLLMENT HISTORY</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#tab-6-4" data-toggle="tab" role="tab" aria-controls="tab-6-4" aria-selected="false">CLASS HISTORY</a>
+					</li>
 				</ul>
 			</div>
 			<div class="card-body">
@@ -252,7 +255,7 @@
 												<tr>
 													<td>{!! $enrollment->created_at !!}</td>
 													<td>{!! $enrollment->credits !!}</td>
-													<td>{!! $enrollment->credit_type_id !!}</td>
+													<td>{!! $enrollment->credit_name !!}</td>
 													<td>{!! $enrollment->amount_paid !!}</td>
 													<td>{!! $enrollment->amount_balance !!}</td>
 													<td>{!! $enrollment->payment_status !!}</td>
@@ -271,6 +274,11 @@
 								</div>
 							</form>
 						</div>
+					</div>
+					<div id="tab-6-4" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-4">
+
+						<class-schedule-list :class-schedules="{{ $classSchedules }}"></class-schedule-list>
+
 					</div>
 				</div>
 			</div>

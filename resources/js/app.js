@@ -40,6 +40,7 @@ Vue.component('class-schedule-form', require('./components/calendar/AddClassSche
 Vue.component('class-schedule', require('./components/calendar/ClassSchedule.vue').default);
 Vue.component('educational-list', require('./components/educationalbackground/EducationalList.vue').default);
 Vue.component('class-calendar', require('./components/classSchedule/class-calendar.vue').default);
+Vue.component('class-schedule-list', require('./components/classSchedule/class-schedule-list.vue').default);
 
 export const EventBus = new Vue();
 

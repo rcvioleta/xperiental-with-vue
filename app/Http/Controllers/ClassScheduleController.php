@@ -109,6 +109,7 @@ class ClassScheduleController extends Controller
       $students[] = [
         'student_id' => $student,
         'class_schedules_id' => $schedId->id,
+        'credits' => $request->credits,
       ];
     }
 
@@ -186,6 +187,7 @@ class ClassScheduleController extends Controller
       $students[] = [
         'student_id' => $student,
         'class_schedules_id' => $id,
+        'credits' => $request->credits,
       ];
     }
 

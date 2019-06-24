@@ -17,6 +17,7 @@ class CreateClassStudentsTable extends Migration
             $table->bigIncrements('class_students_id');
             $table->integer('student_id')->nullable();
             $table->integer('class_schedules_id')->nullable();
+            $table->string('credits')->nullable();
             $table->timestamps();
         });
     }

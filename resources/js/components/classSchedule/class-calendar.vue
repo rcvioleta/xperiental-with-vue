@@ -100,7 +100,7 @@
                         filter-placeholder="Search"
                         v-model="infoModal.students"
                         :data="allStudent"
-                        :titles="['Student List', 'Class Students']">
+                        :titles="['Student List', 'Students in this Classroom']">
                     </el-transfer>
                 </b-col>
             </b-row>
@@ -145,6 +145,7 @@
                     startTimeFull: '',
                     endTimeFull: '',
                     instructor_id: '',
+                    credits: ''
                 },
                 optionTime: {
                     hrs: ['Hrs', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -360,12 +361,35 @@
                 if (modifier === 'PM')
                     hours = parseInt(hours, 10) + 12;
 
+                hours = ('0' + hours).slice(-2);
+
                 return this.infoModal.classDate + `T${hours}:${minutes}:00`;
             }
 
-            this.infoModal.startTimeFull = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
-            this.infoModal.endTimeFull = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
-        }
+            var startD = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
+            var endD = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
+
+            this.infoModal.startTimeFull = startD;
+            this.infoModal.endTimeFull = endD;
+
+            this.infoModal.credits = this.calcCredit(startD, endD); 
+        },
+        calcCredit(dt1, dt2) {
+            var date1 = new Date(dt1);
+            var date2 = new Date(dt2);
+
+            var diff = date2.getTime() - date1.getTime();
+
+            var msec = diff;
+            var hh = Math.floor(msec / 1000 / 60 / 60);
+            msec -= hh * 1000 * 60 * 60;
+            var mm = Math.floor(msec / 1000 / 60);
+            msec -= mm * 1000 * 60;
+            var ss = Math.floor(msec / 1000);
+            msec -= ss * 1000;
+
+            return hh + "." + (mm == 30? '5':'');
+        },
     }
 }
 </script>

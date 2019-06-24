@@ -30,7 +30,7 @@ class StudentInformationRequest extends FormRequest
       'last_name' => 'required',
       'gender' => 'required',
       'birth_date' => 'required',
-      'phone_number' => 'required|integer',
+      'phone_number' => 'required',
       'address' => 'required',
       'emcon_full_name' => 'required',
       'emcon_phone_number' => 'required',

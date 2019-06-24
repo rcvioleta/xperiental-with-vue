@@ -90,7 +90,7 @@ table.table td:nth-child(1), table.table th:nth-child(1) {
 /*#toast-container > .toast.toast-success::before {
     content: "";
 }*/
-.table-button {
+#myTabContent-6 .table-button {
     padding: 6px 12px !important;
     cursor: pointer !important;
     text-transform: uppercase !important;
@@ -175,4 +175,7 @@ a.navbar-brand {
 }
 .menu-text-divide {
     padding: 10px 22px;
+}
+.el-container {
+    height: 100vh;
 }
