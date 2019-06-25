@@ -41,6 +41,8 @@ Vue.component('class-schedule', require('./components/calendar/ClassSchedule.vue
 Vue.component('educational-list', require('./components/educationalbackground/EducationalList.vue').default);
 Vue.component('class-calendar', require('./components/classSchedule/class-calendar.vue').default);
 Vue.component('class-schedule-list', require('./components/classSchedule/class-schedule-list.vue').default);
+Vue.component('revenue-forecast', require('./components/dashboard/RevenueForecast.vue').default);
+
 
 export const EventBus = new Vue();
 

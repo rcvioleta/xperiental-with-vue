@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
     // $this->call(UsersTableSeeder::class);
     User::create([
       'name' => 'Administrator',
+      'avatar' => '/images/avatar/avatar-default.png',
       'slug' => str_slug('administrator'),
       'email' => 'admin@example.com',
       'email_verified_at' => now(),

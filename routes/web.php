@@ -50,11 +50,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::resource('/schedule', 'ClassScheduleController');
 
   /* routes that are responsible for routing */
-  Route::get('/home', 'HomeController@index')->name('home');
-  Route::get('/configurations', 'HomeController@configurations')->name('configurations');
-  Route::get('/add-student', 'HomeController@addStudent')->name('add-student');
-  Route::get('/students', 'HomeController@showStudentList')->name('student-list');
-  Route::get('/class-schedule', 'HomeController@scheduleIndex')->name('class-schedule');
+  Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+  Route::get('/configurations', 'DashboardController@configurations')->name('configurations');
+  Route::get('/add-student', 'DashboardController@addStudent')->name('add-student');
+  Route::get('/students', 'DashboardController@showStudentList')->name('student-list');
+  Route::get('/class-schedule', 'DashboardController@scheduleIndex')->name('class-schedule');
 
 
   // Start Jomar
@@ -91,4 +91,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', 'ClassScheduleController@index')->name('classschedule.index');
   });
 
+  Route::get('/revenue-test', 'DashboardController@getRevenues');
 });

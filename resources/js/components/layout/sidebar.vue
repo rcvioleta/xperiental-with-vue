@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a class="navbar-brand" href="/admin/home">
+        <a class="navbar-brand" href="/admin/dashboard">
             <img src="/assets/img/logo-white.png" width="145" height="32.3" alt="QuillPro" class="mCS_img_loaded">
         </a>
         <el-menu class="el-menu-demo" mode="vertical" text-color="#fff">
@@ -17,7 +17,7 @@
 
         <div class="menu-line"></div>
         <el-menu default-active="1" text-color="#fff" active-text-color="#fff">
-            <el-menu-item index="1" onclick="window.location='/admin/home'"> 
+            <el-menu-item index="1" onclick="window.location='/admin/dashboard'"> 
                 <i class="el-icon-menu"></i>
                 <span>Dashboard</span>
             </el-menu-item>

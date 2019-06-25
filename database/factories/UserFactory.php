@@ -19,6 +19,7 @@ $factory->define(User::class, function (Faker $faker) {
   $name = $faker->name;
   return [
     'name' => $name,
+    'avatar' => '/images/avatar/avatar-default.png',
     'slug' => str_slug($name),
     'email' => $faker->unique()->safeEmail,
     'email_verified_at' => now(),
