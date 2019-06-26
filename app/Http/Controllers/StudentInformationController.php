@@ -97,10 +97,15 @@ class StudentInformationController extends Controller
    */
   public function store(StudentInformationRequest $request)
   {
-
-    $avatar = $request->image;
-    $avatar_name = time() . $avatar->getClientOriginalName();
-    $avatar->move('images/avatar', $avatar_name);
+    
+    if($request->image != "" && $request->image != null) {
+        $avatar = $request->image;
+        $avatar_name = time() . $avatar->getClientOriginalName();
+        $avatar->move('images/avatar', $avatar_name);
+    }
+    else {
+      $avatar_name = 'avatar-default.png';
+    }
 
     StudentInformation::create([
       'id_num' => $request->id_num,

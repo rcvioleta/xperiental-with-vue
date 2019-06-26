@@ -25,15 +25,15 @@ class InstructorRequest extends FormRequest
     {
         return [
             'id_num' => 'required',
-            'image' => 'required',
+            // 'image' => 'required',
             'first_name' => 'required|string',
-            'middle_name' => 'required|string',
+            // 'middle_name' => 'string',
             'last_name' => 'required|string',
-            'position' => 'required|string',
-            'gender' => 'required|string',
+            // 'position' => 'required|string',
+            // 'gender' => 'required|string',
             'bday' => 'required|string|date_format:Y-m-d',
-            'contact_num' => 'required',
-            'address' => 'required|string',
+            // 'contact_num' => 'required',
+            // 'address' => 'required|string',
             'hired_date' => 'required|string|date_format:Y-m-d',
             'status' => 'required|max:1|digits:1'
         ];
@@ -43,9 +43,9 @@ class InstructorRequest extends FormRequest
     {
         return [
             'id_num.required' => 'ID Number is required',
-            'image.required' => 'Profile picture is required',
-            'gender.required' => 'Gender must be chosen',
-            'contact_num.required' => 'Contact number is required',
+            // 'image.required' => 'Profile picture is required',
+            // 'gender.required' => 'Gender must be chosen',
+            // 'contact_num.required' => 'Contact number is required',
             'bday.required' => 'Birth date is required'
         ];
     }
