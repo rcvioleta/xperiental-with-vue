@@ -46,7 +46,7 @@
 
     <div id="app">
         <el-container>
-          <el-aside width="240px" id="sidebar">
+          <el-aside width="250px" id="sidebar">
 
             <side-bar user-name="Administrator"></side-bar>
 
