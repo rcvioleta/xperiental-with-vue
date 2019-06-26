@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentInformation extends Model
 {
-  protected $guarded = [];
+	protected $table = 'student_information';
+  	protected $guarded = [];
 
-  public function emergency_contact()
-  {
-    return $this->hasOne(EmergencyContact::class);
-  }
+	// public function emergency_contact()
+	// {
+	// 	return $this->hasOne(EmergencyContact::class);
+	// }
 }

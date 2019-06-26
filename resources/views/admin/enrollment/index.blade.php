@@ -37,7 +37,7 @@
                             <th>Student Name</th>
                             <th>Enrolled Credits</th>
                             <th>Credit Type</th>
-                            <th>Payment Status</th>
+                            <th>Balance Amount</th>
                             <th>Created On</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -50,7 +50,11 @@
                             <td>{!! $enrollment->first_name !!} {!! $enrollment->last_name !!}</td>
                             <td>{!! $enrollment->credits !!}</td>
                             <td>{!! $enrollment->credit_type !!}</td>
-                            <td>{!! $enrollment->payment_status !!}</td>
+                            @if($enrollment->amount_balance == '0')
+                              <td>{!! $enrollment->amount_balance !!}</td>
+                            @else
+                              <td><span style="color: red;">{!! $enrollment->amount_balance !!}</span></td>
+                            @endif
                             <td>{!! $enrollment->created_at !!}</td>
                             <td class="text-center">
                                 <a href="{{ route('enrollment.edit', $enrollment->enrollment_id) }}" class="btn btn-sm btn-warning pull-right waves-effect waves-light">Edit<i class="fa fa-pencil"></i>

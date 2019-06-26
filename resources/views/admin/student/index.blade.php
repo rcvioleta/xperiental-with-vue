@@ -28,50 +28,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-12 pb-5">
-              <div class="table-responsive">
-                <table id="mytable" class="table table-datatable table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Avatar</th>
-                            <th>Student Name</th>
-                            <th>Gender</th>
-                            <th>Birth Date</th>
-                            <th>Telephone/Phone</th>
-                            <th>Created On</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($students as $student)
-                        <tr>
-                            <td>{!! $student->id_num !!}</td> 
-                            <td><img src="{{asset($student->image)}}" alt="Avatar" width="40px"></td> 
-                            <td>{!! $student->first_name !!} {!! $student->middle_name !!} {!! $student->last_name !!}</td>
-                            <td>{!! $student->gender !!}</td>
-                            <td>{!! $student->birth_date !!}</td>
-                            <td>{!! $student->phone_number !!}</td>
-                            <td>{!! $student->created_at !!}</td>
-                            <td class="text-center">
-                                <a href="{{ route('student.edit', $student->id) }}" class="btn btn-sm btn-warning pull-right waves-effect waves-light">Edit<i class="fa fa-pencil"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>Student Name</th>
-                            <th>Gender</th>
-                            <th>Birth Date</th>
-                            <th>Telephone/Phone</th>
-                            <th>Created On</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                   	</tfoot>
-                </table>
-              </div>
+              <student-list-new :students="{{ json_encode($students) }}"></student-list-new>
             </div>
           </div>
         </div>
@@ -88,22 +45,5 @@
 @endsection
 
 @section('scripts')
-	{{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
-	<script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
-	<script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
-	<script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
-	<script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
-	<script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script>
-	<script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
-	<script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
-	<script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
-	<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script>
 
-	<script>
-        $(function () {
-
-            $("#mytable").DataTable( {"order": [[ 0, "desc" ]]} );
-
-        })
-    </script>
 @endsection

@@ -20,7 +20,8 @@ class StudentInformationController extends Controller
    */
   public function index()
   {
-    $students = StudentInformation::all();
+    // $students = StudentInformation::all();
+    $students = $this->getStudentWithCredits();
 
     return view('admin.student.index', [
       'students' => $students,
@@ -54,6 +55,28 @@ class StudentInformationController extends Controller
 
   protected function getStudentBackgroundEdu($id) {
     return EducationBackground::where('student_id', $id)->orderBy('created_at', 'Desc')->get();
+  }
+
+  protected function getStudentWithCredits() {
+    $std = StudentInformation::groupBy('id')
+        ->leftJoin('enrollments', 'enrollments.student_id', 'student_information.id')
+        ->selectRaw('id, id_num, first_name, middle_name, last_name, gender, student_information.created_at as created_at, SUM(credits) as credits')
+        ->orderBy('student_information.id', 'desc')
+        ->get();
+
+    $credits_used = ClassStudent::groupBy('student_id')
+        ->selectRaw('class_students_id, student_id, SUM(credits) as credits_used')
+        ->get();
+
+    $students[] = [
+      'student' => $std,
+      'credits_used' => $credits_used
+    ];
+
+    return $students;
+
+
+    // echo $credits_used; die;
   }
 
   /**
