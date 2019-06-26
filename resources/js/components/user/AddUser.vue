@@ -23,6 +23,18 @@
             <div class="text-danger">{{ errors.name }}</div>
           </div>
           <div class="col-md-12 mb-3">
+            <label for="avatar">Profile Picture</label>
+            <input type="file" name="avatar" class="form-control" @change="onImageChange">
+            <img
+              class="img-fluid rounded"
+              :src="newUser.avatar"
+              alt="Profile Picture"
+              accept="image/*"
+              width="150px"
+              v-show="newUser.avatar"
+            >
+          </div>
+          <div class="col-md-12 mb-3">
             <label for="email">Email</label>
             <input
               type="email"
@@ -106,6 +118,7 @@ export default {
     return {
       newUser: {
         name: "",
+        avatar: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -181,6 +194,17 @@ export default {
           this.storeErrors(errList);
         }
       });
+    },
+    onImageChange(event) {
+      const input = event.target;
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          this.newUser.avatar = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
     },
     reset() {
       this.errors = {};

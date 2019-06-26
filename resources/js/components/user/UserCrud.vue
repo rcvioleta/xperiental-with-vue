@@ -4,6 +4,7 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Profile Picture</th>
           <th>Email</th>
           <th>Status</th>
           <th>Action</th>
@@ -12,6 +13,7 @@
       <tbody>
         <tr v-for="user in users.data" :key="user.slug">
           <td>{{ user.name }}</td>
+          <td><img :src="user.avatar" alt="Profile Picture" width="50px"></td>
           <td>{{ user.email }}</td>
           <td>
             <div class="btn-group">
