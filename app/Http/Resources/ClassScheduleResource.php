@@ -21,7 +21,7 @@ class ClassScheduleResource extends JsonResource
       'instructor_id' => $this->instructor_id,
       'class_rate_id' => $this->class_rate_id,
       'subject_id' => $this->subject_id,
-      'classroom_id' => $this->classroom_id,
+      'grade_id' => $this->grade_id,
       'status' => $this->status
     ];
   }

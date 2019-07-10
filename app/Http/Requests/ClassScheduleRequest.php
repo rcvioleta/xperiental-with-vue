@@ -29,7 +29,7 @@ class ClassScheduleRequest extends FormRequest
       'end_time' => 'required',
       'class_rate_id' => 'required|numeric',
       'subject_id' => 'required|numeric',
-      'classroom_id' => 'required|numeric',
+      'grade_id' => 'required|numeric',
       'status' => 'required|max:1',
       'students' => 'required|string'
     ];
@@ -40,7 +40,7 @@ class ClassScheduleRequest extends FormRequest
     return [
       'class_rate_id' => 'class rate',
       'subject_id' => 'subject',
-      'classroom_id' => 'classroom'
+      'grade_id' => 'Grade'
     ];
   }
 }

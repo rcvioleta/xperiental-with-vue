@@ -89,6 +89,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   Route::prefix('classschedule')->group(function () {
     Route::get('/', 'ClassScheduleController@index')->name('classschedule.index');
+
+    Route::get('/getStudentByClass/{id}', 'ClassScheduleController@getStudentByClass');
+    Route::post('/store', 'ClassScheduleController@store');
+    Route::post('/update/{id}', 'ClassScheduleController@update');
+    Route::get('/delete/{id}', 'ClassScheduleController@destroy');
   });
 
   Route::get('/revenue-test', 'DashboardController@getRevenues');

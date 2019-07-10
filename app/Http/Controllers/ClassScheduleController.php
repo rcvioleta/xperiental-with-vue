@@ -9,6 +9,7 @@ use App\Subject;
 use App\Classroom;
 use App\ClassStudent;
 use App\Instructor;
+use App\StudentLevel;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,19 +30,22 @@ class ClassScheduleController extends Controller
       'schedules' => $this->getSchedules(),
       'students' => $this->getStudents(),
       'classtypes' => $this->getClassTypes(),
-      'classrooms' => $this->getClassrooms(),
+      'grades' => $this->getGrades(),
       'subjects' => $this->getSubjects(),
       'instructors' => $this->getInstructors(),
     ]);
   }
 
   protected function getSchedules() {
-    return ClassSchedule::get();
+    return ClassSchedule::join('instructors', 'instructors.id', 'instructor_id')
+      ->join('student_levels', 'student_levels.id', 'grade_id')
+      ->select('class_schedules.*', 'first_name', 'last_name', 'student_levels.name as grade_name')
+      ->get();
   }
 
   protected function getStudents()
   {
-    return StudentInformation::get();
+    return StudentInformation::orderBy('last_name', 'desc')->get();
   }
 
   protected function getClassTypes()
@@ -49,9 +53,9 @@ class ClassScheduleController extends Controller
     return ClassRate::get();
   }
 
-  protected function getClassrooms()
+  protected function getGrades()
   {
-    return Classroom::get();
+    return StudentLevel::get();
   }
 
   protected function getSubjects()
@@ -86,10 +90,6 @@ class ClassScheduleController extends Controller
    */
   public function store(Request $request)
   {
-    // $newSchedule = ClassSchedule::create($request->all());
-    // return response()->json([
-    //   'data' => new ClassScheduleResource($newSchedule)
-    // ]);
 
     $newSchedule = ClassSchedule::create([
       'date_start' => $request->startTimeFull,
@@ -97,7 +97,7 @@ class ClassScheduleController extends Controller
       'instructor_id' => $request->instructor_id,
       'class_rate_id' => $request->classType,
       'subject_id' => $request->subject,
-      'classroom_id' => $request->classroom,
+      'grade_id' => $request->grade_id,
       'status' => $request->status,
     ]);
 
@@ -152,21 +152,6 @@ class ClassScheduleController extends Controller
    */
   public function update(Request $request, $id)
   {
-    // $request['subject_id'] = $request->subject;
-    // unset($request['subject']);
-    // $classSchedule = ClassSchedule::find($id);
-    // $classSchedule->update($request->all());
-    // $classSchedule['subject'] = $classSchedule['subject_id'];
-    // unset($classSchedule['subject_id']);
-
-    // return response($classSchedule);
-
-    // return response()->json([
-    //   'update' => new ClassScheduleCollection($classSchedule),
-    //   'message' => 'Successfully updated class schedule',
-    //   'status' => Response::HTTP_ACCEPTED
-    // ]);
-
     ClassStudent::where('class_schedules_id', $id)->delete();
 
     $classSchedule = ClassSchedule::findOrFail($id);
@@ -177,7 +162,7 @@ class ClassScheduleController extends Controller
       'instructor_id' => $request->instructor_id,
       'class_rate_id' => $request->classType,
       'subject_id' => $request->subject,
-      'classroom_id' => $request->classroom,
+      'grade_id' => $request->grade_id,
       'status' => $request->status,
     ])->push();
 
@@ -209,10 +194,11 @@ class ClassScheduleController extends Controller
   public function destroy($id)
   {
     ClassSchedule::destroy($id);
+
     return response()->json([
-      'removedId' => $id,
-      'message' => 'Class Schedule was removed successfully',
-      'status' => Response::HTTP_NO_CONTENT
+      'message' => 'Successfully deleted Class Schedule',
+      'newlist' => $this->getSchedules(),
+      'status' => 200
     ]);
   }
 }

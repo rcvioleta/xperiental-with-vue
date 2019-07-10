@@ -65,7 +65,7 @@ export default {
 
     EventBus.$on("newClassRateAdded", newClassRate => {
       this.classRates.data.push(newClassRate);
-      swal("Congrats!", "New class rate added", "success");
+      swal("Congrats!", "New class type added", "success");
     });
 
     EventBus.$on("editingClassRateOk", () => {
@@ -88,7 +88,7 @@ export default {
           console.log("error updating status", err.response.data);
           swal(
             "Sorry... Something went wrong :(",
-            "Unable to update class rate status",
+            "Unable to update class type status",
             "error"
           );
         }
@@ -96,7 +96,7 @@ export default {
     },
     deleteClassRate(slug) {
       swal({
-        title: "Continue removing class rate?",
+        title: "Continue removing class type?",
         text: "There's no going back!",
         icon: "warning",
         buttons: true,
@@ -108,22 +108,22 @@ export default {
               this.classRates.data = this.classRates.data.filter(
                 rate => rate.slug !== removedSlug
               );
-              swal("Class Rate was removed!", { icon: "success" });
+              swal("Class Type was removed!", { icon: "success" });
               console.log("DELETE RESULT", removedSlug);
             } else {
               swal(
                 "Something went wrong",
-                `Unable to delete Class Rate. \n ${err.message}`,
+                `Unable to delete Class Type. \n ${err.message}`,
                 "error"
               );
               console.log("[DELETE ERROR]", err.response);
             }
           });
-        } else swal("Class Rate was kept");
+        } else swal("Class Type was kept");
       });
     },
     editClassRate(slug) {
-      console.log("EDIT CLASS RATE", slug);
+      console.log("EDIT CLASS TYPE", slug);
       this.index = this.classRates.data.findIndex(rate => rate.slug === slug);
 
       const data = { ...this.classRates.data[this.index] };
@@ -135,8 +135,8 @@ export default {
       ClassRate.fetchAll("class-rate", (err, data) => {
         if (!err) this.classRates = data;
         else {
-          console.log("[FETCH CLASS RATES ERROR]", err.response);
-          swal("Something went wrong", "Unable to fetch class rates", "error");
+          console.log("[FETCH CLASS TYPES ERROR]", err.response);
+          swal("Something went wrong", "Unable to fetch class types", "error");
         }
       });
     }

@@ -20,7 +20,6 @@ class StudentInformationController extends Controller
    */
   public function index()
   {
-    // $students = StudentInformation::all();
     $students = $this->getStudentWithCredits();
 
     return view('admin.student.index', [
@@ -36,13 +35,13 @@ class StudentInformationController extends Controller
 
   protected function getStudentClassSchedule($id) {
     return ClassStudent::join('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-      ->join('class_rates', 'class_rates.id', 'class_schedules.class_rate_id')
-      ->join('subjects', 'subjects.id', 'class_schedules.subject_id')
-      ->join('instructors', 'instructors.id', 'class_schedules.instructor_id')
-      ->select('class_schedules.*', 'credits', 'class_rates.name as class_type', 'subjects.name as subject', 'first_name', 'middle_name', 'last_name', 'class_schedules.status as status')
-      ->where('student_id', $id)
-      ->orderBy('class_students.class_students_id', 'Desc')
-      ->get();
+        ->join('class_rates', 'class_rates.id', 'class_schedules.class_rate_id')
+        ->join('subjects', 'subjects.id', 'class_schedules.subject_id')
+        ->join('instructors', 'instructors.id', 'class_schedules.instructor_id')
+        ->select('class_schedules.*', 'credits', 'class_rates.name as class_type', 'subjects.name as subject', 'first_name', 'middle_name', 'last_name', 'class_schedules.status as status')
+        ->where('student_id', $id)
+        ->orderBy('class_students.class_students_id', 'Desc')
+        ->get();
   }
 
   protected function getStudentEnrollment($id) {
@@ -60,8 +59,8 @@ class StudentInformationController extends Controller
   protected function getStudentWithCredits() {
     $std = StudentInformation::groupBy('id')
         ->leftJoin('enrollments', 'enrollments.student_id', 'student_information.id')
-        ->selectRaw('id, id_num, first_name, middle_name, last_name, gender, student_information.created_at as created_at, SUM(credits) as credits')
-        ->orderBy('student_information.id', 'desc')
+        ->selectRaw('id, id_num, first_name, middle_name, last_name, gender, nickname, registration_date, birth_date, student_information.created_at as created_at, SUM(credits) as credits')
+        ->orderBy('student_information.id_num', 'desc')
         ->get();
 
     $credits_used = ClassStudent::groupBy('student_id')
@@ -69,14 +68,11 @@ class StudentInformationController extends Controller
         ->get();
 
     $students[] = [
-      'student' => $std,
-      'credits_used' => $credits_used
+        'student' => $std,
+        'credits_used' => $credits_used
     ];
 
     return $students;
-
-
-    // echo $credits_used; die;
   }
 
   /**
@@ -97,6 +93,9 @@ class StudentInformationController extends Controller
    */
   public function store(StudentInformationRequest $request)
   {
+    $this->validate($request, [
+      'id_num' => 'required|unique:student_information',
+    ]);
     
     if($request->image != "" && $request->image != null) {
         $avatar = $request->image;
@@ -121,10 +120,12 @@ class StudentInformationController extends Controller
       'emcon_phone_number' => $request->emcon_phone_number,
       'emcon_relationship' => $request->emcon_relationship,
       'emcon_address' => $request->emcon_address,
+      'nickname' => $request->nickname,
+      'registration_date' => $request->registration_date,
       'status' => true,
     ]);
 
-    return redirect()->back()->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully saved.');
+    return redirect()->route('student.index')->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully saved.');
   }
 
   /**
@@ -170,23 +171,21 @@ class StudentInformationController extends Controller
    * @param  \App\StudentInformation  $student
    * @return \Illuminate\Http\Response
    */
-  // public function update(Request $request, StudentInformation $student)
   public function update(StudentInformationRequest $request, $id)
   {
 
     $student = StudentInformation::findOrFail($id);
 
-    if ($request->hasFile('image')) {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
-
+    if($request->image != "" && $request->image != null) {
         $avatar = $request->image;
         $avatar_name = time() . $avatar->getClientOriginalName();
         $avatar->move('images/avatar', $avatar_name);
-        $student->image = 'images/avatar/' . $avatar_name;
+    }
+    else {
+      $avatar_name = 'avatar-default.png';
     }
 
+    $student->image = 'images/avatar/' . $avatar_name;
     $student->id_num = $request->id_num;
     $student->first_name = $request->first_name;
     $student->middle_name = $request->middle_name;
@@ -199,9 +198,11 @@ class StudentInformationController extends Controller
     $student->emcon_phone_number = $request->emcon_phone_number;
     $student->emcon_relationship = $request->emcon_relationship;
     $student->emcon_address = $request->emcon_address;
+    $student->nickname = $request->nickname;
+    $student->registration_date = $request->registration_date;
     $student->save();
 
-    return redirect()->back()->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully updated.');
+    return redirect()->route('student.index')->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully updated.');
   }
 
   /**

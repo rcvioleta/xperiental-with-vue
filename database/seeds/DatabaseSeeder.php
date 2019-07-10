@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
       'slug' => str_slug('administrator'),
       'email' => 'admin@example.com',
       'email_verified_at' => now(),
-      'password' => 'password',
+      'password' => bcrypt('password'),
       'status' => 1,
       'remember_token' => Str::random(10)
     ]);

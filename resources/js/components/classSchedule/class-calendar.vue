@@ -8,16 +8,16 @@
         @dateClick="handleDateClick"
         @eventClick="editForm"
         />
-        <b-modal :id="'modal_' + infoModal.student_id" :title="modaltitle" :ok-title="okName" @ok="handleOk" size="lg">
-            <b-form @submit.stop.prevent="handleSubmit">
+        <b-modal v-model="show" :id="'modal_' + infoModal.student_id" :title="modaltitle" size="lg" hide-footer>
+            <b-form>
                 <b-row class="pl-4 pr-4 pt-3 pb-0">
                     <b-col class="p-2">
-                        <b-form-group label="Class Date">
+                        <b-form-group label="CLASS DATE">
                             <b-form-input v-model="infoModal.classDate" type="date"></b-form-input>
                         </b-form-group>
                     </b-col>
                     <b-col class="p-2">
-                        <b-form-group label="Start Time">
+                        <b-form-group label="START TIME">
                             <div class="input-group">
                                 <b-form-select v-model="infoModal.startHrs" :options="optionTime.hrs"></b-form-select>
                                 <b-form-select v-model="infoModal.startMin" :options="optionTime.mnts"></b-form-select>
@@ -26,7 +26,7 @@
                         </b-form-group>
                     </b-col>
                     <b-col class="p-2">
-                        <b-form-group label="End Time">
+                        <b-form-group label="END TIME">
                             <div class="input-group">
                                 <b-form-select v-model="infoModal.endHrs" :options="optionTime.hrs"></b-form-select>
                                 <b-form-select v-model="infoModal.endMin" :options="optionTime.mnts"></b-form-select>
@@ -35,7 +35,7 @@
                         </b-form-group>
                     </b-col>
                     <b-col class="p-2">
-                        <b-form-group label="Class Type">
+                        <b-form-group label="CLASS TYPE">
                             <b-form-select v-model="infoModal.classType">
                                 <option value="" disabled>-- Select Type --</option>
                                 <option v-for="classType in classTypes" :value="classType.id">{{ classType.name }}</option>
@@ -45,7 +45,7 @@
                 </b-row>
                 <b-row class="pl-4 pr-4 pt-0 pb-3">
                     <b-col class="p-2">
-                        <b-form-group label="Subject">
+                        <b-form-group label="SUBJECT">
                             <b-form-select v-model="infoModal.subject">
                                 <option value="" disabled>-- Select Subject --</option>
                                 <option v-for="subject in subjects" :value="subject.id">{{ subject.name }}</option>
@@ -53,15 +53,15 @@
                         </b-form-group>
                     </b-col>
                     <b-col class="p-2">
-                        <b-form-group label="Classroom">
-                            <b-form-select v-model="infoModal.classroom">
-                                <option value="" disabled>-- Select classroom --</option>
-                                <option v-for="classroom in classrooms" :value="classroom.id">{{ classroom.name }}</option>
+                        <b-form-group label="GRADE">
+                            <b-form-select v-model="infoModal.grade_id">
+                                <option value="" disabled>-- Select Grade --</option>
+                                <option v-for="grade in grades" :value="grade.id">{{ grade.name }}</option>
                             </b-form-select>
                         </b-form-group>
                     </b-col>
                     <b-col class="p-2">
-                        <b-form-group label="Instructor">
+                        <b-form-group label="INSTRUCTOR">
                             <el-select
                                 v-model="infoModal.instructor_id"
                                 filterable
@@ -78,8 +78,8 @@
                             </el-select>
                         </b-form-group>
                     </b-col>
-                    <b-col class="p-2">
-                        <b-form-group label="Status">
+                    <b-col class="p-2" style="visibility: hidden;">
+                        <b-form-group label="STATUS">
                             <b-form-select v-model="infoModal.status">
                                 <option value="1">Enabled</option>
                                 <option value="0">Disabled</option>
@@ -104,6 +104,29 @@
                     </el-transfer>
                 </b-col>
             </b-row>
+            <hr>
+            <div slot="modal-footer" class="w-100">
+                <b-button
+                  variant="danger"
+                  class="float-left ml-2"
+                  @click="deleteForm"
+                >
+                  DELETE
+                </b-button>
+                <b-button
+                  variant="primary"
+                  class="float-right ml-2"
+                  @click="handleOk"
+                >
+                  {{ okName }}
+                </b-button>
+                <b-button
+                  class="float-right ml-2"
+                  @click="show=false"
+                >
+                  CANCEL
+                </b-button>
+            </div>
         </b-form>
     </b-modal>
 </div>
@@ -117,9 +140,10 @@
     import 'element-ui/lib/theme-chalk/index.css';
 
     export default {
-        props: ['classTypes', 'schedules', 'students', 'classrooms', 'subjects', 'instructors'],
+        props: ['classTypes', 'schedules', 'students', 'grades', 'subjects', 'instructors'],
         data() {
             return {
+                show: false,
                 options: [],
                 listInstructor: [],
                 loading: false,
@@ -133,7 +157,8 @@
                     classDate: '',
                     classType: '',
                     subject: '',
-                    classroom: '',
+                    grade_id: '',
+                    grade_name: '',
                     status: '1',
                     startHrs: 'Hrs',
                     startMin: 'Min',
@@ -145,7 +170,7 @@
                     startTimeFull: '',
                     endTimeFull: '',
                     instructor_id: '',
-                    credits: ''
+                    credits: '',
                 },
                 optionTime: {
                     hrs: ['Hrs', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -159,7 +184,10 @@
         },
         created() {
             this.allStudent = this.students.map(item => {
-                return { key: item.id, label: item.first_name + ' ' + item.middle_name + ' ' + item.last_name };
+                if(item.nickname == null)
+                    item.nickname = ''
+
+                return { key: item.id, label: item.last_name + ', ' + item.first_name + ' ' + item.middle_name + ' (' + item.nickname + ') ID: ' + item.id_num };
             });
 
             this.listInstructor = this.instructors.map(item => {
@@ -198,10 +226,11 @@
                 this.currentPage = 1
             },
             addForm() {
-                this.modaltitle = 'ADD NEW SCHEDULE'
-                this.okName = 'Save'
+                this.modaltitle = 'ADD NEW SCHEDULE';
+                this.okName = 'Save';
 
                 this.$nextTick(() => {
+                    this.resetInfoModal();
                     this.$root.$emit('bv::show::modal', 'modal_' + this.infoModal.student_id)
                 })
             },
@@ -217,7 +246,8 @@
                 this.infoModal.classDate = this.beautifyDate(startDate)[0].classDate;
                 this.infoModal.classType = arg.event.extendedProps.class_rate_id;
                 this.infoModal.subject = arg.event.extendedProps.subject_id;
-                this.infoModal.classroom = arg.event.extendedProps.classroom_id;
+                this.infoModal.grade_id = arg.event.extendedProps.grade_id;
+                this.infoModal.grade_name = arg.event.extendedProps.grade_id;
                 this.infoModal.status = arg.event.extendedProps.status;
                 this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
                 this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
@@ -227,7 +257,7 @@
                 this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
                 this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
 
-                axios.get('/api/classschedule/getStudentByClass/' + this.editId)
+                axios.get('/admin/classschedule/getStudentByClass/' + this.editId)
                 .then(response => {
                     
                     this.infoModal.students = [];
@@ -244,14 +274,31 @@
                     this.$root.$emit('bv::show::modal', 'modal_' + this.infoModal.student_id)
                 })
             },
-            handleOk(bvModalEvt) {
+            deleteForm() {
+                axios.get('/admin/classschedule/delete/' + this.editId)
+                .then(response => {
+
+                    this.displaySchedule(response.data.newlist);
+                    this.messageToastr('warning', response.data.message );
+
+                })
+                .catch(err=>{
+                    console.log("error", err);
+                    this.messageToastr('error', response.data.message );
+                });
+
+                this.$nextTick(() => {
+                    this.show = false;
+                })
+            },
+            handleOk() {
 
                 var url = "";
 
                 if(this.okName == 'Save')
-                    url = '/api/classschedule/store';
+                    url = '/admin/classschedule/store';
                 else if(this.okName == 'Update')
-                    url = '/api/classschedule/update/' + this.editId;
+                    url = '/admin/classschedule/update/' + this.editId;
 
 
                 this.SetTimeProperly();
@@ -263,7 +310,6 @@
                     this.displaySchedule(response.data.newlist);
                     this.messageToastr('success', response.data.message );
 
-                    this.resetInfoModal();
                 })
                 .catch(err=>{
                     console.log("error", err);
@@ -271,15 +317,15 @@
                 });
 
                 this.$nextTick(() => {
-                    this.$bvModal.hide()
+                    // this.$bvModal.hide()
+                    this.show = false;
                 })
             },
             resetInfoModal() {
-                this.modaltitle = '';
-                this.infoModal.classDate = '';
                 this.infoModal.classType = '';
                 this.infoModal.subject = '';
-                this.infoModal.classroom = '';
+                this.infoModal.grade_id = '';
+                this.infoModal.grade_name = '';
                 this.infoModal.status = '1';
                 this.infoModal.startHrs = 'Hrs';
                 this.infoModal.startMin = 'Min';
@@ -297,7 +343,7 @@
                 this.events = [];
                 for(var x = 0; x < sched.length; x++) {
                     this.events.push({
-                        title  : 'event1',
+                        title  : " - " + sched[x].grade_name + " - " + sched[x].first_name + " " + sched[x].last_name,
                         start  : sched[x].date_start,
                         end    : sched[x].date_end,
                         eventId : sched[x].id,
@@ -306,14 +352,15 @@
                         instructor_id: sched[x].instructor_id,
                         class_rate_id: sched[x].class_rate_id,
                         subject_id: sched[x].subject_id,
-                        classroom_id: sched[x].classroom_id,
+                        grade_id: sched[x].grade_id,
                         status: sched[x].status
                     });
                 }
             },
             messageToastr(type, msg) {
+                console.log
 
-                toastr[type](msg, (type=='success'? 'Success':'Error'));
+                toastr[type](msg, (type=='success'? 'Success':(type=='warning'? 'Warning':'Error')));
 
                 toastr.options = {
                   "closeButton": true,

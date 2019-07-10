@@ -187,3 +187,6 @@ a.navbar-brand {
     border-radius: 5px !important;
     color: #ac9a02 !important;
 }
+#toast-container > .toast::before {
+    top: 10px !important;
+}

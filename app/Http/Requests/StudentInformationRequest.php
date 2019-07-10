@@ -42,6 +42,7 @@ class StudentInformationRequest extends FormRequest
   public function messages()
   {
     return [
+      'id_num.unique' => 'An existing student has the same ID',
       'id_num.required' => 'Student ID field is required',
       'gender.required' => 'Gender is required',
       'birth_date.required' => 'Birthdate is required',

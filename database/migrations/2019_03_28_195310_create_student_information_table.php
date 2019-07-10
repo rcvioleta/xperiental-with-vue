@@ -20,6 +20,7 @@ class CreateStudentInformationTable extends Migration
       $table->string('first_name')->nullable();
       $table->string('middle_name')->nullable();
       $table->string('last_name')->nullable();
+      $table->string('nickname')->nullable();
       $table->string('gender')->nullable();
       $table->string('birth_date')->nullable();
       $table->string('phone_number')->nullable();
@@ -28,6 +29,7 @@ class CreateStudentInformationTable extends Migration
       $table->string('emcon_phone_number')->nullable();
       $table->string('emcon_relationship')->nullable();
       $table->string('emcon_address')->nullable();
+      $table->date('registration_date')->nullable();
       $table->boolean('status')->default(true);
       $table->timestamps();
     });

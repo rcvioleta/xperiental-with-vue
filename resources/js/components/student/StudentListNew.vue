@@ -24,11 +24,11 @@
                 @filtered="onFiltered"
                 >
                 <template slot="student_name" slot-scope="data">
-                    {{ data.item.first_name }} {{ data.item.middle_name }} {{ data.item.last_name }}
+                    {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
                 </template>
-                <template slot="available_credits" slot-scope="data">
+                <!-- <template slot="available_credits" slot-scope="data">
                     {{ isNaN(data.item.credits - data.item.credits_used) ? '' : (data.item.credits - data.item.credits_used) }}
-                </template>
+                </template> -->
                 <template slot="action" slot-scope="data">
                     <a :href="'/admin/studentmanagement/' + data.item.id + '/edit'" class="btn btn-sm btn-warning pull-right waves-effect waves-light btable-button">
                         Edit <i class="fa fa-pencil"></i>
@@ -84,11 +84,14 @@
                 filter: null,
                 fields: [
                     { key: 'id_num', label: 'Student ID' },
+                    'nickname',
                     'student_name',
-                    'credits',
-                    'credits_used',
-                    'available_credits',
-                    { key: 'created_at', label: 'Created On' },
+                    'birth_date',
+                    'gender',
+                    // 'credits',
+                    // 'credits_used',
+                    // 'available_credits',
+                    { key: 'registration_date', label: 'Registration Date' },
                     'action',
                 ],
             }

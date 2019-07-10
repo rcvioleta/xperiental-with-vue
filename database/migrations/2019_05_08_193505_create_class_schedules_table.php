@@ -20,7 +20,7 @@ class CreateClassSchedulesTable extends Migration
       $table->integer('instructor_id')->nullable();
       $table->integer('class_rate_id')->nullable();
       $table->integer('subject_id')->nullable();
-      $table->integer('classroom_id')->nullable();
+      $table->integer('grade_id')->nullable();
       $table->boolean('status')->default(1);
       $table->timestamps();
     });

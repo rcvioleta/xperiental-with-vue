@@ -43,19 +43,19 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
   ];
 
-  public function setNameAttribute($value)
-  {
-    $this->attributes['name'] = $value;
-    $this->attributes['slug'] = str_slug($value);
-  }
+  // public function setNameAttribute($value)
+  // {
+  //   $this->attributes['name'] = $value;
+  //   $this->attributes['slug'] = str_slug($value);
+  // }
 
-  public function setSlugAttribute($value)
-  {
-    $this->attributes['slug'] = str_slug($value);
-  }
+  // public function setSlugAttribute($value)
+  // {
+  //   $this->attributes['slug'] = str_slug($value);
+  // }
 
-  public function setPasswordAttribute($value)
-  {
-    $this->attributes['password'] = bcrypt($value);
-  }
+  // public function setPasswordAttribute($value)
+  // {
+  //   $this->attributes['password'] = bcrypt($value);
+  // }
 }

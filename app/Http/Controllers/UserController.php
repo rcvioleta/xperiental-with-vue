@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -35,10 +36,18 @@ class UserController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(UserRequest $request)
+  public function store(Request $request)
   {
     unset($request['password_confirmation']);
-    $user = User::create($request->all());
+    // $user = User::create($request->all());
+
+    $user = User::create([
+      'name' => $request->name,
+      'slug' => 'administrator',
+      'email' => $request->email,
+      'status' => $request->status,
+      'password' => Hash::make($request->password),
+    ]);
 
     return response()->json([
       'update' => new UserResource($user),

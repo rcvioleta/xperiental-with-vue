@@ -2,22 +2,21 @@
   <div class="card" id="class-rate-add" style="display: none;">
     <div class="card-header">
       <h4>
-        <strong v-if="!editingMode">Add Class Rate</strong>
-        <strong v-else>Edit Class Rate</strong>
+        <strong v-if="!editingMode">Add Class Type</strong>
+        <strong v-else>Edit Class Type</strong>
       </h4>
     </div>
     <div class="card-body">
       <form>
         <div class="form-row">
           <div class="col-md-6 mb-3">
-            <label for="class-rate-name">Class Rate Name</label>
+            <label for="class-rate-name">Class Type Name</label>
             <input
               type="text"
               name="name"
               class="form-control"
               :class="{'is-invalid': errors.name }"
               id="class-rate-name"
-              placeholder="Class Rate Name"
               v-model="newClassRate.name"
               required
             >
@@ -31,7 +30,6 @@
               class="form-control"
               :class="{'is-invalid': errors.rate }"
               id="rate"
-              placeholder="Rate"
               v-model="newClassRate.rate"
               required
             >
@@ -112,7 +110,7 @@ export default {
           this.reset();
         } else {
           console.log("[SAVE CLASS RATE ERROR]", err.response.data);
-          // swal("Something went wrong", "Cannot add new class rate", "error");
+          // swal("Something went wrong", "Cannot add new class type", "error");
           const errList = err.response.data.errors;
           this.storeErrors(errList);
         }
@@ -129,7 +127,7 @@ export default {
           this.editingMode = false;
           this.errors = {};
           console.log("[update] result", update);
-          swal("Success!", "Successfully updated Class Rate", "success");
+          swal("Success!", "Successfully updated Class Type", "success");
           this.editingMode = false;
           this.reset();
           // let ClassRateCrud component know that it requires to fetch updates

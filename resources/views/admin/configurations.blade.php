@@ -37,7 +37,7 @@
               <a class="nav-link" onclick="SystemAdd()" href="#tab-6-4" data-toggle="tab" role="tab" aria-controls="tab-6-4" aria-selected="false">System Users</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" onclick="ClassRateAdd()" href="#tab-6-5" data-toggle="tab" role="tab" aria-controls="tab-6-5" aria-selected="false">Class Rate</a>
+              <a class="nav-link" onclick="ClassRateAdd()" href="#tab-6-5" data-toggle="tab" role="tab" aria-controls="tab-6-5" aria-selected="false">Class Type</a>
             </li>
           </ul>
         </div>

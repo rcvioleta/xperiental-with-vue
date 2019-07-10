@@ -31,12 +31,30 @@
 							<div class="form-row mb-3">
 								<div class="col-lg-12">
 									<div class="form-row">
-										<div class="col-md-3 mb-3">
+										<div class="col-md-2 mb-3">
 											<label for="validationCustom01">Student ID</label>
 											<input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" id="validationCustom01" name="id_num" value="{{old('id_num')}}" required>
 											@if ($errors->has('id_num'))
 												<div class="text-danger">
 													{{$errors->first('id_num')}}
+												</div>	
+											@endif
+										</div>
+										<div class="col-md-1 mb-3">
+											<label for="validationCustom02">Nickname</label>
+											<input type="text" class="form-control {{$errors->has('nickname') ? 'is-invalid' : ''}}" id="validationCustom02" name="nickname" value="{{old('nickname')}}" required>
+											@if ($errors->has('nickname'))
+												<div class="text-danger">
+													{{$errors->first('nickname')}}
+												</div>	
+											@endif
+										</div>
+										<div class="col-md-3 mb-3">
+											<label for="validationCustom02">Last name</label>
+											<input type="text" class="form-control {{$errors->has('last_name') ? 'is-invalid' : ''}}" id="validationCustom02" name="last_name" value="{{old('last_name')}}" required>
+											@if ($errors->has('last_name'))
+												<div class="text-danger">
+													{{$errors->first('last_name')}}
 												</div>	
 											@endif
 										</div>
@@ -51,19 +69,10 @@
 										</div>
 										<div class="col-md-3 mb-3">
 											<label for="validationCustom02">Middle name</label>
-											<input type="text" class="form-control {{$errors->has('middle_name') ? 'is-invalid' : ''}}" id="validationCustom02" name="middle_name" value="{{old('middle_name')}}" required>
+											<input type="text" class="form-control {{$errors->has('middle_name') ? 'is-invalid' : ''}}" id="validationCustom02" name="middle_name" value="{{old('middle_name')}}">
 											@if ($errors->has('first_name'))
 												<div class="text-danger">
 													{{$errors->first('first_name')}}
-												</div>	
-											@endif
-										</div>
-										<div class="col-md-3 mb-3">
-											<label for="validationCustom02">Last name</label>
-											<input type="text" class="form-control {{$errors->has('last_name') ? 'is-invalid' : ''}}" id="validationCustom02" name="last_name" value="{{old('last_name')}}" required>
-											@if ($errors->has('last_name'))
-												<div class="text-danger">
-													{{$errors->first('last_name')}}
 												</div>	
 											@endif
 										</div>
@@ -113,12 +122,21 @@
 												</div>	
 											@endif
 										</div>
-										<div class="col-md-6 mb-3">
+										<div class="col-md-4 mb-3">
 											<label for="validationCustom02">Home Address</label>
 											<input type="text" class="form-control {{$errors->has('address') ? 'is-invalid' : ''}}" value="{{old('address')}}" id="validationCustom02" name="address" required>
 											@if ($errors->has('address'))
 												<div class="text-danger">
 													{{$errors->first('address')}}
+												</div>	
+											@endif
+										</div>
+										<div class="col-md-2 mb-3">
+											<label for="validationCustom04">Registration Date</label>
+											<input type="date" class="fallback form-control {{$errors->has('registration_date') ? 'is-invalid' : ''}}" autocomplete="off" name="registration_date" value="{{old('registration_date')}}">
+											@if ($errors->has('registration_date'))
+												<div class="text-danger">
+													{{$errors->first('registration_date')}}
 												</div>	
 											@endif
 										</div>

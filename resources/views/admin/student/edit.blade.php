@@ -48,17 +48,35 @@
 							<h2>Student Information</h2>
 						</div>
 						<div class="col-lg-12">
-							<form class="needs-validation" method="POST" action="{!! route('student.update', $student->id) !!}" novalidate>
+							<form class="needs-validation" method="POST" action="{!! route('student.update', $student->id) !!}" novalidate enctype="multipart/form-data">
 								@csrf
 								<div class="form-row mb-3">
 									<div class="col-lg-12">
 										<div class="form-row">
-											<div class="col-md-3 mb-3">
+											<div class="col-md-2 mb-3">
 												<label for="validationCustom01">Student ID</label>
-												<input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" id="validationCustom01" value="{{ $student->id_num }}" name="id_num" required>
+												<input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" id="validationCustom01" value="{{ $student->id_num }}" name="id_num" readonly>
 												@if ($errors->has('id_num'))
 													<div class="text-danger">
 														{{$errors->first('id_num')}}
+													</div>
+												@endif
+											</div>
+											<div class="col-md-1 mb-3">
+												<label for="validationCustom01">Nickname</label>
+												<input type="text" class="form-control {{$errors->has('nickname') ? 'is-invalid' : ''}}" id="validationCustom01" value="{{ $student->nickname }}" name="nickname" required>
+												@if ($errors->has('nickname'))
+													<div class="text-danger">
+														{{$errors->first('nickname')}}
+													</div>
+												@endif
+											</div>
+											<div class="col-md-3 mb-3">
+												<label for="validationCustom02">Last name</label>
+												<input type="text" class="form-control {{$errors->has('last_name') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->last_name !!}" name="last_name" required>
+												@if ($errors->has('last_name'))
+													<div class="text-danger">
+														{{$errors->first('last_name')}}
 													</div>
 												@endif
 											</div>
@@ -73,19 +91,10 @@
 											</div>
 											<div class="col-md-3 mb-3">
 												<label for="validationCustom02">Middle name</label>
-												<input type="text" class="form-control {{$errors->has('middle_name') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->middle_name !!}" name="middle_name" required>
+												<input type="text" class="form-control {{$errors->has('middle_name') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->middle_name !!}" name="middle_name">
 												@if ($errors->has('middle_name'))
 													<div class="text-danger">
 														{{$errors->first('middle_name')}}
-													</div>
-												@endif
-											</div>
-											<div class="col-md-3 mb-3">
-												<label for="validationCustom02">Last name</label>
-												<input type="text" class="form-control {{$errors->has('last_name') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->last_name !!}" name="last_name" required>
-												@if ($errors->has('last_name'))
-													<div class="text-danger">
-														{{$errors->first('last_name')}}
 													</div>
 												@endif
 											</div>
@@ -137,12 +146,21 @@
 													</div>
 												@endif
 											</div>
-											<div class="col-md-6 mb-3">
+											<div class="col-md-4 mb-3">
 												<label for="validationCustom02">Home Address</label>
 												<input type="text" class="form-control {{$errors->has('address') ? 'is-invalid' : ''}}" id="validationCustom02" value="{!! $student->address !!}" name="address" required>
 												@if ($errors->has('address'))
 													<div class="text-danger">
 														{{$errors->first('address')}}
+													</div>
+												@endif
+											</div>
+											<div class="col-md-2 mb-3">
+												<label for="validationCustom04">Registration Date</label>
+												<input type="date" class="fallback form-control {{$errors->has('registration_date') ? 'is-invalid' : ''}}" autocomplete="off" value="{!! $student->registration_date !!}" name="registration_date">
+												@if ($errors->has('registration_date'))
+													<div class="text-danger">
+														{{$errors->first('registration_date')}}
 													</div>
 												@endif
 											</div>
