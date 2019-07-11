@@ -69,7 +69,6 @@
 </template>
 
 <script>
-    import 'bootstrap-vue/dist/bootstrap-vue.css'
 
     export default {
         props: ['classSchedules'],

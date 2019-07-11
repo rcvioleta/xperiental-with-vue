@@ -34,14 +34,10 @@
                 <el-menu-item index="3-1" onclick="window.location='/admin/studentmanagement'">Student List</el-menu-item>
                 <el-menu-item index="3-2" onclick="window.location='/admin/studentmanagement/create'">Add Student</el-menu-item>
             </el-submenu>
-            <el-submenu index="4">
-                <template slot="title">
-                    <i class="el-icon-location"></i>
-                    <span>Enrollment Management</span>
-                </template>
-                <el-menu-item index="4-1" onclick="window.location='/admin/enrollment'">Enrollment List</el-menu-item>
-                <el-menu-item index="4-2" onclick="window.location='/admin/enrollment/create'">Enroll Student</el-menu-item>
-            </el-submenu>
+            <el-menu-item index="4" onclick="window.location='/admin/studentaccount'">
+                <i class="el-icon-setting"></i>
+                <span>Student Account</span>
+            </el-menu-item>
             <el-submenu index="5">
                 <template slot="title">
                     <i class="el-icon-location"></i>

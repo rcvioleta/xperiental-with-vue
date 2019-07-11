@@ -27,25 +27,35 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::resource('/emergency-contact', 'EmergencyContactController');
   Route::resource('/education-background', 'EducationBackgroundController');
 
-  Route::resource('/subject', 'SubjectController');
-  Route::get('/subject/active/{slug}', 'SubjectController@active');
-  Route::get('/subject/inactive/{slug}', 'SubjectController@inactive');
+  Route::prefix('subject')->group(function () {
+    Route::resource('/', 'SubjectController');
+    Route::get('/active/{slug}', 'SubjectController@active');
+    Route::get('/inactive/{slug}', 'SubjectController@inactive');
+  });
 
-  Route::resource('/student-level', 'StudentLevelController');
-  Route::get('/student-level/active/{slug}', 'StudentLevelController@active');
-  Route::get('/student-level/inactive/{slug}', 'StudentLevelController@inactive');
+  Route::prefix('student-level')->group(function () {
+    Route::resource('/', 'StudentLevelController');
+    Route::get('/active/{slug}', 'StudentLevelController@active');
+    Route::get('/inactive/{slug}', 'StudentLevelController@inactive');
+  });
 
-  Route::resource('/classroom', 'ClassroomController');
-  Route::get('/classroom/active/{slug}', 'ClassroomController@active');
-  Route::get('/classroom/inactive/{slug}', 'ClassroomController@inactive');
+  Route::prefix('classroom')->group(function () {
+    Route::resource('/', 'ClassroomController');
+    Route::get('/active/{slug}', 'ClassroomController@active');
+    Route::get('/inactive/{slug}', 'ClassroomController@inactive');
+  });
 
-  Route::resource('/class-rate', 'ClassRateController');
-  Route::get('/class-rate/active/{slug}', 'ClassRateController@active');
-  Route::get('/class-rate/inactive/{slug}', 'ClassRateController@inactive');
+  Route::prefix('class-rate')->group(function () {
+    Route::resource('/', 'ClassRateController');
+    Route::get('/active/{slug}', 'ClassRateController@active');
+    Route::get('/inactive/{slug}', 'ClassRateController@inactive');
+  });
 
-  Route::resource('/user', 'UserController');
-  Route::get('/user/active/{slug}', 'UserController@active');
-  Route::get('/user/inactive/{slug}', 'UserController@inactive');
+  Route::prefix('user')->group(function () {
+    Route::resource('/', 'UserController');
+    Route::get('/active/{slug}', 'UserController@active');
+    Route::get('/inactive/{slug}', 'UserController@inactive');
+  });
 
   Route::resource('/schedule', 'ClassScheduleController');
 
@@ -94,6 +104,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('/store', 'ClassScheduleController@store');
     Route::post('/update/{id}', 'ClassScheduleController@update');
     Route::get('/delete/{id}', 'ClassScheduleController@destroy');
+  });
+
+  Route::prefix('studentaccount')->group(function () {
+    Route::get('/', 'StudentAccountController@index')->name('studentaccount.index');
+    Route::get('/edit/{id}', 'StudentAccountController@edit')->name('studentaccount.edit');
   });
 
   Route::get('/revenue-test', 'DashboardController@getRevenues');

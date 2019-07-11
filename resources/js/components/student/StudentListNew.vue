@@ -26,28 +26,11 @@
                 <template slot="student_name" slot-scope="data">
                     {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
                 </template>
-                <!-- <template slot="available_credits" slot-scope="data">
-                    {{ isNaN(data.item.credits - data.item.credits_used) ? '' : (data.item.credits - data.item.credits_used) }}
-                </template> -->
                 <template slot="action" slot-scope="data">
                     <a :href="'/admin/studentmanagement/' + data.item.id + '/edit'" class="btn btn-sm btn-warning pull-right waves-effect waves-light btable-button">
                         Edit <i class="fa fa-pencil"></i>
                     </a>
                 </template>
-                <!-- <template slot="action" slot-scope="row">
-                    <a class="table-button btn-primary btn-sm waves-effect waves-light" @click="row.toggleDetails">
-                        {{ row.detailsShowing ? 'Hide' : 'View'}} <i class="fa fa-eye"></i>
-                    </a>
-                </template>
-
-                <template slot="row-details" slot-scope="row">
-                    <b-card>
-                        <b-row class="mb-2">
-                            <b-col sm="3" class="text-sm-right"><b>Instructor:</b></b-col>
-                            <b-col>{{ row.item.instructor_id }}</b-col>
-                        </b-row>
-                    </b-card>
-                </template> -->
 
             </b-table>
         </b-col>
@@ -69,8 +52,6 @@
 </template>
 
 <script>
-    import 'bootstrap-vue/dist/bootstrap-vue.css'
-
     export default {
         props: ['students'],
         data() {
@@ -78,9 +59,8 @@
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [10, 20, 50],
-                creditUsed: this.students[0].credits_used,
-                studentData: this.students[0].student,
-                totalRows: this.students[0].student.length,
+                studentData: this.students,
+                totalRows: this.students.length,
                 filter: null,
                 fields: [
                     { key: 'id_num', label: 'Student ID' },
@@ -88,17 +68,13 @@
                     'student_name',
                     'birth_date',
                     'gender',
-                    // 'credits',
-                    // 'credits_used',
-                    // 'available_credits',
                     { key: 'registration_date', label: 'Registration Date' },
                     'action',
                 ],
             }
         },
         created() {
-            var res = this.studentData.map(x => Object.assign(x, this.creditUsed.find(y => y.student_id == x.id)));
-            console.log('Hey: ', res);
+
         },
         methods: {
             onFiltered(filteredItems) {
