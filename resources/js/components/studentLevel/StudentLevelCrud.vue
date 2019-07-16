@@ -55,7 +55,7 @@ import Model from "../../helpers/Model.js";
 export default {
   data() {
     return {
-      studentLevels: "",
+      studentLevels: [],
       index: ""
     };
   },

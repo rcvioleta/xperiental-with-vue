@@ -44,7 +44,7 @@
           <div class="col-md-12">
             <button
               class="btn btn-primary pull-right"
-              @click.prevent="updateSubject"
+              @click.prevent="updateSubject(newSubject.id)"
               v-if="editingMode"
             >
               Update Subject
@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       newSubject: {
+        id: "",
         name: "",
         status: 1
       },
@@ -99,9 +100,9 @@ export default {
         }
       });
     },
-    updateSubject() {
+    updateSubject(id) {
       const { name, slug, status } = this.newSubject;
-      const uri = `subject/${slug}`;
+      const uri = `subject/${id}`;
       const payloads = { name, slug: name, status };
 
       Model.update(uri, payloads, (err, update) => {

@@ -17,30 +17,30 @@
 
         <div class="menu-line"></div>
         <el-menu default-active="1" text-color="#fff" active-text-color="#fff">
-            <el-menu-item index="1" onclick="window.location='/admin/dashboard'"> 
+            <el-menu-item index="2" onclick="window.location='/admin/dashboard'"> 
                 <i class="el-icon-menu"></i>
                 <span>Dashboard</span>
             </el-menu-item>
             <div class="menu-text-divide">NAVIGATION</div>
             <el-menu-item onclick="window.location='/admin/classschedule'">
-                <i class="el-icon-setting"></i>
+                <i class="el-icon-date"></i>
                 <span>Class Schedule</span>
             </el-menu-item>
             <el-submenu index="3">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i class="el-icon-user"></i>
                     <span>Student Management</span>
                 </template>
                 <el-menu-item index="3-1" onclick="window.location='/admin/studentmanagement'">Student List</el-menu-item>
                 <el-menu-item index="3-2" onclick="window.location='/admin/studentmanagement/create'">Add Student</el-menu-item>
             </el-submenu>
             <el-menu-item index="4" onclick="window.location='/admin/studentaccount'">
-                <i class="el-icon-setting"></i>
+                <i class="el-icon-notebook-1"></i>
                 <span>Student Account</span>
             </el-menu-item>
             <el-submenu index="5">
                 <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i class="el-icon-suitcase-1"></i>
                     <span>Employee Management</span>
                 </template>
                 <el-menu-item index="5-1" onclick="window.location='/admin/instructor'">Employee List</el-menu-item>
@@ -50,10 +50,10 @@
                 <i class="el-icon-setting"></i>
                 <span>Configurations</span>
             </el-menu-item>
-            <el-menu-item index="7">
-                <i class="el-icon-setting"></i>
+            <!-- <el-menu-item index="7">
+                <i class="el-icon-folder-opened"></i>
                 <span>Report Management</span>
-            </el-menu-item>
+            </el-menu-item> -->
         </el-menu>
     </div>
 </template>

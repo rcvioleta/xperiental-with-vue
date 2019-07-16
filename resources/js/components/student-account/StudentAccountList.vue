@@ -29,11 +29,11 @@
                 <template slot="available_credits" slot-scope="data">
                     {{ isNaN(data.item.credits - data.item.credits_used) ? '' : (data.item.credits - data.item.credits_used) }}
                 </template>
-                <!-- <template slot="action" slot-scope="data">
-                    <a :href="'/admin/studentaccounts/edit/' + data.item.id" class="table-button btn-primary btn-sm waves-effect waves-light tableBTN">
+                <template slot="action" slot-scope="data">
+                    <a :href="'/admin/studentaccount/edit/' + data.item.id" class="table-button btn-primary btn-sm waves-effect waves-light tableBTN">
                         View <i class="fa fa-eye"></i>
                     </a>
-                </template> -->
+                </template>
 
             </b-table>
         </b-col>
@@ -57,15 +57,15 @@
 <script>
 
     export default {
-        props: ['students'],
+        props: ['data'],
         data() {
             return {
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [10, 20, 50],
-                creditUsed: this.students[0].credits_used,
-                studentData: this.students[0].student,
-                totalRows: this.students[0].student.length,
+                creditUsed: this.data.credits_used,
+                studentData: this.data.student,
+                totalRows: this.data.student.length,
                 filter: null,
                 fields: [
                     { key: 'id_num', label: 'Student ID' },
@@ -74,7 +74,7 @@
                     'credits',
                     'credits_used',
                     'available_credits',
-                    // 'action',
+                    'action',
                 ],
             }
         },

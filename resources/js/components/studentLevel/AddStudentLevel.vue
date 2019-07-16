@@ -44,7 +44,7 @@
           <div class="col-md-12">
             <button
               class="btn btn-primary pull-right"
-              @click.prevent="updateStudentLevel"
+              @click.prevent="updateStudentLevel(newStudentLevel.id)"
               v-if="editingMode"
             >
               Update Grade Level
@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       newStudentLevel: {
+        id: "",
         name: "",
         status: 1
       },
@@ -99,9 +100,9 @@ export default {
         }
       });
     },
-    updateStudentLevel() {
+    updateStudentLevel(id) {
       const { name, slug, status } = this.newStudentLevel;
-      const uri = `student-level/${slug}`;
+      const uri = `student-level/${id}`;
       const payloads = { name, slug: name, status };
 
       Model.update(uri, payloads, (err, update) => {

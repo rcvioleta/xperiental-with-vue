@@ -1,26 +1,10 @@
 @extends('layouts.app')
 
-@section('styling')
-<link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/fonts/line-awesome/css/line-awesome.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
-
-@endsection
-
 @section('content')
 <div class="row">
 	<div class="col-md-6">
 		<h1>Update Student Record</h1>
 	</div>
-	<!-- <div class="col-md-6">
-		<button class="btn btn-primary pull-right" type="submit">Save <i class="ml-2 batch-icon batch-icon-stiffy"></i></button>
-	</div> -->
 </div>
 <div class="row mb-5">
 	<div class="col-md-12">
@@ -32,12 +16,6 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#tab-6-2" data-toggle="tab" role="tab" aria-controls="tab-6-2" aria-selected="false">Educational Background</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#tab-6-3" data-toggle="tab" role="tab" aria-controls="tab-6-3" aria-selected="false">ENROLLMENT HISTORY</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#tab-6-4" data-toggle="tab" role="tab" aria-controls="tab-6-4" aria-selected="false">CLASS HISTORY</a>
 					</li>
 				</ul>
 			</div>
@@ -244,60 +222,6 @@
 						<educational-list :student-id="{{ $student->id }}" :edu-backgrounds="{{ $eduBackgrounds }}"></educational-list>
 
 					</div>
-					<div id="tab-6-3" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-3">
-						<div class="form-row">
-							<div class="col-lg-12">
-								<h2 class="ml-4 mb-3">ENROLLMENT HISTORY</h2>
-							</div>
-						</div>
-						<div class="col-lg-12 pb-5">
-
-							<form class="needs-validation" novalidate>
-								<div class="form-row">
-									<div class="col-md-12 mb-3">
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>Date Created</th>
-													<th>Credits</th>
-													<th>Credit Type</th>
-													<th>Amount Paid</th>
-													<th>Balance</th>
-													<th>Status</th>
-													<th>Remarks</th>
-													<!-- <th>Action</th> -->
-												</tr>
-											</thead>
-											<tbody>
-												@foreach($enrollments as $enrollment)
-												<tr>
-													<td>{!! $enrollment->created_at !!}</td>
-													<td>{!! $enrollment->credits !!}</td>
-													<td>{!! $enrollment->credit_name !!}</td>
-													<td>{!! $enrollment->amount_paid !!}</td>
-													<td>{!! $enrollment->amount_balance !!}</td>
-													<td>{!! $enrollment->payment_status !!}</td>
-													<td>{!! $enrollment->remarks !!}</td>
-													<!-- <td>
-														<div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
-															<button type="button" class="btn btn-danger"><i class="ml-2 batch-icon batch-icon-bin"></i></button>
-															<button type="button" class="btn btn-warning"><i class="ml-2 batch-icon batch-icon-pencil"></i></button>
-														</div>
-													</td> -->
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div id="tab-6-4" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-4">
-
-						<class-schedule-list :class-schedules="{{ $classSchedules }}"></class-schedule-list>
-
-					</div>
 				</div>
 			</div>
 		</div>
@@ -313,16 +237,6 @@
 @endsection
 
 @section('scripts')
-<!-- {{-- <script src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}" defer></script> --}}
-<script src="{{ asset('assets/js/bootstrap/popper.min.js') }}" defer></script>
-<script src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}" defer></script>
-<script src="{{ asset('assets/js/bootstrap/mdb.min.js') }}" defer></script>
-<script src="{{ asset('assets/plugins/velocity/velocity.min.js') }}" defer></script>
-<script src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}" defer></script>
-<script src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}" defer></script>
-<script src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}" defer></script>
-<script src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}" defer></script>
-<script src="{{ asset('assets/js/misc/holder.min.js') }}" defer></script> -->
 
 <script>
 	function readURL(input) {

@@ -44,7 +44,7 @@
           <div class="col-md-12">
             <button
               class="btn btn-primary pull-right"
-              @click.prevent="updateClassroom"
+              @click.prevent="updateClassroom(newClassroom.id)"
               v-if="editingMode"
             >
               Update Classroom
@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       newClassroom: {
+        id: "",
         name: "",
         status: 1
       },
@@ -99,9 +100,9 @@ export default {
         }
       });
     },
-    updateClassroom() {
+    updateClassroom(id) {
       const { name, slug, status } = this.newClassroom;
-      const uri = `classroom/${slug}`;
+      const uri = `classroom/${id}`;
       const payloads = { name, slug: name, status };
 
       Model.update(uri, payloads, (err, update) => {

@@ -101,8 +101,10 @@ class SubjectController extends Controller
    * @param  \App\Subject  $subject
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Subject $subject)
+  public function update(Request $request, $id)
   {
+    $subject = Subject::findOrFail($id);
+
     $this->validate($request, [
       'name' => 'required',
       'status' => 'required|numeric|max:1|digits:1'

@@ -29,24 +29,28 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
   Route::prefix('subject')->group(function () {
     Route::resource('/', 'SubjectController');
+    Route::put('/{id}', 'SubjectController@update');
     Route::get('/active/{slug}', 'SubjectController@active');
     Route::get('/inactive/{slug}', 'SubjectController@inactive');
   });
 
   Route::prefix('student-level')->group(function () {
     Route::resource('/', 'StudentLevelController');
+    Route::put('/{id}', 'StudentLevelController@update');
     Route::get('/active/{slug}', 'StudentLevelController@active');
     Route::get('/inactive/{slug}', 'StudentLevelController@inactive');
   });
 
   Route::prefix('classroom')->group(function () {
     Route::resource('/', 'ClassroomController');
+    Route::put('/{id}', 'ClassroomController@update');
     Route::get('/active/{slug}', 'ClassroomController@active');
     Route::get('/inactive/{slug}', 'ClassroomController@inactive');
   });
 
   Route::prefix('class-rate')->group(function () {
     Route::resource('/', 'ClassRateController');
+    Route::put('/{id}', 'ClassRateController@update');
     Route::get('/active/{slug}', 'ClassRateController@active');
     Route::get('/inactive/{slug}', 'ClassRateController@inactive');
   });

@@ -96,8 +96,10 @@ class StudentLevelController extends Controller
    * @param  \App\StudentLevel  $studentLevel
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, StudentLevel $studentLevel)
+  public function update(Request $request, $id)
   {
+    $studentLevel = StudentLevel::findOrFail($id);
+
     $this->validate($request, [
       'name' => 'required',
       'status' => 'required|numeric|max:1|digits:1'

@@ -9,6 +9,11 @@
 
   <title>Xperiental Learning Hub</title>
 
+  <link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
+
   <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <!-- Styles -->
@@ -73,13 +78,6 @@
   <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
   <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
-  <!-- <script src="{{ asset('assets/js/scripts.js') }}" defer></script> -->
-
-  <!-- MultiSelect and Quicksearch -->
-<!--   <link rel="stylesheet" type="text/css" href="{{ asset('assets/multi-select.css') }}" defer>
-  <script src="{{ asset('assets/jquery.quicksearch.js') }}" defer></script>
-  <script src="{{ asset('assets/jquery.multi-select.js') }}" defer></script> -->
-  <!-- End Important -->
 
   <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}" defer></script>
 

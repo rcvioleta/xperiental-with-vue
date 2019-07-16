@@ -64,7 +64,7 @@
               Save Class Rate
               <i class="ml-2 batch-icon batch-icon-stiffy"></i>
             </button>
-            <button class="btn btn-primary pull-right" @click.prevent="updateClassRate" v-else>
+            <button class="btn btn-primary pull-right" @click.prevent="updateClassRate(newClassRate.id)" v-else>
               Update Class Rate
               <i class="ml-2 batch-icon batch-icon-stiffy"></i>
             </button>
@@ -83,6 +83,7 @@ export default {
   data() {
     return {
       newClassRate: {
+        id: "",
         name: "",
         rate: "",
         status: 1
@@ -116,9 +117,9 @@ export default {
         }
       });
     },
-    updateClassRate() {
+    updateClassRate(id) {
       const { name, slug, status, rate } = this.newClassRate;
-      const uri = `class-rate/${slug}`;
+      const uri = `class-rate/${id}`;
       const payloads = { name, slug: name, status, rate };
 
       ClassRate.update(uri, payloads, (err, update) => {

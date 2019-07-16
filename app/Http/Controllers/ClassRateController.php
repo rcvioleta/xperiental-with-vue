@@ -98,8 +98,10 @@ class ClassRateController extends Controller
    * @param  \App\ClassRate  $classRate
    * @return \Illuminate\Http\Response
    */
-  public function update(ClassRateRequest $request, ClassRate $classRate)
+  public function update(Request $request, $id)
   {
+    $classRate = ClassRate::findOrFail($id);
+    
     $this->validate($request, [
       'name' => 'required',
       'rate' => 'required|numeric',

@@ -94,8 +94,10 @@ class ClassroomController extends Controller
    * @param  \App\Classroom  $classroom
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Classroom $classroom)
+  public function update(Request $request, $id)
   {
+    $classroom = classroom::findOrFail($id);
+
     $this->validate($request, [
       'name' => 'required',
       'status' => 'required|numeric|max:1|digits:1'
