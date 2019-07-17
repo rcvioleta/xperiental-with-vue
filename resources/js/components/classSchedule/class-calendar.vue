@@ -158,7 +158,6 @@
                     classType: '',
                     subject: '',
                     grade_id: '',
-                    grade_name: '',
                     status: '1',
                     startHrs: 'Hrs',
                     startMin: 'Min',
@@ -238,8 +237,6 @@
                 })
             },
             editForm(arg) { 
-                console.log('sched id: ', arg.event.extendedProps.eventId);
-
                 this.modaltitle = 'EDIT SCHEDULE';
                 this.okName = 'Update';
                 this.editId = arg.event.extendedProps.eventId;
@@ -250,7 +247,6 @@
                 this.infoModal.classType = arg.event.extendedProps.class_rate_id;
                 this.infoModal.subject = arg.event.extendedProps.subject_id;
                 this.infoModal.grade_id = arg.event.extendedProps.grade_id;
-                this.infoModal.grade_name = arg.event.extendedProps.grade_id;
                 this.infoModal.status = arg.event.extendedProps.status;
                 this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
                 this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
@@ -259,6 +255,7 @@
                 this.infoModal.startHrs = this.beautifyDate(startDate)[0].Hrs;
                 this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
                 this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
+
 
                 axios.get('/admin/classschedule/getStudentByClass/' + this.editId)
                 .then(response => {
@@ -278,21 +275,33 @@
                 })
             },
             deleteForm() {
-                axios.get('/admin/classschedule/delete/' + this.editId)
-                .then(response => {
+                swal({
+                    title: "Schedule Deletion Warning",
+                    text: "Are you sure you want to delete this schedule?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then(willDelete => {
+                    if (willDelete) {
+                        axios.get('/admin/classschedule/delete/' + this.editId)
+                        .then(response => {
 
-                    this.displaySchedule(response.data.newlist);
-                    this.messageToastr('warning', response.data.message );
+                            this.displaySchedule(response.data.newlist);
+                            swal("Schedule was deleted!", { icon: "success" });
 
-                })
-                .catch(err=>{
-                    console.log("error", err);
-                    this.messageToastr('error', response.data.message );
+                        })
+                        .catch(err=>{
+                            console.log("error", err);
+                            swal("Error!", 
+                                "Looks like something went wrong, please try again. If issue persist, please report this to your system developer.", 
+                                "error");
+                        });
+
+                        this.$nextTick(() => {
+                            this.show = false;
+                        })
+                    } else swal("Schedule was kept");
                 });
-
-                this.$nextTick(() => {
-                    this.show = false;
-                })
             },
             handleOk() {
 
@@ -306,29 +315,34 @@
 
                 this.SetTimeProperly();
 
+                if(this.requireAllFields()) {
+                    axios.post(url, this.infoModal)
+                    .then(response => {
 
-                axios.post(url, this.infoModal)
-                .then(response => {
+                        this.displaySchedule(response.data.newlist);
+                        swal("Success!", response.data.message, "success");
 
-                    this.displaySchedule(response.data.newlist);
-                    this.messageToastr('success', response.data.message );
+                    })
+                    .catch(err=>{
+                        console.log("error", err);
+                        swal("Error!", 
+                            "Looks like something went wrong, please try again. If issue persist, please report this to your system developer.", 
+                            "error");
+                    });
 
-                })
-                .catch(err=>{
-                    console.log("error", err);
-                    this.messageToastr('error', response.data.message );
-                });
-
-                this.$nextTick(() => {
-                    // this.$bvModal.hide()
-                    this.show = false;
-                })
+                    this.$nextTick(() => {
+                        // this.$bvModal.hide()
+                        this.show = false;
+                    })
+                }
+                else {
+                    swal("Error!", "Please fill-in all fields.", "error");
+                }
             },
             resetInfoModal() {
                 this.infoModal.classType = '';
                 this.infoModal.subject = '';
                 this.infoModal.grade_id = '';
-                this.infoModal.grade_name = '';
                 this.infoModal.status = '1';
                 this.infoModal.startHrs = 'Hrs';
                 this.infoModal.startMin = 'Min';
@@ -343,10 +357,20 @@
             },
             displaySchedule(sched) {
 
-                this.events = [];
+                this.events = []; 
+
                 for(var x = 0; x < sched.length; x++) {
+
                     this.events.push({
-                        title  : " - " + sched[x].grade_name + " - " + sched[x].first_name + " " + sched[x].last_name,
+                        title  : this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
+                                this.beautifyDate(sched[x].date_start)[0].Min + 
+                                this.beautifyDate(sched[x].date_start)[0].AmPm + "-" +
+                                this.beautifyDate(sched[x].date_end)[0].Hrs + ":" + 
+                                this.beautifyDate(sched[x].date_end)[0].Min + 
+                                this.beautifyDate(sched[x].date_end)[0].AmPm + " - " +
+                                sched[x].grade_name + " - " + 
+                                sched[x].instructor_nickname,
+
                         start  : sched[x].date_start,
                         end    : sched[x].date_end,
                         eventId : sched[x].id,
@@ -360,86 +384,75 @@
                     });
                 }
             },
-            messageToastr(type, msg) {
-                console.log
+            beautifyDate(thisTime) {
+                var startDate = new Date(thisTime);
+                var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
+                var startHrs = ('00' + startDate.getHours()).slice(-2);
+                var startMin = ('00' + startDate.getMinutes()).slice(-2);
 
-                toastr[type](msg, (type=='success'? 'Success':(type=='warning'? 'Warning':'Error')));
+                var time = startHrs+':'+startMin;
+                time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 
-                toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "positionClass": "toast-top-right",
-                  "onclick": null,
-                  "showDuration": "3000",
-                  "hideDuration": "10000",
-                  "timeOut": "500000",  
-                  "extendedTimeOut": "100000",
-                  "showEasing": "swing",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-              }
+                time = time.slice(1);
 
-          },
-          beautifyDate(thisTime) {
-            var startDate = new Date(thisTime);
-            var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
-            var startHrs = ('00' + startDate.getHours()).slice(-2);
-            var startMin = ('00' + startDate.getMinutes()).slice(-2);
+                var final = [];
 
-            var time = startHrs+':'+startMin;
-            time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+                return final = [{
+                    'classDate' : classDate,
+                    'AmPm' : (time[0] < 12 ? 'AM' : 'PM'),
+                    'Hrs' : time[0] = +time[0] % 12 || 12,
+                    'Min' : startMin,
+                }];
+            },
+            SetTimeProperly() {
+                const convertTime12to24 = (time12h) => {
+                    const [time, modifier] = time12h.split(' ');
+                    let [hours, minutes] = time.split(':');
 
-            time = time.slice(1);
+                    if (hours === '12')
+                        hours = '00';
+                    if (modifier === 'PM')
+                        hours = parseInt(hours, 10) + 12;
 
-            var final = [];
+                    hours = ('0' + hours).slice(-2);
 
-            return final = [{
-                'classDate' : classDate,
-                'AmPm' : (time[0] < 12 ? 'AM' : 'PM'),
-                'Hrs' : time[0] = +time[0] % 12 || 12,
-                'Min' : startMin,
-            }];
-        },
-        SetTimeProperly() {
-            const convertTime12to24 = (time12h) => {
-                const [time, modifier] = time12h.split(' ');
-                let [hours, minutes] = time.split(':');
+                    return this.infoModal.classDate + `T${hours}:${minutes}:00`;
+                }
 
-                if (hours === '12')
-                    hours = '00';
-                if (modifier === 'PM')
-                    hours = parseInt(hours, 10) + 12;
+                var startD = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
+                var endD = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
 
-                hours = ('0' + hours).slice(-2);
+                this.infoModal.startTimeFull = startD;
+                this.infoModal.endTimeFull = endD;
 
-                return this.infoModal.classDate + `T${hours}:${minutes}:00`;
+                this.infoModal.credits = this.calcCredit(startD, endD); 
+            },
+            calcCredit(dt1, dt2) {
+                var date1 = new Date(dt1);
+                var date2 = new Date(dt2);
+
+                var diff = date2.getTime() - date1.getTime();
+
+                var msec = diff;
+                var hh = Math.floor(msec / 1000 / 60 / 60);
+                msec -= hh * 1000 * 60 * 60;
+                var mm = Math.floor(msec / 1000 / 60);
+                msec -= mm * 1000 * 60;
+                var ss = Math.floor(msec / 1000);
+                msec -= ss * 1000;
+
+                return hh + "." + (mm == 30? '5':'');
+            },
+            requireAllFields() {
+                var self = this
+                var check = true;
+                Object.keys(self.infoModal).forEach(function(key,index) {
+                    if(self.infoModal[key] == '')
+                        check = false;
+                })
+
+                return check;
             }
-
-            var startD = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
-            var endD = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
-
-            this.infoModal.startTimeFull = startD;
-            this.infoModal.endTimeFull = endD;
-
-            this.infoModal.credits = this.calcCredit(startD, endD); 
-        },
-        calcCredit(dt1, dt2) {
-            var date1 = new Date(dt1);
-            var date2 = new Date(dt2);
-
-            var diff = date2.getTime() - date1.getTime();
-
-            var msec = diff;
-            var hh = Math.floor(msec / 1000 / 60 / 60);
-            msec -= hh * 1000 * 60 * 60;
-            var mm = Math.floor(msec / 1000 / 60);
-            msec -= mm * 1000 * 60;
-            var ss = Math.floor(msec / 1000);
-            msec -= ss * 1000;
-
-            return hh + "." + (mm == 30? '5':'');
-        },
+        }
     }
-}
 </script>

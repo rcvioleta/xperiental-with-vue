@@ -18,11 +18,27 @@
                             <div class="form-row mb-3">
                                 <div class="col-lg-12">
                                     <div class="form-row">
-                                        <div class="col-md-3 mb-3">
+                                        <div class="col-md-2 mb-3">
                                             <label for="validationCustom01">Employee ID</label>
                                             <input type="text" class="form-control {{ $errors->has('id_num') ? 'is-invalid' : '' }}" name="id_num" placeholder="ID Number" value="{{ old('id_num') }}" required>
                                             @if ($errors->has('id_num'))
                                                 <div class="text-danger">{{$errors->first('id_num')}}</div>
+                                            @endif
+                                        </div>
+                                        <div class="col-md-1 mb-3">
+                                            <label for="validationCustom02">Nickname</label>
+                                            <input type="text" class="form-control {{$errors->has('nickname') ? 'is-invalid' : ''}}" id="validationCustom02" name="nickname" value="{{old('nickname')}}" required>
+                                            @if ($errors->has('nickname'))
+                                                <div class="text-danger">
+                                                    {{$errors->first('nickname')}}
+                                                </div>  
+                                            @endif
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="validationCustom02">Last name</label>
+                                            <input type="text" class="form-control {{ $errors->has('last_name') ? 'is-invalid' : '' }}" name="last_name" placeholder="Last Name" value="{{ old('last_name') }}" required>
+                                            @if ($errors->has('last_name'))
+                                                <div class="text-danger">{{$errors->first('last_name')}}</div>
                                             @endif
                                         </div>
                                         <div class="col-md-3 mb-3">
@@ -39,13 +55,6 @@
                                                 <div class="text-danger">{{$errors->first('middle_name')}}</div>
                                             @endif
                                         </div>
-                                        <div class="col-md-3 mb-3">
-                                            <label for="validationCustom02">Last name</label>
-                                            <input type="text" class="form-control {{ $errors->has('last_name') ? 'is-invalid' : '' }}" name="last_name" placeholder="Last Name" value="{{ old('last_name') }}" required>
-                                            @if ($errors->has('last_name'))
-                                                <div class="text-danger">{{$errors->first('last_name')}}</div>
-                                            @endif
-                                        </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="col-md-2 mb-3">
@@ -53,11 +62,11 @@
                                             <div class="col-md-12 mt-2" style="padding-left: 0">
                                                 <div class="custom-control custom-radio form-check form-check-inline" style="width:40%;float:left;">
                                                     <input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" @if(old('gender')) checked @endif name="gender">
-                                                    <label class="custom-control-label" for="customControlValidation2a">Male</label>
+                                                    <label class="custom-control-label" for="customControlValidation2a">MALE</label>
                                                 </div>
                                                 <div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
                                                     <input type="radio" class="custom-control-input" id="customControlValidation3a" value="female" @if(old('gender')) checked @endif name="gender">
-                                                    <label class="custom-control-label" for="customControlValidation3a">Female</label>
+                                                    <label class="custom-control-label" for="customControlValidation3a">FEMALE</label>
                                                 </div>
                                                 @if ($errors->has('gender'))
                                                     <div class="text-danger mt-3" style="display: inline-block;">{{$errors->first('gender')}}</div>

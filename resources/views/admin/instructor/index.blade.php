@@ -26,6 +26,7 @@
                         <tr>
                             <th>ID No.</th>
                             <th>Avatar</th>
+                            <th>Nickname</th>
                             <th>First Name</th>
                             <th>Middle Name</th>
                             <th>Last Name</th>
@@ -39,6 +40,7 @@
                         <tr>
                             <td>{{ $instructor->id_num }}</td>
                             <td><image src="{{ asset($instructor->image) }}" width="40px"></td>
+                            <td>{{ $instructor->nickname }}</td>
                             <td>{{ $instructor->first_name }}</td>
                             <td>{{ $instructor->middle_name }}</td>
                             <td>{{ $instructor->last_name }}</td>
@@ -66,6 +68,7 @@
                         <tr>
                             <th>ID No.</th>
                             <th>Avatar</th>
+                            <th>Nickname</th>
                             <th>First Name</th>
                             <th>Middle Name</th>
                             <th>Last Name</th>

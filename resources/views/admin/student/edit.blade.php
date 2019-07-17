@@ -87,7 +87,7 @@
 														checked
 														@endif
 														>
-														<label class="custom-control-label" for="customControlValidation2a">Male</label>
+														<label class="custom-control-label" for="customControlValidation2a">MALE</label>
 													</div>
 													<div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
 														<input type="radio" class="custom-control-input" id="customControlValidation3a" value="female" name="gender"
@@ -95,7 +95,7 @@
 														checked
 														@endif
 														>
-														<label class="custom-control-label" for="customControlValidation3a">Female</label>
+														<label class="custom-control-label" for="customControlValidation3a">FEMALE</label>
 													</div>
 												</div>
 											</div>

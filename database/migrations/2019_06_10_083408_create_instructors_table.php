@@ -17,6 +17,7 @@ class CreateInstructorsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('id_num')->unsigned();
             $table->string('image');
+            $table->string('nickname')->nullable();
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');

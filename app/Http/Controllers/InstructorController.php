@@ -48,6 +48,7 @@ class InstructorController extends Controller
         $newInstructor = [
             'id_num' => $request->id_num,
             'image' => 'images/avatar/' . $avatar_name,
+            'nickname' => $request->nickname,
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
@@ -126,6 +127,7 @@ class InstructorController extends Controller
         }
 
         $instructor->id_num = $request->id_num;
+        $instructor->nickname = $request->nickname;
         $instructor->first_name = $request->first_name;
         $instructor->middle_name = $request->middle_name;
         $instructor->last_name = $request->last_name;

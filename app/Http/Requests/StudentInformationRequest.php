@@ -24,7 +24,7 @@ class StudentInformationRequest extends FormRequest
   public function rules()
   {
     return [
-      'id_num' => 'required',
+      'id_num' => 'required|max:5|min:5',
       'first_name' => 'required',
       // 'middle_name' => 'required',
       'last_name' => 'required',
@@ -42,6 +42,8 @@ class StudentInformationRequest extends FormRequest
   public function messages()
   {
     return [
+      'id_num.max' => 'Student ID must contain 5 characters.',
+      'id_num.max' => 'Student ID must only contain 5 characters.',
       'id_num.unique' => 'An existing student has the same ID',
       'id_num.required' => 'Student ID field is required',
       'gender.required' => 'Gender is required',

@@ -39,7 +39,7 @@ class ClassScheduleController extends Controller
   protected function getSchedules() {
     return ClassSchedule::join('instructors', 'instructors.id', 'instructor_id')
       ->join('student_levels', 'student_levels.id', 'grade_id')
-      ->select('class_schedules.*', 'first_name', 'last_name', 'student_levels.name as grade_name')
+      ->select('class_schedules.*', 'instructors.nickname as instructor_nickname', 'student_levels.name as grade_name')
       ->get();
   }
 
