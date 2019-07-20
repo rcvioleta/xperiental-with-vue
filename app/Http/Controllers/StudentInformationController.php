@@ -29,7 +29,7 @@ class StudentInformationController extends Controller
   }
 
   protected function getStudents() {
-    return StudentInformation::orderBy('student_information.last_name')->get();
+    return StudentInformation::orderBy('student_information.id_num')->get();
   }
 
   /**

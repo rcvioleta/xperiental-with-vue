@@ -15,7 +15,7 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-table striped hover 
+                <b-table striped hover
                 :items="studentData" 
                 :fields="fields" 
                 :per-page="perPage" 

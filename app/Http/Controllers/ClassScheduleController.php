@@ -45,7 +45,7 @@ class ClassScheduleController extends Controller
 
   protected function getStudents()
   {
-    return StudentInformation::orderBy('last_name', 'desc')->get();
+    return StudentInformation::orderBy('last_name')->get();
   }
 
   protected function getClassTypes()
