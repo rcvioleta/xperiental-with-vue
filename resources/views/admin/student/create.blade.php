@@ -69,13 +69,13 @@
 											<label for="validationCustom03">Gender</label>
 											<div class="col-md-12 mt-2" style="padding-left: 0">
 												<div class="custom-control custom-radio form-check form-check-inline" style="width:40%;float:left;">
-													<input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" name="gender" 
-													@if(old('gender') === 'male') checked @endif>
-													<label class="custom-control-label" for="customControlValidation2a">MALE</label>
+													<input type="radio" class="custom-control-input" id="customControlValidation2a" value="Male" name="gender" 
+													@if(old('gender') === 'Male') checked @endif>
+													<label class="custom-control-label" for="customControlValidation2a">Male</label>
 												</div>
 												<div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
-													<input type="radio" class="custom-control-input" id="customControlValidation3a" value="female" name="gender" @if(old('gender') === 'female') checked @endif>
-													<label class="custom-control-label" for="customControlValidation3a">FEMALE</label>
+													<input type="radio" class="custom-control-input" id="customControlValidation3a" value="Female" name="gender" @if(old('gender') === 'Female') checked @endif>
+													<label class="custom-control-label" for="customControlValidation3a">Female</label>
 												</div>
 											</div>
 											@if ($errors->has('gender'))

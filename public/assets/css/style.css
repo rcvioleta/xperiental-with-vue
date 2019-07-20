@@ -1,3 +1,27 @@
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+}
+.nav-tabs .nav-link {
+  padding: 10px 16px;
+  margin-right: 4px;
+  background-color: #f5f5f5;
+  border: 1px solid #e7e7e7;
+}
+.dropdown-menu {
+  width: 200px;
+}
+#sidebar .dropdown-toggle::after {
+  float: right; 
+  top: -30px;
+  position: relative;
+}
+#sidebar .nav-item.dropdown {
+    height: 70px;
+}
+#sidebar hr {
+  border-top: 1px solid rgba(245, 245, 245, 0.3);
+  width: 90%;
+}
 .sidebar.bg-dark .nav .nav-item .nav-link.nav-parent::after, .sidebar .nav .nav-item .nav-link.nav-parent::after {
     font-family: "LineAwesome";
     content: "\f112";
@@ -89,60 +113,59 @@ table.table td:nth-child(1), table.table th:nth-child(1) {
 }
 /*#toast-container > .toast.toast-success::before {
     content: "";
-}*/
-#myTabContent-6 .table-button {
-    padding: 6px 12px !important;
-    cursor: pointer !important;
-    text-transform: uppercase !important;
-    font-size: 10px !important;
-    border-radius: 5px !important;
-}
-table.table-hover tbody tr:hover {
-    background-color: #2dd4c6 !important;
-}
-.profile-image {
-    width: auto !important;
-    border: 1px solid #cacaca;
-    max-height: 260px !important;
-}
-.el-transfer-panel {
-    width: 43% !important;
-}
-.el-transfer-panel__item.el-checkbox {
-    width: 100% !important;
-    margin-right: 0 !important;
-}
-legend.col-form-label {
-    line-height: 1.5 !important;
-}
-a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
-    color: white !important;
-    font-size: 12px !important;
-}
-.el-select-dropdown.el-popper {
-    z-index: 99999 !important;
-}
-.el-select .el-input__inner {
-    padding: .6rem .75rem !important;
-    margin-top: 0 !important;
-    border: 1px solid #d2d2d2 !important;
-    width: 100% !important;
-    font-size: 1rem !important;
-    line-height: 1.5 !important;
-    color: #343a40 !important;
-    margin-right: -6px !important;
-}
-#sidebar {
-    background-color: #122f3b;
-}
-.el-menu {
-     border-right: none !important; 
-     background-color: #122f3b !important;
-}
-.el-menu-item, .el-submenu__title {
-     font-size: 13px !important;
-}
-.el-menu-item:focus, .el-menu-item:hover, .el-submenu__title:hover {
+    }*/
+    #myTabContent-6 .table-button {
+        padding: 6px 12px !important;
+        cursor: pointer !important;
+        text-transform: uppercase !important;
+        font-size: 13px !important;
+        border-radius: 5px !important;
+        width: 80px;
+        color: #8c7d00 !important;
+    }
+    table.table-hover tbody tr:hover {
+        background-color: #2dd4c6 !important;
+    }
+    .profile-image {
+        width: auto !important;
+        border: 1px solid #cacaca;
+        max-height: 260px !important;
+    }
+    .el-transfer-panel {
+        width: 43% !important;
+    }
+    .el-transfer-panel__item.el-checkbox {
+        width: 100% !important;
+        margin-right: 0 !important;
+    }
+    legend.col-form-label {
+        line-height: 1.5 !important;
+    }
+    a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
+        color: white !important;
+        font-size: 12px !important;
+    }
+    .el-select-dropdown.el-popper {
+        z-index: 99999 !important;
+    }
+    .el-select .el-input__inner {
+        padding: .6rem .75rem !important;
+        margin-top: 0 !important;
+        border: 1px solid #d2d2d2 !important;
+        width: 100% !important;
+        font-size: 1rem !important;
+        line-height: 1.5 !important;
+        color: #343a40 !important;
+        margin-right: -6px !important;
+    }
+    #sidebar {
+        background-color: #122f3b;
+    }
+    .el-menu {
+       border-right: none !important; 
+       background-color: #122f3b !important;
+   }
+   .el-menu-item:focus, .el-menu-item:hover, .el-submenu__title:hover {
     outline: 0;
     background: #ecf5ff !important;
     background: #07a7e3 !important;
@@ -154,6 +177,7 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
     color: #fff !important;
 }
 .el-menu-item, .el-submenu__title {
+    font-size: 14px !important;
     height: 50px !important;
     line-height: 50px !important;
 }
@@ -179,14 +203,6 @@ a.navbar-brand {
 .el-container {
     height: 100vh;
 }
-.btn.btn-sm.btable-button, .btn.btn-sm.btable-button:hover {
-    padding: 6px 12px !important;
-    cursor: pointer !important;
-    text-transform: uppercase !important;
-    font-size: 10px !important;
-    border-radius: 5px !important;
-    color: #ac9a02 !important;
-}
 #toast-container > .toast::before {
     top: 10px !important;
 }
@@ -199,4 +215,42 @@ a.navbar-brand {
 }
 span.fc-time {
     display: none !important;
+}
+.form-control, label {
+    font-size: 14px;
+}
+table.table th, table.table td, table th, table td {
+    font-size: 16px;
+}
+.custom-file-input, .form-control {
+    padding: .6rem .6rem;
+}
+.form-control[type="date"] {
+    padding: .6rem 0 .6rem .6rem;
+}
+.el-submenu .el-menu-item {
+    padding-left: 48px !important;
+}
+.table td, .table th {
+    padding: 1.5rem;
+}
+.btn {
+    font-size: 1.3rem;
+}
+.btn.btn-sm.btable-button, .btn.btn-sm.btable-button:hover {
+    padding: 3px 12px !important;
+    font-size: 13px !important;
+    margin: 0;
+
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    border-radius: 5px !important;
+    color: #ac9a02 !important;
+}
+.btn-group-sm > .btn, .btn.btn-sm {
+    padding: 0.3rem 1.3rem;
+    font-size: 1rem;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1.3rem;
 }

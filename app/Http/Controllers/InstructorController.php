@@ -15,7 +15,7 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        return view('admin.instructor.index')->with('instructors', Instructor::all());
+        return view('admin.instructor.index')->with('instructors', Instructor::orderBy('last_name')->get());
     }
 
     /**

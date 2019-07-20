@@ -15,7 +15,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-12 pb-5">
-              <student-list-new :students="{{ json_encode($students) }}"></student-list-new>
+              <student-list :students="{{ json_encode($students) }}"></student-list>
             </div>
           </div>
         </div>

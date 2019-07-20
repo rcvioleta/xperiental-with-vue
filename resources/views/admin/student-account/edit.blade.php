@@ -11,8 +11,8 @@
 		<div class="card">
 			<div class="card-header">
 				<ul class="nav nav-tabs card-header-tabs" id="myTab-6" role="tablist">
-					<li class="nav-item active">
-						<a class="nav-link" href="#tab-1" data-toggle="tab" role="tab" aria-controls="tab-1" aria-selected="true">Account Details</a>
+					<li class="nav-item">
+						<a class="nav-link active" href="#tab-1" data-toggle="tab" role="tab" aria-controls="tab-1" aria-selected="true">Account Details</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#tab-2" data-toggle="tab" role="tab" aria-controls="tab-2" aria-selected="false">CLASS HISTORY</a>
@@ -23,11 +23,11 @@
 				<div class="tab-content" id="myTabContent-6">
 
 					<div id="tab-1" class="row tab-pane fade show active" role="tabpanel" aria-labelledby="tab-1">
-						<student-account-details :accounts="{{ $accounts }}"></student-account-details>
+						<student-account-details :accounts="{{ $accounts }}" :student="{{ $student }}"></student-account-details>
 					</div>
 
 					<div id="tab-2" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-2">
-						<class-schedule-list :class-schedules="{{ $classSchedules }}"></class-schedule-list>
+						<student-account-class-list :class-schedules="{{ $classSchedules }}"></student-account-class-list>
 					</div>
 
 				</div>

@@ -33,7 +33,7 @@
 										<div class="form-row">
 											<div class="col-md-2 mb-3">
 												<label for="validationCustom01">Student ID</label>
-												<input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" id="validationCustom01" value="{{ $student->id_num }}" name="id_num" readonly>
+												<input type="text" class="form-control {{$errors->has('id_num') ? 'is-invalid' : ''}}" id="validationCustom01" value="{{ $student->id_num }}" name="id_num">
 												@if ($errors->has('id_num'))
 													<div class="text-danger">
 														{{$errors->first('id_num')}}
@@ -82,20 +82,20 @@
 												<label for="validationCustom03">Gender</label>
 												<div class="col-md-12 mt-2" style="padding-left: 0">
 													<div class="custom-control custom-radio form-check form-check-inline" style="width:40%;float:left;">
-														<input type="radio" class="custom-control-input" id="customControlValidation2a" value="male" name="gender" 
-														@if($student->gender == "male")
+														<input type="radio" class="custom-control-input" id="customControlValidation2a" value="Male" name="gender" 
+														@if($student->gender == "Male")
 														checked
 														@endif
 														>
-														<label class="custom-control-label" for="customControlValidation2a">MALE</label>
+														<label class="custom-control-label" for="customControlValidation2a">Male</label>
 													</div>
 													<div class="custom-control custom-radio mb-3 form-check form-check-inline" style="width:20%;float:left;">
-														<input type="radio" class="custom-control-input" id="customControlValidation3a" value="female" name="gender"
-														@if($student->gender == "female")
+														<input type="radio" class="custom-control-input" id="customControlValidation3a" value="Female" name="gender"
+														@if($student->gender == "Female")
 														checked
 														@endif
 														>
-														<label class="custom-control-label" for="customControlValidation3a">FEMALE</label>
+														<label class="custom-control-label" for="customControlValidation3a">Female</label>
 													</div>
 												</div>
 											</div>
@@ -219,7 +219,7 @@
 					</div>
 					<div id="tab-6-2" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-6-2">
 							
-						<educational-list :student-id="{{ $student->id }}" :edu-backgrounds="{{ $eduBackgrounds }}"></educational-list>
+						<student-educational-list :student-id="{{ $student->id }}" :edu-backgrounds="{{ $eduBackgrounds }}"></student-educational-list>
 
 					</div>
 				</div>

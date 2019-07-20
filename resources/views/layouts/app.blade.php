@@ -15,37 +15,12 @@
   <link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 
   <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
   <!-- Styles -->
   {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
-  @yield('styling')
-  <style type="text/css">
-		.nav-tabs .nav-link.active {
-      font-weight: bold;
-		}
-		.nav-tabs .nav-link {
-      padding: 10px 16px;
-      margin-right: 4px;
-      background-color: #f5f5f5;
-      border: 1px solid #e7e7e7;
-		}
-		.dropdown-menu {
-      width: 200px;
-		}
-		#sidebar .dropdown-toggle::after {
-      float: right; 
-      top: -30px;
-      position: relative;
-		}
-		#sidebar .nav-item.dropdown {
-			height: 70px;
-		}
-		#sidebar hr {
-      border-top: 1px solid rgba(245, 245, 245, 0.3);
-      width: 90%;
-		}
-	</style>
+  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
 </head>
 <body>
 
@@ -56,28 +31,18 @@
             <side-bar user-name="Administrator"></side-bar>
 
           </el-aside>
+          <el-main>
 
-                <!-- <div class="right-column">
-                    <main class="main-content p-5" role="main"> -->
-                      <el-main>
-                        @yield('content')
-                      <el-main>
-                    <!-- </div>
-                </div> -->
+            @yield('content')
+
+          <el-main>
         </el-container>
-            <!-- </div>
-        </div> -->
-
     </div>
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}"></script>
 
   @yield('scripts')
-
-  <script src="{{ asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}" defer></script>
-  <script src="{{ asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}" defer></script>
 
   <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}" defer></script>
 

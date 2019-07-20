@@ -66,7 +66,7 @@
               <div class="row">
                 <div class="p-0 col-lg-12 pb-5">
                   <div class="table-responsive">
-                    <student-level-crud></student-level-crud>
+                    <level-crud></level-crud>
                   </div>
                 </div>
               </div>

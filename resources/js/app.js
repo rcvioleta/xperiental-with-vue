@@ -19,31 +19,35 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('side-bar', require('./components/layout/sidebar.vue').default);
-Vue.component('subject-crud', require('./components/subject/SubjectCrud.vue').default);
-Vue.component('subject-form', require('./components/subject/AddSubject.vue').default);
-// Vue.component('add-student-button', require('./components/student/AddStudentButton.vue').default);
-// Vue.component('personal-information-form', require('./components/student/PersonalInformationForm.vue').default);
-// Vue.component('emergency-contact-form', require('./components/student/EmergencyContactForm.vue').default);
-// Vue.component('education-background-crud', require('./components/student/EducationalBackgroundForm.vue').default);
-Vue.component('student-level-crud', require('./components/studentLevel/StudentLevelCrud.vue').default);
-Vue.component('level-form', require('./components/studentLevel/AddStudentLevel.vue').default);
-Vue.component('classroom-crud', require('./components/classroom/ClassroomCrud.vue').default);
-Vue.component('classroom-form', require('./components/classroom/AddClassroom.vue').default);
-Vue.component('class-rate-crud', require('./components/classRate/ClassRateCrud.vue').default);
-Vue.component('class-rate-form', require('./components/classRate/AddClassRate.vue').default);
-Vue.component('user-crud', require('./components/user/UserCrud.vue').default);
-Vue.component('user-form', require('./components/user/AddUser.vue').default);
-Vue.component('student-list-new', require('./components/student/StudentListNew.vue').default);
+
+Vue.component('subject-crud', require('./components/configuration/subject/SubjectCrud.vue').default);
+Vue.component('subject-form', require('./components/configuration/subject/AddSubject.vue').default);
+
+Vue.component('level-crud', require('./components/configuration/studentLevel/StudentLevelCrud.vue').default);
+Vue.component('level-form', require('./components/configuration/studentLevel/AddStudentLevel.vue').default);
+
+Vue.component('classroom-crud', require('./components/configuration/classroom/ClassroomCrud.vue').default);
+Vue.component('classroom-form', require('./components/configuration/classroom/AddClassroom.vue').default);
+
+Vue.component('class-rate-crud', require('./components/configuration/classRate/ClassRateCrud.vue').default);
+Vue.component('class-rate-form', require('./components/configuration/classRate/AddClassRate.vue').default);
+
+Vue.component('user-crud', require('./components/configuration/user/UserCrud.vue').default);
+Vue.component('user-form', require('./components/configuration/user/AddUser.vue').default);
+
+Vue.component('student-list', require('./components/student/StudentList.vue').default);
+Vue.component('student-educational-list', require('./components/student/StudentEducationalList.vue').default);
+
 Vue.component('student-account-list', require('./components/student-account/StudentAccountList.vue').default);
 Vue.component('student-account-details', require('./components/student-account/StudentAccountDetails.vue').default);
-Vue.component('class-schedule-form', require('./components/calendar/AddClassSchedule.vue').default);
-Vue.component('class-schedule', require('./components/calendar/ClassSchedule.vue').default);
-Vue.component('educational-list', require('./components/educationalbackground/EducationalList.vue').default);
-Vue.component('class-calendar', require('./components/classSchedule/class-calendar.vue').default);
-Vue.component('class-schedule-list', require('./components/classSchedule/class-schedule-list.vue').default);
+Vue.component('student-account-class-list', require('./components/student-account/StudentAccountClassList.vue').default);
+
+Vue.component('class-calendar', require('./components/class-calendar/ClassCalendar.vue').default);
+
 Vue.component('revenue-forecast', require('./components/dashboard/RevenueForecast.vue').default);
+
+Vue.component('instructor-list', require('./components/instructor/InstructorList.vue').default);
 
 
 export const EventBus = new Vue();

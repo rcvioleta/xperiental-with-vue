@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\StudentInformation;
+use App\StudentAccount;
 use App\ClassStudent;
 
 class StudentAccountController extends Controller
@@ -66,12 +67,12 @@ class StudentAccountController extends Controller
 
         $classSchedules = $this->getStudentClassSchedule($id);
 
-        // $accounts = $this->getStudentAccounts($id);
+        $accounts = $this->getStudentAccounts($id);
 
         return view('admin.student-account.edit', [
           'student' => $student,
           'classSchedules' => $classSchedules,
-          // 'accounts' => $accounts
+          'accounts' => $accounts
         ]);
     }
 
@@ -126,6 +127,12 @@ class StudentAccountController extends Controller
             ->select('class_schedules.*', 'credits', 'class_rates.name as class_type', 'subjects.name as subject', 'first_name', 'middle_name', 'last_name', 'class_schedules.status as status')
             ->where('student_id', $id)
             ->orderBy('class_students.class_students_id', 'Desc')
+            ->get();
+    }
+
+    protected function getStudentAccounts($id) {
+        return StudentAccount::where('student_id', $id)
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 }
