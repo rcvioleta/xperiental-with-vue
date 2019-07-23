@@ -45,14 +45,10 @@ class StudentAccountController extends Controller
     {
         StudentAccount::create($request->all());
 
-        $accounts = $this->getStudentAccount($request->student_id);
-
-        $accountInfo = $this->getAccountInfo($request->student_id);
-
         return response()->json([
           'message' => 'Successfully added New Payment Record',
-          'newlist' => $accounts,
-          'accountInfo' => $accountInfo,
+          'newlist' => $this->getStudentAccount($request->student_id),
+          'accountInfo' => $this->getAccountInfo($request->student_id),
           'status' => 200
         ]);
     }
@@ -106,14 +102,10 @@ class StudentAccountController extends Controller
 
         $studentAccount->update($request->all());
 
-        $accounts = $this->getStudentAccount($request->student_id);
-
-        $accountInfo = $this->getAccountInfo($request->student_id);
-
         return response()->json([
           'message' => 'Successfully updated Payment Record',
-          'newlist' => $accounts,
-          'accountInfo' => $accountInfo,
+          'newlist' => $this->getStudentAccount($request->student_id),
+          'accountInfo' => $this->getAccountInfo($request->student_id),
           'status' => 200
         ]);
     }
@@ -131,46 +123,34 @@ class StudentAccountController extends Controller
         return response()->json([
           'message' => 'Successfully deleted Payment Schedule',
           'newlist' => $this->getStudentAccount($student_id),
+          'accountInfo' => $this->getStudentAccount($student_id),
           'status' => 200
         ]);
     }   
 
     protected function getAllStudentAccount() {
 
-        // $std = StudentInformation::groupBy('id')
-        //     ->leftJoin('enrollments', 'enrollments.student_id', 'student_information.id')
-        //     ->selectRaw('id, id_num, first_name, middle_name, last_name, gender, nickname, registration_date, birth_date, student_information.created_at as created_at, SUM(credits) as credits')
-        //     ->orderBy('student_information.id_num', 'desc')
-        //     ->get();
-
-        // $credit_cost = ClassStudent::groupBy('student_id')
-        //     ->selectRaw('student_id, SUM(credits) as credit_cost')
-        //     ->get();
-
-        // $total_payment = StudentAccount::where('student_id', $id)->sum('amount');
-        // $used_credits = ClassStudent::where('student_id', $id)->sum('credits');
-        // $credit_cost = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-        //     ->where('student_id', $id)->sum('credit_cost');
-
-
-        // $getListData = [
-        //     'student' => $std,
-        //     'credit_cost' => $credit_cost
-        // ];
-
-        $accounts = ClassStudent::groupBy('student_id')
+        $accounts = StudentInformation::groupBy('student_information.id')
+                    ->leftJoin('class_students', 'class_students.student_id', 'student_information.id')
                     ->leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-                    ->leftJoin('student_information', 'class_students.student_id', 'student_information.id')
-                    ->selectRaw('student_id, id_num, nickname, first_name, middle_name, last_name, sum(credit_cost) as credit_cost')
+                    ->selectRaw('student_information.id as student_id, id_num, nickname, first_name, middle_name, last_name, sum(credit_cost) as credit_cost')
+                    ->orderBy('id_num')
                     ->get();
 
         $payment = StudentAccount::groupBy('student_id')
                     ->selectRaw('student_id, sum(amount) as payment')
                     ->where('payment_type', '1')->get();
 
+        $annual_fee = StudentAccount::groupBy('student_id')
+                    ->selectRaw('student_id, COUNT(*) as annual_fee')
+                    ->where('payment_type', '0')
+                    ->whereYear('payment_date', Carbon::today()->format('Y'))
+                    ->get();
+
         return [
                 'accounts' => $accounts,
-                'payment' => $payment
+                'payment' => $payment,
+                'annual_fee' => $annual_fee
             ];
     }
 
@@ -187,13 +167,13 @@ class StudentAccountController extends Controller
 
     protected function getStudentAccount($id) {
         return StudentAccount::where('student_id', $id)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('payment_date', 'desc')
             ->get();
     }
 
     protected function getAccountInfo($id) {
 
-        $first_payment = StudentAccount::select('payment_date')->where('student_id', $id)->first();
+        $first_payment = StudentAccount::select('payment_date')->where('student_id', $id)->orderBy('payment_date', 'asc')->first();
         $last_payment = StudentAccount::select('payment_date')->where('student_id', $id)->orderBy('payment_date', 'desc')->first();
         $payment_count = StudentAccount::where('student_id', $id)->count();
         $payment_count = StudentAccount::where('student_id', $id)->count();

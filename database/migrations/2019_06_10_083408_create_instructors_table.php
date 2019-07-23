@@ -16,17 +16,17 @@ class CreateInstructorsTable extends Migration
         Schema::create('instructors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('id_num')->unsigned();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('nickname')->nullable();
-            $table->string('first_name');
-            $table->string('middle_name');
-            $table->string('last_name');
-            $table->string('position');
-            $table->string('gender');
-            $table->date('bday');
-            $table->string('contact_num');
-            $table->string('address');
-            $table->date('hired_date');
+            $table->string('first_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('position')->nullable();
+            $table->string('gender')->nullable();
+            $table->date('bday')->nullable();
+            $table->string('contact_num')->nullable();
+            $table->string('address')->nullable();
+            $table->date('hired_date')->nullable();
             $table->softDeletes();
             $table->integer('status');
             $table->timestamps();

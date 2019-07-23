@@ -15,9 +15,9 @@ class CreateStudentLevelsTable extends Migration
   {
     Schema::create('student_levels', function (Blueprint $table) {
       $table->bigIncrements('id');
-      $table->string('name');
-      $table->string('slug');
-      $table->integer('status');
+      $table->string('name')->nullable();
+      $table->string('slug')->nullable();
+      $table->integer('status')->nullable();
       $table->timestamps();
     });
   }

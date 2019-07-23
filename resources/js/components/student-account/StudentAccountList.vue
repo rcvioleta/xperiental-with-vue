@@ -26,23 +26,26 @@
                 <template slot="student_name" slot-scope="data">
                     {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
                 </template>
-                <!-- <template slot="available_credits" slot-scope="data">
-                    {{ isNaN(data.item.credits - data.item.credits_used) ? '' : (data.item.credits - data.item.credits_used) }}
-                </template> -->
                 <template slot="balance" slot-scope="data">
-                    <span v-if="(data.item.payment - data.item.credit_cost) > 0" style="color: green;">
+                    <span v-if="(data.item.payment - data.item.credit_cost) > 0" style="color: green;font-weight: bold;">
                         (+){{ data.item.payment - data.item.credit_cost }}
                     </span>
-                    <span v-else-if="(data.item.payment - data.item.credit_cost) == 0" style="color: green;">
+                    <span v-else-if="(data.item.payment - data.item.credit_cost) == 0" style="color:green;font-weight: bold;">
                         {{ data.item.payment - data.item.credit_cost }}
                     </span>
                     <span v-else-if="isNaN(data.item.payment - data.item.credit_cost)">
-                        
                     </span>
-                    <span v-else style="color: red;">
+                    <span v-else style="color: red;font-weight: bold;">
                         {{ data.item.payment - data.item.credit_cost }}
                     </span>
-
+                </template>
+                <template slot="annual_fee" slot-scope="data">
+                    <span v-if="data.item.annual_fee > 0" style="color:green;font-weight:bold;">
+                        Paid
+                    </span>
+                    <span v-else style="color:red;font-weight:bold;">
+                        Unpaid
+                    </span>
                 </template>
                 <template slot="action" slot-scope="data">
                     <a :href="'/admin/studentaccount/edit/' + data.item.student_id" class="btn btn-sm btn-primary pull-right waves-effect waves-light btable-button" style="color: white !important;">
@@ -79,6 +82,7 @@
                 perPage: 10,
                 pageOptions: [10, 20, 50],
                 payment: this.data.payment,
+                annual_fee: this.data.annual_fee,
                 studentData: this.data.accounts,
                 totalRows: this.data.accounts.length,
                 filter: null,
@@ -87,13 +91,14 @@
                     'nickname',
                     'student_name',
                     'balance',
+                    'annual_fee',
                     'action',
                 ],
             }
         },
         created() {
             var res = this.studentData.map(x => Object.assign(x, this.payment.find(y => y.student_id == x.student_id)));
-            // console.log('Hey: ', res);
+            var res2 = this.studentData.map(x => Object.assign(x, this.annual_fee.find(y => y.student_id == x.student_id)));
         },
         methods: {
             onFiltered(filteredItems) {

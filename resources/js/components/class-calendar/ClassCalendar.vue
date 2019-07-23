@@ -195,6 +195,9 @@
             });
 
             this.listInstructor = this.instructors.map(item => {
+                if(item.middle_name == null)
+                    item.middle_name = ''
+                
                 return { value: item.id, label: item.first_name + ' ' + item.middle_name + ' ' + item.last_name };
             });
 
