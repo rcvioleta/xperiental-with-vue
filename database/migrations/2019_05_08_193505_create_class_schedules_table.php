@@ -19,6 +19,7 @@ class CreateClassSchedulesTable extends Migration
       $table->dateTime('date_end')->nullable();
       $table->integer('instructor_id')->nullable();
       $table->integer('class_rate_id')->nullable();
+      $table->double('credit_cost', 8, 2)->nullable();
       $table->integer('subject_id')->nullable();
       $table->integer('grade_id')->nullable();
       $table->boolean('status')->default(1);

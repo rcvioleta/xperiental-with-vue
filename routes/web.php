@@ -72,14 +72,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 
   // Start Jomar
-  Route::prefix('enrollment')->group(function () {
-    Route::get('/', 'EnrollmentController@index')->name('enrollment.index');
-    Route::get('/create', 'EnrollmentController@create')->name('enrollment.create');
-    Route::get('/{id}/edit/', 'EnrollmentController@edit')->name('enrollment.edit');
-    Route::post('/{id}/update', 'EnrollmentController@update')->name('enrollment.update');
-    Route::post('/', 'EnrollmentController@store')->name('enrollment.store');
-    Route::post('/{id}', 'EnrollmentController@update')->name('enrollment.update');
-  });
+  // Route::prefix('enrollment')->group(function () {
+  //   Route::get('/', 'EnrollmentController@index')->name('enrollment.index');
+  //   Route::get('/create', 'EnrollmentController@create')->name('enrollment.create');
+  //   Route::get('/{id}/edit/', 'EnrollmentController@edit')->name('enrollment.edit');
+  //   Route::post('/{id}/update', 'EnrollmentController@update')->name('enrollment.update');
+  //   Route::post('/', 'EnrollmentController@store')->name('enrollment.store');
+  //   Route::post('/{id}', 'EnrollmentController@update')->name('enrollment.update');
+  // });
 
   Route::prefix('studentmanagement')->group(function () {
     Route::get('/', 'StudentInformationController@index')->name('student.index');
@@ -113,6 +113,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   Route::prefix('studentaccount')->group(function () {
     Route::get('/', 'StudentAccountController@index')->name('studentaccount.index');
     Route::get('/edit/{id}', 'StudentAccountController@edit')->name('studentaccount.edit');
+    Route::post('/store', 'StudentAccountController@store');
+    Route::post('/update/{id}', 'StudentAccountController@update');
+    Route::get('/delete/{id}/{student_id}', 'StudentAccountController@destroy');
   });
 
   Route::get('/revenue-test', 'DashboardController@getRevenues');

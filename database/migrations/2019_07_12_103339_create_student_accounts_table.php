@@ -17,6 +17,7 @@ class CreateStudentAccountsTable extends Migration
             $table->bigIncrements('student_account_id');
             $table->integer('student_id')->nullable();
             $table->double('amount', 8, 2)->nullable();
+            $table->string('payment_type')->nullable();
             $table->string('payment_status')->nullable();
             $table->date('payment_date')->nullable();
             $table->text('remarks')->nullable();

@@ -90,12 +90,16 @@ class ClassScheduleController extends Controller
    */
   public function store(Request $request)
   {
+    $class_type = ClassRate::select('rate')->where('id', $request->classType)->get();
+
+    $credit_cost = $class_type[0]->rate * $request->credits;
 
     $newSchedule = ClassSchedule::create([
       'date_start' => $request->startTimeFull,
       'date_end' => $request->endTimeFull,
       'instructor_id' => $request->instructor_id,
       'class_rate_id' => $request->classType,
+      'credit_cost' => $credit_cost,
       'subject_id' => $request->subject,
       'grade_id' => $request->grade_id,
       'status' => $request->status,
@@ -156,11 +160,15 @@ class ClassScheduleController extends Controller
 
     $classSchedule = ClassSchedule::findOrFail($id);
 
+    $class_type = ClassRate::select('rate')->where('id', $request->classType)->get();
+    $credit_cost = $class_type[0]->rate * $request->credits;
+
     $classSchedule->fill([
       'date_start' => $request->startTimeFull,
       'date_end' => $request->endTimeFull,
       'instructor_id' => $request->instructor_id,
       'class_rate_id' => $request->classType,
+      'credit_cost' => $credit_cost,
       'subject_id' => $request->subject,
       'grade_id' => $request->grade_id,
       'status' => $request->status,
@@ -194,6 +202,7 @@ class ClassScheduleController extends Controller
   public function destroy($id)
   {
     ClassSchedule::destroy($id);
+    ClassStudent::where('class_schedules_id', $id)->delete();
 
     return response()->json([
       'message' => 'Successfully deleted Class Schedule',
@@ -201,4 +210,5 @@ class ClassScheduleController extends Controller
       'status' => 200
     ]);
   }
+
 }

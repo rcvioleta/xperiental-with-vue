@@ -20,10 +20,10 @@
 				</ul>
 			</div>
 			<div class="card-body">
-				<div class="tab-content" id="myTabContent-6">
+				<div class="tab-content" id="student-account-details-tab">
 
 					<div id="tab-1" class="row tab-pane fade show active" role="tabpanel" aria-labelledby="tab-1">
-						<student-account-details :accounts="{{ $accounts }}" :student="{{ $student }}"></student-account-details>
+						<student-account-details :accounts="{{ $accounts }}" :student="{{ $student }}" :account-info="{{ json_encode($accountInfo) }}" :current-year="{{ $currentYear }}"></student-account-details>
 					</div>
 
 					<div id="tab-2" class="row tab-pane fade" role="tabpanel" aria-labelledby="tab-2">

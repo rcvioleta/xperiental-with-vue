@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container fluid>
         <b-row align-h="between">
             <b-col cols="3">
                 <b-form-group class="mb-10" align="start">
@@ -26,11 +26,26 @@
                 <template slot="student_name" slot-scope="data">
                     {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
                 </template>
-                <template slot="available_credits" slot-scope="data">
+                <!-- <template slot="available_credits" slot-scope="data">
                     {{ isNaN(data.item.credits - data.item.credits_used) ? '' : (data.item.credits - data.item.credits_used) }}
+                </template> -->
+                <template slot="balance" slot-scope="data">
+                    <span v-if="(data.item.payment - data.item.credit_cost) > 0" style="color: green;">
+                        (+){{ data.item.payment - data.item.credit_cost }}
+                    </span>
+                    <span v-else-if="(data.item.payment - data.item.credit_cost) == 0" style="color: green;">
+                        {{ data.item.payment - data.item.credit_cost }}
+                    </span>
+                    <span v-else-if="isNaN(data.item.payment - data.item.credit_cost)">
+                        
+                    </span>
+                    <span v-else style="color: red;">
+                        {{ data.item.payment - data.item.credit_cost }}
+                    </span>
+
                 </template>
                 <template slot="action" slot-scope="data">
-                    <a :href="'/admin/studentaccount/edit/' + data.item.id" class="table-button btn-primary btn-sm waves-effect waves-light tableBTN">
+                    <a :href="'/admin/studentaccount/edit/' + data.item.student_id" class="btn btn-sm btn-primary pull-right waves-effect waves-light btable-button" style="color: white !important;">
                         View <i class="fa fa-eye"></i>
                     </a>
                 </template>
@@ -63,24 +78,22 @@
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [10, 20, 50],
-                creditUsed: this.data.credits_used,
-                studentData: this.data.student,
-                totalRows: this.data.student.length,
+                payment: this.data.payment,
+                studentData: this.data.accounts,
+                totalRows: this.data.accounts.length,
                 filter: null,
                 fields: [
                     { key: 'id_num', label: 'Student ID' },
                     'nickname',
                     'student_name',
-                    'credits',
-                    'credits_used',
-                    'available_credits',
+                    'balance',
                     'action',
                 ],
             }
         },
         created() {
-            var res = this.studentData.map(x => Object.assign(x, this.creditUsed.find(y => y.student_id == x.id)));
-            console.log('Hey: ', res);
+            var res = this.studentData.map(x => Object.assign(x, this.payment.find(y => y.student_id == x.student_id)));
+            // console.log('Hey: ', res);
         },
         methods: {
             onFiltered(filteredItems) {

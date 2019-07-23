@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container fluid>
         <div class="form-row mb-3">
             <div class="col-lg-6">
                 <h2>School Attended</h2>

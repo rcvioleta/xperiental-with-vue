@@ -74,6 +74,10 @@ Vue.use(ElementUI);
 // Vue.component(Select.name, Select);
 // Vue.component(Option.name, Option);
 
+// import swal from 'sweetalert2';
+import swal from "sweetalert";
+// window.swal = swal;
+
 const app = new Vue({
     el: '#app'
 });

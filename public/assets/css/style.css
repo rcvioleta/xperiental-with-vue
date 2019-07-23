@@ -212,11 +212,12 @@ a.navbar-brand {
     display: block;
     margin: 4px 0;
     padding: 6px 10px !important;
+    border-style: none;
 }
 span.fc-time {
     display: none !important;
 }
-.form-control, label {
+.form-control, label, legend.col-form-label {
     font-size: 14px;
 }
 table.table th, table.table td, table th, table td {
@@ -253,4 +254,8 @@ table.table th, table.table td, table th, table td {
 }
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1.3rem;
+}
+#student-account-details-tab .form-group div {
+    font-size: 18px;
+    font-weight: bold;
 }
