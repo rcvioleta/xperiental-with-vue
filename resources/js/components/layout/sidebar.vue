@@ -50,7 +50,7 @@
                 <i class="el-icon-setting"></i>
                 <span>Configurations</span>
             </el-menu-item>
-            <!-- <el-menu-item index="7">
+            <!-- <el-menu-item index="7" onclick="window.location='/admin/report'">
                 <i class="el-icon-folder-opened"></i>
                 <span>Report Management</span>
             </el-menu-item> -->
@@ -60,32 +60,29 @@
 
 <script>
 
-    import 'element-ui/lib/theme-chalk/index.css';
+    // import 'element-ui/lib/theme-chalk/index.css';
 
     export default {
         props: ['logoutRoute', 'userName'],
         data: () => ({
-             csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-             }), 
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        }), 
         mounted() {
             console.log('Component mounted.')
         },
         methods: {
-        itemClick(index) {
-            console.log(index.index);
-        },
         logout:function(){
-               axios.post('/logout').then(response => {
-                  if (response.status === 302 || 401) {
+            axios.post('/logout').then(response => {
+                if (response.status === 302 || 401) {
                     window.location = '/    ';
-                  }
-                  else {
+                }
+                else {
                     // throw error and go to catch block
-                  }
-                }).catch(error => {
+                }
+            }).catch(error => {
 
-              });
-            },
+            });
+        },
     }
 }
 </script>

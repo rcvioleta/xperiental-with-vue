@@ -155,6 +155,7 @@
                 modaltitle: '',
                 editId: '',
                 okName: '',
+                instructor_id_old: '',
                 infoModal: {
                     classDate: '',
                     classType: '',
@@ -253,7 +254,9 @@
                 this.infoModal.subject = arg.event.extendedProps.subject_id;
                 this.infoModal.grade_id = arg.event.extendedProps.grade_id;
                 this.infoModal.status = arg.event.extendedProps.status;
-                this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
+                // this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
+                this.infoModal.instructor_id = arg.event.extendedProps.instructor_name;
+                this.instructor_id_old = arg.event.extendedProps.instructor_id;
                 this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
                 this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
                 this.infoModal.endAmPm = this.beautifyDate(endDate)[0].AmPm;
@@ -317,6 +320,8 @@
                 else if(this.okName == 'Update')
                     url = '/admin/classschedule/update/' + this.editId;
 
+                if(this.instructor_id_old != '' && isNaN(this.infoModal.instructor_id))
+                    this.infoModal.instructor_id = this.instructor_id_old;
 
                 this.SetTimeProperly();
 
@@ -359,12 +364,16 @@
                 this.infoModal.startTimeFull = '';
                 this.infoModal.endTimeFull = '';
                 this.infoModal.instructor_id = '';
+                this.instructor_id_old = '';
             },
             displaySchedule(sched) {
 
                 this.events = []; 
 
                 for(var x = 0; x < sched.length; x++) {
+
+                    if(sched[x].middle_name == null)
+                        sched[x].middle_name = ''; 
 
                     this.events.push({
                         title  : this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
@@ -385,7 +394,8 @@
                         class_rate_id: sched[x].class_rate_id,
                         subject_id: sched[x].subject_id,
                         grade_id: sched[x].grade_id,
-                        status: sched[x].status
+                        status: sched[x].status,
+                        instructor_name: sched[x].first_name + ' ' + sched[x].middle_name + ' ' + sched[x].last_name
                     });
                 }
             },

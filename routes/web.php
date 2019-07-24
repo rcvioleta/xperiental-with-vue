@@ -72,15 +72,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 
   // Start Jomar
-  // Route::prefix('enrollment')->group(function () {
-  //   Route::get('/', 'EnrollmentController@index')->name('enrollment.index');
-  //   Route::get('/create', 'EnrollmentController@create')->name('enrollment.create');
-  //   Route::get('/{id}/edit/', 'EnrollmentController@edit')->name('enrollment.edit');
-  //   Route::post('/{id}/update', 'EnrollmentController@update')->name('enrollment.update');
-  //   Route::post('/', 'EnrollmentController@store')->name('enrollment.store');
-  //   Route::post('/{id}', 'EnrollmentController@update')->name('enrollment.update');
-  // });
-
   Route::prefix('studentmanagement')->group(function () {
     Route::get('/', 'StudentInformationController@index')->name('student.index');
     Route::get('/create', 'StudentInformationController@create')->name('student.create');
