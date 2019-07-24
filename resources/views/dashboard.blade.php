@@ -12,16 +12,15 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-md-6 col-lg-6 col-xl-3 mb-5">
             <div class="card card-tile card-xs bg-primary bg-gradient text-center">
                 <div class="card-body p-4">
-                    <!-- Accepts .invisible: Makes the items. Use this only when you want to have an animation called on it later -->
                     <div class="tile-left">
                         <i class="batch-icon batch-icon-user-alt batch-icon-xxl"></i>
                     </div>
                     <div class="tile-right">
-                        <div class="tile-number">{{ $enrolled_students }}</div>
+                        <div class="tile-number"></div>
                         <div class="tile-description">Enrolled Students</div>
                     </div>
                 </div>
@@ -47,7 +46,7 @@
                         <i class="batch-icon batch-icon-list batch-icon-xxl"></i>
                     </div>
                     <div class="tile-right">
-                        <div class="tile-number">{{ $unused_credits }}</div>
+                        <div class="tile-number"></div>
                         <div class="tile-description">All Unused Credits</div>
                     </div>
                 </div>
@@ -69,7 +68,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-6 col-xl-8 mb-5">
-            <revenue-forecast :revenue_data="{{ $total_revenue }}" />
+            
         </div>
         <div class="col-md-6 col-lg-6 col-xl-4 mb-5">
             <div class="card card-md">
@@ -121,7 +120,7 @@
                 <div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-dark mCSB_scrollTools_vertical mCSB_scrollTools_onDrag_expand" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 143px; max-height: 295px; top: 0px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row mb-5">
         <div class="col-md-12">
             <footer>
