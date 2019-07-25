@@ -1,10 +1,11 @@
-<template>
+    <template>
     <div>
         <full-calendar 
         default-view="dayGridMonth" 
         :plugins="calendarPlugins"
         :weekends="true"
         :events="events"
+        :showNonCurrentDates="false"
         @dateClick="handleDateClick"
         @eventClick="editForm"
         />

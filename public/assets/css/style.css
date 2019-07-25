@@ -259,3 +259,6 @@ table.table th, table.table td, table th, table td {
     font-size: 18px;
     font-weight: bold;
 }
+.fc-today-button {
+    display: none !important;
+}
