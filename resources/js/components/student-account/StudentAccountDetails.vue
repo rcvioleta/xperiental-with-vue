@@ -1,84 +1,31 @@
-<template>
+    <template>
     <b-container fluid>
-        <b-row class="mb-5">
-            <b-col>
-                <b-form-group label="ID #">
-                    {{ student.id_num }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Nickname">
-                    {{ student.nickname }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Student Name">
-                    {{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Registration Date">
-                    {{ student.registration_date }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="First Payment Date">
-                    {{ accountDetails.first_payment.payment_date }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Last Payment Date">
-                    {{ accountDetails.last_payment.payment_date }}
-                </b-form-group>
-            </b-col>
-        </b-row>
-        <b-row class="mb-5">
-            <b-col>
-                <b-form-group label="# of Payments">
-                    {{ accountDetails.payment_count }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Total Credit Payment">
-                    {{ accountDetails.total_payment }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Total Used Credits">
-                    {{ accountDetails.used_credits }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Total Credit Cost">
-                    {{ accountDetails.credit_cost }}
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Balance">
-                    <span v-if="(accountDetails.total_payment - accountDetails.credit_cost) > 0" style="color: green;">
-                        (+){{ accountDetails.total_payment - accountDetails.credit_cost }}
-                    </span>
-                    <span v-else-if="(accountDetails.total_payment - accountDetails.credit_cost) == 0" style="color: green;">
-                        {{ accountDetails.total_payment - accountDetails.credit_cost }}
-                    </span>
-                    <span v-else style="color: red;">
-                        {{ accountDetails.total_payment - accountDetails.credit_cost }}
-                    </span>
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group :label="'Annual Payment (' + currentYear +')'">
-                    <span v-if="accountDetails.annual_fee == '0'" style="color: red;">Unpaid</span>
-                    <span v-else style="color: green;">Paid</span>
-                    <!-- {{ accountDetails.annual_fee == '0'? 'Unpaid' : 'Paid' }} -->
-                </b-form-group>
-            </b-col>
-        </b-row>
-        <hr>
         <b-row align-h="between">
-            <b-col cols="3" class="pt-3" align="left">
-                <b-form-group class="mb-10">
-                    <b-form-input v-model="filter" placeholder="Search"></b-form-input>
+            <b-col cols="6" class="pt-3" align="left">
+                <b-form-group class="mb-10 mr-3 float-left">
+                    <b-form-select style="width: 160px" v-model="accountData.filter_year" @change="dateFilter">
+                        <option value="" disabled>Year Filter</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                    </b-form-select>
+                </b-form-group>
+                <b-form-group class="mb-10 float-left">
+                    <b-form-select style="width: 160px" v-model="accountData.filter_month" @change="dateFilter">
+                        <option value="" disabled>Month Filter</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </b-form-select>
                 </b-form-group>
             </b-col>
             <b-col cols="3">
@@ -87,6 +34,53 @@
                 </b-form-group>
             </b-col>
         </b-row>
+        <b-card class="mb-3" style="box-shadow: 0 0 5px 0px #0000000f !important;border-color: #f5f5f5;">
+            <b-row>
+                <b-col>
+                    <!-- <b-form-group label="Total Used Credits"> -->
+                    <b-form-group label="Total Units">
+                        {{ accountDetails.used_credits }}
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <!-- <b-form-group label="Total Credit Cost"> -->
+                    <b-form-group label="Amount Due">
+                        {{ formatPrice(accountDetails.credit_cost) }}
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <!-- <b-form-group label="Total Credit Payment"> -->
+                    <b-form-group label="Amount Paid">
+                        {{ formatPrice(accountDetails.total_payment) }}
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group label="Balance">
+                        <span v-if="(accountDetails.total_payment - accountDetails.credit_cost) < 0" style="color: red;">
+                            {{ formatPrice(accountDetails.total_payment - accountDetails.credit_cost) }}
+                        </span>
+                        <span v-else>
+                            0
+                        </span>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group label="Credits">
+                        <span v-if="(accountDetails.total_payment - accountDetails.credit_cost) > 0" style="color: green;">
+                            {{ formatPrice(accountDetails.total_payment - accountDetails.credit_cost) }}
+                        </span>
+                        <span v-else>
+                            0
+                        </span>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group label="Payment Date">
+                        {{ accountDetails.last_payment }}
+                    </b-form-group>
+                </b-col>
+            </b-row>
+        </b-card>
         <b-row>
             <b-col>
                 <b-table striped hover 
@@ -94,132 +88,124 @@
                 :fields="fields" 
                 :per-page="perPage" 
                 :current-page="currentPage"
-                :filter="filter"
-                @filtered="onFiltered"
                 >
-                <template slot="payment_type" slot-scope="data">
-                    {{ data.item.payment_type == '0'? 'Annual Fee' : 'Credits Fee' }}
-                </template>
-                <template slot="payment_status" slot-scope="data">
-                    {{ data.item.payment_status == '0'? 'Partial Payment' : 'Full Payment' }}
-                </template>
-                <template slot="action" slot-scope="data">
-                    <button class="btn btn-sm btn-warning pull-right waves-effect waves-light btable-button" @click="editPayment(data.item)">
-                        Edit <i class="fa fa-pencil"></i>
-                    </button>
-                </template>
+                    <template slot="amount" slot-scope="data">
+                        {{ formatPrice(data.item.amount) }}
+                    </template>
+                    <template slot="payment_status" slot-scope="data">
+                        {{ data.item.payment_status == '0'? 'Partial Payment' : 'Full Payment' }}
+                    </template>
+                    <template slot="action" slot-scope="data">
+                        <button class="btn btn-sm btn-warning pull-right waves-effect waves-light btable-button" @click="editPayment(data.item)">
+                            Edit <i class="fa fa-pencil"></i>
+                        </button>
+                    </template>
 
-            </b-table>
-        </b-col>
-    </b-row>
-    <b-row align-h="between">
-        <b-col cols="3">
-            Total Entries: {{ totalRows }}
-        </b-col>
-        <b-col>
-            <b-pagination
-            v-model="currentPage"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            align="right"
-            ></b-pagination>
-        </b-col>
-    </b-row>
-    <b-modal v-model="show" :title="okName + ' Payment'" hide-footer>
-        <b-row>
-            <b-col>
-                <b-form-group label="Amount">
-                    <b-form-input v-model="accountData.amount" style="width: 100%;"></b-form-input>
-                </b-form-group>
-            </b-col>
-            <b-col>
-                <b-form-group label="Payment Type">
-                    <b-form-select v-model="accountData.payment_type">
-                        <option value="" disabled>Select Type</option>
-                        <option value="1">Credits Fee</option>
-                        <option value="0">Annual Fee</option>
-                    </b-form-select>
-                </b-form-group>
+                </b-table>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col>
-                <b-form-group label="Payment Status">
-                    <b-form-select v-model="accountData.payment_status">
-                        <option value="" disabled>Select Status</option>
-                        <option value="0">Partial Payment</option>
-                        <option value="1">Full Payment</option>
-                    </b-form-select>
-                </b-form-group>
+        <b-row align-h="between">
+            <b-col cols="3">
+                Total Entries: {{ totalRows }}
             </b-col>
             <b-col>
-                <b-form-group label="Payment Date">
-                    <b-form-input v-model="accountData.payment_date" type="date" style="width: 100%;"></b-form-input>
-                </b-form-group>
+                <b-pagination
+                v-model="currentPage"
+                :total-rows="totalRows"
+                :per-page="perPage"
+                align="right"
+                ></b-pagination>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col>
-                <b-form-group label="Remarks">
-                    <b-form-textarea v-model="accountData.remarks" rows="3" max-rows="6"></b-form-textarea>
-                </b-form-group>
-            </b-col>
-        </b-row>
-        <b-row>
-            <hr>
-            <div slot="modal-footer" class="w-100">
-                <b-button
-                  variant="danger"
-                  class="float-left ml-4"
-                  @click="deleteForm"
-                >
-                  DELETE
-                </b-button>
-                <b-button
-                  variant="primary"
-                  class="float-right mr-4"
-                  @click="payment"
-                >
-                  {{ okName }}
-                </b-button>
-                <b-button
-                  class="float-right mr-4"
-                  @click="resetFields"
-                >
-                  CANCEL
-                </b-button>
-            </div>
-        </b-row>
-    </b-modal>
-</b-container>
+        <b-modal v-model="show" :title="okName + ' Payment'" hide-footer>
+            <b-form @submit="payment"> 
+                <b-row>
+                    <b-col>
+                        <b-form-group label="Amount">
+                            <b-form-input v-model="accountData.amount" style="width: 100%;" required></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                    <b-col>
+                        <b-form-group label="Payment Date" required>
+                            <b-form-input v-model="accountData.payment_date" type="date" style="width: 100%;"></b-form-input>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="6">
+                        <b-form-group label="Payment Status">
+                            <b-form-select v-model="accountData.payment_status" required>
+                                <option value="" disabled>Select Status</option>
+                                <option value="0">Partial Payment</option>
+                                <option value="1">Full Payment</option>
+                            </b-form-select>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <b-form-group label="Remarks">
+                            <b-form-textarea v-model="accountData.remarks" rows="3" max-rows="6"></b-form-textarea>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <hr>
+                    <div slot="modal-footer" class="w-100">
+                        <b-button
+                          variant="danger"
+                          class="float-left ml-4"
+                          @click="deleteForm"
+                          v-if="okName=='Update'"
+                        >
+                          DELETE
+                        </b-button>
+                        <b-button
+                          variant="primary"
+                          class="float-right mr-4"
+                          type="submit"
+                        >
+                          {{ okName }}
+                        </b-button>
+                        <b-button
+                          class="float-right mr-4"
+                          @click="resetFields"
+                        >
+                          CANCEL
+                        </b-button>
+                    </div>
+                </b-row>
+            </b-form>
+        </b-modal>
+    </b-container>
 </template>
 
 <script>
-
     export default {
-        props: ['accounts', 'student', 'accountInfo', 'currentYear'],
         data() {
             return {
                 show: false,
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [10, 20, 50],
-                accountList: this.accounts,
-                totalRows: this.accounts.length,
+                accountList: [],
+                totalRows: '',
+                student: [],
+                currentYear: '',
                 accountData: {
-                    student_id : this.student.id,
+                    student_id : '',
                     amount: '',
-                    payment_type : '',
-                    payment_status : '',    
+                    payment_type : '1',
+                    payment_status : '1',    
                     payment_date: '',
-                    remarks: ''
+                    remarks: '',
+                    filter_year: '2019',
+                    filter_month: '8',
                 },
-                accountDetails: this.accountInfo,
-                filter: null,
+                accountDetails: [],
                 fields: [
                     'payment_date',
                     'amount',
-                    'payment_type',
                     'payment_status',
                     'remarks',
                     'action',
@@ -229,13 +215,16 @@
             }
         },
         created() {
-
+            Event.$on('studentaccount-edit', (studentaccount) => {
+                this.accountList = studentaccount.accounts;
+                this.totalRows = studentaccount.accounts.length;
+                this.student = studentaccount.student;
+                this.accountData.student_id = this.student.id;
+                this.accountDetails = studentaccount.accountInfo;
+                this.currentYear = studentaccount.currentYear;
+            });
         },
         methods: {
-            onFiltered(filteredItems) {
-                this.totalRows = filteredItems.length
-                this.currentPage = 1
-            },
             editPayment(data) {
                 this.show = true;
                 this.okName = 'Update';
@@ -247,35 +236,30 @@
                 this.accountData.remarks = data.remarks;
                 this.accountID = data.student_account_id;
             },
-            payment() {
+            payment(e) {
+                e.preventDefault();
 
                 if(this.okName == 'Save')
                     var url = '/admin/studentaccount/store';
                 else
                     var url = '/admin/studentaccount/update/' + this.accountID;
 
+                axios.post(url, this.accountData)
+                .then(response => {
 
-                if(this.requireAllFields()) {
-                    axios.post(url, this.accountData)
-                    .then(response => {
+                    this.accountList = response.data.newlist;
+                    this.totalRows = response.data.newlist.length;
+                    this.accountDetails = response.data.accountInfo;
+                    this.resetFields();
+                    swal("Success!", response.data.message, "success");
 
-                        this.accountList = response.data.newlist;
-                        this.totalRows = response.data.newlist.length;
-                        this.accountDetails = response.data.accountInfo;
-                        this.resetFields();
-                        swal("Success!", response.data.message, "success");
-
-                    })
-                    .catch(err=>{
-                        console.log("error", err);
-                        swal("Error!", 
-                            "Looks like something went wrong, please try again. If issue persist, please report this to your system developer.", 
-                            "error");
-                    });
-                }
-                else {
-                    swal("Error!", "Please fill-in all fields.", "error");
-                }
+                })
+                .catch(err=>{
+                    console.log("error", err);
+                    swal("Error!", 
+                        "Looks like something went wrong, please try again. If issue persist, please report this to your system developer.", 
+                        "error");
+                });
 
             },
             deleteForm() {
@@ -287,7 +271,7 @@
                     dangerMode: true
                 }).then(willDelete => {
                     if (willDelete) {
-                        axios.get('/admin/studentaccount/delete/' + this.accountID + '/' + this.student.id)
+                        axios.post('/admin/studentaccount/delete/' + this.accountID, this.accountData)
                         .then(response => {
 
                             this.accountList = response.data.newlist;
@@ -308,24 +292,31 @@
                     } else swal("Payment record was kept");
                 });
             },
-            requireAllFields() {
-                var self = this
-                var check = true;
-                Object.keys(self.accountData).forEach(function(key,index) {
-                    // console.log('test: ', key + ' | ' + self.accountData[key]);
-                    if(self.accountData[key] == '')
-                        check = false;
-                })
-
-                return check;
-            },
             resetFields() {
-                this.accountData.payment_status = '';
-                this.accountData.payment_type = '';
+                this.accountData.payment_status = '1';
+                this.accountData.payment_type = '1';
                 this.accountData.payment_date = '';
                 this.accountData.remarks = '';
                 this.accountData.amount = '';
                 this.show = false;
+            },
+            formatPrice(value) {
+                // let val = (value/1).toFixed(2).replace(',', '.')
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            },
+            dateFilter() {
+                axios.get('/admin/studentaccount/filterdate/1/' + this.accountData.student_id + '/' + this.accountData.filter_year + '/' + this.accountData.filter_month)
+                .then(response => {
+                    this.accountList = response.data.accounts;
+                    this.totalRows = response.data.accounts.length;
+                    this.accountDetails = response.data.accountInfo;
+                })
+                .catch(err=>{
+                    console.log("error", err);
+                    swal("Error!", 
+                        "Looks like something went wrong, please try again. If issue persist, please report this to your system developer.", 
+                        "error");
+                });
             }
         },
     }

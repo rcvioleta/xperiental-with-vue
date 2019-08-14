@@ -35,18 +35,16 @@ class ClassRateController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(ClassRateRequest $request)
+  public function store(Request $request)
   {
-    $this->validate($request, [
-      'name' => 'required',
-      'rate' => 'required|numeric',
-      'status' => 'required|numeric|max:1|digits:1'
+    $classRate = ClassRate::create([
+      'name' => $request->classtype_name,
+      'rate' => $request->rate,
+      'status' => $request->classtype_status
     ]);
 
-    $classRate = ClassRate::create($request->all());
-
     return response()->json([
-      'update' => new ClassRateResource($classRate),
+      'newlist' => ClassRate::all(),
       'message' => 'Class Rate added successfully!',
       'status' => 200
     ]);
@@ -62,23 +60,6 @@ class ClassRateController extends Controller
   {
     //
   }
-
-  public function active($slug)
-  {
-    $classRate = ClassRate::where('slug', '=', $slug)->first();
-    $classRate->status = 1;
-    $classRate->save();
-    return response('Updated status to active', 200);
-  }
-
-  public function inactive($slug)
-  {
-    $classRate = ClassRate::where('slug', '=', $slug)->first();
-    $classRate->status = 0;
-    $classRate->save();
-    return response('Updated status to inactive', 200);
-  }
-
 
   /**
    * Show the form for editing the specified resource.
@@ -101,17 +82,15 @@ class ClassRateController extends Controller
   public function update(Request $request, $id)
   {
     $classRate = ClassRate::findOrFail($id);
-    
-    $this->validate($request, [
-      'name' => 'required',
-      'rate' => 'required|numeric',
-      'status' => 'required|numeric|max:1|digits:1'
+
+    $classRate->update([
+      'name' => $request->classtype_name,
+      'rate' => $request->rate,
+      'status' => $request->classtype_status
     ]);
 
-    $classRate->update($request->all());
-
     return response()->json([
-      'update' => new ClassRateResource($classRate),
+      'newlist' => ClassRate::all(),
       'message' => 'Class Rate was updated successfully!',
       'status' => 200
     ]);

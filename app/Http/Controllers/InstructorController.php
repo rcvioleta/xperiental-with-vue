@@ -15,7 +15,7 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        return view('admin.instructor.index')->with('instructors', Instructor::orderBy('last_name')->get());
+        return Instructor::orderBy('id_num')->get();
     }
 
     /**
@@ -25,7 +25,7 @@ class InstructorController extends Controller
      */
     public function create()
     {
-        return view('admin.instructor.create');
+        // return view('admin.instructor.create');
     }
 
     /**
@@ -37,48 +37,34 @@ class InstructorController extends Controller
     public function store(InstructorRequest $request)
     {
         if($request->image != "" && $request->image != null) {
+
             $avatar = $request->image;
             $avatar_name = time() . $avatar->getClientOriginalName();
-            $avatar->move('images/avatar', $avatar_name);
+
+            $avatar->move('images/avatar/employee', $avatar_name);
+            $avatar_name = 'images/avatar/employee/'.$avatar_name;
         }
         else {
-            $avatar_name = 'avatar-default.png';
+            $avatar_name = 'images/avatar/employee/avatar-default.png';  
         }
 
-        $newInstructor = [
-            'id_num' => $request->id_num,
-            'image' => 'images/avatar/' . $avatar_name,
-            'nickname' => $request->nickname,
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'position' => $request->position,
-            'gender' => $request->gender,
-            'bday' => $request->bday,
-            'contact_num' => $request->contact_num,
-            'address' => $request->address,
-            'hired_date' => $request->hired_date,
-            'status' => $request->status
-        ];
+        $employee = Instructor::create([
+          'image' => $avatar_name,
+          'id_num' => $request->id_num,
+          'nickname' => $request->nickname,
+          'first_name' => $request->first_name,
+          'middle_name' => $request->middle_name,
+          'last_name' => $request->last_name,
+          'gender' => $request->gender,
+          'bday' => $request->bday,
+          'contact_num' => $request->contact_num,
+          'address' => $request->address,
+          'position' => $request->position,
+          'hired_date' => $request->hired_date,
+          'status' => $request->status
+        ]);
 
-        Instructor::create($newInstructor);
-        return redirect()->route('instructor.index');
-    }
-
-    public function activate($id)
-    {
-        $instructor = Instructor::find($id);
-        $instructor->status = 1;
-        $instructor->save();
-        return redirect()->back();
-    }
-
-    public function deactivate($id)
-    {
-        $instructor = Instructor::find($id);
-        $instructor->status = 0;
-        $instructor->save();
-        return redirect()->back();
+        return $employee;
     }
 
     /**
@@ -100,7 +86,7 @@ class InstructorController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.instructor.edit')->with('instructor', Instructor::find($id));
+        return Instructor::find($id);
     }
 
     /**
@@ -112,35 +98,36 @@ class InstructorController extends Controller
      */
     public function update(InstructorRequest $request, $id)
     {
+        $employee = Instructor::findOrFail($id);
 
-        $instructor = Instructor::find($id);
-
-        if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-            ]);
-
+        if($request->hasFile('image')) {
             $avatar = $request->image;
             $avatar_name = time() . $avatar->getClientOriginalName();
-            $avatar->move('images/avatar', $avatar_name);
-            $instructor->image = 'images/avatar/' . $avatar_name;
+
+            $avatar->move('images/avatar/employee', $avatar_name);
+            $avatar_name = 'images/avatar/employee/'.$avatar_name;
+        }
+        else {
+            $avatar_name = $request->image;  
         }
 
-        $instructor->id_num = $request->id_num;
-        $instructor->nickname = $request->nickname;
-        $instructor->first_name = $request->first_name;
-        $instructor->middle_name = $request->middle_name;
-        $instructor->last_name = $request->last_name;
-        $instructor->position = $request->position;
-        $instructor->gender = $request->gender;
-        $instructor->bday = $request->bday;
-        $instructor->contact_num = $request->contact_num;
-        $instructor->address = $request->address;
-        $instructor->hired_date = $request->hired_date;
-        $instructor->status = $request->status;
-        $instructor->save();
+        $employee->update([
+          'image' => $avatar_name,
+          'id_num' => $request->id_num,
+          'nickname' => $request->nickname,
+          'first_name' => $request->first_name,
+          'middle_name' => $request->middle_name,
+          'last_name' => $request->last_name,
+          'gender' => $request->gender,
+          'bday' => $request->bday,
+          'contact_num' => $request->contact_num,
+          'address' => $request->address,
+          'position' => $request->position,
+          'hired_date' => $request->hired_date,
+          'status' => $request->status
+        ]);
 
-        return redirect()->route('instructor.index');
+        return $employee;
     }
 
     /**

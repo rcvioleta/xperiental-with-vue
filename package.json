@@ -33,6 +33,7 @@
         "element-ui": "^2.9.1",
         "sweetalert": "^2.1.2",
         "vue-full-calendar": "^2.7.0",
-        "vue-multiselect": "^2.1.6"
+        "vue-multiselect": "^2.1.6",
+        "vue-router": "^3.0.7"
     }
 }

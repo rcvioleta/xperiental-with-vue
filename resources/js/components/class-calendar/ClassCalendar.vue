@@ -1,136 +1,181 @@
-    <template>
-    <div>
-        <full-calendar 
-        default-view="dayGridMonth" 
-        :plugins="calendarPlugins"
-        :weekends="true"
-        :events="events"
-        :showNonCurrentDates="false"
-        @dateClick="handleDateClick"
-        @eventClick="editForm"
-        />
-        <b-modal v-model="show" :id="'modal_' + infoModal.student_id" :title="modaltitle" size="lg" hide-footer>
-            <b-form>
-                <b-row class="pl-4 pr-4 pt-3 pb-0">
-                    <b-col class="p-2">
-                        <b-form-group label="CLASS DATE">
-                            <b-form-input v-model="infoModal.classDate" type="date"></b-form-input>
-                        </b-form-group>
-                    </b-col>
-                    <b-col class="p-2">
-                        <b-form-group label="START TIME">
-                            <div class="input-group">
-                                <b-form-select v-model="infoModal.startHrs" :options="optionTime.hrs"></b-form-select>
-                                <b-form-select v-model="infoModal.startMin" :options="optionTime.mnts"></b-form-select>
-                                <b-form-select v-model="infoModal.startAmPm" :options="optionTime.ampm"></b-form-select>
-                            </div>
-                        </b-form-group>
-                    </b-col>
-                    <b-col class="p-2">
-                        <b-form-group label="END TIME">
-                            <div class="input-group">
-                                <b-form-select v-model="infoModal.endHrs" :options="optionTime.hrs"></b-form-select>
-                                <b-form-select v-model="infoModal.endMin" :options="optionTime.mnts"></b-form-select>
-                                <b-form-select v-model="infoModal.endAmPm" :options="optionTime.ampm"></b-form-select>
-                            </div>
-                        </b-form-group>
-                    </b-col>
-                    <b-col class="p-2">
-                        <b-form-group label="CLASS TYPE">
-                            <b-form-select v-model="infoModal.classType">
-                                <option value="" disabled>-- Select Type --</option>
-                                <option v-for="classType in classTypes" :value="classType.id">{{ classType.name }}</option>
-                            </b-form-select>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-                <b-row class="pl-4 pr-4 pt-0 pb-3">
-                    <b-col class="p-2">
-                        <b-form-group label="SUBJECT">
-                            <b-form-select v-model="infoModal.subject">
-                                <option value="" disabled>-- Select Subject --</option>
-                                <option v-for="subject in subjects" :value="subject.id">{{ subject.name }}</option>
-                            </b-form-select>
-                        </b-form-group>
-                    </b-col>
-                    <b-col class="p-2">
-                        <b-form-group label="GRADE">
-                            <b-form-select v-model="infoModal.grade_id">
-                                <option value="" disabled>-- Select Grade --</option>
-                                <option v-for="grade in grades" :value="grade.id">{{ grade.name }}</option>
-                            </b-form-select>
-                        </b-form-group>
-                    </b-col>
-                    <b-col class="p-2">
-                        <b-form-group label="INSTRUCTOR">
-                            <el-select
-                                v-model="infoModal.instructor_id"
-                                filterable
-                                remote
-                                placeholder="Type to search"
-                                :remote-method="remoteMethod"
-                                :loading="loading">
-                                <el-option
-                                  v-for="item in options"
-                                  :key="item.value"
-                                  :label="item.label"
-                                  :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </b-form-group>
-                    </b-col>
-                    <b-col class="p-2" style="visibility: hidden;">
-                        <b-form-group label="STATUS">
-                            <b-form-select v-model="infoModal.status">
-                                <option value="1">Enabled</option>
-                                <option value="0">Disabled</option>
-                            </b-form-select>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-                <b-row class="pl-3 pr-3 pt-3 pb-0">
-                    <b-col>
-                        <h3>SELECT STUDENT</h3>
-                    </b-col>
-                </b-row>
-                <b-row class="pl-4 pr-4 pt-0 pb-0">
-                    <b-col class="p-2">
-                        <el-transfer
-                        filterable
-                        :filter-method="filterMethod"
-                        filter-placeholder="Search"
-                        v-model="infoModal.students"
-                        :data="allStudent"
-                        :titles="['Student List', 'Students in this Classroom']">
-                    </el-transfer>
-                </b-col>
-            </b-row>
-            <hr>
-            <div slot="modal-footer" class="w-100">
-                <b-button
-                  variant="danger"
-                  class="float-left ml-2"
-                  @click="deleteForm"
-                >
-                  DELETE
-                </b-button>
-                <b-button
-                  variant="primary"
-                  class="float-right ml-2"
-                  @click="handleOk"
-                >
-                  {{ okName }}
-                </b-button>
-                <b-button
-                  class="float-right ml-2"
-                  @click="show=false"
-                >
-                  CANCEL
-                </b-button>
-            </div>
-        </b-form>
-    </b-modal>
-</div>
+<template>
+    <b-container fluid>
+        <b-row>
+            <b-col cols="6">
+                <h1>Class Calendar</h1>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <b-card>
+                    <full-calendar 
+                    default-view="dayGridMonth" 
+                    :plugins="calendarPlugins" 
+                    :weekends="true" 
+                    :events="events" 
+                    :showNonCurrentDates="false" 
+                    @dateClick="handleDateClick" 
+                    @eventClick="editForm"/>
+                    <b-modal 
+                    v-model="show" 
+                    :id="'modal_' + infoModal.student_id" 
+                    :title="modaltitle" 
+                    size="lg" 
+                    hide-footer
+                    >
+                        <b-row v-if="!showEdit">
+                            <b-col>
+                                <b-row class="schedPreview">
+                                    <b-col style="max-width: 18%">
+                                        <p><span>CLASS DATE:</span></p>
+                                        <p><span>TIME:</span></p>
+                                        <p><span>CLASS TYPE:</span></p>
+                                        <p><span>SUBJECT:</span></p>
+                                        <p><span>GRADE:</span></p>
+                                        <p><span>INSTRUCTOR:</span></p>
+                                    </b-col>
+                                    <b-col class="pl-0">
+                                        <p><strong>{{ infoModal.classDate }}</strong></p>
+                                        <p><strong>{{ infoModal.startHrs }}:{{ infoModal.startMin }} {{ infoModal.startAmPm }} - {{ infoModal.endHrs }}:{{ infoModal.endMin }} {{ infoModal.endAmPm }}</strong></p>
+                                        <p><strong>{{ editClassType }}</strong></p>
+                                        <p><strong>{{ editSubject }}</strong></p>
+                                        <p><strong>{{ editGrade }}</strong></p>
+                                        <p><strong>{{ infoModal.instructor_id }}</strong></p>
+                                    </b-col>
+                                    <b-col cols="6">
+                                        <p><span>STUDENTS IN THIS CLASS</span></p>
+                                        <p v-for="student in editStudents"><strong> - {{ student }}</strong></p>
+                                    </b-col>
+                                </b-row>
+                                <b-row>
+                                    <b-col class="mt-5">
+                                        <b-button variant="danger" class="float-left ml-2" @click="deleteForm" v-if="okName=='Update'">
+                                            DELETE
+                                        </b-button>
+                                        <b-button variant="primary" class="float-right ml-2" @click="showEdit=true">
+                                            Edit Schedule
+                                        </b-button>
+                                        <b-button class="float-right ml-2" @click="show=false">
+                                            CANCEL
+                                        </b-button>
+                                    </b-col>
+                                </b-row>
+                            </b-col>
+                        </b-row>
+                        <b-row v-if="showEdit">
+                            <b-col>
+                                <b-row class="pl-4 pr-4 pt-3 pb-0">
+                                    <b-col class="p-2">
+                                        <b-form-group label="CLASS DATE">
+                                            <b-form-input v-model="infoModal.classDate" type="date"></b-form-input>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2">
+                                        <b-form-group label="START TIME">
+                                            <div class="input-group">
+                                                <b-form-select v-model="infoModal.startHrs" :options="optionTime.hrs"></b-form-select>
+                                                <b-form-select v-model="infoModal.startMin" :options="optionTime.mnts"></b-form-select>
+                                                <b-form-select v-model="infoModal.startAmPm" :options="optionTime.ampm"></b-form-select>
+                                            </div>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2">
+                                        <b-form-group label="END TIME">
+                                            <div class="input-group">
+                                                <b-form-select v-model="infoModal.endHrs" :options="optionTime.hrs"></b-form-select>
+                                                <b-form-select v-model="infoModal.endMin" :options="optionTime.mnts"></b-form-select>
+                                                <b-form-select v-model="infoModal.endAmPm" :options="optionTime.ampm"></b-form-select>
+                                            </div>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2">
+                                        <b-form-group label="CLASS TYPE">
+                                            <b-form-select v-model="infoModal.classType">
+                                                <option value="" disabled>-- Select Type --</option>
+                                                <option v-for="classType in data.classtypes" :value="classType.id">{{ classType.name }}</option>
+                                            </b-form-select>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row class="pl-4 pr-4 pt-0 pb-3">
+                                    <b-col class="p-2">
+                                        <b-form-group label="SUBJECT">
+                                            <b-form-select v-model="infoModal.subject">
+                                                <option value="" disabled>-- Select Subject --</option>
+                                                <option v-for="subject in data.subjects" :value="subject.id">{{ subject.name }}</option>
+                                            </b-form-select>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2">
+                                        <b-form-group label="GRADE">
+                                            <b-form-select v-model="infoModal.grade_id">
+                                                <option value="" disabled>-- Select Grade --</option>
+                                                <option v-for="grade in data.grades" :value="grade.id">{{ grade.name }}</option>
+                                            </b-form-select>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2">
+                                        <b-form-group label="INSTRUCTOR">
+                                            <el-select 
+                                            v-model="infoModal.instructor_id" 
+                                            filterable 
+                                            remote 
+                                            placeholder="Type to search" 
+                                            :remote-method="remoteMethod" 
+                                            :loading="loading">
+                                                <el-option 
+                                                v-for="item in options" 
+                                                :key="item.value" 
+                                                :label="item.label" 
+                                                :value="item.value">
+                                                </el-option>
+                                            </el-select>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2" style="visibility: hidden;">
+                                        <b-form-group label="STATUS">
+                                            <b-form-select v-model="infoModal.status">
+                                                <option value="1">Enabled</option>
+                                                <option value="0">Disabled</option>
+                                            </b-form-select>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row class="pl-3 pr-3 pt-3 pb-0">
+                                    <b-col>
+                                        <h3>SELECT STUDENT</h3>
+                                    </b-col>
+                                </b-row>
+                                <b-row class="pl-4 pr-4 pt-0 pb-0">
+                                    <b-col class="p-2">
+                                        <el-transfer 
+                                        filterable 
+                                        :filter-method="filterMethod" 
+                                        filter-placeholder="Search" 
+                                        v-model="infoModal.students" 
+                                        :data="allStudent" 
+                                        :titles="['Student List', 'Students in this Class']">
+                                        </el-transfer>
+                                    </b-col>
+                                </b-row>
+                                <div slot="modal-footer" class="w-100 mt-5">
+                                    <b-button variant="danger" class="float-left ml-2" @click="deleteForm" v-if="okName=='Update'">
+                                        DELETE
+                                    </b-button>
+                                    <b-button variant="primary" class="float-right ml-2"@click="handleOk">
+                                        {{ okName }}
+                                    </b-button>
+                                    <b-button class="float-right ml-2" @click="show=false">
+                                        CANCEL
+                                    </b-button>
+                                </div>
+                            </b-col>
+                        </b-row>
+                    </b-modal>
+                </b-card>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
@@ -143,9 +188,10 @@
     import "@fullcalendar/daygrid/main.css";
 
     export default {
-        props: ['classTypes', 'schedules', 'students', 'grades', 'subjects', 'instructors'],
         data() {
             return {
+                data: [],
+                showEdit: false,
                 show: false,
                 options: [],
                 listInstructor: [],
@@ -180,45 +226,51 @@
                     mnts: ['Min', '00', '30'],
                     ampm: ['AM/PM', 'AM', 'PM']
                 },
+
+                editClassType: '',
+                editSubject: '',
+                editGrade: '',
+                editStudents: [],
             }
         },
         components: {
             FullCalendar
         },
         created() {
-            this.allStudent = this.students.map(item => {
-                if(item.nickname == null)
-                    item.nickname = ''
-                
-                if(item.middle_name == null)
-                    item.middle_name = ''
+            axios.get('/admin/classschedule/')
+            .then(response => {
+                this.data = response.data;
 
-                return { key: item.id, label: item.last_name + ', ' + item.first_name + ' ' + item.middle_name + ' (' + item.nickname + ') ID: ' + item.id_num };
+                this.allStudent = this.data.students.map(item => {
+                    var bool = false;
+                    if(item.status == 1)
+                        bool = false;
+                    else
+                        bool = true;
+
+                    return { 
+                        key: item.id, 
+                        label: item.last_name + ', ' + 
+                        item.first_name + ' ' + 
+                        (item.middle_name == null ? '' : item.middle_name) + 
+                        ' (' + item.nickname + ') ID: ' + 
+                        item.id_num,
+                        disabled: bool
+                    };
+                });
+
+                this.listInstructor = this.data.instructors.map(item => {
+                    return { value: item.id, label: item.nickname };
+                });
+
+                this.displaySchedule(this.data.schedules);
+            
+            })
+            .catch(err=>{
+                console.log("error", err);
             });
-
-            this.listInstructor = this.instructors.map(item => {
-                if(item.middle_name == null)
-                    item.middle_name = ''
-                
-                return { value: item.id, label: item.first_name + ' ' + item.middle_name + ' ' + item.last_name };
-            });
-
-            this.displaySchedule(this.schedules);
         },
         methods: {
-            remoteMethod(query) {
-                if (query !== '') {
-                    this.loading = true;
-                    setTimeout(() => {
-                        this.loading = false;
-                        this.options = this.listInstructor.filter(item => {
-                        return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-                    });
-                  }, 200);
-                } else {
-                    this.options = [];
-                }
-            },
             handleDateClick(arg) {
                 var d = new Date(arg.date);
                 d.setDate( d.getDate() + 1 );
@@ -226,15 +278,8 @@
 
                 this.addForm();
             },
-            filterMethod(query, item) {
-                return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-            },
-
-            onFiltered(filteredItems) {
-                this.totalRows = filteredItems.length
-                this.currentPage = 1
-            },
             addForm() {
+                this.showEdit = true;
                 this.modaltitle = 'ADD NEW SCHEDULE';
                 this.okName = 'Save';
 
@@ -244,6 +289,7 @@
                 })
             },
             editForm(arg) { 
+                this.showEdit = false;
                 this.modaltitle = 'EDIT SCHEDULE';
                 this.okName = 'Update';
                 this.editId = arg.event.extendedProps.eventId;
@@ -256,7 +302,7 @@
                 this.infoModal.grade_id = arg.event.extendedProps.grade_id;
                 this.infoModal.status = arg.event.extendedProps.status;
                 // this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
-                this.infoModal.instructor_id = arg.event.extendedProps.instructor_name;
+                this.infoModal.instructor_id = arg.event.extendedProps.instructor_nickname;
                 this.instructor_id_old = arg.event.extendedProps.instructor_id;
                 this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
                 this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
@@ -270,10 +316,23 @@
                 .then(response => {
                     
                     this.infoModal.students = [];
+                    this.editStudents = [];
 
                     for(var x = 0; x < response.data.length; x++) {
                         this.infoModal.students.push( response.data[x].student_id );
+                        this.editStudents.push(
+                            response.data[x].last_name + ', ' + 
+                            response.data[x].first_name + ' ' + 
+                            response.data[x].middle_name + ' (' +
+                            response.data[x].nickname + ') ID:' +
+                            response.data[x].student_id
+                        );
                     }
+
+                    this.editClassType = this.data.classtypes.filter( element => element.id == this.infoModal.classType)[0].name;
+                    this.editSubject = this.data.subjects.filter( element => element.id == this.infoModal.subject)[0].name;
+                    this.editGrade = this.data.grades.filter( element => element.id == this.infoModal.grade_id)[0].name;
+
                 })
                 .catch(err=>{
                     console.log("error", err);
@@ -350,34 +409,14 @@
                     swal("Error!", "Please fill-in all fields.", "error");
                 }
             },
-            resetInfoModal() {
-                this.infoModal.classType = '';
-                this.infoModal.subject = '';
-                this.infoModal.grade_id = '';
-                this.infoModal.status = '1';
-                this.infoModal.startHrs = 'Hrs';
-                this.infoModal.startMin = 'Min';
-                this.infoModal.startAmPm = 'AM/PM';
-                this.infoModal.endHrs = 'Hrs';
-                this.infoModal.endMin = 'Min';
-                this.infoModal.endAmPm = 'AM/PM';
-                this.infoModal.students = [];
-                this.infoModal.startTimeFull = '';
-                this.infoModal.endTimeFull = '';
-                this.infoModal.instructor_id = '';
-                this.instructor_id_old = '';
-            },
             displaySchedule(sched) {
 
                 this.events = []; 
 
                 for(var x = 0; x < sched.length; x++) {
 
-                    if(sched[x].middle_name == null)
-                        sched[x].middle_name = ''; 
-
                     this.events.push({
-                        title  : this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
+                        title : this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
                                 this.beautifyDate(sched[x].date_start)[0].Min + 
                                 this.beautifyDate(sched[x].date_start)[0].AmPm + "-" +
                                 this.beautifyDate(sched[x].date_end)[0].Hrs + ":" + 
@@ -396,7 +435,7 @@
                         subject_id: sched[x].subject_id,
                         grade_id: sched[x].grade_id,
                         status: sched[x].status,
-                        instructor_name: sched[x].first_name + ' ' + sched[x].middle_name + ' ' + sched[x].last_name
+                        instructor_nickname: sched[x].instructor_nickname
                     });
                 }
             },
@@ -468,7 +507,44 @@
                 })
 
                 return check;
-            }
+            },
+            resetInfoModal() {
+                this.infoModal.classType = '';
+                this.infoModal.subject = '';
+                this.infoModal.grade_id = '';
+                this.infoModal.status = '1';
+                this.infoModal.startHrs = 'Hrs';
+                this.infoModal.startMin = 'Min';
+                this.infoModal.startAmPm = 'AM/PM';
+                this.infoModal.endHrs = 'Hrs';
+                this.infoModal.endMin = 'Min';
+                this.infoModal.endAmPm = 'AM/PM';
+                this.infoModal.students = [];
+                this.infoModal.startTimeFull = '';
+                this.infoModal.endTimeFull = '';
+                this.infoModal.instructor_id = '';
+                this.instructor_id_old = '';
+            },
+            remoteMethod(query) {
+                if (query !== '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.loading = false;
+                        this.options = this.listInstructor.filter(item => {
+                        return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
+                    });
+                  }, 200);
+                } else {
+                    this.options = [];
+                }
+            },
+            filterMethod(query, item) {
+                return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            },
+            onFiltered(filteredItems) {
+                this.totalRows = filteredItems.length
+                this.currentPage = 1
+            },
         }
     }
 </script>

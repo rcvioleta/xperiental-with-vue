@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
   return view('auth.login');
 });
@@ -18,82 +7,58 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-  Route::resource('/student', 'StudentInformationController');
-
-  Route::group(['prefix' => 'get'], function () {
-    Route::get('/students', 'StudentInformationController@fetchStudents');
+  
+  Route::prefix('educationalbackground')->group(function() {
+    Route::post('/store', 'EducationBackgroundController@store');
+    Route::post('/update/{id}', 'EducationBackgroundController@update');
   });
-
-  Route::resource('/emergency-contact', 'EmergencyContactController');
-  Route::resource('/education-background', 'EducationBackgroundController');
-
+  
   Route::prefix('subject')->group(function () {
     Route::resource('/', 'SubjectController');
-    Route::put('/{id}', 'SubjectController@update');
-    Route::get('/active/{slug}', 'SubjectController@active');
-    Route::get('/inactive/{slug}', 'SubjectController@inactive');
+    Route::post('/update/{id}', 'SubjectController@update');
+    Route::post('/store', 'SubjectController@store');
   });
 
   Route::prefix('student-level')->group(function () {
     Route::resource('/', 'StudentLevelController');
-    Route::put('/{id}', 'StudentLevelController@update');
-    Route::get('/active/{slug}', 'StudentLevelController@active');
-    Route::get('/inactive/{slug}', 'StudentLevelController@inactive');
+    Route::post('/update/{id}', 'StudentLevelController@update');
+    Route::post('/store', 'StudentLevelController@store');
   });
 
   Route::prefix('classroom')->group(function () {
     Route::resource('/', 'ClassroomController');
-    Route::put('/{id}', 'ClassroomController@update');
-    Route::get('/active/{slug}', 'ClassroomController@active');
-    Route::get('/inactive/{slug}', 'ClassroomController@inactive');
+    Route::post('/update/{id}', 'ClassroomController@update');
+    Route::post('/store', 'ClassroomController@store');
   });
 
   Route::prefix('class-rate')->group(function () {
     Route::resource('/', 'ClassRateController');
-    Route::put('/{id}', 'ClassRateController@update');
-    Route::get('/active/{slug}', 'ClassRateController@active');
-    Route::get('/inactive/{slug}', 'ClassRateController@inactive');
+    Route::post('/update/{id}', 'ClassRateController@update');
+    Route::post('/store', 'ClassRateController@store');
   });
 
   Route::prefix('user')->group(function () {
     Route::resource('/', 'UserController');
-    Route::get('/active/{slug}', 'UserController@active');
-    Route::get('/inactive/{slug}', 'UserController@inactive');
+    Route::post('/update/{id}', 'UserController@update');
+    Route::post('/store', 'UserController@store');
   });
 
-  Route::resource('/schedule', 'ClassScheduleController');
-
-  /* routes that are responsible for routing */
-  Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-  Route::get('/configurations', 'DashboardController@configurations')->name('configurations');
-  Route::get('/add-student', 'DashboardController@addStudent')->name('add-student');
-  Route::get('/students', 'DashboardController@showStudentList')->name('student-list');
-  Route::get('/class-schedule', 'DashboardController@scheduleIndex')->name('class-schedule');
-
-
-  // Start Jomar
   Route::prefix('studentmanagement')->group(function () {
-    Route::get('/', 'StudentInformationController@index')->name('student.index');
-    Route::get('/create', 'StudentInformationController@create')->name('student.create');
-    Route::get('/{id}/edit/', 'StudentInformationController@edit')->name('student.edit');
-    Route::post('/{id}/update', 'StudentInformationController@update')->name('student.update');
-    Route::post('/', 'StudentInformationController@store')->name('student.store');
-    Route::post('/{id}', 'StudentInformationController@update')->name('student.update');
+    Route::get('/', 'StudentInformationController@index');
+    Route::get('/edit/{id}', 'StudentInformationController@edit');
+    Route::post('/update/{id}', 'StudentInformationController@update');
+    Route::post('/store', 'StudentInformationController@store');
   });
 
   Route::prefix('instructor')->group(function () {
-    Route::get('/', 'InstructorController@index')->name('instructor.index');
-    Route::get('/create', 'InstructorController@create')->name('instructor.create');
-    Route::post('/store', 'InstructorController@store')->name('instructor.store');
-    Route::get('/{id}/edit', 'InstructorController@edit')->name('instructor.edit');
-    Route::post('/{id}/update', 'InstructorController@update')->name('instructor.update');
-    Route::get('/{id}', 'InstructorController@destroy')->name('instructor.destroy');
-    Route::get('/{id}/activate', 'InstructorController@activate')->name('instructor.activate');
-    Route::get('/{id}/deactivate', 'InstructorController@deactivate')->name('instructor.deactivate');
+    Route::get('/', 'InstructorController@index');
+    Route::post('/store', 'InstructorController@store');
+    Route::get('/edit/{id}', 'InstructorController@edit');
+    Route::post('/update/{id}', 'InstructorController@update');
   });
 
   Route::prefix('classschedule')->group(function () {
-    Route::get('/', 'ClassScheduleController@index')->name('classschedule.index');
+    Route::get('/', 'ClassScheduleController@index');
 
     Route::get('/getStudentByClass/{id}', 'ClassScheduleController@getStudentByClass');
     Route::post('/store', 'ClassScheduleController@store');
@@ -102,12 +67,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   });
 
   Route::prefix('studentaccount')->group(function () {
-    Route::get('/', 'StudentAccountController@index')->name('studentaccount.index');
-    Route::get('/edit/{id}', 'StudentAccountController@edit')->name('studentaccount.edit');
+    Route::get('/', 'StudentAccountController@index');
+    Route::get('/edit/{paytype}/{id}', 'StudentAccountController@edit');
     Route::post('/store', 'StudentAccountController@store');
     Route::post('/update/{id}', 'StudentAccountController@update');
-    Route::get('/delete/{id}/{student_id}', 'StudentAccountController@destroy');
+    Route::post('/delete/{id}', 'StudentAccountController@destroy');
+    Route::get('/filterdate/{paytype}/{id}/{year}/{month}', 'StudentAccountController@filterDate');
   });
 
-  Route::get('/revenue-test', 'DashboardController@getRevenues');
+  Route::get('/configuration', 'ConfigurationController@index');
+  // Route::get('/revenue-test', 'DashboardController@getRevenues');
+  Route::get('/', 'DashboardController@index')->name('dashboard');
+
 });

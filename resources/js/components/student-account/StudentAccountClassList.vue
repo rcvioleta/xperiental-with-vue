@@ -1,10 +1,5 @@
 <template>
     <b-container fluid>
-        <div class="form-row mb-3">
-            <div class="col-lg-6">
-                <h2>Class History List</h2>
-            </div>
-        </div>
         <b-row align-h="between">
             <b-col cols="3">
                 <b-form-group class="mb-10" align="start">
@@ -57,14 +52,14 @@
 <script>
 
     export default {
-        props: ['classSchedules'],
+        // props: ['classschedules'],
         data() {
             return {
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [10, 20, 50],
-                class_schedules: this.classSchedules,
-                totalRows: this.classSchedules.length,
+                class_schedules: [],
+                totalRows: '',
                 filter: null,
                 fields: [
                     'date_start',
@@ -76,6 +71,12 @@
                     'status',
                 ],
             }
+        },
+        created() {
+            Event.$on('studentaccount-edit', (studentaccount) => {
+                this.class_schedules = studentaccount.classSchedules;
+                this.totalRows = studentaccount.classSchedules.length;
+            });
         },
         methods: {
             onFiltered(filteredItems) {

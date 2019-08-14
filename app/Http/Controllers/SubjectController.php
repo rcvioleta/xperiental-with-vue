@@ -34,15 +34,13 @@ class SubjectController extends Controller
    */
   public function store(Request $request)
   {
-    $this->validate($request, [
-      'name' => 'required',
-      'status' => 'required|numeric|max:1|digits:1'
+    $subject = Subject::create([
+      'name' => $request->subject_name,
+      'status' => $request->subject_status
     ]);
 
-    $subject = Subject::create($request->all());
-
     return response()->json([
-      'update' => new SubjectResource($subject),
+      'newlist' => Subject::all(),
       'message' => 'Subject added successfully!',
       'status' => 200
     ]);
@@ -105,15 +103,13 @@ class SubjectController extends Controller
   {
     $subject = Subject::findOrFail($id);
 
-    $this->validate($request, [
-      'name' => 'required',
-      'status' => 'required|numeric|max:1|digits:1'
+    $subject->update([
+      'name' => $request->subject_name,
+      'status' => $request->subject_status
     ]);
 
-    $subject->update($request->all());
-
     return response()->json([
-      'update' => new SubjectResource($subject),
+      'newlist' => Subject::all(),
       'message' => 'Subject was updated successfully!',
       'status' => 200
     ]);

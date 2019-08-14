@@ -25,15 +25,22 @@ class ClassScheduleController extends Controller
    */
   public function index()
   {
-    // return ClassScheduleResource::collection(ClassSchedule::all());
-    return view('admin.class-schedule.index', [
-      'schedules' => $this->getSchedules(),
-      'students' => $this->getStudents(),
-      'classtypes' => $this->getClassTypes(),
-      'grades' => $this->getGrades(),
-      'subjects' => $this->getSubjects(),
-      'instructors' => $this->getInstructors(),
-    ]);
+    $schedules = $this->getSchedules();
+    $students = StudentInformation::orderBy('last_name')->get();
+    $classtypes = ClassRate::get();
+    $grades = StudentLevel::get();
+    $subjects = Subject::get();
+    $instructors = Instructor::get();
+
+    $data = [
+      'schedules' => $schedules,
+      'students' => $students,
+      'classtypes' => $classtypes,
+      'grades' => $grades,
+      'subjects' => $subjects,
+      'instructors' => $instructors,
+    ];
+    return $data;
   }
 
   protected function getSchedules() {
@@ -43,34 +50,12 @@ class ClassScheduleController extends Controller
       ->get();
   }
 
-  protected function getStudents()
-  {
-    return StudentInformation::orderBy('last_name')->get();
-  }
-
-  protected function getClassTypes()
-  {
-    return ClassRate::get();
-  }
-
-  protected function getGrades()
-  {
-    return StudentLevel::get();
-  }
-
-  protected function getSubjects()
-  {
-    return Subject::get();
-  }
-
-  protected function getInstructors()
-  {
-    return Instructor::get();
-  }
-
   protected function getStudentByClass($id)
   {
-    return ClassStudent::where('class_schedules_id', $id)->get();
+    return ClassStudent::where('class_schedules_id', $id)
+            ->join('student_information', 'student_information.id', 'class_students.student_id')
+            ->select('class_schedules_id','class_students_id', 'credits', 'student_id', 'first_name', 'middle_name', 'last_name', 'nickname')
+            ->get();
   }
   /**
    * Show the form for creating a new resource.

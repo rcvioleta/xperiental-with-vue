@@ -39,10 +39,9 @@ class UserController extends Controller
   public function store(Request $request)
   {
     unset($request['password_confirmation']);
-    // $user = User::create($request->all());
 
     $user = User::create([
-      'name' => $request->name,
+      'name' => $request->user_name,
       'slug' => 'administrator',
       'email' => $request->email,
       'status' => $request->status,
@@ -50,7 +49,7 @@ class UserController extends Controller
     ]);
 
     return response()->json([
-      'update' => new UserResource($user),
+      'newlist' => User::all(),
       'message' => 'User added successfully!',
       'status' => 200
     ]);
@@ -101,13 +100,22 @@ class UserController extends Controller
    * @param  \App\User  $user
    * @return \Illuminate\Http\Response
    */
-  public function update(UserRequest $request, User $user)
+  public function update(UserRequest $request, $id)
   {
     unset($request['password_confirmation']);
-    $user->update($request->all());
+
+    $user = User::findOrFail($id);
+
+    $user->update([
+      'name' => $request->user_name,
+      'slug' => 'administrator',
+      'email' => $request->email,
+      'status' => $request->status,
+      'password' => Hash::make($request->password),
+    ]);
 
     return response()->json([
-      'update' => new UserResource($user),
+      'newlist' => User::all(),
       'message' => 'User was updated successfully!',
       'status' => 200
     ]);

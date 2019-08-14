@@ -8,19 +8,6 @@
                 <button class="btn btn-primary pull-right mr-0" @click="addForm($event.target)">Add History <i class="batch-icon batch-icon-plus"></i></button>
             </div>
         </div>
-        <!-- <b-row align-h="between">
-            <b-col cols="3">
-                <b-form-group class="mb-10" align="start">
-                    <label>Show:</label>
-                    <b-form-select v-model="perPage" :options="pageOptions" style="width: 60px"></b-form-select>
-                </b-form-group>
-            </b-col>
-            <b-col cols="4" align="right">
-                <b-form-group label-cols-sm="3" class="mb-10">
-                    <b-form-input v-model="filter" placeholder="Search"></b-form-input>
-                </b-form-group>
-            </b-col>
-        </b-row> -->
         <b-row>
             <b-col>
                 <b-table striped hover 
@@ -32,7 +19,7 @@
                 @filtered="onFiltered"
                 >
                 <template slot="action" slot-scope="data">
-                    <b-link @click="editForm($event.target, data.item.name, data.item.year_attended, data.item.notes, data.item.id)" class="table-button btn-warning btn-sm waves-effect waves-light tableBTN">Edit <i class="fa fa-pencil"></i></b-link>
+                    <b-link @click="editForm($event.target, data.item.name, data.item.year_attended, data.item.notes, data.item.id)" class="btn btn-sm btn-warning pull-right waves-effect waves-light btable-button">Edit <i class="fa fa-pencil"></i></b-link>
                 </template>
             </b-table>
         </b-col>
@@ -52,7 +39,6 @@
     </b-row>
     
     <b-modal :id="'modal_' + infoModal.student_id" :title="modaltitle" :ok-title="okName" @ok="handleOk">
-        <b-form @submit.stop.prevent="handleSubmit">
             <b-row>
                 <b-col>
                     <b-form-group
@@ -95,7 +81,6 @@
         </b-form-group>
     </b-col>
 </b-row>
-</b-form>
 
 </b-modal>
 </b-container>
@@ -104,20 +89,20 @@
 <script>
 
     export default {
-        props: ['studentId', 'eduBackgrounds'],
+        // props: ['studentId', 'eduBackgrounds'],
         data() {
             return {
                 currentPage: 1,
                 perPage: 10,
                 pageOptions: [10, 20, 50],
-                edu_backgrounds: this.eduBackgrounds,
-                totalRows: this.eduBackgrounds.length,
+                edu_backgrounds: [],
+                totalRows: '',
                 filter: null,
                 modaltitle: '',
                 editId: '',
                 okName: '',
                 infoModal: {
-                    student_id: this.studentId,
+                    student_id: '',
                     name: '',
                     year_attended: '',
                     notes: '',
@@ -130,8 +115,12 @@
                 ],
             }
         },
-        mounted() {
-            console.log('Component mounted.', this.edu_backgrounds)
+        created() {
+            Event.$on('studentmanagement-edit', (studentmanagement) => {
+                this.infoModal.student_id = studentmanagement.student.id
+                this.edu_backgrounds = studentmanagement.eduBackgrounds;
+                this.totalRows = studentmanagement.eduBackgrounds.length;
+            });
         },
         methods: {
             onFiltered(filteredItems) {
@@ -163,21 +152,23 @@
                 var url = "";
 
                 if(this.okName == 'Save')
-                    url = '/api/educationalbackground/store';
+                    url = '/admin/educationalbackground/store';
                 else if(this.okName == 'Update')
-                    url = '/api/educationalbackground/update/' + this.editId;
+                    url = '/admin/educationalbackground/update/' + this.editId;
 
                 axios.post(url, this.infoModal)
                 .then(response => {
 
                     this.edu_backgrounds = response.data.newlist;
-                    this.messageToastr('success', response.data.message );
+                    swal("Success!", response.data.message, "success");
 
                     this.resetInfoModal();
                 })
                 .catch(err=>{
                     console.log("error", err);
-                    this.messageToastr('error', response.data.message );
+                    swal("Error!", 
+                        "Looks like something went wrong, please try again. If issue persist, please report this to your system developer.", 
+                        "error");
                 });
 
                 this.$nextTick(() => {
@@ -190,26 +181,6 @@
                 this.infoModal.year_attended = ''
                 this.infoModal.notes = ''
             },
-            messageToastr(type, msg) {
-
-                toastr[type](msg, (type=='success'? 'Success':'Error'));
-
-                toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "positionClass": "toast-top-right",
-                  "onclick": null,
-                  "showDuration": "3000",
-                  "hideDuration": "10000",
-                  "timeOut": "500000",  
-                  "extendedTimeOut": "100000",
-                  "showEasing": "swing",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-                }
-
-              }
         },
     }
 </script>

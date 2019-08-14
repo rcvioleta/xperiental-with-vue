@@ -16,11 +16,3 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
   return $request->user();
 });
-
-Route::resource('/instructor', 'InstructorController');
-
-// Educational background API's
-Route::prefix('educationalbackground')->group(function() {
-	Route::post('/store', 'EducationBackgroundController@store');
-	Route::post('/update/{id}', 'EducationBackgroundController@update');
-});

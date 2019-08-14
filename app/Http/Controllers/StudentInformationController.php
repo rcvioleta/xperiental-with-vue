@@ -17,11 +17,15 @@ class StudentInformationController extends Controller
    */
   public function index()
   {
-    $students = $this->getStudents();
+    $students_active = StudentInformation::where('status', '1')->orderBy('student_information.id_num')->get();
+    $students_inactive = StudentInformation::where('status', '0')->orderBy('student_information.id_num')->get();
 
-    return view('admin.student.index', [
-      'students' => $students,
-    ]);
+    $data = [
+      'active' => $students_active,
+      'inactive' => $students_inactive
+    ];
+
+    return $data;
   }
 
   protected function getStudentBackgroundEdu($id) {
@@ -39,7 +43,7 @@ class StudentInformationController extends Controller
    */
   public function create()
   {
-    return view('admin.student.create');
+    // return view('admin.student.create');
   }
 
   /**
@@ -48,24 +52,27 @@ class StudentInformationController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(StudentInformationRequest $request)
+  public function store(Request $request)
   {
     $this->validate($request, [
       'id_num' => 'required|unique:student_information',
     ]);
-    
+
     if($request->image != "" && $request->image != null) {
+
         $avatar = $request->image;
         $avatar_name = time() . $avatar->getClientOriginalName();
-        $avatar->move('images/avatar', $avatar_name);
+
+        $avatar->move('images/avatar/student', $avatar_name);
+        $avatar_name = 'images/avatar/student/'.$avatar_name;
     }
     else {
-      $avatar_name = 'avatar-default.png';
+        $avatar_name = 'images/avatar/student/avatar-default.png';  
     }
 
-    StudentInformation::create([
-      'id_num' => $request->id_num,
-      'image' => 'images/avatar/' . $avatar_name,
+    $student = StudentInformation::create([
+      'image' => $avatar_name,
+      'id_num' => $request->id_num, 
       'first_name' => $request->first_name,
       'middle_name' => $request->middle_name,
       'last_name' => $request->last_name,
@@ -79,10 +86,10 @@ class StudentInformationController extends Controller
       'emcon_address' => $request->emcon_address,
       'nickname' => $request->nickname,
       'registration_date' => $request->registration_date,
-      'status' => true,
+      'status' => $request->status
     ]);
 
-    return redirect()->route('student.index')->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully saved.');
+    return $student;
   }
 
   /**
@@ -108,10 +115,12 @@ class StudentInformationController extends Controller
 
     $eduBackgrounds = $this->getStudentBackgroundEdu($id);
 
-    return view('admin.student.edit', [
+    $data = [
       'student' => $student,
       'eduBackgrounds' => $eduBackgrounds,
-    ]);
+    ];
+
+    return $data;
   }
 
   /**
@@ -123,36 +132,39 @@ class StudentInformationController extends Controller
    */
   public function update(StudentInformationRequest $request, $id)
   {
-
     $student = StudentInformation::findOrFail($id);
 
-    if($request->image != "" && $request->image != null) {
+    if($request->hasFile('image')) {
         $avatar = $request->image;
         $avatar_name = time() . $avatar->getClientOriginalName();
-        $avatar->move('images/avatar', $avatar_name);
+
+        $avatar->move('images/avatar/student', $avatar_name);
+        $avatar_name = 'images/avatar/student/'.$avatar_name;
     }
     else {
-      $avatar_name = 'avatar-default.png';
+        $avatar_name = $request->image;  
     }
 
-    $student->image = 'images/avatar/' . $avatar_name;
-    $student->id_num = $request->id_num;
-    $student->first_name = $request->first_name;
-    $student->middle_name = $request->middle_name;
-    $student->last_name = $request->last_name;
-    $student->gender = $request->gender;
-    $student->birth_date = $request->birth_date;
-    $student->phone_number = $request->phone_number;
-    $student->address = $request->address;
-    $student->emcon_full_name = $request->emcon_full_name;
-    $student->emcon_phone_number = $request->emcon_phone_number;
-    $student->emcon_relationship = $request->emcon_relationship;
-    $student->emcon_address = $request->emcon_address;
-    $student->nickname = $request->nickname;
-    $student->registration_date = $request->registration_date;
-    $student->save();
+    $student->update([
+      'image' => $avatar_name,
+      'id_num' => $request->id_num, 
+      'first_name' => $request->first_name,
+      'middle_name' => $request->middle_name,
+      'last_name' => $request->last_name,
+      'gender' => $request->gender,
+      'birth_date' => $request->birth_date,
+      'phone_number' => $request->phone_number,
+      'address' => $request->address,
+      'emcon_full_name' => $request->emcon_full_name,
+      'emcon_phone_number' => $request->emcon_phone_number,
+      'emcon_relationship' => $request->emcon_relationship,
+      'emcon_address' => $request->emcon_address,
+      'nickname' => $request->nickname,
+      'registration_date' => $request->registration_date,
+      'status' => $request->status
+    ]);
 
-    return redirect()->route('student.index')->with('message', 'Student Record for ID# ' . $request->id_num . ' ' . $request->first_name . ' ' . $request->middle_name . ' ' . $request->last_name . ' was successfully updated.');
+    return $student;
   }
 
   /**

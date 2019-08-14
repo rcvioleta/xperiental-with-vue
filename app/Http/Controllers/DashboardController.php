@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-// use App\Enrollment;
 use App\Subject;
 use App\Instructor;
 use Carbon\Carbon;
@@ -19,16 +18,12 @@ class DashboardController extends Controller
    */
   public function index()
   {
-    // $enrolled_students = Enrollment::where('status', 1)->get();
-    // $credits = Enrollment::where('credits', '>', 0)->sum('credits');
     $subjects = Subject::where('status', 1)->get();
     $instructors = Instructor::where('status', 1)->get();
     
-    return view('dashboard', [
+    return view('admin.dashboard', [
       'users' => User::all(),
-      // 'enrolled_students' => count($enrolled_students),
       'total_instructors' => count($instructors),
-      // 'unused_credits' => $credits,
       'total_subjects' => count($subjects),
       // 'total_revenue' => $this->getRevenues()
     ]);
@@ -60,24 +55,5 @@ class DashboardController extends Controller
     // return response($total_revenue, 200);
     // return json_encode($total_revenue);
   }
-
-  public function configurations()
-  {
-    return view('admin.configurations');
-  }
-
-  public function addStudent()
-  {
-    return view('admin.add-student');
-  }
-
-  public function showStudentList()
-  {
-    return view('admin.student-list');
-  }
-
-  public function scheduleIndex()
-  {
-    return view('admin.class-calendar');
-  }
+  
 }

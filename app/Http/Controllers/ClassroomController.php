@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Classroom;
 use Illuminate\Http\Request;
-use App\Http\Resources\ClassroomResource;
 
 class ClassroomController extends Controller
 {
@@ -15,7 +14,7 @@ class ClassroomController extends Controller
    */
   public function index()
   {
-    return ClassroomResource::collection(Classroom::all());
+    return Classroom::all();
   }
 
   /**
@@ -36,14 +35,13 @@ class ClassroomController extends Controller
    */
   public function store(Request $request)
   {
-    $this->validate($request, [
-      'name' => 'required',
-      'status' => 'required|numeric|max:1|digits:1'
+    $classroom = Classroom::create([
+      'name' => $request->classroom_name,
+      'status' => $request->classroom_status
     ]);
-    $classroom = Classroom::create($request->all());
 
     return response()->json([
-      'update' => new ClassroomResource($classroom),
+      'newlist' => Classroom::all(),
       'message' => 'Classroom added successfully!',
       'status' => 200
     ]);
@@ -58,22 +56,6 @@ class ClassroomController extends Controller
   public function show(Classroom $classroom)
   {
     //
-  }
-
-  public function active($slug)
-  {
-    $classroom = Classroom::where('slug', '=', $slug)->first();
-    $classroom->status = 1;
-    $classroom->save();
-    return response('Updated status to active', 200);
-  }
-
-  public function inactive($slug)
-  {
-    $classroom = Classroom::where('slug', '=', $slug)->first();
-    $classroom->status = 0;
-    $classroom->save();
-    return response('Updated status to inactive', 200);
   }
 
   /**
@@ -98,15 +80,13 @@ class ClassroomController extends Controller
   {
     $classroom = classroom::findOrFail($id);
 
-    $this->validate($request, [
-      'name' => 'required',
-      'status' => 'required|numeric|max:1|digits:1'
+    $classroom->update([
+      'name' => $request->classroom_name,
+      'status' => $request->classroom_status
     ]);
 
-    $classroom->update($request->all());
-
     return response()->json([
-      'update' => new ClassroomResource($classroom),
+      'newlist' => Classroom::all(),
       'message' => 'Classroom was updated successfully!',
       'status' => 200
     ]);

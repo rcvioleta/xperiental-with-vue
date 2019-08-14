@@ -31,10 +31,10 @@ class InstructorRequest extends FormRequest
             'last_name' => 'required|string',
             // 'position' => 'required|string',
             // 'gender' => 'required|string',
-            'bday' => 'required|string|date_format:Y-m-d',
+            'bday' => 'required',
             // 'contact_num' => 'required',
             // 'address' => 'required|string',
-            'hired_date' => 'required|string|date_format:Y-m-d',
+            'hired_date' => 'required',
             'status' => 'required|max:1|digits:1'
         ];
     }

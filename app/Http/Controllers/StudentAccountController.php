@@ -18,11 +18,7 @@ class StudentAccountController extends Controller
      */
     public function index()
     {
-        $data = $this->getAllStudentAccount();
-
-        return view('admin.student-account.index', [
-          'data' => $data,
-        ]);
+        return $this->getAllStudentAccount();
     }
 
     /**
@@ -43,12 +39,17 @@ class StudentAccountController extends Controller
      */
     public function store(Request $request)
     {
+        $filter_year = $request->filter_year;
+        $filter_month = $request->filter_month;
+        $request->request->remove('filter_year');
+        $request->request->remove('filter_month');
+
         StudentAccount::create($request->all());
 
         return response()->json([
           'message' => 'Successfully added New Payment Record',
-          'newlist' => $this->getStudentAccount($request->student_id),
-          'accountInfo' => $this->getAccountInfo($request->student_id),
+          'newlist' => $this->getStudentAccount($request->student_id, $request->payment_type, $filter_year, $filter_month),
+          'accountInfo' => $this->getAccountInfo($request->student_id, $filter_year, $filter_month),
           'status' => 200
         ]);
     }
@@ -70,23 +71,23 @@ class StudentAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($paytype, $id)
     {
         $student = StudentInformation::where('id', $id)->first();
 
         $classSchedules = $this->getStudentClassSchedule($id);
 
-        $accounts = $this->getStudentAccount($id);
+        $accountInfo = $this->getAccountInfo($id, Carbon::today()->format('Y'), Carbon::today()->format('m'));
 
-        $accountInfo = $this->getAccountInfo($id);
-
-        return view('admin.student-account.edit', [
+        $data = [
           'student' => $student,
           'classSchedules' => $classSchedules,
-          'accounts' => $accounts,
+          'accounts' => $this->getStudentAccount($id, $paytype, Carbon::today()->format('Y'), Carbon::today()->format('m')),
           'accountInfo' => $accountInfo,
           'currentYear' => Carbon::today()->format('Y')
-        ]);
+        ];
+
+        return $data;
     }
 
     /**
@@ -98,14 +99,19 @@ class StudentAccountController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $filter_year = $request->filter_year;
+        $filter_month = $request->filter_month;
+        $request->request->remove('filter_year');
+        $request->request->remove('filter_month');
+
         $studentAccount = StudentAccount::findOrFail($id);
 
         $studentAccount->update($request->all());
 
         return response()->json([
           'message' => 'Successfully updated Payment Record',
-          'newlist' => $this->getStudentAccount($request->student_id),
-          'accountInfo' => $this->getAccountInfo($request->student_id),
+          'newlist' => $this->getStudentAccount($request->student_id, $request->payment_type, $filter_year, $filter_month),
+          'accountInfo' => $this->getAccountInfo($request->student_id, $filter_year, $filter_month),
           'status' => 200
         ]);
     }
@@ -116,14 +122,14 @@ class StudentAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $student_id)
+    public function destroy(Request $request, $id)
     {
         StudentAccount::destroy($id);
 
         return response()->json([
           'message' => 'Successfully deleted Payment Schedule',
-          'newlist' => $this->getStudentAccount($student_id),
-          'accountInfo' => $this->getStudentAccount($student_id),
+          'newlist' => $this->getStudentAccount($request->student_id, $request->payment_type, $request->filter_year, $request->filter_month),
+          'accountInfo' => $this->getAccountInfo($request->student_id, $request->filter_year, $request->filter_month),
           'status' => 200
         ]);
     }   
@@ -141,10 +147,15 @@ class StudentAccountController extends Controller
                     ->selectRaw('student_id, sum(amount) as payment')
                     ->where('payment_type', '1')->get();
 
+        // $annual_fee = StudentAccount::groupBy('student_id')
+        //             ->selectRaw('student_id, COUNT(*) as annual_fee')
+        //             ->where('payment_type', '0')
+        //             ->whereYear('payment_date', Carbon::today()->format('Y'))
+        //             ->get();
+
         $annual_fee = StudentAccount::groupBy('student_id')
-                    ->selectRaw('student_id, COUNT(*) as annual_fee')
+                    ->selectRaw('student_id, PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM payment_date)) as annual_fee')
                     ->where('payment_type', '0')
-                    ->whereYear('payment_date', Carbon::today()->format('Y'))
                     ->get();
 
         return [
@@ -165,39 +176,69 @@ class StudentAccountController extends Controller
             ->get();
     }
 
-    protected function getStudentAccount($id) {
+    protected function getStudentAccount($id, $payType, $year, $month) {
         return StudentAccount::where('student_id', $id)
+            ->where('payment_type', $payType)
+            ->whereYear('payment_date', $year)
+            ->whereMonth('payment_date', $month)
             ->orderBy('payment_date', 'desc')
             ->get();
     }
 
-    protected function getAccountInfo($id) {
-
-        $first_payment = StudentAccount::select('payment_date')->where('student_id', $id)->orderBy('payment_date', 'asc')->first();
-        $last_payment = StudentAccount::select('payment_date')->where('student_id', $id)->orderBy('payment_date', 'desc')->first();
-        $payment_count = StudentAccount::where('student_id', $id)->count();
-        $payment_count = StudentAccount::where('student_id', $id)->count();
-        $total_payment = StudentAccount::where('student_id', $id)->where('payment_type', '1')->sum('amount');
-        $used_credits = ClassStudent::where('student_id', $id)->sum('credits');
+    protected function getAccountInfo($id, $year, $month) {
+ 
+        $last_payment = StudentAccount::select('payment_date')
+                    ->where('student_id', $id)
+                    ->where('payment_type', '1')
+                    ->orderBy('payment_date', 'desc')
+                    ->first();
+        $total_payment = StudentAccount::where('student_id', $id)
+                    ->whereYear('payment_date', $year)
+                    ->whereMonth('payment_date', $month)
+                    ->where('payment_type', '1')
+                    ->sum('amount');
+        $used_credits = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
+                    ->where('student_id', $id)
+                    ->whereYear('date_start', $year)
+                    ->whereMonth('date_start', $month)
+                    ->sum('credits');
         $credit_cost = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-            ->where('student_id', $id)->sum('credit_cost');
-        $annual_fee = StudentAccount::where('student_id', $id)->where('payment_type', '0')
-            ->whereYear('payment_date', Carbon::today()->format('Y'))->count();
-
-        if($first_payment == null)
-            $first_payment['payment_date'] = 'No Record';
+                    ->where('student_id', $id)
+                    ->whereYear('date_start', $year)
+                    ->whereMonth('date_start', $month)
+                    ->sum('credit_cost');
 
         if($last_payment == null)
-            $last_payment['payment_date'] = 'No Record';
+            $last_payment = 'No Record';
+        else
+            $last_payment = $last_payment->payment_date;
+            
 
         return $accountInfo = [
-            'first_payment' => $first_payment,
             'last_payment' => $last_payment,
-            'payment_count' => $payment_count,
             'total_payment' => $total_payment,
             'used_credits' => $used_credits,
-            'annual_fee' => $annual_fee,
             'credit_cost' => $credit_cost
         ];
     }
+
+    protected function filterDate($paytype, $id, $year, $month)
+    {
+        $student = StudentInformation::where('id', $id)->first();
+
+        $classSchedules = $this->getStudentClassSchedule($id);
+
+        $accountInfo = $this->getAccountInfo($id, $year, $month);
+
+        $data = [
+          'student' => $student,
+          'classSchedules' => $classSchedules,
+          'accounts' => $this->getStudentAccount($id, $paytype, $year, $month),
+          'accountInfo' => $accountInfo,
+          'currentYear' => Carbon::today()->format('Y')
+        ];
+
+        return $data;
+    }
+
 }

@@ -47,7 +47,6 @@ class EducationBackgroundController extends Controller
     $educationBackground = EducationBackground::create($request->all());
 
     return response()->json([
-      'update' => new EducationBackgroundResource($educationBackground),
       'message' => 'Successfully added Education Background',
       'newlist' => EducationBackground::where('student_id', $request->student_id)->orderBy('created_at', 'Desc')->get(),
       'status' => 200
@@ -91,7 +90,6 @@ class EducationBackgroundController extends Controller
     $educationBackground->fill($request->all())->push();
 
     return response()->json([
-      'update' => new EducationBackgroundResource($educationBackground),
       'message' => 'Education Background was updated successfully!',
       'newlist' => EducationBackground::where('student_id', $request->student_id)->orderBy('created_at', 'Desc')->get(),
       'status' => 200

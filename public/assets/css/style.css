@@ -1,26 +1,26 @@
 .nav-tabs .nav-link.active {
-  font-weight: bold;
+    font-weight: bold;
 }
 .nav-tabs .nav-link {
-  padding: 10px 16px;
-  margin-right: 4px;
-  background-color: #f5f5f5;
-  border: 1px solid #e7e7e7;
+    padding: 10px 16px;
+    margin-right: 4px;
+    background-color: #f5f5f5;
+    border: 1px solid #e7e7e7;
 }
 .dropdown-menu {
-  width: 200px;
+    width: 200px;
 }
 #sidebar .dropdown-toggle::after {
-  float: right; 
-  top: -30px;
-  position: relative;
+    float: right; 
+    top: -30px;
+    position: relative;
 }
 #sidebar .nav-item.dropdown {
     height: 70px;
 }
 #sidebar hr {
-  border-top: 1px solid rgba(245, 245, 245, 0.3);
-  width: 90%;
+    border-top: 1px solid rgba(245, 245, 245, 0.3);
+    width: 90%;
 }
 .sidebar.bg-dark .nav .nav-item .nav-link.nav-parent::after, .sidebar .nav .nav-item .nav-link.nav-parent::after {
     font-family: "LineAwesome";
@@ -112,60 +112,60 @@ table.table td:nth-child(1), table.table th:nth-child(1) {
     top: 6px !important;
 }
 /*#toast-container > .toast.toast-success::before {
-    content: "";
-    }*/
-    #myTabContent-6 .table-button {
-        padding: 6px 12px !important;
-        cursor: pointer !important;
-        text-transform: uppercase !important;
-        font-size: 13px !important;
-        border-radius: 5px !important;
-        width: 80px;
-        color: #8c7d00 !important;
-    }
-    table.table-hover tbody tr:hover {
-        background-color: #2dd4c6 !important;
-    }
-    .profile-image {
-        width: auto !important;
-        border: 1px solid #cacaca;
-        max-height: 260px !important;
-    }
-    .el-transfer-panel {
-        width: 43% !important;
-    }
-    .el-transfer-panel__item.el-checkbox {
-        width: 100% !important;
-        margin-right: 0 !important;
-    }
-    legend.col-form-label {
-        line-height: 1.5 !important;
-    }
-    a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
-        color: white !important;
-        font-size: 12px !important;
-    }
-    .el-select-dropdown.el-popper {
-        z-index: 99999 !important;
-    }
-    .el-select .el-input__inner {
-        padding: .6rem .75rem !important;
-        margin-top: 0 !important;
-        border: 1px solid #d2d2d2 !important;
-        width: 100% !important;
-        font-size: 1rem !important;
-        line-height: 1.5 !important;
-        color: #343a40 !important;
-        margin-right: -6px !important;
-    }
-    #sidebar {
-        background-color: #122f3b;
-    }
-    .el-menu {
-       border-right: none !important; 
-       background-color: #122f3b !important;
-   }
-   .el-menu-item:focus, .el-menu-item:hover, .el-submenu__title:hover {
+content: "";
+}*/
+#myTabContent-6 .table-button {
+    padding: 6px 12px !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    font-size: 13px !important;
+    border-radius: 5px !important;
+    width: 80px;
+    color: #8c7d00 !important;
+}
+table.table-hover tbody tr:hover {
+    background-color: #2dd4c6 !important;
+}
+.profile-image {
+    width: 100%;
+    border: 1px solid #cacaca;
+    max-height: 260px !important;
+}
+.el-transfer-panel {
+    width: 43% !important;
+}
+.el-transfer-panel__item.el-checkbox {
+    width: 100% !important;
+    margin-right: 0 !important;
+}
+legend.col-form-label {
+    line-height: 1.5 !important;
+}
+a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover {
+    color: white !important;
+    font-size: 12px !important;
+}
+.el-select-dropdown.el-popper {
+    z-index: 99999 !important;
+}
+.el-select .el-input__inner {
+    padding: .6rem .75rem !important;
+    margin-top: 0 !important;
+    border: 1px solid #d2d2d2 !important;
+    width: 100% !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    color: #343a40 !important;
+    margin-right: -6px !important;
+}
+#sidebar {
+    background-color: #122f3b;
+}
+.el-menu {
+    border-right: none !important; 
+    background-color: #122f3b !important;
+}
+.el-menu-item:focus, .el-menu-item:hover, .el-submenu__title:hover {
     outline: 0;
     background: #ecf5ff !important;
     background: #07a7e3 !important;
@@ -261,4 +261,44 @@ table.table th, table.table td, table th, table td {
 }
 .fc-today-button {
     display: none !important;
+}
+.swal-text {
+    text-align: center;
+}
+.fade-enter-active, .fade-leave-active {
+    transition-property: opacity;
+    transition-duration: .5s;
+}
+
+.fade-enter-active {
+    transition-delay: .5s;
+}
+
+.fade-enter, .fade-leave-active {
+    opacity: 0
+}
+.custom-tab-headers {
+    margin-bottom: -1px;
+    z-index: 1;
+    position: relative;
+    font-size: 18px;
+}
+.custom-tab-headers + .card {
+    border-top-left-radius: 0 !important;
+}
+a.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end:hover {
+    box-shadow: 0 0 7px 2px #0254d2;
+    background-color: #2c3e50;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: .3s ease;
+}
+.el-transfer-panel:first-of-type label.el-checkbox.el-transfer-panel__item.is-disabled {
+    display: none !important;
+}
+.schedPreview p {
+    font-size: 18px;
+}
+.schedPreview p span {
+    font-size: 16px;
 }

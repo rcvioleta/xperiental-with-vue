@@ -37,15 +37,13 @@ class StudentLevelController extends Controller
    */
   public function store(Request $request)
   {
-    $this->validate($request, [
-      'name' => 'required',
-      'status' => 'required|numeric|max:1|digits:1'
+    $studentLevel = StudentLevel::create([
+      'name' => $request->grade_name,
+      'status' => $request->grade_status
     ]);
 
-    $studentLevel = StudentLevel::create($request->all());
-
     return response()->json([
-      'update' => new StudentLevelResource($studentLevel),
+      'newlist' => StudentLevel::all(),
       'message' => 'Student Level was updated successfully!',
       'status' => 200
     ]);
@@ -60,22 +58,6 @@ class StudentLevelController extends Controller
   public function show(StudentLevel $studentLevel)
   {
     //
-  }
-
-  public function active($slug)
-  {
-    $studentLevel = StudentLevel::where('slug', '=', $slug)->first();
-    $studentLevel->status = 1;
-    $studentLevel->save();
-    return response('Updated status to active', 200);
-  }
-
-  public function inactive($slug)
-  {
-    $studentLevel = StudentLevel::where('slug', '=', $slug)->first();
-    $studentLevel->status = 0;
-    $studentLevel->save();
-    return response('Updated status to inactive', 200);
   }
 
   /**
@@ -100,15 +82,13 @@ class StudentLevelController extends Controller
   {
     $studentLevel = StudentLevel::findOrFail($id);
 
-    $this->validate($request, [
-      'name' => 'required',
-      'status' => 'required|numeric|max:1|digits:1'
+    $studentLevel->update([
+      'name' => $request->grade_name,
+      'status' => $request->grade_status
     ]);
 
-    $studentLevel->update($request->all());
-
     return response()->json([
-      'update' => new StudentLevelResource($studentLevel),
+      'newlist' => StudentLevel::all(),
       'message' => 'Student Level was updated successfully!',
       'status' => 200
     ]);
