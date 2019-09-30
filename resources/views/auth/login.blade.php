@@ -8,7 +8,7 @@
   <meta name="author" content="">
   <link rel="icon" href="assets/img/favicon.png">
 
-  <title>Login - Xperiental Learning Hub</title>
+  <title>Xperiental Learning Hub</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">

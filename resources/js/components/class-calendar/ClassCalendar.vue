@@ -35,7 +35,7 @@
                                         <p><span>INSTRUCTOR:</span></p>
                                     </b-col>
                                     <b-col class="pl-0">
-                                        <p><strong>{{ infoModal.classDate }}</strong></p>
+                                        <p><strong>{{ editClassDate }}</strong></p>
                                         <p><strong>{{ infoModal.startHrs }}:{{ infoModal.startMin }} {{ infoModal.startAmPm }} - {{ infoModal.endHrs }}:{{ infoModal.endMin }} {{ infoModal.endAmPm }}</strong></p>
                                         <p><strong>{{ editClassType }}</strong></p>
                                         <p><strong>{{ editSubject }}</strong></p>
@@ -231,6 +231,7 @@
                 editSubject: '',
                 editGrade: '',
                 editStudents: [],
+                editClassDate: ''
             }
         },
         components: {
@@ -311,6 +312,8 @@
                 this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
                 this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
 
+                this.editClassDate = (this.infoModal.classDate).slice(5) + '-' + (this.infoModal.classDate).slice(0, 4);
+
 
                 axios.get('/admin/classschedule/getStudentByClass/' + this.editId)
                 .then(response => {
@@ -320,13 +323,14 @@
 
                     for(var x = 0; x < response.data.length; x++) {
                         this.infoModal.students.push( response.data[x].student_id );
-                        this.editStudents.push(
-                            response.data[x].last_name + ', ' + 
-                            response.data[x].first_name + ' ' + 
-                            response.data[x].middle_name + ' (' +
-                            response.data[x].nickname + ') ID:' +
-                            response.data[x].student_id
-                        );
+                        // this.editStudents.push(
+                        //     response.data[x].last_name + ', ' + 
+                        //     response.data[x].first_name + ' ' + 
+                        //     response.data[x].middle_name + ' (' +
+                        //     response.data[x].nickname + ') ID:' +
+                        //     response.data[x].student_id
+                        // );
+                        this.editStudents.push(response.data[x].nickname + ' ' + response.data[x].last_name);
                     }
 
                     this.editClassType = this.data.classtypes.filter( element => element.id == this.infoModal.classType)[0].name;
@@ -441,6 +445,7 @@
             },
             beautifyDate(thisTime) {
                 var startDate = new Date(thisTime);
+                // var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
                 var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
                 var startHrs = ('00' + startDate.getHours()).slice(-2);
                 var startMin = ('00' + startDate.getMinutes()).slice(-2);
@@ -548,3 +553,16 @@
         }
     }
 </script>
+<style type="text/css">
+    .fc-title {
+        white-space: pre-line;
+        line-height: 0px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
+    }
+    td.fc-event-container {
+        padding-bottom: 6px !important;
+    }
+    a.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end {
+        padding: 4px 0 2px 0 !important;
+    }
+</style>
