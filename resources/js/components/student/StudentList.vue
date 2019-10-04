@@ -48,7 +48,7 @@
                                     :filter="filter_active" 
                                     @filtered="onFilteredActive">
                                         <template slot="student_name" slot-scope="data">
-                                            {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
+                                            {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name == 'null'? '': data.item.middle_name }}
                                         </template>
                                         <template slot="action" slot-scope="data">
                                             <router-link :to="'/studentmanagement/edit/' + data.item.id" class="btn btn-sm btn-warning pull-right waves-effect waves-light btable-button">

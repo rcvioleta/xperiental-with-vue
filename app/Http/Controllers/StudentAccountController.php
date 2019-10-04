@@ -140,7 +140,8 @@ class StudentAccountController extends Controller
                     ->leftJoin('class_students', 'class_students.student_id', 'student_information.id')
                     ->leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
                     ->selectRaw('student_information.id as student_id, id_num, nickname, first_name, middle_name, last_name, sum(credit_cost) as credit_cost')
-                    ->where('student_information.status', '1')
+                    // ->where('student_information.status', '1')
+                    ->whereMonth('class_schedules.created_at', '09')
                     ->orderBy('id_num')
                     ->get();
 

@@ -127,7 +127,7 @@ table.table-hover tbody tr:hover {
     background-color: #2dd4c6 !important;
 }
 .profile-image {
-    width: 100%;
+    width: auto;
     border: 1px solid #cacaca;
     max-height: 260px !important;
 }

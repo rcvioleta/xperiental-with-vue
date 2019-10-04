@@ -7,17 +7,17 @@
         </b-row>
         <b-row>
             <b-col>
-                <ul class="nav nav-tabs custom-tab-headers" role="tablist">
-                    <li class="nav-item">
+                <!-- <ul class="nav nav-tabs custom-tab-headers" role="tablist"> -->
+                    <!-- <li class="nav-item">
                         <a class="nav-link active" href="#tab_1" data-toggle="tab" role="tab" aria-controls="tab_1" aria-selected="true">Monthly Payment</a>
-                    </li>
-                    <li class="nav-item">
+                    </li> -->
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#tab_2" data-toggle="tab" role="tab" aria-controls="tab_2" aria-selected="false">Registration Fee</a>
-                    </li>
-                </ul>
+                    </li> -->
+                <!-- </ul> -->
                 <b-card>
                     <div class="tab-content" id="student-account-details-tab">
-                        <div id="tab_1" class="row tab-pane fade show active p-3 pb-0" role="tabpanel" aria-labelledby="tab_1">
+                        <!-- <div id="tab_1" class="row tab-pane fade show active p-3 pb-0" role="tabpanel" aria-labelledby="tab_1"> -->
                             <b-row align-h="between">
                                 <b-col cols="6" align="start">
                                     <b-form-group class="mb-10 mr-5 float-left">
@@ -98,8 +98,8 @@
                                     </b-pagination>
                                 </b-col>
                             </b-row>
-                        </div>
-                        <div id="tab_2" class="row tab-pane fade p-3 pb-0" role="tabpanel" aria-labelledby="tab_2">
+                        <!-- </div> -->
+                        <!-- <div id="tab_2" class="row tab-pane fade p-3 pb-0" role="tabpanel" aria-labelledby="tab_2">
                             <b-row align-h="between">
                                 <b-col cols="6" align="start">
                                     <b-form-group class="mb-10 mr-5 float-left">
@@ -164,7 +164,7 @@
                                     </b-pagination>
                                 </b-col>
                             </b-row>
-                        </div>
+                        </div> -->
                     </div>
                 </b-card>
             </b-col>
