@@ -45,7 +45,7 @@
                                     :filter="filter_mp"
                                     @filtered="onFiltered_mp">
                                         <template slot="student_name" slot-scope="data">
-                                            {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
+                                            {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name == 'null'? '' : data.item.middle_name }}
                                         </template>
                                         <template slot="balance" slot-scope="data">
                                             <span v-if="(data.item.payment - data.item.credit_cost) < 0" style="color: red; font-weight: bold;">
