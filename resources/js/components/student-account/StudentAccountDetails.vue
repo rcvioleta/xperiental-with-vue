@@ -45,19 +45,28 @@
                 <b-col>
                     <!-- <b-form-group label="Total Credit Cost"> -->
                     <b-form-group label="Amount Due">
-                        {{ formatPrice(accountDetails.credit_cost) }}
+                        <span v-if="formatPrice(accountDetails.credit_cost) < 0" style="color: red;">
+                            ₱{{ formatPrice(accountDetails.credit_cost) }}
+                        </span>
+                        <span v-else>
+                            0
+                        </span>
                     </b-form-group>
                 </b-col>
                 <b-col>
-                    <!-- <b-form-group label="Total Credit Payment"> -->
                     <b-form-group label="Amount Paid">
-                        {{ formatPrice(accountDetails.total_payment) }}
+                        <span v-if="formatPrice(accountDetails.total_payment) < 0" style="color: red;">
+                            ₱{{ formatPrice(accountDetails.total_payment) }}
+                        </span>
+                        <span v-else>
+                            0
+                        </span>
                     </b-form-group>
                 </b-col>
                 <b-col>
                     <b-form-group label="Balance">
                         <span v-if="(accountDetails.total_payment - accountDetails.credit_cost) < 0" style="color: red;">
-                            {{ formatPrice(accountDetails.total_payment - accountDetails.credit_cost) }}
+                            ₱{{ formatPrice(accountDetails.total_payment - accountDetails.credit_cost) }}
                         </span>
                         <span v-else>
                             0
@@ -67,7 +76,7 @@
                 <b-col>
                     <b-form-group label="Credits">
                         <span v-if="(accountDetails.total_payment - accountDetails.credit_cost) > 0" style="color: green;">
-                            {{ formatPrice(accountDetails.total_payment - accountDetails.credit_cost) }}
+                            ₱{{ formatPrice(accountDetails.total_payment - accountDetails.credit_cost) }}
                         </span>
                         <span v-else>
                             0
@@ -222,7 +231,10 @@
                 this.accountData.student_id = this.student.id;
                 this.accountDetails = studentaccount.accountInfo;
                 this.currentYear = studentaccount.currentYear;
+                console.log('accountDetails: ', studentaccount);
             });
+
+
         },
         methods: {
             editPayment(data) {
@@ -302,7 +314,7 @@
             },
             formatPrice(value) {
                 // let val = (value/1).toFixed(2).replace(',', '.')
-                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")).replace('-', '')
             },
             dateFilter() {
                 axios.get('/admin/studentaccount/filterdate/1/' + this.accountData.student_id + '/' + this.accountData.filter_year + '/' + this.accountData.filter_month)

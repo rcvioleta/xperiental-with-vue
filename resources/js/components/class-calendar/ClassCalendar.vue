@@ -36,7 +36,7 @@
                                     </b-col>
                                     <b-col class="pl-0">
                                         <p><strong>{{ editClassDate }}</strong></p>
-                                        <p><strong>{{ infoModal.startHrs }}:{{ infoModal.startMin }} {{ infoModal.startAmPm }} - {{ infoModal.endHrs }}:{{ infoModal.endMin }} {{ infoModal.endAmPm }}</strong></p>
+                                        <p><strong>{{ ("0" + infoModal.startHrs).slice(-2) }}:{{ infoModal.startMin }} - {{ ("0" + infoModal.endHrs).slice(-2) }}:{{ infoModal.endMin }}</strong></p>
                                         <p><strong>{{ editClassType }}</strong></p>
                                         <p><strong>{{ editSubject }}</strong></p>
                                         <p><strong>{{ editGrade }}</strong></p>
@@ -75,7 +75,7 @@
                                             <div class="input-group">
                                                 <b-form-select v-model="infoModal.startHrs" :options="optionTime.hrs"></b-form-select>
                                                 <b-form-select v-model="infoModal.startMin" :options="optionTime.mnts"></b-form-select>
-                                                <b-form-select v-model="infoModal.startAmPm" :options="optionTime.ampm"></b-form-select>
+                                                <!-- <b-form-select v-model="infoModal.startAmPm" :options="optionTime.ampm"></b-form-select> -->
                                             </div>
                                         </b-form-group>
                                     </b-col>
@@ -84,7 +84,7 @@
                                             <div class="input-group">
                                                 <b-form-select v-model="infoModal.endHrs" :options="optionTime.hrs"></b-form-select>
                                                 <b-form-select v-model="infoModal.endMin" :options="optionTime.mnts"></b-form-select>
-                                                <b-form-select v-model="infoModal.endAmPm" :options="optionTime.ampm"></b-form-select>
+                                                <!-- <b-form-select v-model="infoModal.endAmPm" :options="optionTime.ampm"></b-form-select> -->
                                             </div>
                                         </b-form-group>
                                     </b-col>
@@ -210,11 +210,11 @@
                     grade_id: '',
                     status: '1',
                     startHrs: 'Hrs',
-                    startMin: 'Min',
-                    startAmPm: 'AM/PM',
+                    startMin: '00',
+                    // startAmPm: 'AM/PM',
                     endHrs: 'Hrs',
-                    endMin: 'Min',
-                    endAmPm: 'AM/PM',
+                    endMin: '00',
+                    // endAmPm: 'AM/PM',
                     students: [],
                     startTimeFull: '',
                     endTimeFull: '',
@@ -222,11 +222,10 @@
                     credits: '',
                 },
                 optionTime: {
-                    hrs: ['Hrs', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    mnts: ['Min', '00', '30'],
+                    hrs: ['Hrs', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+                    mnts: ['00', '30'],
                     ampm: ['AM/PM', 'AM', 'PM']
                 },
-
                 editClassType: '',
                 editSubject: '',
                 editGrade: '',
@@ -253,9 +252,9 @@
                         key: item.id, 
                         label: item.last_name + ', ' + 
                         item.first_name + ' ' + 
-                        (item.middle_name == null ? '' : item.middle_name) + 
-                        ' (' + item.nickname + ') ID: ' + 
-                        item.id_num,
+                        (item.middle_name == null? '' : item.middle_name) + 
+                        ' (' + item.nickname + ') ' ,
+                        // + 'ID: ' + item.id_num,
                         disabled: bool
                     };
                 });
@@ -297,6 +296,9 @@
 
                 var startDate = arg.event.extendedProps.date_start;
                 var endDate = arg.event.extendedProps.date_end;
+                var startConverted = new Date(startDate);
+                var endConverted = new Date(endDate);
+
                 this.infoModal.classDate = this.beautifyDate(startDate)[0].classDate;
                 this.infoModal.classType = arg.event.extendedProps.class_rate_id;
                 this.infoModal.subject = arg.event.extendedProps.subject_id;
@@ -305,15 +307,21 @@
                 // this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
                 this.infoModal.instructor_id = arg.event.extendedProps.instructor_nickname;
                 this.instructor_id_old = arg.event.extendedProps.instructor_id;
-                this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
-                this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
-                this.infoModal.endAmPm = this.beautifyDate(endDate)[0].AmPm;
-                this.infoModal.startHrs = this.beautifyDate(startDate)[0].Hrs;
-                this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
-                this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
+                // this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
+                // this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
+                // this.infoModal.endAmPm = this.beautifyDate(endDate)[0].AmPm;
+                // this.infoModal.startHrs = this.beautifyDate(startDate)[0].Hrs;
+                // this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
+                // this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
+                this.infoModal.startHrs = startConverted.getHours();
+                this.infoModal.startMin = ("0" + startConverted.getMinutes()).slice(-2);
+                this.infoModal.endHrs = endConverted.getHours();
+                this.infoModal.endMin = ("0" + endConverted.getMinutes()).slice(-2);
 
                 this.editClassDate = (this.infoModal.classDate).slice(5) + '-' + (this.infoModal.classDate).slice(0, 4);
 
+                // console.log('end: ', startConverted.getMinutes());
+                // console.log('start: ', startDate);
 
                 axios.get('/admin/classschedule/getStudentByClass/' + this.editId)
                 .then(response => {
@@ -389,6 +397,9 @@
 
                 this.SetTimeProperly();
 
+                // console.log('start: ', this.infoModal.startTimeFull);
+                // console.log('end: ', this.infoModal.endTimeFull);
+                // console.log('credits: ', this.infoModal.credits);
                 if(this.requireAllFields()) {
                     axios.post(url, this.infoModal)
                     .then(response => {
@@ -420,14 +431,19 @@
                 for(var x = 0; x < sched.length; x++) {
 
                     this.events.push({
-                        title : this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
-                                this.beautifyDate(sched[x].date_start)[0].Min + 
-                                this.beautifyDate(sched[x].date_start)[0].AmPm + "-" +
-                                this.beautifyDate(sched[x].date_end)[0].Hrs + ":" + 
-                                this.beautifyDate(sched[x].date_end)[0].Min + 
-                                this.beautifyDate(sched[x].date_end)[0].AmPm + " - " +
+                        title : 
+                                // this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
+                                // this.beautifyDate(sched[x].date_start)[0].Min + 
+                                // this.beautifyDate(sched[x].date_start)[0].AmPm + 
+                                (sched[x].date_start).slice(11, 16) + 
+                                "-" +
+                                (sched[x].date_end).slice(11, 16) + 
+                                // this.beautifyDate(sched[x].date_end)[0].Hrs + ":" + 
+                                // this.beautifyDate(sched[x].date_end)[0].Min + 
+                                // this.beautifyDate(sched[x].date_end)[0].AmPm + 
+                                " (" +
                                 sched[x].grade_name + " - " + 
-                                sched[x].instructor_nickname,
+                                sched[x].instructor_nickname + ")",
 
                         start  : sched[x].date_start,
                         end    : sched[x].date_end,
@@ -465,26 +481,32 @@
                 }];
             },
             SetTimeProperly() {
-                const convertTime12to24 = (time12h) => {
-                    const [time, modifier] = time12h.split(' ');
-                    let [hours, minutes] = time.split(':');
+                // const convertTime12to24 = (time12h) => {
+                //     const [time, modifier] = time12h.split(' ');
+                //     let [hours, minutes] = time.split(':');
 
-                    if (hours === '12')
-                        hours = '00';
-                    if (modifier === 'PM')
-                        hours = parseInt(hours, 10) + 12;
+                //     if (hours === '12')
+                //         hours = '00';
+                //     if (modifier === 'PM')
+                //         hours = parseInt(hours, 10) + 12;
 
-                    hours = ('0' + hours).slice(-2);
+                //     hours = ('0' + hours).slice(-2);
 
-                    return this.infoModal.classDate + `T${hours}:${minutes}:00`;
-                }
+                //     return this.infoModal.classDate + `T${hours}:${minutes}:00`;
+                // }
 
-                var startD = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
-                var endD = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
+                // var startD = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
+                // var endD = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
+
+                // this.infoModal.startTimeFull = startD;
+                // this.infoModal.endTimeFull = endD;
+
+                var startD = this.infoModal.classDate + 'T' + ('0' + this.infoModal.startHrs).slice(-2) + ':' + this.infoModal.startMin + ':00';
+                var endD = this.infoModal.classDate + 'T' + ('0' + this.infoModal.endHrs).slice(-2) + ':' + this.infoModal.endMin + ':00';
 
                 this.infoModal.startTimeFull = startD;
                 this.infoModal.endTimeFull = endD;
-
+ 
                 this.infoModal.credits = this.calcCredit(startD, endD); 
             },
             calcCredit(dt1, dt2) {
@@ -507,7 +529,7 @@
                 var self = this
                 var check = true;
                 Object.keys(self.infoModal).forEach(function(key,index) {
-                    if(self.infoModal[key] == '')
+                    if(self.infoModal[key] == '' || self.infoModal[key] == 'Hrs')
                         check = false;
                 })
 
@@ -519,11 +541,11 @@
                 this.infoModal.grade_id = '';
                 this.infoModal.status = '1';
                 this.infoModal.startHrs = 'Hrs';
-                this.infoModal.startMin = 'Min';
-                this.infoModal.startAmPm = 'AM/PM';
+                this.infoModal.startMin = '00';
+                // this.infoModal.startAmPm = 'AM/PM';
                 this.infoModal.endHrs = 'Hrs';
-                this.infoModal.endMin = 'Min';
-                this.infoModal.endAmPm = 'AM/PM';
+                this.infoModal.endMin = '00';
+                // this.infoModal.endAmPm = 'AM/PM';
                 this.infoModal.students = [];
                 this.infoModal.startTimeFull = '';
                 this.infoModal.endTimeFull = '';

@@ -49,7 +49,7 @@
                                         </template>
                                         <template slot="balance" slot-scope="data">
                                             <span v-if="(data.item.payment - data.item.credit_cost) < 0" style="color: red; font-weight: bold;">
-                                                {{ formatPrice(data.item.payment - data.item.credit_cost) }}
+                                                ₱{{ formatPrice(data.item.payment - data.item.credit_cost) }}
                                             </span>
                                             <span v-else style="font-weight: bold;">
                                                 0
@@ -68,7 +68,7 @@
                                         </template>
                                         <template slot="credits" slot-scope="data">
                                             <span v-if="(data.item.payment - data.item.credit_cost) > 0" style="color: green; font-weight: bold;">
-                                                {{ formatPrice(data.item.payment - data.item.credit_cost) }}
+                                                ₱{{ formatPrice(data.item.payment - data.item.credit_cost) }}
                                             </span>
                                             <span v-else style="font-weight: bold;">
                                                 0
@@ -214,6 +214,9 @@
 
                 var res = this.studentData.map(x => Object.assign(x, response.data.payment.find(y => y.student_id == x.student_id)));
                 var res2 = this.studentData.map(x => Object.assign(x, response.data.annual_fee.find(y => y.student_id == x.student_id)));
+
+                console.log('studentData: ', response.data.accounts);
+                console.log('payment: ', response.data);
             })
             .catch(err=>{
                 swal("Error!", 
