@@ -43,8 +43,8 @@
                 </b-col>
                 <b-col>
                     <b-form-group label="Amount Due">
-                        <span v-if="formatPrice(accountDetails.credit_cost) < 0" style="color: red;">
-                            ₱{{ formatPrice(accountDetails.credit_cost) }}
+                        <span v-if="accountDetails.amount_due > 0">
+                            ₱{{ formatPrice(accountDetails.amount_due) }}
                         </span>
                         <span v-else>
                             0
@@ -53,8 +53,8 @@
                 </b-col>
                 <b-col>
                     <b-form-group label="Amount Paid">
-                        <span v-if="formatPrice(accountDetails.total_payment) < 0" style="color: red;">
-                            ₱{{ formatPrice(accountDetails.total_payment) }}
+                        <span v-if="accountDetails.amount_paid > 0">
+                            ₱{{ formatPrice(accountDetails.amount_paid) }}
                         </span>
                         <span v-else>
                             0
@@ -230,6 +230,8 @@
 
                 this.accountData.filter_year = studentaccount.currentYear;
                 this.accountData.filter_month = studentaccount.currentMonth;
+
+                console.log('studentaccount: ', studentaccount.accountInfo.last_payment);
             });
         },
         methods: {

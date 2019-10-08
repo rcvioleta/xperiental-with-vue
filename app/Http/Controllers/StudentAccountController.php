@@ -157,9 +157,6 @@ class StudentAccountController extends Controller
         //             ->whereYear('payment_date', Carbon::today()->format('Y'))
         //             ->get();
 
-        // $credit_cost = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-        //             ->get();
-
         // $annual_fee = StudentAccount::groupBy('student_id')
         //             ->selectRaw('student_id, PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM payment_date)) as annual_fee')
         //             ->where('payment_type', '0')
@@ -195,26 +192,19 @@ class StudentAccountController extends Controller
 
     protected function getAccountInfo($id, $year, $month) {
  
-        $last_payment = StudentAccount::select('payment_date')
-                    ->where('student_id', $id)
-                    ->where('payment_type', '1')
-                    ->orderBy('payment_date', 'desc')
-                    ->first();
-        $total_payment = StudentAccount::where('student_id', $id)
-                    ->whereYear('payment_date', $year)
-                    ->whereMonth('payment_date', $month)
-                    ->where('payment_type', '1')
-                    ->sum('amount');
+        $payment = StudentAccount::where('student_id', $id);
+
         $used_credits = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
                     ->where('student_id', $id)
                     ->whereYear('date_start', $year)
                     ->whereMonth('date_start', $month)
                     ->sum('credits');
-        $credit_cost = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-                    ->where('student_id', $id)
-                    ->whereYear('date_start', $year)
-                    ->whereMonth('date_start', $month)
-                    ->sum('credit_cost');
+
+        $credits = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
+                    ->where('student_id', $id);
+                    
+
+        $last_payment = $payment->select('payment_date')->orderBy('payment_date', 'desc')->first();
 
         if($last_payment == null)
             $last_payment = 'No Record';
@@ -224,9 +214,11 @@ class StudentAccountController extends Controller
 
         return $accountInfo = [
             'last_payment' => $last_payment,
-            'total_payment' => $total_payment,
+            'total_payment' => $payment->sum('amount'),
             'used_credits' => $used_credits,
-            'credit_cost' => $credit_cost
+            'credit_cost' => $credits->sum('credit_cost'),
+            'amount_due' => $credits->whereYear('date_start', $year)->whereMonth('date_start', $month)->sum('credit_cost'),
+            'amount_paid' => $payment->whereYear('payment_date', $year)->whereMonth('payment_date', $month)->sum('amount'),
         ];
     }
 
