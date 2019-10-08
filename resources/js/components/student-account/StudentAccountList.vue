@@ -51,20 +51,12 @@
                                             <span v-if="(data.item.payment - data.item.credit_cost) < 0" style="color: red; font-weight: bold;">
                                                 ₱{{ formatPrice(data.item.payment - data.item.credit_cost) }}
                                             </span>
+                                            <span v-else-if="data.item.payment == null" style="color: red; font-weight: bold;">
+                                                ₱{{ data.item.credit_cost }}
+                                            </span>
                                             <span v-else style="font-weight: bold;">
                                                 0
                                             </span>
-                                            <!-- <span v-if="(data.item.payment - data.item.credit_cost) > 0" style="color: green;font-weight: bold;">
-                                                (+){{ data.item.payment - data.item.credit_cost }}
-                                            </span>
-                                            <span v-else-if="(data.item.payment - data.item.credit_cost) == 0" style="color:green;font-weight: bold;">
-                                                {{ data.item.payment - data.item.credit_cost }}
-                                            </span>
-                                            <span v-else-if="isNaN(data.item.payment - data.item.credit_cost)">
-                                            </span>
-                                            <span v-else style="color: red;font-weight: bold;">
-                                                {{ data.item.payment - data.item.credit_cost }}
-                                            </span> -->
                                         </template>
                                         <template slot="credits" slot-scope="data">
                                             <span v-if="(data.item.payment - data.item.credit_cost) > 0" style="color: green; font-weight: bold;">
@@ -81,7 +73,6 @@
                                                 View <i class="fa fa-eye"></i>
                                             </router-link>
                                         </template>
-
                                     </b-table>
                                 </b-col>
                             </b-row>
@@ -190,18 +181,17 @@
                     'credits',
                     'action',
                 ],
-
-                currentPage_rf: 1,
-                perPage_rf: 10,
-                totalRows_rf: '',
-                filter_rf: null,
-                fields_rf: [
-                    { key: 'id_num', label: 'Student ID' },
-                    'nickname',
-                    'student_name',
-                    { key: 'annual_fee', label: 'Registration Fee' },
-                    'action',
-                ],
+                // currentPage_rf: 1,
+                // perPage_rf: 10,
+                // totalRows_rf: '',
+                // filter_rf: null,
+                // fields_rf: [
+                //     { key: 'id_num', label: 'Student ID' },
+                //     'nickname',
+                //     'student_name',
+                //     { key: 'annual_fee', label: 'Registration Fee' },
+                //     'action',
+                // ],
             }
         },
         created() {
@@ -209,14 +199,23 @@
             .then(response => {
                 
                 this.studentData = response.data.accounts;
-                this.totalRows_mp = response.data.accounts.length;
-                this.totalRows_rf = response.data.accounts.length;
+                this.totalRows = response.data.accounts.length;
 
-                var res = this.studentData.map(x => Object.assign(x, response.data.payment.find(y => y.student_id == x.student_id)));
-                var res2 = this.studentData.map(x => Object.assign(x, response.data.annual_fee.find(y => y.student_id == x.student_id)));
+                this.studentData.map(x => Object.assign(x, response.data.payment.find(y => y.student_id == x.student_id)));
 
-                console.log('studentData: ', response.data.accounts);
-                console.log('payment: ', response.data);
+                this.studentData = this.studentData.filter(d => {
+                    if(d.payment == null) {
+                        d.payment = 0;
+                    }
+                    if((d.payment - d.credit_cost) < 0)
+                        return true;
+                    if((d.acmonth == response.data.other.acmonth) && (d.acyear == response.data.other.acyear))
+                        return true;
+                    else
+                        return false;
+
+                });
+                console.log('student: ', this.studentData);
             })
             .catch(err=>{
                 swal("Error!", 
@@ -229,13 +228,13 @@
                 this.totalRows_mp = filteredItems.length
                 this.currentPage_mp = 1
             },
-            onFiltered_rf(filteredItems) {
-                this.totalRows_rf = filteredItems.length
-                this.currentPage_rf = 1
-            },
+            // onFiltered_rf(filteredItems) {
+            //     this.totalRows_rf = filteredItems.length
+            //     this.currentPage_rf = 1
+            // },
             formatPrice(value) {
-                // let val = (value/1).toFixed(2).replace(',', '.')
-                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                var data = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                return data.replace('-','');
             },
         },
     }

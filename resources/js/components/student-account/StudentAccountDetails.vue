@@ -37,13 +37,11 @@
         <b-card class="mb-3" style="box-shadow: 0 0 5px 0px #0000000f !important;border-color: #f5f5f5;">
             <b-row>
                 <b-col>
-                    <!-- <b-form-group label="Total Used Credits"> -->
                     <b-form-group label="Total Units">
                         {{ accountDetails.used_credits }}
                     </b-form-group>
                 </b-col>
                 <b-col>
-                    <!-- <b-form-group label="Total Credit Cost"> -->
                     <b-form-group label="Amount Due">
                         <span v-if="formatPrice(accountDetails.credit_cost) < 0" style="color: red;">
                             ₱{{ formatPrice(accountDetails.credit_cost) }}
@@ -198,18 +196,17 @@
                 perPage: 10,
                 pageOptions: [10, 20, 50],
                 accountList: [],
-                totalRows: '',
+                totalRows: 0,
                 student: [],
-                currentYear: '',
                 accountData: {
                     student_id : '',
-                    amount: '',
+                    amount: 0,
                     payment_type : '1',
                     payment_status : '1',    
                     payment_date: '',
                     remarks: '',
-                    filter_year: '2019',
-                    filter_month: '8',
+                    filter_year: '',
+                    filter_month: '',
                 },
                 accountDetails: [],
                 fields: [
@@ -230,11 +227,10 @@
                 this.student = studentaccount.student;
                 this.accountData.student_id = this.student.id;
                 this.accountDetails = studentaccount.accountInfo;
-                this.currentYear = studentaccount.currentYear;
-                console.log('accountDetails: ', studentaccount);
+
+                this.accountData.filter_year = studentaccount.currentYear;
+                this.accountData.filter_month = studentaccount.currentMonth;
             });
-
-
         },
         methods: {
             editPayment(data) {
@@ -314,7 +310,10 @@
             },
             formatPrice(value) {
                 // let val = (value/1).toFixed(2).replace(',', '.')
-                return (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")).replace('-', '')
+                if(value != null)
+                    return (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")).replace('-', '')
+                else
+                    return '';
             },
             dateFilter() {
                 axios.get('/admin/studentaccount/filterdate/1/' + this.accountData.student_id + '/' + this.accountData.filter_year + '/' + this.accountData.filter_month)

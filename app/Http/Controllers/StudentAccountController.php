@@ -84,7 +84,8 @@ class StudentAccountController extends Controller
           'classSchedules' => $classSchedules,
           'accounts' => $this->getStudentAccount($id, $paytype, Carbon::today()->format('Y'), Carbon::today()->format('m')),
           'accountInfo' => $accountInfo,
-          'currentYear' => Carbon::today()->format('Y')
+          'currentYear' => Carbon::today()->format('Y'),
+          'currentMonth' => Carbon::today()->format('m')
         ];
 
         return $data;
@@ -139,9 +140,9 @@ class StudentAccountController extends Controller
         $accounts = StudentInformation::groupBy('student_information.id')
                     ->leftJoin('class_students', 'class_students.student_id', 'student_information.id')
                     ->leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
-                    ->selectRaw('student_information.id as student_id, id_num, nickname, first_name, middle_name, last_name, sum(credit_cost) as credit_cost')
+                    ->selectRaw('MONTH(date_start) as acmonth, YEAR(date_start) as acyear, student_information.id as student_id, id_num, nickname, first_name, middle_name, last_name, sum(credit_cost) as credit_cost, date_start')
                     // ->where('student_information.status', '1')
-                    ->whereMonth('class_schedules.created_at', Carbon::today()->format('m'))
+                    // ->whereMonth('class_schedules.date_start', Carbon::today()->format('m'))
                     ->orderBy('id_num')
                     ->get();
 
@@ -156,15 +157,19 @@ class StudentAccountController extends Controller
         //             ->whereYear('payment_date', Carbon::today()->format('Y'))
         //             ->get();
 
-        $annual_fee = StudentAccount::groupBy('student_id')
-                    ->selectRaw('student_id, PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM payment_date)) as annual_fee')
-                    ->where('payment_type', '0')
-                    ->get();
+        // $credit_cost = ClassStudent::leftJoin('class_schedules', 'class_students.class_schedules_id', 'class_schedules.id')
+        //             ->get();
+
+        // $annual_fee = StudentAccount::groupBy('student_id')
+        //             ->selectRaw('student_id, PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM payment_date)) as annual_fee')
+        //             ->where('payment_type', '0')
+        //             ->get();
 
         return [
                 'accounts' => $accounts,
                 'payment' => $payment,
-                'annual_fee' => $annual_fee
+                'other' => ['acyear' => Carbon::today()->format('Y'), 'acmonth' => Carbon::today()->format('m')],
+                // 'annual_fee' => $annual_fee
             ];
     }
 

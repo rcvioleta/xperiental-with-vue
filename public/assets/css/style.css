@@ -302,3 +302,6 @@ a.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end:hover {
 .schedPreview p span {
     font-size: 16px;
 }
+li.el-menu-item.is-active {
+    background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
+}
