@@ -204,18 +204,16 @@
                 this.studentData.map(x => Object.assign(x, response.data.payment.find(y => y.student_id == x.student_id)));
 
                 this.studentData = this.studentData.filter(d => {
-                    if(d.payment == null) {
+                    if(d.payment == null)
                         d.payment = 0;
-                    }
-                    if((d.payment - d.credit_cost) < 0)
-                        return true;
-                    if((d.acmonth == response.data.other.acmonth) && (d.acyear == response.data.other.acyear))
+
+                    if((d.payment - d.credit_cost) < 0 || 
+                        (d.payment - d.credit_cost) > 0 ||
+                        ((d.acmonth == response.data.other.acmonth) && (d.acyear == response.data.other.acyear)))
                         return true;
                     else
                         return false;
-
                 });
-                console.log('student: ', this.studentData);
             })
             .catch(err=>{
                 swal("Error!", 
