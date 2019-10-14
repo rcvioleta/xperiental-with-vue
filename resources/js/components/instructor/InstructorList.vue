@@ -38,7 +38,7 @@
                             :filter="filter" 
                             @filtered="onFiltered">
                                 <template slot="instructor_name" slot-scope="data">
-                                    {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name }}
+                                    {{ data.item.last_name }}, {{ data.item.first_name }} {{ data.item.middle_name == 'null'? '' : data.item.middle_name }}
                                 </template>
                                 <template slot="status" slot-scope="data">
                                     <span class="badge badge-success" v-if="data.item.status == 1">Active</span>

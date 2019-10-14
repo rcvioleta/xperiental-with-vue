@@ -50,7 +50,8 @@
         created() {
             axios.get('/admin/studentaccount/edit/1/' + this.id)
             .then(response => {
-                this.studentName = response.data.student.first_name + ' ' + (response.data.student.middle_name == null? '' : (response.data.student.middle_name + ' ')) + response.data.student.last_name;
+                this.studentName = response.data.student.first_name + ' ' + 
+                (response.data.student.middle_name == null || response.data.student.middle_name == 'null'? '' : (response.data.student.middle_name + ' ')) + response.data.student.last_name;
                 this.nickname = response.data.student.nickname;
                 this.studentId = response.data.student.id_num;
                 Event.$emit('studentaccount-edit', response.data);

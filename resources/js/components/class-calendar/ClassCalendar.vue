@@ -252,7 +252,7 @@
                         key: item.id, 
                         label: item.last_name + ', ' + 
                         item.first_name + ' ' + 
-                        (item.middle_name == null? '' : item.middle_name) + 
+                        (item.middle_name == null || item.middle_name == 'null'? '' : item.middle_name) + 
                         ' (' + item.nickname + ') ' ,
                         // + 'ID: ' + item.id_num,
                         disabled: bool
