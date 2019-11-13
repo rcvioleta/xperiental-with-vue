@@ -305,3 +305,6 @@ a.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end:hover {
 li.el-menu-item.is-active {
     background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%) !important;
 }
+#cstm-radio .custom-control-label {
+    font-size: 12px;
+}

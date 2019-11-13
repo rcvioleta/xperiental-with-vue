@@ -15,6 +15,7 @@ use App\Http\Resources\ClassScheduleResource;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\Collections\ClassScheduleCollection;
 use App\Http\Requests\ClassScheduleRequest;
+use Illuminate\Support\Carbon;
 
 class ClassScheduleController extends Controller
 {
@@ -79,6 +80,11 @@ class ClassScheduleController extends Controller
 
     $credit_cost = $class_type[0]->rate * $request->credits;
 
+    $students = [];
+
+    $otherstudents = [];
+
+
     $newSchedule = ClassSchedule::create([
       'date_start' => $request->startTimeFull,
       'date_end' => $request->endTimeFull,
@@ -90,25 +96,56 @@ class ClassScheduleController extends Controller
       'status' => $request->status,
     ]);
 
-    $schedId = new ClassScheduleResource($newSchedule);
-
-    $students = [];
 
     foreach ( $request->students as $student) {
       $students[] = [
         'student_id' => $student,
-        'class_schedules_id' => $schedId->id,
+        'class_schedules_id' => $newSchedule->id,
         'credits' => $request->credits,
       ];
     }
 
     ClassStudent::insert($students);
 
+
+    //This is for multiple dates
+    if($request->checkMultiple == '1') {
+
+      $start = Carbon::parse($request->startTimeFull)->format('H:i:s');
+      $end = Carbon::parse($request->endTimeFull)->format('H:i:s');
+
+      foreach ( $request->otherClassDate as $classdate) {
+
+        $newSchedule = ClassSchedule::create([
+          'date_start' => $classdate.'T'.$start,
+          'date_end' => $classdate.'T'.$end,
+          'instructor_id' => $request->instructor_id,
+          'class_rate_id' => $request->classType,
+          'credit_cost' => $credit_cost,
+          'subject_id' => $request->subject,
+          'grade_id' => $request->grade_id,
+          'status' => $request->status,
+        ]);
+
+        foreach ($request->students as $student) {
+          $otherstudents[] = [
+            'student_id' => $student,
+            'class_schedules_id' => $newSchedule->id,
+            'credits' => $request->credits,
+          ];
+        }
+
+      }
+
+
+      ClassStudent::insert($otherstudents);
+
+    }
+
     return response()->json([
-      'update' => $schedId,
       'message' => 'Successfully added New Schedule',
       'newlist' => $this->getSchedules(),
-      'status' => 200
+      'status' => 200,
     ]);
   }
 

@@ -70,6 +70,14 @@
                                             <b-form-input v-model="infoModal.classDate" type="date"></b-form-input>
                                         </b-form-group>
                                     </b-col>
+                                    <b-col class="p-2" id="cstm-radio">
+                                        <b-form-group label="NO. OF DAYS">
+                                            <b-form-radio-group name="radio-inline" v-model="infoModal.checkMultiple">
+                                                <b-form-radio value="0">Single</b-form-radio>
+                                                <b-form-radio value="1">Multiple</b-form-radio>
+                                            </b-form-radio-group>
+                                        </b-form-group>
+                                    </b-col>
                                     <b-col class="p-2">
                                         <b-form-group label="START TIME">
                                             <div class="input-group">
@@ -88,6 +96,26 @@
                                             </div>
                                         </b-form-group>
                                     </b-col>
+                                </b-row>
+                                <b-row v-if="infoModal.checkMultiple == '1'" class="pl-4 pr-4 pt-0 pb-0">
+                                    <b-col class="p-2" cols="12">
+                                        <b-form-group>
+                                            <label>
+                                                Other Dates 
+                                                <b-button @click="numDates++" variant="success" size="sm" class="mb-0"><i class="fa fa-plus"></i></b-button>
+                                                <b-button @click="numDates--" variant="warning" size="sm" class="mb-0"><i class="fa fa-minus"></i></b-button>
+                                            </label>
+                                        </b-form-group>
+                                    </b-col>
+                                    <b-col class="p-2" cols="3">
+                                        <b-form-group>
+                                            <div v-for="(num, index) in numDates" class="mb-3">
+                                                <b-form-input v-model="infoModal.otherClassDate[index]" type="date"></b-form-input>
+                                            </div>
+                                        </b-form-group>
+                                    </b-col>
+                                </b-row>
+                                <b-row class="pl-4 pr-4 pt-0 pb-3">
                                     <b-col class="p-2">
                                         <b-form-group label="CLASS TYPE">
                                             <b-form-select v-model="infoModal.classType">
@@ -96,8 +124,6 @@
                                             </b-form-select>
                                         </b-form-group>
                                     </b-col>
-                                </b-row>
-                                <b-row class="pl-4 pr-4 pt-0 pb-3">
                                     <b-col class="p-2">
                                         <b-form-group label="SUBJECT">
                                             <b-form-select v-model="infoModal.subject">
@@ -132,14 +158,14 @@
                                             </el-select>
                                         </b-form-group>
                                     </b-col>
-                                    <b-col class="p-2" style="visibility: hidden;">
+                                    <!-- <b-col class="p-2" style="visibility: hidden;">
                                         <b-form-group label="STATUS">
                                             <b-form-select v-model="infoModal.status">
                                                 <option value="1">Enabled</option>
                                                 <option value="0">Disabled</option>
                                             </b-form-select>
                                         </b-form-group>
-                                    </b-col>
+                                    </b-col> -->
                                 </b-row>
                                 <b-row class="pl-3 pr-3 pt-3 pb-0">
                                     <b-col>
@@ -220,6 +246,8 @@
                     endTimeFull: '',
                     instructor_id: '',
                     credits: '',
+                    checkMultiple: '0',
+                    otherClassDate: [],
                 },
                 optionTime: {
                     hrs: ['Hrs', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
@@ -230,7 +258,8 @@
                 editSubject: '',
                 editGrade: '',
                 editStudents: [],
-                editClassDate: ''
+                editClassDate: '',
+                numDates: 1
             }
         },
         components: {
@@ -529,8 +558,12 @@
                 var self = this
                 var check = true;
                 Object.keys(self.infoModal).forEach(function(key,index) {
-                    if(self.infoModal[key] == '' || self.infoModal[key] == 'Hrs')
-                        check = false;
+                    if(self.infoModal[key] == '' || self.infoModal[key] == 'Hrs') {
+                        if(self.infoModal.otherClassDate.length == 0 && self.infoModal.checkMultiple == '0')
+                            check = true;
+                        else
+                            check = false;
+                    }
                 })
 
                 return check;
@@ -551,6 +584,9 @@
                 this.infoModal.endTimeFull = '';
                 this.infoModal.instructor_id = '';
                 this.instructor_id_old = '';
+                this.infoModal.otherClassDate = [];
+                this.infoModal.checkMultiple = '0';
+                this.numDates = 1;
             },
             remoteMethod(query) {
                 if (query !== '') {
