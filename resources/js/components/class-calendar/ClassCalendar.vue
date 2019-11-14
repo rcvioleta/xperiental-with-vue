@@ -70,7 +70,7 @@
                                             <b-form-input v-model="infoModal.classDate" type="date"></b-form-input>
                                         </b-form-group>
                                     </b-col>
-                                    <b-col class="p-2" id="cstm-radio">
+                                    <b-col class="p-2" id="cstm-radio" v-if="modaltitle == 'ADD NEW SCHEDULE'">
                                         <b-form-group label="NO. OF DAYS">
                                             <b-form-radio-group name="radio-inline" v-model="infoModal.checkMultiple">
                                                 <b-form-radio value="0">Single</b-form-radio>
@@ -96,6 +96,7 @@
                                             </div>
                                         </b-form-group>
                                     </b-col>
+                                    <b-col class="p-2" v-if="modaltitle == 'EDIT SCHEDULE'"></b-col>
                                 </b-row>
                                 <b-row v-if="infoModal.checkMultiple == '1'" class="pl-4 pr-4 pt-0 pb-0">
                                     <b-col class="p-2" cols="12">
@@ -321,6 +322,7 @@
                 this.showEdit = false;
                 this.modaltitle = 'EDIT SCHEDULE';
                 this.okName = 'Update';
+                this.infoModal.checkMultiple = '0';
                 this.editId = arg.event.extendedProps.eventId;
 
                 var startDate = arg.event.extendedProps.date_start;
