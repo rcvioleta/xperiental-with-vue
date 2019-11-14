@@ -159,14 +159,6 @@
                                             </el-select>
                                         </b-form-group>
                                     </b-col>
-                                    <!-- <b-col class="p-2" style="visibility: hidden;">
-                                        <b-form-group label="STATUS">
-                                            <b-form-select v-model="infoModal.status">
-                                                <option value="1">Enabled</option>
-                                                <option value="0">Disabled</option>
-                                            </b-form-select>
-                                        </b-form-group>
-                                    </b-col> -->
                                 </b-row>
                                 <b-row class="pl-3 pr-3 pt-3 pb-0">
                                     <b-col>
@@ -238,10 +230,8 @@
                     status: '1',
                     startHrs: 'Hrs',
                     startMin: '00',
-                    // startAmPm: 'AM/PM',
                     endHrs: 'Hrs',
                     endMin: '00',
-                    // endAmPm: 'AM/PM',
                     students: [],
                     startTimeFull: '',
                     endTimeFull: '',
@@ -284,7 +274,6 @@
                         item.first_name + ' ' + 
                         (item.middle_name == null || item.middle_name == 'null'? '' : item.middle_name) + 
                         ' (' + item.nickname + ') ' ,
-                        // + 'ID: ' + item.id_num,
                         disabled: bool
                     };
                 });
@@ -335,15 +324,10 @@
                 this.infoModal.subject = arg.event.extendedProps.subject_id;
                 this.infoModal.grade_id = arg.event.extendedProps.grade_id;
                 this.infoModal.status = arg.event.extendedProps.status;
-                // this.infoModal.instructor_id = arg.event.extendedProps.instructor_id;
+
                 this.infoModal.instructor_id = arg.event.extendedProps.instructor_nickname;
                 this.instructor_id_old = arg.event.extendedProps.instructor_id;
-                // this.infoModal.endHrs = this.beautifyDate(endDate)[0].Hrs;
-                // this.infoModal.endMin = this.beautifyDate(endDate)[0].Min;
-                // this.infoModal.endAmPm = this.beautifyDate(endDate)[0].AmPm;
-                // this.infoModal.startHrs = this.beautifyDate(startDate)[0].Hrs;
-                // this.infoModal.startMin = this.beautifyDate(startDate)[0].Min;
-                // this.infoModal.startAmPm = this.beautifyDate(startDate)[0].AmPm;
+
                 this.infoModal.startHrs = startConverted.getHours();
                 this.infoModal.startMin = ("0" + startConverted.getMinutes()).slice(-2);
                 this.infoModal.endHrs = endConverted.getHours();
@@ -351,8 +335,6 @@
 
                 this.editClassDate = (this.infoModal.classDate).slice(5) + '-' + (this.infoModal.classDate).slice(0, 4);
 
-                // console.log('end: ', startConverted.getMinutes());
-                // console.log('start: ', startDate);
 
                 axios.get('/admin/classschedule/getStudentByClass/' + this.editId)
                 .then(response => {
@@ -362,13 +344,7 @@
 
                     for(var x = 0; x < response.data.length; x++) {
                         this.infoModal.students.push( response.data[x].student_id );
-                        // this.editStudents.push(
-                        //     response.data[x].last_name + ', ' + 
-                        //     response.data[x].first_name + ' ' + 
-                        //     response.data[x].middle_name + ' (' +
-                        //     response.data[x].nickname + ') ID:' +
-                        //     response.data[x].student_id
-                        // );
+
                         this.editStudents.push(response.data[x].nickname + ' ' + response.data[x].last_name);
                     }
 
@@ -428,9 +404,6 @@
 
                 this.SetTimeProperly();
 
-                // console.log('start: ', this.infoModal.startTimeFull);
-                // console.log('end: ', this.infoModal.endTimeFull);
-                // console.log('credits: ', this.infoModal.credits);
                 if(this.requireAllFields()) {
                     axios.post(url, this.infoModal)
                     .then(response => {
@@ -447,7 +420,6 @@
                     });
 
                     this.$nextTick(() => {
-                        // this.$bvModal.hide()
                         this.show = false;
                     })
                 }
@@ -462,16 +434,9 @@
                 for(var x = 0; x < sched.length; x++) {
 
                     this.events.push({
-                        title : 
-                                // this.beautifyDate(sched[x].date_start)[0].Hrs + ":" + 
-                                // this.beautifyDate(sched[x].date_start)[0].Min + 
-                                // this.beautifyDate(sched[x].date_start)[0].AmPm + 
-                                (sched[x].date_start).slice(11, 16) + 
+                        title : (sched[x].date_start).slice(11, 16) + 
                                 "-" +
                                 (sched[x].date_end).slice(11, 16) + 
-                                // this.beautifyDate(sched[x].date_end)[0].Hrs + ":" + 
-                                // this.beautifyDate(sched[x].date_end)[0].Min + 
-                                // this.beautifyDate(sched[x].date_end)[0].AmPm + 
                                 " (" +
                                 sched[x].grade_name + " - " + 
                                 sched[x].instructor_nickname + ")",
@@ -492,7 +457,7 @@
             },
             beautifyDate(thisTime) {
                 var startDate = new Date(thisTime);
-                // var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
+
                 var classDate = startDate.getFullYear() + '-' + ('00' + (startDate.getMonth() + 1)).slice(-2) + '-' + ('00' + startDate.getDate()).slice(-2);
                 var startHrs = ('00' + startDate.getHours()).slice(-2);
                 var startMin = ('00' + startDate.getMinutes()).slice(-2);
@@ -512,25 +477,6 @@
                 }];
             },
             SetTimeProperly() {
-                // const convertTime12to24 = (time12h) => {
-                //     const [time, modifier] = time12h.split(' ');
-                //     let [hours, minutes] = time.split(':');
-
-                //     if (hours === '12')
-                //         hours = '00';
-                //     if (modifier === 'PM')
-                //         hours = parseInt(hours, 10) + 12;
-
-                //     hours = ('0' + hours).slice(-2);
-
-                //     return this.infoModal.classDate + `T${hours}:${minutes}:00`;
-                // }
-
-                // var startD = convertTime12to24(this.infoModal.startHrs + ':' + this.infoModal.startMin + ' ' + this.infoModal.startAmPm);
-                // var endD = convertTime12to24(this.infoModal.endHrs + ':' + this.infoModal.endMin + ' ' + this.infoModal.endAmPm);
-
-                // this.infoModal.startTimeFull = startD;
-                // this.infoModal.endTimeFull = endD;
 
                 var startD = this.infoModal.classDate + 'T' + ('0' + this.infoModal.startHrs).slice(-2) + ':' + this.infoModal.startMin + ':00';
                 var endD = this.infoModal.classDate + 'T' + ('0' + this.infoModal.endHrs).slice(-2) + ':' + this.infoModal.endMin + ':00';
@@ -577,10 +523,10 @@
                 this.infoModal.status = '1';
                 this.infoModal.startHrs = 'Hrs';
                 this.infoModal.startMin = '00';
-                // this.infoModal.startAmPm = 'AM/PM';
+
                 this.infoModal.endHrs = 'Hrs';
                 this.infoModal.endMin = '00';
-                // this.infoModal.endAmPm = 'AM/PM';
+
                 this.infoModal.students = [];
                 this.infoModal.startTimeFull = '';
                 this.infoModal.endTimeFull = '';
