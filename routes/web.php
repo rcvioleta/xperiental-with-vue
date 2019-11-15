@@ -7,6 +7,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+
+  Route::get('/', 'HomeController@index');
+  Route::get('/getdashboard', 'HomeController@show');
   
   Route::prefix('educationalbackground')->group(function() {
     Route::post('/store', 'EducationBackgroundController@store');
@@ -76,7 +79,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
   });
 
   Route::get('/configuration', 'ConfigurationController@index');
-  // Route::get('/revenue-test', 'DashboardController@getRevenues');
-  Route::get('/', 'DashboardController@index')->name('dashboard');
 
 });

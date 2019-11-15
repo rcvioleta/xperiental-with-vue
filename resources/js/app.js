@@ -10,6 +10,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)	
 
 let routes = [
+  { path: '/', component: require('./components/dashboard/Dashboard.vue').default },
   { path: '/classschedule', component: require('./components/class-calendar/ClassCalendar.vue').default },
   { path: '/studentmanagement', component: require('./components/student/StudentList.vue').default },
   { path: '/studentmanagement/create', component: require('./components/student/StudentCreate.vue').default },

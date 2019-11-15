@@ -16,8 +16,8 @@
         </el-menu>
 
         <div class="menu-line"></div>
-        <el-menu default-active="1" text-color="#fff" active-text-color="#fff" :router="true">
-            <el-menu-item index="2" onclick="window.location='/admin'"> 
+        <el-menu default-active="2" text-color="#fff" active-text-color="#fff" :router="true">
+            <el-menu-item index="2" :route="{path:'/'}"> 
                 <i class="el-icon-menu"></i>
                 <span>Dashboard</span>
             </el-menu-item>
