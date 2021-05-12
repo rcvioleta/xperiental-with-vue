@@ -30,7 +30,7 @@
         "@fullcalendar/interaction": "^4.1.0",
         "@fullcalendar/vue": "^4.1.1",
         "bootstrap-vue": "^2.0.0-rc.22",
-        "chart.js": "^2.9.3",
+        "chart.js": "^2.9.4",
         "element-ui": "^2.9.1",
         "sweetalert": "^2.1.2",
         "vue-full-calendar": "^2.7.0",
